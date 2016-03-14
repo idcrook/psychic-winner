@@ -27,7 +27,7 @@ difference(){
     // chop off over half of circle, making semi-circle cylinder
     translate ([-cut_offset, -(spool_inner_r+e),-e]) cube([2*(spool_inner_r+e), 2*(spool_inner_r+e), length+2*e]);
     // cut out notch to sit on spool holder arm
-    translate ([-(cut_offset + holder_h), -holder_w/2, -e]) cube([holder_w+e, holder_h, length+2*e]);
+    translate ([-(cut_offset + holder_h), -holder_w/2, -e]) cube([holder_h+e, holder_w, length+2*e]);
 };
 
 
