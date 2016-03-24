@@ -76,7 +76,7 @@ module xwing_shooter () {
     translate([0, 0, zstart2]) {
         difference() {
             translate([0, 0, gun_bat_r_addz])
-              sphere($fn = 18, r = gun_bat_r);
+              sphere($fn = 30, r = gun_bat_r);
             
             translate([-3, -3, -3])
               cube([10,10,3]);
@@ -99,16 +99,17 @@ module xwing_shooter () {
     shooty_r = 0.8;
     shooty_h = 9; 
     shooty_tangent_offset = -0.5;
+    inward_offset = 0.5;
      
     // shooty part
-    translate([0, 0, zstart3]) {
+    translate([inward_offset, 0, zstart3]) {
         translate([0,0, shooty_tangent_offset])
         cylinder($fn = 40, $fa = 12, $fs = 2, h = shooty_h, r1 = shooty_r, r2 = shooty_r, center = false);
     }
     
     zstart4 = zstart3 + shooty_h + shooty_tangent_offset;
-    translate([0, 0, zstart4]) {
-        translate([0,0, 0])
+    translate([inward_offset, 0, zstart4]) {
+        translate([0, 0, 0])
               sphere($fn = 18, r = shooty_r);
     }
     
