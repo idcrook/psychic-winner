@@ -24,7 +24,7 @@ e=.02;
 
 cut_plane_r = spool_inner_r + flange_largest_r + (flange_largest_r - spool_inner_r);
 
-//rotate(a=[0,90,0]) 
+rotate(a=[0,90,0]) 
 difference(){
     union() {
         cylinder(length, r1 = spool_inner_r, r2 = spool_inner_r, $fn=360);
