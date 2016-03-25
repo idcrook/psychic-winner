@@ -16,7 +16,7 @@ holder_h = holder_w;
 
 cut_offset = (1/8)*spool_inner_r;
 
-flange_largest_r = spool_inner_r + 7;
+flange_largest_r = spool_inner_r + 7.5;
 flange_width = 5;
 
 // small number
@@ -32,7 +32,7 @@ difference(){
         cylinder(flange_width, r1 = flange_largest_r, r2 = spool_inner_r, $fn=360);
     }
     // chop off over half of circle, making semi-circle cylinder
-    translate ([-cut_offset, -(cut_plane_r+e)/2, -e]) cube([cut_plane_r+2*e,  cut_plane_r+2*e, length+2*e]);
+    translate ([-cut_offset, -(cut_plane_r)/2 - e, -e]) cube([cut_plane_r+2*e,  cut_plane_r+2*e, length+2*e]);
 
     // cut out notch to sit on spool holder arm
     translate ([-(cut_offset + holder_h), -holder_w/2, -e]) cube([holder_h+e, holder_w, length+2*e]);
