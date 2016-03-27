@@ -263,7 +263,7 @@ module assemblyWithBraces(bracket_width, slope_angle, drill_offset_1, drill_offs
 
 // Default behavior is to show printable
 printable = false;
-//printable = true;
+printable = true;
 showAssembly = true;
 showAssembly = false;
 
@@ -279,17 +279,17 @@ if (showAssembly) {
 } else {
   if (printable)
   {
-     
     // bed two braces (each with different drill hole center-width offsets)
     //  - need to print with supports since there are the drill holes
     bracket_width = BRACKET_WIDTH;
     bracket_bed_spacing = 40;
     bed_spacing_center = bracket_bed_spacing / 2;
-    bed_rot_angle = -(1/2)*(90 - SLOPE_ANGLE);
+    //bed_rot_angle = -(1/2)*(90 - SLOPE_ANGLE);
+    bed_rot_angle = 0;
     
-    translate([0, -bed_spacing_center, bracket_width]) rotate ([0, 180, bed_rot_angle ])
+    translate([-bed_spacing_center, 0, bracket_width]) 
       myBrace(brace_width = 20, drill_hole_offset = 6.5);
-    translate([0, +bed_spacing_center, bracket_width]) rotate ([0, 180, bed_rot_angle ])
+    translate([0, +bed_spacing_center, bracket_width]) 
       myBrace(brace_width = 20, drill_hole_offset = bracket_width/2);
   }
   else
