@@ -22,12 +22,13 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-use <ruler.scad>
-use <MCAD/shapes.scad>
-use <MCAD/2Dshapes.scad>
+// use <ruler.scad>
+// use <MCAD/shapes.scad>
+use <MCADlocal/2Dshapes.scad>
 
 // small number
-e=.02;
+//e=0.02;
+e=0.02;
 
 module displayCover() {
     import("files/Front.stl");
@@ -46,7 +47,6 @@ module exampleBrace() {
 }
 
 
-$fn = 36;
 SLOPE_ANGLE = 90 - 68;
 BRACKET_WIDTH = 20;
 
@@ -72,7 +72,7 @@ module myBrace(brace_width, drill_hole_offset) {
   slopeRounded_r = slopeThickness/2;
     
   slopeInsideLength = 120; // MEASURED: 119.0 mm
-  againstFrontLength = (1/2) * cos(slopeAngle) * (slopeInsideLength + braceFrontThickness) ;
+  againstFrontLength = (1/2) * cos(slopeAngle) * (slopeInsideLength + braceFrontThickness) + 1 ;
   
   crossbarInsideLength = 62;
   crossbarOverhangInsideLength = 2.1; // MEASURED on other brace: 2.0 mm
@@ -84,15 +84,15 @@ module myBrace(brace_width, drill_hole_offset) {
   ////////////////////////////////////////////////////////////////////////
   // Some derived values
   ////////////////////////////////////////////////////////////////////////
-  bracketOrigin = startOrigin + [0,braceFrontThickness,0];
+  bracketOrigin = startOrigin + [0, braceFrontThickness, 0];
   bracketThickness = braceFrontThickness;
   bracketCrossbarLength = againstFrontLength * sin(slopeAngle) + slopeThickness * (1/cos(slopeAngle)) ;
   
   crossTopCorner = startOrigin + [0, againstFrontLength, 0];
-  crossbarOrigin =  crossTopCorner + [0, -crossbarThickness, 0];
+  crossbarOrigin =  crossTopCorner + [e, -crossbarThickness, 0];
   crossbarTopLength = crossbarInsideLength + crossbarThickness;
 
-  crossbarOverhangOrigin =  crossbarOrigin + [-crossbarTopLength,0,0];
+  crossbarOverhangOrigin =  crossbarOrigin + [crossbarThickness-crossbarTopLength,0,0];
   crossbarOverhangLength = crossbarOverhangInsideLength + crossbarThickness;
 
   crossbarLipOrigin =  crossbarOverhangOrigin + [0, -crossbarOverhangInsideLength, 0];
@@ -111,7 +111,6 @@ module myBrace(brace_width, drill_hole_offset) {
   slopeLipOrigin = slopeUnderhangOrigin + slopeUnderhangToLipLength * [ cos(slopeLipAngleOrigin), sin(slopeLipAngleOrigin), 0];
   slopeLipLength = slopeLipInsideLength + slopeThickness; 
   
-  
   difference() {
     linear_extrude(height = braceWidth, center = false, convexity = 10)
       union() {
@@ -120,20 +119,20 @@ module myBrace(brace_width, drill_hole_offset) {
       // Front of Lulzbot mini frame
       //////////////////////////////////////////////////////////////////////////
       translate(startOrigin)
-      complexRoundSquare([braceFrontThickness, againstFrontLength],
-                         [frontRounded_r, frontRounded_r],
-                         [0,0],
-                         [frontRounded_r, frontRounded_r],
-                         [0,0],
-                         center = false);
+        complexRoundSquare([braceFrontThickness, againstFrontLength],
+                           [frontRounded_r, frontRounded_r],
+                           [0,0],
+                           [frontRounded_r, frontRounded_r],
+                           [0,0],
+                           center = false);
 
       translate(bracketOrigin) rotate ([0,0,-90])
-      complexRoundSquare([bracketThickness, bracketCrossbarLength],
-                         [0,0],
-                         [frontRounded_r, frontRounded_r],
-                         [0,0],
-                         [frontRounded_r, frontRounded_r],
-                         center = false);
+        complexRoundSquare([bracketThickness, bracketCrossbarLength],
+                           [0,0],
+                           [frontRounded_r, frontRounded_r],
+                           [0,0],
+                           [frontRounded_r, frontRounded_r],
+                           center = false);
       
       //////////////////////////////////////////////////////////////////////////
       // Crossbar and rear attachment with lip
@@ -147,7 +146,7 @@ module myBrace(brace_width, drill_hole_offset) {
                            center = false);
 
 
-      translate(crossbarOverhangOrigin + [crossbarThickness,0,0]) rotate ([0,0,180])
+      translate(crossbarOverhangOrigin) rotate ([0,0,180])
         complexRoundSquare([crossbarThickness, crossbarOverhangLength],
                            [0,0],
                            [0,0],
@@ -155,7 +154,7 @@ module myBrace(brace_width, drill_hole_offset) {
                            [0,0],
                            center = false);
 
-      translate(crossbarLipOrigin + [crossbarThickness,0,0]) rotate ([0,0,270])
+      translate(crossbarLipOrigin) rotate ([0,0,270])
         complexRoundSquare([crossbarThickness, crossbarLipLength],
                            [0,0],
                            [0,0],
@@ -200,10 +199,12 @@ module myBrace(brace_width, drill_hole_offset) {
     //  - https://github.com/raspberrypi/documentation/raw/master/hardware/display/7InchDisplayDrawing-14092015.pdf
     //////////////////////////////////////////////////////////////////////////
     screwHoleDiameter = 2.65; // M3.0 screws
+    screwHoleRadius = screwHoleDiameter/2; 
     screwHoleLength = slopeThickness + 2*e ;
 
     toolHoleDiameter = 7.8; // Driver bit
-    toolHoleLength = 6*braceFrontThickness + 2*e ;
+    toolHoleRadius = toolHoleDiameter /2 ; // Driver bit
+    toolHoleLength = 5*braceFrontThickness + 2*e ;
 
     screwHoleSeparationInFrame = 65.65;
     screwTopHoleFromFrameEdge = 21.58;
@@ -214,23 +215,20 @@ module myBrace(brace_width, drill_hole_offset) {
     screwTopHoleTranslation = screwBottomHoleTranslation + [0, -screwHoleSeparationInFrame, 0];
     screwToolHoleTranslation = screwTopHoleTranslation + [screwHoleLength, 0, 0];
 
-    translate(slopeOrigin)   rotate ([0, 0, slopeRotationAngle])
+    * translate(slopeOrigin)   rotate ([0, 0, slopeRotationAngle]) {
       union() {
-      // drill two holes in slope
-      translate(screwBottomHoleTranslation) rotate ([0, 90, 0]) 
-        cylinder(h = screwHoleLength, r1 = screwHoleDiameter/2, r2 = screwHoleDiameter/2, centered = true); 
+        // drill two holes in slope
+        translate(screwBottomHoleTranslation) rotate ([0, 90, 0])
+          cylinder(h = screwHoleLength, r = screwHoleRadius, centered = true);
       
-      translate(screwTopHoleTranslation) rotate ([0, 90, 0])
-        cylinder(h = screwHoleLength, r1 = screwHoleDiameter/2, r2 = screwHoleDiameter/2, centered = true);
-
+        translate(screwTopHoleTranslation) rotate ([0, 90, 0])
+          cylinder(h = screwHoleLength, r = screwHoleRadius, centered = true);
+      }
       // another hole for tool access in front of clamp
       translate(screwToolHoleTranslation) rotate ([0, 90, 0])
-        cylinder(h = toolHoleLength, r1 = toolHoleDiameter/2, r2 = toolHoleDiameter/2, centered = true);
-      }
-
-
+        cylinder(h = toolHoleLength, r = toolHoleRadius, centered = true);
+    }
   }
-
   
 }
 
@@ -265,15 +263,14 @@ module assemblyWithBraces(bracket_width, slope_angle, drill_offset_1, drill_offs
 
 // Default behavior is to show printable
 printable = false;
-printable = true;
+//printable = true;
 showAssembly = true;
 showAssembly = false;
 
 // animation settings for assembly
-$vpt = [100, 10, 80];
-$vpr = [90, 0, $t * 360 * 2];
-$vpd = 800;
-
+/// $vpt = [100, 10, 80];
+/// $vpr = [90, 0, $t * 360 * 2];
+/// $vpd = 800;
 
 if (showAssembly) {
   bracket_width = BRACKET_WIDTH;
@@ -300,7 +297,7 @@ if (showAssembly) {
     bracket_width = BRACKET_WIDTH;
 
     // overlay on an example brace
-    color("Green")  translate([0,0,0]) rotate([0,90,0]) exampleBrace(); 
+    //color("Green")  translate([0,0,0]) rotate([0,90,0]) exampleBrace(); 
     translate([64.5,21,00]) rotate([0,0,0])
       myBrace(brace_width = bracket_width, drill_hole_offset = bracket_width/2);
   }
