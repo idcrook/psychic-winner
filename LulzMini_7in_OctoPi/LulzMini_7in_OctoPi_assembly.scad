@@ -75,7 +75,7 @@ module myBrace(brace_width, drill_hole_offset) {
   againstFrontLength = (1/2) * cos(slopeAngle) * (slopeInsideLength + braceFrontThickness) ;
   
   crossbarInsideLength = 62;
-  crossbarOverhangInsideLength = 2.1; // MEASURED on other brace: 2.0 mm
+  crossbarOverhangInsideLength = 2.5; // MEASURED on other brace: 2.4 mm
   crossbarLipInsideLength = 3.5;
   
   slopeUnderhangInsideLength = 14.2; // MEASURED: 14.0 mm
@@ -89,10 +89,10 @@ module myBrace(brace_width, drill_hole_offset) {
   bracketCrossbarLength = againstFrontLength * sin(slopeAngle) + slopeThickness * (1/cos(slopeAngle)) ;
   
   crossTopCorner = startOrigin + [0, againstFrontLength, 0];
-  crossbarOrigin =  crossTopCorner + [crossbarThickness, -crossbarThickness, 0];
-  crossbarTopLength = crossbarInsideLength + 2*crossbarThickness;
+  crossbarOrigin =  crossTopCorner + [e, -crossbarThickness, 0];
+  crossbarTopLength = crossbarInsideLength + crossbarThickness;
 
-  crossbarOverhangOrigin =  crossbarOrigin + [crossbarThickness-crossbarTopLength,e,0];
+  crossbarOverhangOrigin =  crossbarOrigin + [crossbarThickness - crossbarTopLength,e,0];
   crossbarOverhangLength = crossbarOverhangInsideLength + crossbarThickness;
 
   crossbarLipOrigin =  crossbarOverhangOrigin + [-e, -crossbarOverhangInsideLength, 0];
@@ -141,7 +141,7 @@ module myBrace(brace_width, drill_hole_offset) {
       translate(crossbarOrigin) rotate ([0,0,90])
         complexRoundSquare([crossbarThickness, crossbarTopLength],
                            [0,0],
-                           [crossbarRounded_r, crossbarRounded_r],
+                           [0,0],
                            [crossbarRounded_r, crossbarRounded_r],
                            [0,0],
                            center = false);
@@ -205,7 +205,7 @@ module myBrace(brace_width, drill_hole_offset) {
 
     toolHoleDiameter = 7.8; // Driver bit
     toolHoleRadius = toolHoleDiameter /2 ; // Driver bit
-    toolHoleLength = 5*braceFrontThickness + 2*e ;
+    toolHoleLength = 40  ;
 
     screwHoleSeparationInFrame = 65.65;
     screwTopHoleFromFrameEdge = 21.58;
@@ -281,9 +281,11 @@ showAssembly = true;
 showAssembly = false;
 
 // animation settings for assembly
-/// $vpt = [100, 10, 80];
-/// $vpr = [90, 0, $t * 360 * 2];
-/// $vpd = 800;
+/// {
+///   $vpt = [100, 10, 80];
+///   $vpr = [90, 0, $t * 360 * 2];
+///   $vpd = 800;
+/// } 
 
 if (showAssembly) {
   bracket_width = BRACKET_WIDTH;
