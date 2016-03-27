@@ -51,7 +51,7 @@ module xwing_shooter () {
     // small number
     e=.02;
     
-    //import("xwing_sliced.stl");
+    // import("files/xwing_sliced.stl");
     
     // main shaft
     translate([0, 0, zstart1]) {
