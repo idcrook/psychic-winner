@@ -72,11 +72,11 @@ module myBrace(brace_width, drill_hole_offset) {
   slopeRounded_r = slopeThickness/2;
     
   slopeInsideLength = 120; // MEASURED: 119.0 mm
-  againstFrontLength = (1/2) * cos(slopeAngle) * (slopeInsideLength + braceFrontThickness) + 1 ;
+  againstFrontLength = (1/2) * cos(slopeAngle) * (slopeInsideLength + braceFrontThickness) ;
   
   crossbarInsideLength = 62;
   crossbarOverhangInsideLength = 2.1; // MEASURED on other brace: 2.0 mm
-  crossbarLipInsideLength = 2.5;
+  crossbarLipInsideLength = 3.5;
   
   slopeUnderhangInsideLength = 14.2; // MEASURED: 14.0 mm
   slopeLipInsideLength = 5; 
@@ -89,26 +89,27 @@ module myBrace(brace_width, drill_hole_offset) {
   bracketCrossbarLength = againstFrontLength * sin(slopeAngle) + slopeThickness * (1/cos(slopeAngle)) ;
   
   crossTopCorner = startOrigin + [0, againstFrontLength, 0];
-  crossbarOrigin =  crossTopCorner + [e, -crossbarThickness, 0];
-  crossbarTopLength = crossbarInsideLength + crossbarThickness;
+  crossbarOrigin =  crossTopCorner + [crossbarThickness, -crossbarThickness, 0];
+  crossbarTopLength = crossbarInsideLength + 2*crossbarThickness;
 
-  crossbarOverhangOrigin =  crossbarOrigin + [crossbarThickness-crossbarTopLength,0,0];
+  crossbarOverhangOrigin =  crossbarOrigin + [crossbarThickness-crossbarTopLength,e,0];
   crossbarOverhangLength = crossbarOverhangInsideLength + crossbarThickness;
 
-  crossbarLipOrigin =  crossbarOverhangOrigin + [0, -crossbarOverhangInsideLength, 0];
-  crossbarLipLength =  crossbarLipInsideLength + 1;
+  crossbarLipOrigin =  crossbarOverhangOrigin + [-e, -crossbarOverhangInsideLength, 0];
+  crossbarLipLength =  crossbarLipInsideLength;
   
   slopeTopCorner = crossTopCorner;
-  slopeOrigin =  slopeTopCorner + [braceFrontThickness*cos(slopeAngle),0,0];
+  slopeOrigin =  slopeTopCorner + [(braceFrontThickness-e)*cos(slopeAngle), 0, 0];
   slopeLength = slopeInsideLength + slopeThickness;
 
   slopeToUnderhangOriginLength = slopeLength - slopeThickness;
-  slopeUnderhangOrigin =  slopeOrigin + slopeToUnderhangOriginLength * [ cos(slopeUnderhangAngleOrigin),
-                                                                         sin(slopeUnderhangAngleOrigin), 0];
-  slopeUnderhangLength = slopeUnderhangInsideLength + slopeThickness; 
+  slopeUnderhangOrigin =  slopeOrigin + [-e,0,0] +
+    slopeToUnderhangOriginLength * [ cos(slopeUnderhangAngleOrigin), sin(slopeUnderhangAngleOrigin), 0] ;
+  slopeUnderhangLength = slopeUnderhangInsideLength + slopeThickness + e; 
   
-  slopeUnderhangToLipLength = slopeUnderhangLength - slopeThickness;
-  slopeLipOrigin = slopeUnderhangOrigin + slopeUnderhangToLipLength * [ cos(slopeLipAngleOrigin), sin(slopeLipAngleOrigin), 0];
+  slopeUnderhangToLipLength = slopeUnderhangLength - slopeThickness ;
+  slopeLipOrigin = slopeUnderhangOrigin + 
+    (slopeUnderhangToLipLength - e) * [ cos(slopeLipAngleOrigin), sin(slopeLipAngleOrigin), 0];
   slopeLipLength = slopeLipInsideLength + slopeThickness; 
   
   difference() {
@@ -126,7 +127,7 @@ module myBrace(brace_width, drill_hole_offset) {
                            [0,0],
                            center = false);
 
-      translate(bracketOrigin) rotate ([0,0,-90])
+      translate(bracketOrigin) rotate ([0,0,270])
         complexRoundSquare([bracketThickness, bracketCrossbarLength],
                            [0,0],
                            [frontRounded_r, frontRounded_r],
@@ -140,7 +141,7 @@ module myBrace(brace_width, drill_hole_offset) {
       translate(crossbarOrigin) rotate ([0,0,90])
         complexRoundSquare([crossbarThickness, crossbarTopLength],
                            [0,0],
-                           [0,0],
+                           [crossbarRounded_r, crossbarRounded_r],
                            [crossbarRounded_r, crossbarRounded_r],
                            [0,0],
                            center = false);
@@ -198,7 +199,7 @@ module myBrace(brace_width, drill_hole_offset) {
     // Reference:
     //  - https://github.com/raspberrypi/documentation/raw/master/hardware/display/7InchDisplayDrawing-14092015.pdf
     //////////////////////////////////////////////////////////////////////////
-    screwHoleDiameter = 2.65; // M3.0 screws
+    screwHoleDiameter = 2.85; // M3.0 screws
     screwHoleRadius = screwHoleDiameter/2; 
     screwHoleLength = slopeThickness + 2*e ;
 
@@ -215,7 +216,7 @@ module myBrace(brace_width, drill_hole_offset) {
     screwTopHoleTranslation = screwBottomHoleTranslation + [0, -screwHoleSeparationInFrame, 0];
     screwToolHoleTranslation = screwTopHoleTranslation + [screwHoleLength, 0, 0];
 
-    * translate(slopeOrigin)   rotate ([0, 0, slopeRotationAngle]) {
+    translate(slopeOrigin)   rotate ([0, 0, slopeRotationAngle]) {
       union() {
         // drill two holes in slope
         translate(screwBottomHoleTranslation) rotate ([0, 90, 0])
@@ -242,9 +243,13 @@ module assemblyWithBraces(bracket_width, slope_angle, drill_offset_1, drill_offs
   
   displayX = 157.5;
   displayZ = 51;
-  
-  % translate([displayX,0,displayZ]) displayCover();
-  % translate([displayX,0,displayZ]) raspiCover();
+
+  if (true) {
+    color("White") translate([displayX,0,displayZ]) displayCover();
+  } else {
+    %translate([displayX,0,displayZ]) displayCover();
+    }
+  color("White") translate([displayX,0,displayZ]) raspiCover();
 
   // color("Red") translate([displayX - 3, 22, displayZ - 4])  rotate([0,90,0]) mountBrace();
 
@@ -261,9 +266,17 @@ module assemblyWithBraces(bracket_width, slope_angle, drill_offset_1, drill_offs
     myBrace(brace_width = bracketWidth, drill_hole_offset = drillHoleOffset2);
 }
 
-// Default behavior is to show printable
+// Default behavior is to show printable double
 printable = false;
 printable = true;
+
+printSingle = true;
+printSingle = false;
+
+printLeft = true;
+printLeft = false;
+printRight = !printLeft;
+
 showAssembly = true;
 showAssembly = false;
 
@@ -274,8 +287,10 @@ showAssembly = false;
 
 if (showAssembly) {
   bracket_width = BRACKET_WIDTH;
+  drill_offset_1 = 6.5;
+  drill_offset_2 = bracket_width/2;
   assemblyWithBraces(bracket_width = bracket_width, slope_angle = SLOPE_ANGLE,
-                     drill_offset_1 = 6.5, drill_offset_2 = bracket_width/2);
+                     drill_offset_1 = drill_offset_1, drill_offset_2 = drill_offset_2);
 } else {
   if (printable)
   {
@@ -284,20 +299,27 @@ if (showAssembly) {
     bracket_width = BRACKET_WIDTH;
     bracket_bed_spacing = 40;
     bed_spacing_center = bracket_bed_spacing / 2;
-    //bed_rot_angle = -(1/2)*(90 - SLOPE_ANGLE);
-    bed_rot_angle = 0;
-    
-    translate([-bed_spacing_center, 0, bracket_width]) 
-      myBrace(brace_width = 20, drill_hole_offset = 6.5);
-    translate([0, +bed_spacing_center, bracket_width]) 
-      myBrace(brace_width = 20, drill_hole_offset = bracket_width/2);
+    bed_rot_angle = (1/2)*(90 - SLOPE_ANGLE);
+
+    if (! printSingle) {
+      translate([0, -bed_spacing_center, 0])  rotate ([0, 0,  bed_rot_angle])
+        myBrace(brace_width = 20, drill_hole_offset = 6.5);
+      translate([0, +bed_spacing_center, 0])  rotate ([0, 0,  bed_rot_angle])
+        myBrace(brace_width = 20, drill_hole_offset = bracket_width/2);
+    } else {
+      if (printLeft) {
+        myBrace(brace_width = 20, drill_hole_offset = 6.5);
+      } else {
+        myBrace(brace_width = 20, drill_hole_offset = bracket_width/2);
+      }
+    }
   }
   else
   {
     bracket_width = BRACKET_WIDTH;
 
     // overlay on an example brace
-    //color("Green")  translate([0,0,0]) rotate([0,90,0]) exampleBrace(); 
+    color("Green")  translate([0,0,0]) rotate([0,90,0]) exampleBrace(); 
     translate([64.5,21,00]) rotate([0,0,0])
       myBrace(brace_width = bracket_width, drill_hole_offset = bracket_width/2);
   }
