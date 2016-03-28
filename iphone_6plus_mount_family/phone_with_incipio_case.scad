@@ -68,7 +68,7 @@ module sleeveForEncasediPhone (w, l, h) {
   sleeveSideThickness = 4;
   sleeveBottomThickness = 4;
   sleeveTopThickness = 4;
-  sleeveBaseThickness = 1.5 * sleeveBottomThickness;
+  sleeveBaseThickness = 1.0 * sleeveBottomThickness;
 
   base_l = sleeveBaseThickness;
 
@@ -114,6 +114,22 @@ module sleeveForEncasediPhone (w, l, h) {
   cameraCutoutRadius = cameraCutoutDepth/2;
   cameraHoleOffcenter = 10;
 
+  speakerCutoutHeight = 22;
+  speakerCutoutDepth = 5;
+  speakerCutoutRadius = speakerCutoutDepth/2;
+  speakerHoleOffcenter = 11.0;
+
+  lightningCutoutHeight = 14.4;
+  lightningCutoutDepth = lightningCutoutHeight/2;
+  lightningCutoutRadius = lightningCutoutDepth/2;
+  lightningHoleOffcenter = 0;
+
+  headphoneMicCutoutHeight = 15;
+  headphoneMicCutoutDepth = 7.2;
+  headphoneMicCutoutRadius = lightningCutoutDepth/2;
+  headphoneMicHoleOffcenter = 28.5;
+  
+  
   union () {
 
     // fill in groove for part of sleeve below buttons
@@ -173,7 +189,7 @@ module sleeveForEncasediPhone (w, l, h) {
                            center = true);
   
   
-        // cut out size of iphone in case (plus tolerance)
+        // cut out size of iphone in case (includes tolerance)
         complexRoundSquare([sleeveInner_w, sleeveInner_h],
                            [sleeveInner_r, sleeveInner_r],
                            [sleeveInner_r, sleeveInner_r],
@@ -251,7 +267,8 @@ module sleeveForEncasediPhone (w, l, h) {
                             [cameraCutoutRadius, cameraCutoutRadius],
                             center = false);
 
-      
+
+        
     }
 
 
@@ -260,15 +277,55 @@ module sleeveForEncasediPhone (w, l, h) {
   }
 
   // base
-  translate([0,0, -base_l])
-  linear_extrude(height = base_l, center = false, convexity = 10)
-    // 2D view for base of sleeve
-    complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
-                       [sleeveOuter_r, sleeveOuter_r],
-                       [sleeveOuter_r, sleeveOuter_r],
-                       [sleeveOuter_r, sleeveOuter_r],
-                       [sleeveOuter_r, sleeveOuter_r],
-                       center = true);
+  difference() {
+    translate([0,0, -base_l])
+      linear_extrude(height = base_l, center = false, convexity = 10)
+      // 2D view for base of sleeve
+      complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         center = true);
+
+    // handle speaker hole, lightning, headphone
+    echo("FIXME: size and placement of bottom cutouts");
+
+    // speaker hole
+    rotate([180,0,0])
+    translate([speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
+      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+      complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth],
+                          [speakerCutoutRadius, speakerCutoutRadius],
+                          [speakerCutoutRadius, speakerCutoutRadius],
+                          [speakerCutoutRadius, speakerCutoutRadius],
+                          [speakerCutoutRadius, speakerCutoutRadius],
+                          center = false);
+
+    // lightning hole
+    rotate([180,0,0])
+    translate([0, 0, -e])
+      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+      complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth],
+                          [lightningCutoutRadius, lightningCutoutRadius],
+                          [lightningCutoutRadius, lightningCutoutRadius],
+                          [lightningCutoutRadius, lightningCutoutRadius],
+                          [lightningCutoutRadius, lightningCutoutRadius],
+                          center = true);
+
+    // headphone and Mic hole
+    rotate([180,0,0])
+    translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
+      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+      complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
+                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                          center = false);
+
+    
+  }    
 
 }
 
@@ -289,7 +346,7 @@ module showTogether() {
 }
 
 
-// showTogether();
+showTogether();
 
 //$fn = 100;
-translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+*translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
