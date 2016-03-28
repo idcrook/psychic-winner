@@ -69,6 +69,9 @@ module sleeveForEncasediPhone (w, l, h) {
   CONTROL_RENDER_cutoff_top = true;
   //CONTROL_RENDER_cutoff_top = false;
 
+  CONTROL_RENDER_experiment3 = true;
+  
+  
   sleeveSideThickness = 3.5;
   sleeveBottomThickness = 3.5;
   sleeveTopThickness = 3.5;
@@ -160,6 +163,7 @@ module sleeveForEncasediPhone (w, l, h) {
   union () {
 
     // fill in groove for part of sleeve below buttons
+    if (!CONTROL_RENDER_experiment3) {
     union () {
       linear_extrude(height = erase_sleeveInner_l_left, center = false, convexity = 10)
         translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0]) 
@@ -203,6 +207,7 @@ module sleeveForEncasediPhone (w, l, h) {
     
     }
 
+    }
     // need a difference here to be able to punch out button and camera access holes
     difference () {
       // 2D view for length of case
@@ -295,16 +300,18 @@ module sleeveForEncasediPhone (w, l, h) {
                             center = false);
 
       if (CONTROL_RENDER_cutoff_top) {
-        // translate([0,0, l - sleeveBaseThickness + 1])
-        translate([0,0, l - 10.0])
-        linear_extrude(height = 20, center = false, convexity = 10)
-        complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
-                            [0,0],
-                            [0,0],
-                            [0,0],
-                            [0,0],
-                            center = true);
-        
+        cutHeight  = CONTROL_RENDER_experiment3 ? 26 : l - 10.0 ;
+        extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
+          
+        echo("cutHeight:", cutHeight);
+        translate([0,0, cutHeight])
+          linear_extrude(height = extrHeight, center = false, convexity = 10)
+          complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             center = true);
       }
         
     }
@@ -397,6 +404,16 @@ module sleeveForEncasediPhone (w, l, h) {
     
   }
 
+  if (!CONTROL_RENDER_cutoff_top) {
+    mountInsertWidth = 22;
+    mountInsertThickness = 3;
+    mountInsertHeight = 42;
+  
+    mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
+  
+    translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight])
+      sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight);
+  }  
   
 }
 
@@ -485,17 +502,7 @@ test1 = false;
 if (test1) {
   showTogether();
 } else {
-  // $fn = 100;
+  $fn = 100;
   translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
-
-  width = 22;
-  thickness = 3;
-  height = 42;
-
-  tolerance = 0.5;
-  
-  yTranslation = (1/2)*( tolerance + h + tolerance) + thickness;
-  
-  translate([-width/2, yTranslation, (0.56)*l - height]) sleeveMountInsert(width, thickness, height);
 
 }
