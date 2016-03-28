@@ -61,19 +61,20 @@ module incipioNgpCase () {
 
 module sleeveForEncasediPhone (w, l, h) {
 
-  tolerance = .7;
+  tolerance = .5;
 
   sleeveSideThickness = 4;
   sleeveBottomThickness = 4;
   sleeveTopThickness = 4;
 
-  
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + tolerance;
   sleeveInner_r = 1.7;
 
-  buttonsIncludedInner_w =  tolerance + 82.3 + tolerance;
-  buttonsIncludedInner_h =  tolerance + 1.1 + tolerance;
+  buttonsIncludedInner_w =  tolerance + 82.3 + tolerance + 0.5;
+  buttonsIncludedInner_h =  tolerance + 1.2 + tolerance;
+  buttonsIncludedInner_r =  tolerance ;
+  
   
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
@@ -85,8 +86,7 @@ module sleeveForEncasediPhone (w, l, h) {
   iphoneScreenOpening_w = iphoneScreenBezel_w + iphoneDisplay_w + iphoneScreenBezel_w;
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
   
-
-  sleeveInner_l = 55;
+  sleeveInner_l = 10;
   erase_sleeveInner_l = sleeveInner_l /2;
   
   union () {
@@ -123,18 +123,18 @@ module sleeveForEncasediPhone (w, l, h) {
   
       // cut out size of iphone in case (plus tolerance)
       complexRoundSquare([sleeveInner_w, sleeveInner_h],
-                         [0, 0],
-                         [0, 0],
+                         [sleeveInner_r, sleeveInner_r],
+                         [sleeveInner_r, sleeveInner_r],
                          [sleeveInner_r, sleeveInner_r],
                          [sleeveInner_r, sleeveInner_r],
                          center = true);
 
       // groove for buttons
       complexRoundSquare([buttonsIncludedInner_w, buttonsIncludedInner_h],
-                         [0, 0],
-                         [0, 0],
-                         [0, 0],
-                         [0, 0],
+                         [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                         [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                         [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                         [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                          center = true);
 
       // cut for screen and add bevel
