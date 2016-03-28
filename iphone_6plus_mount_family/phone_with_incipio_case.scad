@@ -67,7 +67,7 @@ module sleeveForEncasediPhone (w, l, h) {
   tolerance = 0.5;
 
   CONTROL_RENDER_cutoff_top = true;
-  //CONTROL_RENDER_cutoff_top = false;
+  CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
   CONTROL_RENDER_experiment3 = false;
