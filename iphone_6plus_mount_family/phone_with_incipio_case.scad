@@ -400,13 +400,13 @@ module sleeveForEncasediPhone (w, l, h) {
   
 }
 
-module sleeveMountInsert () {
+module sleeveMountInsert (width, thickness, height) {
 
-  insertTailWidth = 22;
-  insertThickness = 6;
-  insertChopThickness = 3;
+  insertTailWidth = width;
+  insertThickness = 2*thickness;
+  insertChopThickness = thickness;  
+  insertFullHeight = height;
   
-  insertFullHeight = 42;
   insertPartialHeight = 30;
   insertSlantedHeight = insertFullHeight - insertPartialHeight;
   insertSlantAngle = 60;
@@ -488,6 +488,14 @@ if (test1) {
   // $fn = 100;
   translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
 
-  translate([100,0,0]) sleeveMountInsert();
+  width = 22;
+  thickness = 3;
+  height = 42;
+
+  tolerance = 0.5;
+  
+  yTranslation = (1/2)*( tolerance + h + tolerance) + thickness;
+  
+  translate([-width/2, yTranslation, (0.56)*l - height]) sleeveMountInsert(width, thickness, height);
 
 }
