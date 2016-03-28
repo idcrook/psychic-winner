@@ -70,6 +70,7 @@ module sleeveForEncasediPhone (w, l, h) {
   //CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
+  CONTROL_RENDER_experiment3 = false;
   
   
   sleeveSideThickness = 3.5;
@@ -404,7 +405,7 @@ module sleeveForEncasediPhone (w, l, h) {
     
   }
 
-  if (!CONTROL_RENDER_cutoff_top) {
+  if (!CONTROL_RENDER_experiment3) {
     mountInsertWidth = 22;
     mountInsertThickness = 3;
     mountInsertHeight = 42;
