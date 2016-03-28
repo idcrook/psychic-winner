@@ -2,6 +2,7 @@
 
 use <iPhone_6_and_6_Plus_Mockups.scad>;
 use <MCADlocal/2Dshapes.scad>
+use <wedge.scad>
 
   w = 81.5;
   l = 161.9;  // 
@@ -128,6 +129,20 @@ module sleeveForEncasediPhone (w, l, h) {
   headphoneMicCutoutDepth = 7.2;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
   headphoneMicHoleOffcenter = 28.5;
+
+  bottomLipHeight = 18.0;
+  bottomLipFingerprintDiameter = 17;
+  bottomLipCutoutMaxWidth = 1.5 * bottomLipFingerprintDiameter;
+  bottomLipCutoutArcRadius = 2.3*bottomLipCutoutMaxWidth;  // pick a multiple
+  bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
+  
+  // calculate the width of cutout at junction with base
+  bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
+  bottomLipCutout_MinWidth = 2 * bottomLipCutout_r2 * tan((1/2) *bottomLipCutoutArcDegrees);
+
+  // calculate how far we need to translate below to cut out enough
+  bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
+
   
   
   union () {
@@ -271,8 +286,6 @@ module sleeveForEncasediPhone (w, l, h) {
         
     }
 
-
-
     
   }
 
@@ -289,7 +302,6 @@ module sleeveForEncasediPhone (w, l, h) {
                          center = true);
 
     // handle speaker hole, lightning, headphone
-    echo("FIXME: size and placement of bottom cutouts");
 
     // speaker hole
     rotate([180,0,0])
@@ -327,6 +339,41 @@ module sleeveForEncasediPhone (w, l, h) {
     
   }    
 
+  // Bottom lip with cutout for Home button / thumbprint sensor
+
+  difference() {
+    // 2D view for height of lip
+    linear_extrude(height = bottomLipHeight, center = false, convexity = 10)
+      difference () {
+      complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         [sleeveOuter_r, sleeveOuter_r],
+                         center = true);
+      
+      // cut out size of iphone plus some additional
+      scale ([1,1.22,1])
+      complexRoundSquare([sleeveInner_w, sleeveInner_h],
+                         [sleeveInner_r, sleeveInner_r],
+                         [sleeveInner_r, sleeveInner_r],
+                         [sleeveInner_r, sleeveInner_r],
+                         [sleeveInner_r, sleeveInner_r],
+                         center = true);
+      
+    }
+
+    // cutout for fingerprint
+    //// wedge(height, radius, degrees);
+    echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
+ 
+    translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
+      rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
+    wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
+    
+  }
+
+  
 }
 
 module showTogether() {
@@ -346,7 +393,7 @@ module showTogether() {
 }
 
 
-* showTogether();
+// showTogether();
 
-//$fn = 100;
+$fn = 100;
 translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
