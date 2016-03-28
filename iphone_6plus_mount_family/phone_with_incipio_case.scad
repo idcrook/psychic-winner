@@ -412,7 +412,7 @@ module sleeveForEncasediPhone (w, l, h) {
   
     mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
   
-    translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight])
+    translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight + base_l])
       sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight);
   }  
   
