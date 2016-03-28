@@ -346,7 +346,7 @@ module showTogether() {
 }
 
 
-showTogether();
+* showTogether();
 
 //$fn = 100;
-*translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
