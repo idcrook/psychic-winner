@@ -124,11 +124,11 @@ module sleeveForEncasediPhone (w, l, h) {
   muteSwitchCutoutDepth = 7.7;
   muteSwitchCutoutRadius = 2;
 
-  cameraHeightFromBottom = 147.5;
-  cameraCutoutHeight = 27.4;
-  cameraCutoutDepth = 10.1;
-  cameraCutoutRadius = cameraCutoutDepth/2;
-  cameraHoleOffcenter = 10;
+  cameraHeightFromBottom = 144.8;
+  cameraCutoutHeight = 28.2;
+  cameraCutoutDepth = 12.1;
+  cameraCutoutRadius = cameraCutoutDepth/2-1;
+  cameraHoleOffcenter = 5.5;
 
   speakerCutoutHeight = 22;
   speakerCutoutDepth = 5;
