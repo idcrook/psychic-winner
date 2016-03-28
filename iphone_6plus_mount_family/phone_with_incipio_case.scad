@@ -63,7 +63,6 @@ module sleeveForEncasediPhone (w, l, h) {
 
   e = 0.02; // small number
   
-  echo("sleeve: height=",h);
   tolerance = 0.5;
 
   sleeveSideThickness = 4;
@@ -108,6 +107,12 @@ module sleeveForEncasediPhone (w, l, h) {
   muteSwitchCutoutHeight = 12.2;
   muteSwitchCutoutDepth = 7.7;
   muteSwitchCutoutRadius = 2;
+
+  cameraHeightFromBottom = 147.5;
+  cameraCutoutHeight = 27.4;
+  cameraCutoutDepth = 10.1;
+  cameraCutoutRadius = cameraCutoutDepth/2;
+  cameraHoleOffcenter = 10;
 
   union () {
 
@@ -224,7 +229,7 @@ module sleeveForEncasediPhone (w, l, h) {
       // mute switch cutout
       translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
       mirror()
-      rotate([0, 180 + 90, 0])
+      rotate([0, 180 + 90, 0], center = true)
         linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
         complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
                             [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -232,6 +237,21 @@ module sleeveForEncasediPhone (w, l, h) {
                             [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                             [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                             center = false);
+
+      // camera cutout
+      echo("FIXME: camera hole placement");
+      translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
+        rotate([90, 0, 0])
+          mirror([0,0,1])
+          linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
+          complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth],
+                            [cameraCutoutRadius, cameraCutoutRadius],
+                            [cameraCutoutRadius, cameraCutoutRadius],
+                            [cameraCutoutRadius, cameraCutoutRadius],
+                            [cameraCutoutRadius, cameraCutoutRadius],
+                            center = false);
+
+      
     }
 
 
@@ -239,7 +259,7 @@ module sleeveForEncasediPhone (w, l, h) {
     
   }
 
-      
+  // base
   translate([0,0, -base_l])
   linear_extrude(height = base_l, center = false, convexity = 10)
     // 2D view for base of sleeve
@@ -254,7 +274,7 @@ module sleeveForEncasediPhone (w, l, h) {
 
 module showTogether() {
   // iphone 6 Plus
-  % translate([tw, tl, th ]) iphone(77.8, 158.1, 7.1, 9.5);
+  translate([tw, tl, th ]) iphone(77.8, 158.1, 7.1, 9.5);
 
   // incipio case
   * translate([0,0,0]) incipioNgpCase();
@@ -269,7 +289,7 @@ module showTogether() {
 }
 
 
-//showTogether();
+// showTogether();
 
 //$fn = 100;
 translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
