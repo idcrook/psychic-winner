@@ -1,5 +1,4 @@
 
-
 use <iPhone_6_and_6_Plus_Mockups.scad>;
 use <MCADlocal/2Dshapes.scad>
 use <wedge.scad>
@@ -66,10 +65,13 @@ module sleeveForEncasediPhone (w, l, h) {
   
   tolerance = 0.5;
 
-  sleeveSideThickness = 4;
-  sleeveBottomThickness = 4;
-  sleeveTopThickness = 4;
-  sleeveBaseThickness = 1.0 * sleeveBottomThickness;
+  CONTROL_RENDER_cutoff_top = true;
+  //CONTROL_RENDER_cutoff_top = false;
+
+  sleeveSideThickness = 3.5;
+  sleeveBottomThickness = 3.5;
+  sleeveTopThickness = 3.5;
+  sleeveBaseThickness = 3.5;
 
   base_l = sleeveBaseThickness;
 
@@ -282,7 +284,18 @@ module sleeveForEncasediPhone (w, l, h) {
                             [cameraCutoutRadius, cameraCutoutRadius],
                             center = false);
 
-
+      if (CONTROL_RENDER_cutoff_top) {
+        // translate([0,0, l - sleeveBaseThickness + 1])
+        translate([0,0, l - 9.5])
+        linear_extrude(height = 20, center = false, convexity = 10)
+        complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                            [0,0],
+                            [0,0],
+                            [0,0],
+                            [0,0],
+                            center = true);
+        
+      }
         
     }
 
