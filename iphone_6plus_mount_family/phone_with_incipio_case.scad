@@ -132,8 +132,8 @@ module sleeveForEncasediPhone (w, l, h) {
 
   bottomLipHeight = 18.0;
   bottomLipFingerprintDiameter = 17;
-  bottomLipCutoutMaxWidth = 1.5 * bottomLipFingerprintDiameter;
-  bottomLipCutoutArcRadius = 2.3*bottomLipCutoutMaxWidth;  // pick a multiple
+  bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
+  bottomLipCutoutArcRadius = 2.6*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
   
   // calculate the width of cutout at junction with base
@@ -366,7 +366,8 @@ module sleeveForEncasediPhone (w, l, h) {
     // cutout for fingerprint
     //// wedge(height, radius, degrees);
     echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
- 
+    echo("FIXME: add bevel to fingerprint cutout");
+
     translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
       rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
     wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
@@ -392,8 +393,12 @@ module showTogether() {
   
 }
 
+test1 = true;
+test1 = false;
 
-// showTogether();
-
-$fn = 100;
-translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+if (test1) {
+  showTogether();
+} else {
+  $fn = 100;
+  translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+}
