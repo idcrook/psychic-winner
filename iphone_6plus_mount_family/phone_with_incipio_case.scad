@@ -61,7 +61,7 @@ module incipioNgpCase () {
 
 module sleeveForEncasediPhone (w, l, h) {
 
-  tolerance = .5;
+  tolerance = 0.5;
 
   sleeveSideThickness = 4;
   sleeveBottomThickness = 4;
@@ -72,7 +72,7 @@ module sleeveForEncasediPhone (w, l, h) {
   sleeveInner_r = 1.7;
 
   buttonsIncludedInner_w =  tolerance + 82.3 + tolerance + 0.5;
-  buttonsIncludedInner_h =  tolerance + 1.2 + tolerance;
+  buttonsIncludedInner_h =  tolerance +  3.0 + tolerance;
   buttonsIncludedInner_r =  tolerance ;
   
   
@@ -137,16 +137,17 @@ module sleeveForEncasediPhone (w, l, h) {
                          [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                          center = true);
 
+      bevel_angle = 50;
       // cut for screen and add bevel
       translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ]) 
         square([iphoneScreenOpening_w, sleeveInner_h],  center = false);
 
-      translate ([-1/2*sleeveInner_w, -sleeveInner_h + sleeveTopThickness/2])
-        rotate((360 - 50) * [0, 0, 1])
+      translate ([-(1/2)*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
+        rotate((360 - bevel_angle) * [0, 0, 1])
         square([caseNonViewable, sleeveInner_h],  center = false);
 
-      translate ([1/2*sleeveInner_w, -sleeveInner_h + sleeveTopThickness/2])
-        rotate((90 + 50) * [0, 0, 1]) 
+      translate ([1/2*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
+        rotate((90 + bevel_angle) * [0, 0, 1]) 
         square([caseNonViewable, sleeveInner_h],  center = false);
     }
   }
