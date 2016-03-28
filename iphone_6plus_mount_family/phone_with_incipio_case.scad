@@ -3,6 +3,8 @@ use <iPhone_6_and_6_Plus_Mockups.scad>;
 use <MCADlocal/2Dshapes.scad>
 use <wedge.scad>
 
+  e = 0.02; // small number
+
   w = 81.5;
   l = 161.9;  // 
   h = 10.5;   // at corners; elsewhere as low as 10.1 mm
@@ -61,7 +63,6 @@ module incipioNgpCase () {
 
 module sleeveForEncasediPhone (w, l, h) {
 
-  e = 0.02; // small number
   
   tolerance = 0.5;
 
@@ -73,6 +74,14 @@ module sleeveForEncasediPhone (w, l, h) {
   sleeveTopThickness = 3.5;
   sleeveBaseThickness = 3.5;
 
+  wantThinner = true;
+  if (wantThinner) {
+    sleeveSideThickness = 3.0;
+    sleeveBottomThickness = 3.0;
+    sleeveTopThickness = 3.0;
+    sleeveBaseThickness = 3.0;
+  }
+  
   base_l = sleeveBaseThickness;
 
   sleeveInner_w =  tolerance + w + tolerance;
@@ -132,6 +141,7 @@ module sleeveForEncasediPhone (w, l, h) {
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
   headphoneMicHoleOffcenter = 28.5;
 
+  // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipHeight = 18.0;
   bottomLipFingerprintDiameter = 17;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
@@ -286,7 +296,7 @@ module sleeveForEncasediPhone (w, l, h) {
 
       if (CONTROL_RENDER_cutoff_top) {
         // translate([0,0, l - sleeveBaseThickness + 1])
-        translate([0,0, l - 9.5])
+        translate([0,0, l - 10.0])
         linear_extrude(height = 20, center = false, convexity = 10)
         complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
                             [0,0],
@@ -390,6 +400,69 @@ module sleeveForEncasediPhone (w, l, h) {
   
 }
 
+module sleeveMountInsert () {
+
+  insertTailWidth = 22;
+  insertThickness = 6;
+  insertChopThickness = 3;
+  
+  insertFullHeight = 42;
+  insertPartialHeight = 30;
+  insertSlantedHeight = insertFullHeight - insertPartialHeight;
+  insertSlantAngle = 60;
+
+
+  difference() {
+    intersection () {
+      linear_extrude(height = insertFullHeight, center = false, convexity = 10)
+        difference() {
+        complexRoundSquare([insertTailWidth, insertThickness],
+                           [0,0],
+                           [0,0],
+                           [0,0],
+                           [0,0],
+                           center = false);
+      
+        translate([-e, -e, 0])
+          complexRoundSquare([insertChopThickness, insertChopThickness],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             center = false);
+    
+        translate([insertTailWidth - insertChopThickness + e, -e, 0])
+          complexRoundSquare([insertChopThickness, insertChopThickness],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             center = false);
+      
+      }
+
+    
+      rotate([insertSlantAngle,0,0])
+        cube(insertFullHeight);
+    
+    }
+
+    translate([insertChopThickness,
+               insertChopThickness - 2*e,
+               (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
+      rotate([360-(90-insertSlantAngle),0,90])
+      cube(7);
+  
+    translate([insertTailWidth - insertChopThickness,
+               insertChopThickness - 2*e,
+               (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
+      rotate([0, (90 - insertSlantAngle) ,0])
+      cube(7);
+      
+  }
+  
+}
+
 module showTogether() {
   // iphone 6 Plus
   translate([tw, tl, th ]) iphone(77.8, 158.1, 7.1, 9.5);
@@ -412,6 +485,9 @@ test1 = false;
 if (test1) {
   showTogether();
 } else {
-  $fn = 100;
+  // $fn = 100;
   translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+
+  translate([100,0,0]) sleeveMountInsert();
+
 }
