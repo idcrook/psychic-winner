@@ -60,7 +60,6 @@ module incipioNgpCase () {
 
 }
 
-
 module sleeveForEncasediPhone (w, l, h) {
 
   
@@ -70,22 +69,16 @@ module sleeveForEncasediPhone (w, l, h) {
   // CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
-  // CONTROL_RENDER_experiment3 = false;
-  
-  
-  sleeveSideThickness = 3.5;
-  sleeveBottomThickness = 3.5;
-  sleeveTopThickness = 3.5;
-  sleeveBaseThickness = 3.5;
+  CONTROL_RENDER_experiment3 = false;
 
   wantThinner = true;
-  if (wantThinner) {
-    sleeveSideThickness = 3.0;
-    sleeveBottomThickness = 3.0;
-    sleeveTopThickness = 3.0;
-    sleeveBaseThickness = 3.0;
-  }
-  
+  //wantThinner = false;
+
+  sleeveSideThickness   =  wantThinner ? 3.0 : 3.5;
+  sleeveBottomThickness =  wantThinner ? 3.0 : 3.5;
+  sleeveTopThickness    =  wantThinner ? 3.0 : 3.5;
+  sleeveBaseThickness   =  wantThinner ? 3.0 : 3.5;
+
   base_l = sleeveBaseThickness;
 
   sleeveInner_w =  tolerance + w + tolerance;
