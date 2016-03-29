@@ -67,10 +67,10 @@ module sleeveForEncasediPhone (w, l, h) {
   tolerance = 0.5;
 
   CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
+  // CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
+  // CONTROL_RENDER_experiment3 = false;
   
   
   sleeveSideThickness = 3.5;
@@ -133,7 +133,7 @@ module sleeveForEncasediPhone (w, l, h) {
   speakerCutoutHeight = 22;
   speakerCutoutDepth = 5;
   speakerCutoutRadius = speakerCutoutDepth/2;
-  speakerHoleOffcenter = 11.0;
+  speakerHoleOffcenter = 11.0 - 2.6 + 0.5;
 
   lightningCutoutHeight = 14.4;
   lightningCutoutDepth = lightningCutoutHeight/2;
@@ -143,7 +143,13 @@ module sleeveForEncasediPhone (w, l, h) {
   headphoneMicCutoutHeight = 15;
   headphoneMicCutoutDepth = 7.2;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
-  headphoneMicHoleOffcenter = 28.5;
+  headphoneMicHoleOffcenter = 28.5 + 3.9;
+  headphoneJackDiameter = 3.5;
+  
+  headphoneMicBoreDiameter = 8.0 + 0.2;
+  headphoneMicBoreOffcenter = 28.5 + 2.6 + headphoneMicCutoutDepth -
+    headphoneMicBoreDiameter/2;
+  
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipHeight = 18.0;
@@ -301,7 +307,7 @@ module sleeveForEncasediPhone (w, l, h) {
                             center = false);
 
       if (CONTROL_RENDER_cutoff_top) {
-        cutHeight  = CONTROL_RENDER_experiment3 ? 26 : l - 10.0 ;
+        cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
         extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
           
         echo("cutHeight:", cutHeight);
@@ -314,10 +320,7 @@ module sleeveForEncasediPhone (w, l, h) {
                              [0,0],
                              center = true);
       }
-        
     }
-
-    
   }
 
   // base
@@ -336,18 +339,18 @@ module sleeveForEncasediPhone (w, l, h) {
 
     // speaker hole
     rotate([180,0,0])
-    translate([speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
+    translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
       linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
       complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth],
+                          [speakerCutoutRadius/2, speakerCutoutRadius/2],
                           [speakerCutoutRadius, speakerCutoutRadius],
                           [speakerCutoutRadius, speakerCutoutRadius],
-                          [speakerCutoutRadius, speakerCutoutRadius],
-                          [speakerCutoutRadius, speakerCutoutRadius],
+                          [speakerCutoutRadius/2, speakerCutoutRadius/2],
                           center = false);
 
     // lightning hole
     rotate([180,0,0])
-    translate([0, 0, -e])
+    translate([-tolerance, 0, -e])
       linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
       complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth],
                           [lightningCutoutRadius, lightningCutoutRadius],
@@ -356,16 +359,38 @@ module sleeveForEncasediPhone (w, l, h) {
                           [lightningCutoutRadius, lightningCutoutRadius],
                           center = true);
 
-    // headphone and Mic hole
+    // widen lightning hole
     rotate([180,0,0])
-    translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
+    translate([-tolerance, 0, -e])
       linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-      complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
-                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                          [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                          center = false);
+      complexRoundSquare( [lightningCutoutHeight - 5, lightningCutoutDepth + 2],
+                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                          center = true);
+
+    // headphone and Mic hole
+    rotate([180,0,0]) {
+      translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
+        linear_extrude(height = base_l + 2*e, center = false, convexity = 10) 
+        complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            center = false);
+      
+      translate([-headphoneMicBoreOffcenter, -(1/2) * headphoneMicBoreDiameter, -e])
+        linear_extrude(height = base_l + 2*e, center = false, convexity = 10) 
+        complexRoundSquare( [headphoneMicBoreDiameter, headphoneMicBoreDiameter],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                            center = false);
+      
+    }    
 
     
   }    
@@ -394,6 +419,22 @@ module sleeveForEncasediPhone (w, l, h) {
       
     }
 
+    if (CONTROL_RENDER_cutoff_top) {
+      cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+      extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
+          
+      echo("cutHeight:", cutHeight);
+      translate([0,0, cutHeight])
+        linear_extrude(height = extrHeight, center = false, convexity = 10)
+        complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                           [0,0],
+                           [0,0],
+                           [0,0],
+                           [0,0],
+                           center = true);
+      }
+    
+    
     // cutout for fingerprint
     //// wedge(height, radius, degrees);
     echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
