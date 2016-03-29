@@ -108,8 +108,8 @@ module sleeveForEncasediPhone (w, l, h) {
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
   
-  powerButtonHeightFromBottom = 117.7;
-  powerButtonCutoutHeight = 12.2;
+  powerButtonHeightFromBottom = 117.7 - 1.0;
+  powerButtonCutoutHeight = 12.2 + 2.0 + 1.0;
   powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
