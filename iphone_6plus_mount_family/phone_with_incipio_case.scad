@@ -473,7 +473,7 @@ module sleeveForEncasediPhone (w, l, h) {
   
 }
 
-module sleeveMountInsert (width, thickness, height) {
+module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
   insertTailWidth = width;
   insertThickness = 2*thickness;
@@ -484,6 +484,13 @@ module sleeveMountInsert (width, thickness, height) {
   insertSlantedHeight = insertFullHeight - insertPartialHeight;
   insertSlantAngle = 60;
 
+  tolerance = 0.5;
+
+  insertChopThickness_x = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
+  insertChopThickness_y = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
+  
+  echo("insertChopThickness_x:", insertChopThickness_x);
+  echo("insertChopThickness_y:", insertChopThickness_y);
 
   difference() {
     intersection () {
@@ -497,15 +504,15 @@ module sleeveMountInsert (width, thickness, height) {
                            center = false);
       
         translate([-e, -e, 0])
-          complexRoundSquare([insertChopThickness, insertChopThickness],
+          #complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
                              [0,0],
                              [0,0],
                              [0,0],
                              [0,0],
                              center = false);
     
-        translate([insertTailWidth - insertChopThickness + e, -e, 0])
-          complexRoundSquare([insertChopThickness, insertChopThickness],
+        translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
+          complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
                              [0,0],
                              [0,0],
                              [0,0],
@@ -533,8 +540,24 @@ module sleeveMountInsert (width, thickness, height) {
       cube(7);
   }
 
+}
 
+
+module test_sleeveMountInsert () {
+
+        mountInsertWidth = 22;
+        mountInsertThickness = 3;
+        mountInsertHeight = 42;
+
+        fitBetter = true;
+        
+        tolerance = 0.5;
+        sleeveBottomThickness = 3.0;
+          
+        mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
   
+        translate([50, 0, 0])
+          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
 
 module showTogether() {
@@ -556,9 +579,13 @@ module showTogether() {
 test1 = true;
 test1 = false;
 
+
 if (test1) {
   showTogether();
 } else {
   $fn = 100;
   translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+  // test_sleeveMountInsert();
 }
+
+
