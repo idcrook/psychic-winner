@@ -62,14 +62,16 @@ module incipioNgpCase () {
 
 module sleeveForEncasediPhone (w, l, h) {
 
-  
   tolerance = 0.5;
 
   CONTROL_RENDER_cutoff_top = true;
   // CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
-  // CONTROL_RENDER_experiment3 = false;
+  CONTROL_RENDER_experiment3 = false;
+
+  CONTROL_RENDER_experiment4 = true;
+  //CONTROL_RENDER_experiment4 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -158,297 +160,317 @@ module sleeveForEncasediPhone (w, l, h) {
   // calculate how far we need to translate below to cut out enough
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
-  
-  
-  union () {
+  intersection() {
+    union() {
+      union () {
 
-    // fill in groove for part of sleeve below buttons
-    if (!CONTROL_RENDER_experiment3) {
-    union () {
-      linear_extrude(height = erase_sleeveInner_l_left, center = false, convexity = 10)
-        translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0]) 
-        difference () {
-        complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
-                           [0, 0],
-                           [0, 0],
-                           [0, 0],
-                           [0, 0],
-                           center = false);
+        // fill in groove for part of sleeve below buttons
+        if (!CONTROL_RENDER_experiment3) {
+          union () {
+            linear_extrude(height = erase_sleeveInner_l_left, center = false, convexity = 10)
+              translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0]) 
+              difference () {
+              complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
+                                 [0, 0],
+                                 [0, 0],
+                                 [0, 0],
+                                 [0, 0],
+                                 center = false);
       
-        // cut out size of iphone in case (plus tolerance)
-        translate([(buttonsIncludedInner_w-sleeveInner_w)/2, 0, 0])
-          complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
-                             [0, 0],
-                             [0, 0],
-                             [sleeveInner_r, sleeveInner_r],
-                             [sleeveInner_r, sleeveInner_r],
-                             center = false);
-      }
+              // cut out size of iphone in case (plus tolerance)
+              translate([(buttonsIncludedInner_w-sleeveInner_w)/2, 0, 0])
+                complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
+                                   [0, 0],
+                                   [0, 0],
+                                   [sleeveInner_r, sleeveInner_r],
+                                   [sleeveInner_r, sleeveInner_r],
+                                   center = false);
+            }
 
-      linear_extrude(height = erase_sleeveInner_l_right, center = false, convexity = 10)
-        translate([0, -(1/2)*buttonsIncludedInner_h, 0]) 
-        difference () {
-        complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
-                           [0, 0],
-                           [0, 0],
-                           [0, 0],
-                           [0, 0],
-                           center = false);
+            linear_extrude(height = erase_sleeveInner_l_right, center = false, convexity = 10)
+              translate([0, -(1/2)*buttonsIncludedInner_h, 0]) 
+              difference () {
+              complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
+                                 [0, 0],
+                                 [0, 0],
+                                 [0, 0],
+                                 [0, 0],
+                                 center = false);
       
-        // cut out size of iphone in case (plus tolerance)
-        translate([0, 0, 0])
-          complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
-                             [0, 0],
-                             [0, 0],
-                             [sleeveInner_r, sleeveInner_r],
-                             [sleeveInner_r, sleeveInner_r],
-                             center = false);
-      }
+              // cut out size of iphone in case (plus tolerance)
+              translate([0, 0, 0])
+                complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
+                                   [0, 0],
+                                   [0, 0],
+                                   [sleeveInner_r, sleeveInner_r],
+                                   [sleeveInner_r, sleeveInner_r],
+                                   center = false);
+            }
     
-    }
+          }
 
-    }
-    // need a difference here to be able to punch out button and camera access holes
-    difference () {
-      // 2D view for length of case
-      linear_extrude(height = sleeveInner_l, center = false, convexity = 10)
+        }
+        // need a difference here to be able to punch out button and camera access holes
         difference () {
-        complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
-                           [sleeveOuter_r, sleeveOuter_r],
-                           [sleeveOuter_r, sleeveOuter_r],
-                           [sleeveOuter_r, sleeveOuter_r],
-                           [sleeveOuter_r, sleeveOuter_r],
-                           center = true);
+          // 2D view for length of case
+          linear_extrude(height = sleeveInner_l, center = false, convexity = 10)
+            difference () {
+            complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+                               [sleeveOuter_r, sleeveOuter_r],
+                               [sleeveOuter_r, sleeveOuter_r],
+                               [sleeveOuter_r, sleeveOuter_r],
+                               [sleeveOuter_r, sleeveOuter_r],
+                               center = true);
   
   
-        // cut out size of iphone in case (includes tolerance)
-        complexRoundSquare([sleeveInner_w, sleeveInner_h],
-                           [sleeveInner_r, sleeveInner_r],
-                           [sleeveInner_r, sleeveInner_r],
-                           [sleeveInner_r, sleeveInner_r],
-                           [sleeveInner_r, sleeveInner_r],
-                           center = true);
+            // cut out size of iphone in case (includes tolerance)
+            complexRoundSquare([sleeveInner_w, sleeveInner_h],
+                               [sleeveInner_r, sleeveInner_r],
+                               [sleeveInner_r, sleeveInner_r],
+                               [sleeveInner_r, sleeveInner_r],
+                               [sleeveInner_r, sleeveInner_r],
+                               center = true);
 
-        // include groove for buttons (covered back in above)
-        complexRoundSquare([buttonsIncludedInner_w, buttonsIncludedInner_h],
-                           [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                           [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                           [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                           [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                           center = true);
+            // include groove for buttons (covered back in above)
+            complexRoundSquare([buttonsIncludedInner_w, buttonsIncludedInner_h],
+                               [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                               [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                               [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                               [buttonsIncludedInner_r,  buttonsIncludedInner_r],
+                               center = true);
 
-        bevel_angle = 50;
-        // cut for screen and add bevel
-        translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ]) 
-          square([iphoneScreenOpening_w, sleeveInner_h],  center = false);
+            bevel_angle = 50;
+            // cut for screen and add bevel
+            translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ]) 
+              square([iphoneScreenOpening_w, sleeveInner_h],  center = false);
 
-        translate ([-(1/2)*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
-          rotate((360 - bevel_angle) * [0, 0, 1])
-          square([caseNonViewable, sleeveInner_h],  center = false);
+            translate ([-(1/2)*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
+              rotate((360 - bevel_angle) * [0, 0, 1])
+              square([caseNonViewable, sleeveInner_h],  center = false);
 
-        translate ([1/2*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
-          rotate((90 + bevel_angle) * [0, 0, 1]) 
-          square([caseNonViewable, sleeveInner_h],  center = false);
-      }
+            translate ([1/2*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
+              rotate((90 + bevel_angle) * [0, 0, 1]) 
+              square([caseNonViewable, sleeveInner_h],  center = false);
+          }
     
-      // volume buttons cutout
-      translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
-      mirror()
-      rotate([0, 180 + 90, 0])
-        linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
-        complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
-                            [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                            [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                            [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                            [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                            center = false);
+          // volume buttons cutout
+          translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
+            mirror()
+            rotate([0, 180 + 90, 0])
+            linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
+            complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
+                                [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                center = false);
 
-      // power button cutout
-      translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
-      rotate([0, 180 + 90, 0])
-        linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
-        complexRoundSquare( [powerButtonCutoutHeight, powerButtonCutoutDepth],
-                            [powerButtonCutoutRadius, powerButtonCutoutRadius],
-                            [powerButtonCutoutRadius, powerButtonCutoutRadius],
-                            [powerButtonCutoutRadius, powerButtonCutoutRadius],
-                            [powerButtonCutoutRadius, powerButtonCutoutRadius],
-                            center = false);
+          // power button cutout
+          translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
+            rotate([0, 180 + 90, 0])
+            linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
+            complexRoundSquare( [powerButtonCutoutHeight, powerButtonCutoutDepth],
+                                [powerButtonCutoutRadius, powerButtonCutoutRadius],
+                                [powerButtonCutoutRadius, powerButtonCutoutRadius],
+                                [powerButtonCutoutRadius, powerButtonCutoutRadius],
+                                [powerButtonCutoutRadius, powerButtonCutoutRadius],
+                                center = false);
       
-      // mute switch cutout
-      translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
-      mirror()
-      rotate([0, 180 + 90, 0], center = true)
-        linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
-        complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
-                            [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
-                            [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
-                            [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
-                            [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
-                            center = false);
+          // mute switch cutout
+          translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
+            mirror()
+            rotate([0, 180 + 90, 0], center = true)
+            linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
+            complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
+                                [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
+                                [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
+                                [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
+                                [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
+                                center = false);
 
-      // camera cutout
-      echo("FIXME: camera hole placement");
-      translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
-        rotate([90, 0, 0])
-          mirror([0,0,1])
-          linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-          complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth],
-                            [cameraCutoutRadius, cameraCutoutRadius],
-                            [cameraCutoutRadius, cameraCutoutRadius],
-                            [cameraCutoutRadius, cameraCutoutRadius],
-                            [cameraCutoutRadius, cameraCutoutRadius],
-                            center = false);
+          // camera cutout
+          echo("FIXME: camera hole placement");
+          translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
+            rotate([90, 0, 0])
+            mirror([0,0,1])
+            linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
+            complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth],
+                                [cameraCutoutRadius, cameraCutoutRadius],
+                                [cameraCutoutRadius, cameraCutoutRadius],
+                                [cameraCutoutRadius, cameraCutoutRadius],
+                                [cameraCutoutRadius, cameraCutoutRadius],
+                                center = false);
 
-      if (CONTROL_RENDER_cutoff_top) {
-        cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
-        extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
+          if (CONTROL_RENDER_cutoff_top) {
+            cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+            extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
           
-        echo("cutHeight:", cutHeight);
-        translate([0,0, cutHeight])
-          linear_extrude(height = extrHeight, center = false, convexity = 10)
-          complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
-                             [0,0],
-                             [0,0],
-                             [0,0],
-                             [0,0],
+            echo("cutHeight:", cutHeight);
+            translate([0,0, cutHeight])
+              linear_extrude(height = extrHeight, center = false, convexity = 10)
+              complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                                 [0,0],
+                                 [0,0],
+                                 [0,0],
+                                 [0,0],
+                                 center = true);
+          }
+        }
+      }
+
+      // base
+      difference() {
+        translate([0,0, -base_l])
+          linear_extrude(height = base_l, center = false, convexity = 10)
+          // 2D view for base of sleeve
+          complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             [sleeveOuter_r, sleeveOuter_r],
                              center = true);
-      }
-    }
-  }
 
-  // base
-  difference() {
-    translate([0,0, -base_l])
-      linear_extrude(height = base_l, center = false, convexity = 10)
-      // 2D view for base of sleeve
-      complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         center = true);
+        // handle speaker hole, lightning, headphone
 
-    // handle speaker hole, lightning, headphone
+        // speaker hole
+        rotate([180,0,0])
+          translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
+          linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+          complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth],
+                              [speakerCutoutRadius/2, speakerCutoutRadius/2],
+                              [speakerCutoutRadius, speakerCutoutRadius],
+                              [speakerCutoutRadius, speakerCutoutRadius],
+                              [speakerCutoutRadius/2, speakerCutoutRadius/2],
+                              center = false);
 
-    // speaker hole
-    rotate([180,0,0])
-    translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
-      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-      complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth],
-                          [speakerCutoutRadius/2, speakerCutoutRadius/2],
-                          [speakerCutoutRadius, speakerCutoutRadius],
-                          [speakerCutoutRadius, speakerCutoutRadius],
-                          [speakerCutoutRadius/2, speakerCutoutRadius/2],
-                          center = false);
+        // lightning hole
+        rotate([180,0,0])
+          translate([-tolerance, 0, -e])
+          linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+          complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth],
+                              [lightningCutoutRadius, lightningCutoutRadius],
+                              [lightningCutoutRadius, lightningCutoutRadius],
+                              [lightningCutoutRadius, lightningCutoutRadius],
+                              [lightningCutoutRadius, lightningCutoutRadius],
+                              center = true);
 
-    // lightning hole
-    rotate([180,0,0])
-    translate([-tolerance, 0, -e])
-      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-      complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth],
-                          [lightningCutoutRadius, lightningCutoutRadius],
-                          [lightningCutoutRadius, lightningCutoutRadius],
-                          [lightningCutoutRadius, lightningCutoutRadius],
-                          [lightningCutoutRadius, lightningCutoutRadius],
-                          center = true);
+        // widen lightning hole
+        rotate([180,0,0])
+          translate([-tolerance, 0, -e])
+          linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+          complexRoundSquare( [lightningCutoutHeight - 5, lightningCutoutDepth + 2],
+                              [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                              [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                              [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                              [lightningCutoutRadius/2, lightningCutoutRadius/2],
+                              center = true);
 
-    // widen lightning hole
-    rotate([180,0,0])
-    translate([-tolerance, 0, -e])
-      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-      complexRoundSquare( [lightningCutoutHeight - 5, lightningCutoutDepth + 2],
-                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
-                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
-                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
-                          [lightningCutoutRadius/2, lightningCutoutRadius/2],
-                          center = true);
-
-    // headphone and Mic hole
-    rotate([180,0,0]) {
-      translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
-        linear_extrude(height = base_l + 2*e, center = false, convexity = 10) 
-        complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            center = false);
+        // headphone and Mic hole
+        rotate([180,0,0]) {
+          translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
+            linear_extrude(height = base_l + 2*e, center = false, convexity = 10) 
+            complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                center = false);
       
-      translate([-headphoneMicBoreOffcenter, -(1/2) * headphoneMicBoreDiameter, -e])
-        linear_extrude(height = base_l + 2*e, center = false, convexity = 10) 
-        complexRoundSquare( [headphoneMicBoreDiameter, headphoneMicBoreDiameter],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                            center = false);
+          translate([-headphoneMicBoreOffcenter, -(1/2) * headphoneMicBoreDiameter, -e])
+            linear_extrude(height = base_l + 2*e, center = false, convexity = 10) 
+            complexRoundSquare( [headphoneMicBoreDiameter, headphoneMicBoreDiameter],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
+                                center = false);
       
-    }    
+        }    
 
     
-  }    
+      }    
 
-  // Bottom lip with cutout for Home button / thumbprint sensor
+      // Bottom lip with cutout for Home button / thumbprint sensor
 
-  difference() {
-    // 2D view for height of lip
-    linear_extrude(height = bottomLipHeight, center = false, convexity = 10)
-      difference () {
-      complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         [sleeveOuter_r, sleeveOuter_r],
-                         center = true);
+      difference() {
+        // 2D view for height of lip
+        linear_extrude(height = bottomLipHeight, center = false, convexity = 10)
+          difference () {
+          complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             [sleeveOuter_r, sleeveOuter_r],
+                             center = true);
       
-      // cut out size of iphone plus some additional
-      scale ([1,1.22,1])
-      complexRoundSquare([sleeveInner_w, sleeveInner_h],
-                         [sleeveInner_r, sleeveInner_r],
-                         [sleeveInner_r, sleeveInner_r],
-                         [sleeveInner_r, sleeveInner_r],
-                         [sleeveInner_r, sleeveInner_r],
-                         center = true);
+          // cut out size of iphone plus some additional
+          scale ([1,1.22,1])
+            complexRoundSquare([sleeveInner_w, sleeveInner_h],
+                               [sleeveInner_r, sleeveInner_r],
+                               [sleeveInner_r, sleeveInner_r],
+                               [sleeveInner_r, sleeveInner_r],
+                               [sleeveInner_r, sleeveInner_r],
+                               center = true);
       
-    }
+        }
 
-    if (CONTROL_RENDER_cutoff_top) {
-      cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
-      extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
+        if (CONTROL_RENDER_cutoff_top) {
+          cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+          extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
           
+          echo("cutHeight:", cutHeight);
+          translate([0,0, cutHeight])
+            linear_extrude(height = extrHeight, center = false, convexity = 10)
+            complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               center = true);
+        }
+    
+    
+        // cutout for fingerprint
+        //// wedge(height, radius, degrees);
+        echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
+        echo("FIXME: add bevel to fingerprint cutout");
+
+        translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
+          rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
+          wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
+    
+      }
+
+    
+
+      if (!CONTROL_RENDER_experiment3) {
+        mountInsertWidth = 22;
+        mountInsertThickness = 3;
+        mountInsertHeight = 42;
+  
+        mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
+  
+        translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight + base_l])
+          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight);
+      }
+    }
+    
+    if (CONTROL_RENDER_cutoff_top && CONTROL_RENDER_experiment4) {
+      keepHeight = 55;
+      cutHeight  = l - 10.0 ;
+      extrHeight = keepHeight ;
+    
       echo("cutHeight:", cutHeight);
-      translate([0,0, cutHeight])
-        linear_extrude(height = extrHeight, center = false, convexity = 10)
+      translate([0,0, cutHeight - keepHeight])
+      linear_extrude(height = extrHeight, center = false, convexity = 10)
         complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
                            [0,0],
                            [0,0],
                            [0,0],
                            [0,0],
                            center = true);
-      }
-    
-    
-    // cutout for fingerprint
-    //// wedge(height, radius, degrees);
-    echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
-    echo("FIXME: add bevel to fingerprint cutout");
-
-    translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
-      rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
-    wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
-    
-  }
-
-  if (!CONTROL_RENDER_experiment3) {
-    mountInsertWidth = 22;
-    mountInsertThickness = 3;
-    mountInsertHeight = 42;
-  
-    mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
-  
-    translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight + base_l])
-      sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight);
-  }  
+    }
+  } 
   
 }
 
@@ -510,8 +532,9 @@ module sleeveMountInsert (width, thickness, height) {
                (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
       rotate([0, (90 - insertSlantAngle) ,0])
       cube(7);
-      
   }
+
+
   
 }
 
