@@ -488,6 +488,8 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
   insertChopThickness_x = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
   insertChopThickness_y = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
+
+  rotateAngle = 15;
   
   echo("insertChopThickness_x:", insertChopThickness_x);
   echo("insertChopThickness_y:", insertChopThickness_y);
@@ -504,7 +506,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
                            center = false);
       
         translate([-e, -e, 0])
-          #complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
+          complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
                              [0,0],
                              [0,0],
                              [0,0],
@@ -518,7 +520,28 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
                              [0,0],
                              [0,0],
                              center = false);
-      
+
+        if (shouldTweak) {
+          translate([insertChopThickness_x, insertChopThickness_y*(1),0])
+            rotate([0,0,180-rotateAngle])
+            complexRoundSquare([insertChopThickness_x+1, insertChopThickness_y],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               center = false);
+          
+          translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
+            translate([0, insertChopThickness_y*(1),0])
+            rotate([0,0,270+rotateAngle])
+            complexRoundSquare([insertChopThickness_x, insertChopThickness_y+1],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               center = false);
+
+        }
       }
 
     
@@ -585,7 +608,7 @@ if (test1) {
 } else {
   $fn = 100;
   translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
-  // test_sleeveMountInsert();
+  test_sleeveMountInsert();
 }
 
 
