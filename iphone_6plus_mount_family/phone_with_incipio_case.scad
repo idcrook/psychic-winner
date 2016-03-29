@@ -71,7 +71,7 @@ module sleeveForEncasediPhone (w, l, h) {
   CONTROL_RENDER_experiment3 = false;
 
   CONTROL_RENDER_experiment4 = true;
-  //CONTROL_RENDER_experiment4 = false;
+  CONTROL_RENDER_experiment4 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -104,26 +104,26 @@ module sleeveForEncasediPhone (w, l, h) {
   sleeveInner_l = l;
   volumeButtonsHeightFromBottom = 105.0;
   volumeButtonsCutoutHeight = 25.3;
-  volumeButtonsCutoutDepth = 7.7;
+  volumeButtonsCutoutDepth = 7.7 + 2.3;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
   
   powerButtonHeightFromBottom = 117.7;
   powerButtonCutoutHeight = 12.2;
-  powerButtonCutoutDepth = 7.7;
+  powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
   
   muteSwitchHeightFromBottom = 132.7;
-  muteSwitchCutoutHeight = 12.2;
-  muteSwitchCutoutDepth = 7.7;
+  muteSwitchCutoutHeight = 12.2 + 3;
+  muteSwitchCutoutDepth = 7.7 + 2.3;
   muteSwitchCutoutRadius = 2;
 
   cameraHeightFromBottom = 144.8;
-  cameraCutoutHeight = 28.2;
+  cameraCutoutHeight = 0.5 + 28.2 + 0.5;
   cameraCutoutDepth = 12.1;
   cameraCutoutRadius = cameraCutoutDepth/2-1;
-  cameraHoleOffcenter = 5.5;
+  cameraHoleOffcenter = 5.5 - 0.5;
 
   speakerCutoutHeight = 22;
   speakerCutoutDepth = 5;
@@ -257,7 +257,7 @@ module sleeveForEncasediPhone (w, l, h) {
           translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
             mirror()
             rotate([0, 180 + 90, 0])
-            linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
+            linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
             complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
                                 [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
                                 [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
@@ -268,7 +268,7 @@ module sleeveForEncasediPhone (w, l, h) {
           // power button cutout
           translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
             rotate([0, 180 + 90, 0])
-            linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
+            linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
             complexRoundSquare( [powerButtonCutoutHeight, powerButtonCutoutDepth],
                                 [powerButtonCutoutRadius, powerButtonCutoutRadius],
                                 [powerButtonCutoutRadius, powerButtonCutoutRadius],
@@ -280,7 +280,7 @@ module sleeveForEncasediPhone (w, l, h) {
           translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
             mirror()
             rotate([0, 180 + 90, 0], center = true)
-            linear_extrude(height = sleeveSideThickness + 2*e, center = false, convexity = 10)
+            linear_extrude(height = sleeveSideThickness + 2*e, center = false,  scale = 0.9, convexity = 10)
             complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
                                 [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                 [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -289,7 +289,7 @@ module sleeveForEncasediPhone (w, l, h) {
                                 center = false);
 
           // camera cutout
-          echo("FIXME: camera hole placement");
+          /// echo("FIXME: camera hole placement");
           translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
             rotate([90, 0, 0])
             mirror([0,0,1])
@@ -433,7 +433,7 @@ module sleeveForEncasediPhone (w, l, h) {
         // cutout for fingerprint
         //// wedge(height, radius, degrees);
         echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
-        echo("FIXME: add bevel to fingerprint cutout");
+        //echo("FIXME: add bevel to fingerprint cutout");
 
         translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
           rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
@@ -460,7 +460,6 @@ module sleeveForEncasediPhone (w, l, h) {
       cutHeight  = l - 10.0 ;
       extrHeight = keepHeight ;
     
-      echo("cutHeight:", cutHeight);
       translate([0,0, cutHeight - keepHeight])
       linear_extrude(height = extrHeight, center = false, convexity = 10)
         complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
@@ -562,5 +561,4 @@ if (test1) {
 } else {
   $fn = 100;
   translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
-
 }
