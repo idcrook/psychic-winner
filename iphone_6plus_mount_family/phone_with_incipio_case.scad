@@ -69,7 +69,7 @@ module sleeveForEncasediPhone (w, l, h) {
   // CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
+  // CONTROL_RENDER_experiment3 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -126,22 +126,22 @@ module sleeveForEncasediPhone (w, l, h) {
   speakerCutoutHeight = 22;
   speakerCutoutDepth = 5;
   speakerCutoutRadius = speakerCutoutDepth/2;
-  speakerHoleOffcenter = 11.0 - 2.6 + 0.5;
+  speakerHoleOffcenter = 10.8 ;
 
   lightningCutoutHeight = 14.4;
   lightningCutoutDepth = lightningCutoutHeight/2;
   lightningCutoutRadius = lightningCutoutDepth/2;
   lightningHoleOffcenter = 0;
 
-  headphoneMicCutoutHeight = 15;
+  headphoneMicCutoutHeight = 15 - 2;
   headphoneMicCutoutDepth = 7.2;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
-  headphoneMicHoleOffcenter = 28.5 + 3.9;
+  headphoneMicHoleOffcenter = 28.5 + 3.9 - 2;
   headphoneJackDiameter = 3.5;
   
   headphoneMicBoreDiameter = 8.0 + 0.2;
   headphoneMicBoreOffcenter = 28.5 + 2.6 + headphoneMicCutoutDepth -
-    headphoneMicBoreDiameter/2;
+    headphoneMicBoreDiameter;
   
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
