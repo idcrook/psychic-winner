@@ -54,18 +54,16 @@ module incipioNgpCase () {
                            [cut_r, cut_r],
                            [cut_r, cut_r],
                            center = false);
-
   }
-  
-
 }
 
-module sleeveForEncasediPhone (w, l, h, tweak_mount_surface) {
+
+module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
 
   tolerance = 0.5;
 
   CONTROL_RENDER_cutoff_top = true;
-  // CONTROL_RENDER_cutoff_top = false;
+  CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
   CONTROL_RENDER_experiment3 = false;
@@ -276,7 +274,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface) {
             mirror()
             rotate([0, 180 + 90, 0], center = true)
             linear_extrude(height = sleeveSideThickness + 2*e, center = false,  scale = 0.9, convexity = 10)
-            complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
+            complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth ],
                                 [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                 [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                 [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -288,7 +286,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface) {
             rotate([90, 0, 0])
             mirror([0,0,1])
             linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-            complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth],
+            complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth + 1.2],
                                 [cameraCutoutRadius, cameraCutoutRadius],
                                 [cameraCutoutRadius, cameraCutoutRadius],
                                 [cameraCutoutRadius, cameraCutoutRadius],
@@ -376,7 +374,52 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface) {
                                 [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
                                 center = false);
         }    
-      }    
+      }
+
+      // cap
+      if (with_cap) {
+        capArmThickness = 4;
+        capCapThickness = 3.5;
+        
+        translate([0, 0, sleeveInner_l])
+          linear_extrude(height = capCapThickness, center = false, convexity = 10)
+          // 2D view for cap
+          complexRoundSquare([sleeveOuter_w + 2*capArmThickness, sleeveOuter_h],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                             center = true);
+
+        // power button side
+        powerButtonCapClip_z = sleeveInner_l - powerButtonHeightFromBottom - powerButtonCutoutHeight;
+        translate([(sleeveOuter_w + capArmThickness)/2, 0, sleeveInner_l - powerButtonCapClip_z])
+          linear_extrude(height = powerButtonCapClip_z, center = false, convexity = 10)
+          // 2D view for cap
+          # complexRoundSquare([capArmThickness, sleeveOuter_h],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                             center = true);
+        
+
+        // mute switch side
+        muteSwitchCapClip_z = sleeveInner_l - muteSwitchHeightFromBottom - powerButtonCutoutHeight;
+        translate([-(sleeveOuter_w + capArmThickness)/2, 0, sleeveInner_l - muteSwitchCapClip_z])
+          linear_extrude(height = muteSwitchCapClip_z, center = false, convexity = 10)
+          // 2D view for cap
+          # complexRoundSquare([capArmThickness, sleeveOuter_h],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                             center = true);
+
+        
+      }
+   
+      
 
       // Bottom lip with cutout for Home button / thumbprint sensor
       difference() {
@@ -690,18 +733,22 @@ module test_sleeveMountInsert (fit_better) {
 }
 
 module showTogether() {
+
+  withCap = true;
+  
   // iphone 6 Plus
   translate([tw, tl, th ]) iphone(77.8, 158.1, 7.1, 9.5);
 
   // incipio case
-  * translate([0,0,0]) incipioNgpCase();
+  translate([0,0,0]) incipioNgpCase();
 
   * color ("White")
     translate ([200, 50, 0])
     import ("files/iPhone_Bike_Mount/mount_v4-case.stl");
 
   // design
-  %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h);
+  %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h, false, withCap);
+
   
 }
 
@@ -715,9 +762,11 @@ if (test1) {
   $fn = 100;
   
   tweakMountSurface = false;
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface);
+  sleeveWithCap = true;
+  
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
   * test_sleeveMountInsert(tweakMountSurface);
-  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
 }
 
 
