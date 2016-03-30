@@ -380,45 +380,23 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
       if (with_cap) {
         capArmThickness = 4;
         capCapThickness = 3.5;
+        capDepth = sleeveOuter_h;
+        caseHeight = sleeveInner_l;
+        capCaseWidth = sleeveOuter_w;
         
-        translate([0, 0, sleeveInner_l])
-          linear_extrude(height = capCapThickness, center = false, convexity = 10)
-          // 2D view for cap
-          complexRoundSquare([sleeveOuter_w + 2*capArmThickness, sleeveOuter_h],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                             center = true);
+        powerSideCut = powerButtonHeightFromBottom;
+        powerSideHeight = powerButtonCutoutHeight;        
+        powerButtonCapClip_z = caseHeight - powerSideCut - powerSideHeight; 
 
-        // power button side
-        powerButtonCapClip_z = sleeveInner_l - powerButtonHeightFromBottom - powerButtonCutoutHeight;
-        translate([(sleeveOuter_w + capArmThickness)/2, 0, sleeveInner_l - powerButtonCapClip_z])
-          linear_extrude(height = powerButtonCapClip_z, center = false, convexity = 10)
-          // 2D view for cap
-          # complexRoundSquare([capArmThickness, sleeveOuter_h],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                             center = true);
+        muteSideCut = muteSwitchHeightFromBottom;
+        muteSideHeight = muteSwitchCutoutHeight;
+        muteSwitchCapClip_z = caseHeight - muteSideCut - muteSideHeight; 
         
+        translate([0, 0, caseHeight])
+        generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth, 
+                    powerButtonCapClip_z, muteSwitchCapClip_z); 
 
-        // mute switch side
-        muteSwitchCapClip_z = sleeveInner_l - muteSwitchHeightFromBottom - powerButtonCutoutHeight;
-        translate([-(sleeveOuter_w + capArmThickness)/2, 0, sleeveInner_l - muteSwitchCapClip_z])
-          linear_extrude(height = muteSwitchCapClip_z, center = false, convexity = 10)
-          // 2D view for cap
-          # complexRoundSquare([capArmThickness, sleeveOuter_h],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                             center = true);
-
-        
       }
-   
       
 
       // Bottom lip with cutout for Home button / thumbprint sensor
@@ -501,6 +479,57 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
                            center = true);
     }
   } 
+}
+
+
+module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
+                      power_button_z, mute_switch_z) {
+
+  capCaseWidth = cap_case_width;
+  capCapThickness = cap_thickness;
+  capArmThickness = cap_arm_thickness;
+  capDepth = cap_depth;
+  powerButtonCapClip_z = power_button_z;
+  muteSwitchCapClip_z = mute_switch_z;
+
+  capSideDistance = (capCaseWidth + capArmThickness)/2; 
+  
+  linear_extrude(height = capCapThickness, center = false, convexity = 10)
+    // 2D view for cap
+    complexRoundSquare([capCaseWidth + 2*capArmThickness, capDepth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
+  
+  // power button side
+  translate([capSideDistance, 0, - powerButtonCapClip_z])
+    linear_extrude(height = powerButtonCapClip_z, center = false, convexity = 10)
+    complexRoundSquare([capArmThickness, capDepth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
+  
+  translate([capSideDistance, 0,  - powerButtonCapClip_z])
+    rotate([0,180,0])
+    generateCapTab();
+  
+  
+  // mute switch side
+  translate([-(capSideDistance), 0,  - muteSwitchCapClip_z])
+    linear_extrude(height = muteSwitchCapClip_z, center = false, convexity = 10)
+    complexRoundSquare([capArmThickness, capDepth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
+  
+  translate([-(capSideDistance), 0, - muteSwitchCapClip_z])
+    rotate([0,180,180])
+    generateCapTab();
+  
+}
+
+
+module generateCapTab() {
+  tabSize = 10;
+  translate([tabSize/2,0,tabSize/2])
+  #cube(10, center = true);
 }
 
 module sleeveMountInsert (width, thickness, height, shouldTweak) {
