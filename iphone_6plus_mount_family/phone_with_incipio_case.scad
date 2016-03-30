@@ -72,7 +72,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  //CONTROL_RENDER_experiment5 = false;
+  CONTROL_RENDER_experiment5 = false;
   
   wantThinner = true;
   //wantThinner = false;
@@ -530,8 +530,11 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
-  powerButtonCapClip_z = power_button_z;
-  muteSwitchCapClip_z = mute_switch_z;
+
+  fudge = true;
+  fudge = false;
+  powerButtonCapClip_z = fudge ? power_button_z +1 : power_button_z;
+  muteSwitchCapClip_z  = fudge ? mute_switch_z  +1 : mute_switch_z;
 
   tabInsertDepth = 2.5;
   
@@ -906,11 +909,12 @@ if (test1) {
   
   tweakMountSurface = false;
   sleeveWithCap = true;
+  sleeveWithCap = false;
   
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   * test_sleeveMountInsert(tweakMountSurface);
-  * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
   * test_generateCap();
   * test_generateCapTab(4, 4, 10);
 }
