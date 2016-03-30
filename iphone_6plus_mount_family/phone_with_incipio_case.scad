@@ -63,7 +63,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   tolerance = 0.5;
 
   CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
+  //CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_experiment3 = true;
   CONTROL_RENDER_experiment3 = false;
@@ -72,7 +72,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  //CONTROL_RENDER_experiment5 = false;
+  CONTROL_RENDER_experiment5 = false;
   
   wantThinner = true;
   //wantThinner = false;
@@ -147,7 +147,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
     headphoneMicBoreDiameter;
   
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
-  bottomLipHeight = 18.0;
+  bottomLipHeight = 18.0 - 3;
   bottomLipFingerprintDiameter = 17;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.6*bottomLipCutoutMaxWidth;  // pick a multiple
@@ -530,7 +530,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capDepth = cap_depth;
 
   fudge = true;
-  //fudge = false;
+  fudge = false;
   powerButtonCapClip_z = fudge ? power_button_z + 1 + 2 : power_button_z;
   muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 + 2 : mute_switch_z;
 
@@ -907,7 +907,7 @@ if (test1) {
   
   tweakMountSurface = false;
   sleeveWithCap = true;
-  //sleeveWithCap = false;
+  sleeveWithCap = false;
   
   translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
