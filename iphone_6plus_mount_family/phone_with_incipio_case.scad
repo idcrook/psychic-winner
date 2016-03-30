@@ -72,7 +72,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  //CONTROL_RENDER_experiment5 = false;
   
   wantThinner = true;
   //wantThinner = false;
@@ -146,7 +146,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   headphoneMicBoreOffcenter = 28.5 + 2.6 + headphoneMicCutoutDepth -
     headphoneMicBoreDiameter;
   
-
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipHeight = 18.0;
   bottomLipFingerprintDiameter = 17;
@@ -215,7 +214,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
                                  [sleeveInner_r, sleeveInner_r],
                                  [sleeveInner_r, sleeveInner_r],
                                  center = true);
-
           }
         }
         
@@ -343,7 +341,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
         capCapThickness = 3.5;
         capDepth = sleeveOuter_h;
         caseHeight = sleeveInner_l;
-        capCaseWidth = sleeveOuter_w + tolerance;  // FIXME: tolerance shouldn't be necessary
+        capCaseWidth = sleeveOuter_w + 2*tolerance;  // tolerance shouldn't be necessary
         
         powerSideCut = powerButtonHeightFromBottom;
         powerSideHeight = powerButtonCutoutHeight;        
@@ -532,9 +530,9 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capDepth = cap_depth;
 
   fudge = true;
-  fudge = false;
-  powerButtonCapClip_z = fudge ? power_button_z +1 : power_button_z;
-  muteSwitchCapClip_z  = fudge ? mute_switch_z  +1 : mute_switch_z;
+  //fudge = false;
+  powerButtonCapClip_z = fudge ? power_button_z + 1 + 2 : power_button_z;
+  muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 + 2 : mute_switch_z;
 
   tabInsertDepth = 2.5;
   
@@ -909,12 +907,12 @@ if (test1) {
   
   tweakMountSurface = false;
   sleeveWithCap = true;
-  sleeveWithCap = false;
+  //sleeveWithCap = false;
   
-  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   * test_sleeveMountInsert(tweakMountSurface);
-  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
   * test_generateCap();
   * test_generateCapTab(4, 4, 10);
 }
