@@ -116,7 +116,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
   
   muteSwitchHeightFromBottom = 132.7;
-  muteSwitchCutoutHeight = 12.2 + 3;
+  muteSwitchCutoutHeight = 12.2 + 3.0;
   muteSwitchCutoutDepth = 7.7 + 2.3;
   muteSwitchCutoutRadius = 2;
 
@@ -286,6 +286,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
                                 center = false);
       
           // mute switch cutout
+          /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
           translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
             mirror()
             rotate([0, 180 + 90, 0], center = true)
@@ -342,7 +343,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
         capCapThickness = 3.5;
         capDepth = sleeveOuter_h;
         caseHeight = sleeveInner_l;
-        capCaseWidth = sleeveOuter_w;
+        capCaseWidth = sleeveOuter_w + tolerance;  // FIXME: tolerance shouldn't be necessary
         
         powerSideCut = powerButtonHeightFromBottom;
         powerSideHeight = powerButtonCutoutHeight;        
@@ -362,7 +363,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
           translate([0, 0, caseHeight])
             generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth, 
                         powerButtonCapClip_z, muteSwitchCapClip_z);
-        }
+        } else {
+          translate([0, 0, caseHeight])
+            generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth, 
+                        powerButtonCapClip_z, muteSwitchCapClip_z);
+        }          
       }
 
       
@@ -528,11 +533,11 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   powerButtonCapClip_z = power_button_z;
   muteSwitchCapClip_z = mute_switch_z;
 
-  tabInsertDepth = 2;
+  tabInsertDepth = 2.5;
   
   powerButtonCap_tabHeight = 15;
   powerButtonCap_tabWidth = 10;
-  muteSwitchCap_tabHeight = 12.5;
+  muteSwitchCap_tabHeight = 15.2;
   muteSwitchCap_tabWidth = 10;
   
   capSideDistance = (capCaseWidth + capArmThickness)/2;
@@ -575,7 +580,6 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
     complexRoundSquare([capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
-  
   
   translate([-(capSideDistance), 0, - muteSwitchCapClip_z - muteSwitchCap_tabHeight])
     rotate([0,0,0])
@@ -904,6 +908,7 @@ if (test1) {
   sleeveWithCap = true;
   
   translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+
   * test_sleeveMountInsert(tweakMountSurface);
   * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
   * test_generateCap();
