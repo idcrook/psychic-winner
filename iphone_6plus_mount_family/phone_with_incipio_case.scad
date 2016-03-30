@@ -60,7 +60,7 @@ module incipioNgpCase () {
 
 }
 
-module sleeveForEncasediPhone (w, l, h) {
+module sleeveForEncasediPhone (w, l, h, tweak_mount_surface) {
 
   tolerance = 0.5;
 
@@ -284,7 +284,6 @@ module sleeveForEncasediPhone (w, l, h) {
                                 center = false);
 
           // camera cutout
-          /// echo("FIXME: camera hole placement");
           translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
             rotate([90, 0, 0])
             mirror([0,0,1])
@@ -434,9 +433,9 @@ module sleeveForEncasediPhone (w, l, h) {
   
         mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness - e;
   
-        translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight + base_l])
+        translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.58) * l - mountInsertHeight + base_l])
           difference() {
-          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, true);
+          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
           // chop off top 1.5 mm
           translate([-e, -e, mountInsertHeight - 1.5])
             cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
@@ -569,7 +568,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   circleCenterDistanceFromCut = radiusOfCurvature - heightOfArcedPortion;
   
   thicknessOfBandSupport = 3.5;
-  bandCutoutDistanceFromBlock = 10.5;
+  bandCutoutDistanceFromBlock = 10.7;
 
   bandCutoutStartOfNegative = (3/10)*block_z;
   bandCutoutStopOfNegative = (7/10)*block_z;
@@ -613,6 +612,8 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
      test_sleeveMountInsert(fitBetter);
   }
 
+  //  4. clip latch to "lock" iphone carrier into the mount unless released
+  //  (attach point)
   translate ([block_x , 0, block_z - lockClip_z]) {   
     linear_extrude(height = lockClip_z, center = false, convexity = 10)
       union() {
@@ -652,13 +653,12 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
 }
 
 
-module test_bicycleMount() {
+module test_bicycleMount(tweak_mount_surface) {
         mountInsertWidth = 22;
         mountInsertThickness = 3;
         mountInsertHeight = 42;
 
-        //fitBetter = true;
-        fitBetter = false;
+        fitBetter = tweak_mount_surface;
         
         tolerance = 0.5;
         sleeveBottomThickness = 3.0;
@@ -713,9 +713,11 @@ if (test1) {
   showTogether();
 } else {
   $fn = 100;
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h);
-  // test_sleeveMountInsert(true);
-  translate([-90,0,39]) test_bicycleMount();
+  
+  tweakMountSurface = false;
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface);
+  * test_sleeveMountInsert(tweakMountSurface);
+  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
 }
 
 
