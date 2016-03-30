@@ -71,6 +71,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_experiment4 = true;
   CONTROL_RENDER_experiment4 = false;
 
+  CONTROL_RENDER_experiment5 = true;
+  //CONTROL_RENDER_experiment5 = false;
+  
   wantThinner = true;
   //wantThinner = false;
 
@@ -164,45 +167,58 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
 
         // fill in groove for part of sleeve below buttons
         if (!CONTROL_RENDER_experiment3) {
-          union () {
-            linear_extrude(height = erase_sleeveInner_l_left, center = false, convexity = 10)
-              translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0]) 
-              difference () {
-
-              complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
-                                 [0, 0], [0, 0], [0, 0], [0, 0],
-                                 center = false);
-      
-              // cut out size of iphone in case (plus tolerance)
-              translate([(buttonsIncludedInner_w-sleeveInner_w)/2, 0, 0])
-                complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
-                                   [0, 0],
-                                   [0, 0],
-                                   [sleeveInner_r, sleeveInner_r],
-                                   [sleeveInner_r, sleeveInner_r],
+          difference() {
+            union () {
+              erase_sleeveInner_left = CONTROL_RENDER_experiment5 ? l : erase_sleeveInner_l_left;
+              erase_sleeveInner_right = CONTROL_RENDER_experiment5 ? l : erase_sleeveInner_l_right;
+              linear_extrude(height = erase_sleeveInner_left, center = false, convexity = 10)
+                translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0]) 
+                difference () {
+                complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
+                                   [0, 0], [0, 0], [0, 0], [0, 0],
                                    center = false);
-            }
-
-            linear_extrude(height = erase_sleeveInner_l_right, center = false, convexity = 10)
-              translate([0, -(1/2)*buttonsIncludedInner_h, 0]) 
-              difference () {
-              complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
-                                 [0, 0], [0, 0], [0, 0], [0, 0],
-                                 center = false);
       
-              // cut out size of iphone in case (plus tolerance)
-              translate([0, 0, 0])
-                complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
-                                   [0, 0],
-                                   [0, 0],
-                                   [sleeveInner_r, sleeveInner_r],
-                                   [sleeveInner_r, sleeveInner_r],
+                // cut out size of iphone in case (plus tolerance)
+                translate([(buttonsIncludedInner_w-sleeveInner_w)/2, 0, 0])
+                  complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
+                                     [0, 0],
+                                     [0, 0],
+                                     [sleeveInner_r, sleeveInner_r],
+                                     [sleeveInner_r, sleeveInner_r],
+                                     center = false);
+              }
+
+              linear_extrude(height = erase_sleeveInner_right, center = false, convexity = 10)
+                translate([0, -(1/2)*buttonsIncludedInner_h, 0]) 
+                difference () {
+                complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
+                                   [0, 0], [0, 0], [0, 0], [0, 0],
                                    center = false);
+      
+                // cut out size of iphone in case (plus tolerance)
+                translate([0, 0, 0])
+                  complexRoundSquare([(1/2)*sleeveInner_w, sleeveInner_h/2],
+                                     [0, 0],
+                                     [0, 0],
+                                     [sleeveInner_r, sleeveInner_r],
+                                     [sleeveInner_r, sleeveInner_r],
+                                     center = false);
+              }
             }
-    
+            // fill in groove in cap
+            translate([0,0,l - 10.0])
+              rotate([180,0,0])
+              linear_extrude(height = 40.0, center = false, convexity = 10)
+              complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+                                 [0, 0],
+                                 [0, 0],
+                                 [sleeveInner_r, sleeveInner_r],
+                                 [sleeveInner_r, sleeveInner_r],
+                                 center = true);
+
           }
-
         }
+        
         // need a difference here to be able to punch out button and camera access holes
         difference () {
           // 2D view for length of case
@@ -303,10 +319,53 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
               complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
                                  [0,0], [0,0], [0,0], [0,0],
                                  center = true);
+          } else {
+            if (CONTROL_RENDER_experiment5) {
+              cutHeight  = l - 10.0 ;
+              extrHeight = l;
+              echo("cutHeight:", cutHeight);
+              translate([0,0, cutHeight])
+                rotate([180,0,0])
+                linear_extrude(height = extrHeight, center = false, convexity = 10)
+                complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                                   [0,0], [0,0], [0,0], [0,0],
+                                   center = true);
+              
+            }
           }
         }
       }
 
+      // cap
+      if (with_cap) {
+        capArmThickness = 4;
+        capCapThickness = 3.5;
+        capDepth = sleeveOuter_h;
+        caseHeight = sleeveInner_l;
+        capCaseWidth = sleeveOuter_w;
+        
+        powerSideCut = powerButtonHeightFromBottom;
+        powerSideHeight = powerButtonCutoutHeight;        
+        powerButtonCapClip_z = caseHeight - powerSideCut - powerSideHeight; 
+
+        muteSideCut = muteSwitchHeightFromBottom;
+        muteSideHeight = muteSwitchCutoutHeight;
+        muteSwitchCapClip_z = caseHeight - muteSideCut - muteSideHeight;
+
+        echo("capDepth:",  capDepth );
+        echo("caseHeight:", caseHeight); 
+        echo("capCaseWidth:", capCaseWidth);
+        echo("powerButtonCapClip_z:", powerButtonCapClip_z);
+        echo("muteSwitchCapClip_z:", muteSwitchCapClip_z);
+
+        if (CONTROL_RENDER_experiment5) {
+          translate([0, 0, caseHeight])
+            generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth, 
+                        powerButtonCapClip_z, muteSwitchCapClip_z);
+        }
+      }
+
+      
       // base
       difference() {
         translate([0,0, -base_l])
@@ -376,35 +435,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
         }    
       }
 
-      // cap
-      if (with_cap) {
-        capArmThickness = 4;
-        capCapThickness = 3.5;
-        capDepth = sleeveOuter_h;
-        caseHeight = sleeveInner_l;
-        capCaseWidth = sleeveOuter_w;
-        
-        powerSideCut = powerButtonHeightFromBottom;
-        powerSideHeight = powerButtonCutoutHeight;        
-        powerButtonCapClip_z = caseHeight - powerSideCut - powerSideHeight; 
-
-        muteSideCut = muteSwitchHeightFromBottom;
-        muteSideHeight = muteSwitchCutoutHeight;
-        muteSwitchCapClip_z = caseHeight - muteSideCut - muteSideHeight;
-
-        echo("capDepth:",  capDepth );
-        echo("caseHeight:", caseHeight); 
-        echo("capCaseWidth:", capCaseWidth);
-        echo("powerButtonCapClip_z:", powerButtonCapClip_z);
-        echo("muteSwitchCapClip_z:", muteSwitchCapClip_z);
-        
-        translate([0, 0, caseHeight])
-        generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth, 
-                    powerButtonCapClip_z, muteSwitchCapClip_z); 
-
-      }
-      
-
       // Bottom lip with cutout for Home button / thumbprint sensor
       difference() {
         // 2D view for height of lip
@@ -470,21 +500,21 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
       }
     }
     
-    if (CONTROL_RENDER_cutoff_top && CONTROL_RENDER_experiment4) {
-      keepHeight = 55;
-      cutHeight  = l - 10.0 ;
+    if ((CONTROL_RENDER_cutoff_top && CONTROL_RENDER_experiment4) || CONTROL_RENDER_experiment5) {
+      keepHeight = 45 + 10;
+      cutHeight  = l + 10 ;
       extrHeight = keepHeight ;
     
       translate([0,0, cutHeight - keepHeight])
-      linear_extrude(height = extrHeight, center = false, convexity = 10)
-        complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+        linear_extrude(height = extrHeight, center = false, convexity = 10)
+        complexRoundSquare([sleeveOuter_w+10+e, sleeveOuter_h+10+e],
                            [0,0],
                            [0,0],
                            [0,0],
                            [0,0],
                            center = true);
     }
-  } 
+  }
 }
 
 
@@ -498,7 +528,15 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   powerButtonCapClip_z = power_button_z;
   muteSwitchCapClip_z = mute_switch_z;
 
-  capSideDistance = (capCaseWidth + capArmThickness)/2; 
+  tabInsertDepth = 2;
+  
+  powerButtonCap_tabHeight = 15;
+  powerButtonCap_tabWidth = 10;
+  muteSwitchCap_tabHeight = 12.5;
+  muteSwitchCap_tabWidth = 10;
+  
+  capSideDistance = (capCaseWidth + capArmThickness)/2;
+  caseOverlap = 10.0;
   
   linear_extrude(height = capCapThickness, center = false, convexity = 10)
     // 2D view for cap
@@ -512,10 +550,17 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
     complexRoundSquare([capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
+
+  translate([capSideDistance - (capArmThickness - 1), 0, - caseOverlap + e])
+    linear_extrude(height = caseOverlap, center = false, convexity = 10)
+    complexRoundSquare([capArmThickness, capDepth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
   
-  translate([capSideDistance, 0,  - powerButtonCapClip_z])
-    rotate([0,180,0])
-    generateCapTab();
+  translate([capSideDistance, 0,  - powerButtonCapClip_z - powerButtonCap_tabHeight])
+    rotate([0,0,180])
+    generateCapTab(capArmThickness, capDepth,
+                   powerButtonCap_tabHeight, powerButtonCap_tabWidth, tabInsertDepth);
   
   
   // mute switch side
@@ -524,18 +569,53 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
     complexRoundSquare([capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
+
+  translate([-(capSideDistance - (capArmThickness - 1)), 0, - caseOverlap + e])
+    linear_extrude(height = caseOverlap, center = false, convexity = 10)
+    complexRoundSquare([capArmThickness, capDepth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
   
-  translate([-(capSideDistance), 0, - muteSwitchCapClip_z])
-    rotate([0,180,180])
-    generateCapTab();
+  
+  translate([-(capSideDistance), 0, - muteSwitchCapClip_z - muteSwitchCap_tabHeight])
+    rotate([0,0,0])
+    generateCapTab(capArmThickness, capDepth, 
+                   muteSwitchCap_tabHeight, muteSwitchCap_tabWidth, tabInsertDepth);
   
 }
 
 
-module generateCapTab() {
-  tabSize = 10;
-  translate([tabSize/2,0,tabSize/2])
-  #cube(10, center = true);
+module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth) {
+
+  capCaseWidth = cap_case_width;
+  capArmThickness = cap_arm_thickness;
+  tabHeight = tab_height;
+  tabWidth = tab_width;
+  tabInsertDepth = tab_insert_depth;
+
+  translate([0,0,0])
+    linear_extrude(height = tabHeight, center = false, convexity = 10)
+    complexRoundSquare([capArmThickness, tabWidth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
+
+  translate([(1/2)*capArmThickness,0,(1/2)*tabHeight])
+    rotate([0,90,0])
+    linear_extrude(height = tabInsertDepth, scale = 0.3, center = false, convexity = 10)
+    complexRoundSquare([tabHeight, tabWidth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
+
+
+  translate([0,0,tabHeight])
+    rotate([0,180,0])    
+    linear_extrude(height = tabHeight/2, center = false, scale = 0.7, convexity = 10)
+    complexRoundSquare([capArmThickness, capCaseWidth],
+                       [0,0], [0,0], [0,0], [0,0],
+                       center = true);
+
+
+    
 }
 
 module sleeveMountInsert (width, thickness, height, shouldTweak) {
@@ -784,6 +864,13 @@ module test_generateCap() {
                 powerButtonCapClip_z, muteSwitchCapClip_z); 
 }
 
+module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_size) {
+  
+  generateCapTab(cap_arm_thickness, cap_case_width, tab_size);
+  
+}
+
+
 module showTogether() {
 
   withCap = true;
@@ -816,10 +903,11 @@ if (test1) {
   tweakMountSurface = false;
   sleeveWithCap = true;
   
-  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
   * test_sleeveMountInsert(tweakMountSurface);
   * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
-  test_generateCap();
+  * test_generateCap();
+  * test_generateCapTab(4, 4, 10);
 }
 
 
