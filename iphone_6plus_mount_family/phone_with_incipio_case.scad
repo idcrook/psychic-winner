@@ -448,10 +448,10 @@ module sleeveForEncasediPhone (w, l, h) {
         mountInsertThickness = 3;
         mountInsertHeight = 42;
   
-        mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
+        mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness - e;
   
         translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.56) * l - mountInsertHeight + base_l])
-          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight);
+          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, true);
       }
     }
     
@@ -565,9 +565,131 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
 }
 
+module bicycleMount() {
 
-module test_sleeveMountInsert () {
+  // there are four basic design features of the bike mount:
+  //
+  //  1. curvature for bike frame
+  // 
+  //  2. through hole around this curvature for a metal screw-band (for
+  //     attaching to bike frame)
+  //
+  //  3. mount insert piece for inserting phone carrier
+  //
+  //  4. clip latch to "lock" iphone carrier into the mount unless released
+  //
 
+  block_x = 30.5;
+  block_y = 24.0;
+  block_z = 39.0;
+
+  mountInsert_w = 22;
+  mountInsert_h = 2*3;
+  enlargePunchScale = 1.08;
+
+  // http://mathworld.wolfram.com/CircularSegment.html
+  heightOfArcedPortion = 7.8;
+  chordLength = block_x;
+
+  // R = (1/2) (a^2/4h + h)
+  radiusOfCurvature = (1/2) * (pow(chordLength,2)/(4*heightOfArcedPortion) + heightOfArcedPortion);
+
+  // r = R - h
+  circleCenterDistanceFromCut = radiusOfCurvature - heightOfArcedPortion;
+  
+  thicknessOfBandSupport = 3.0;
+  bandCutoutDistanceFromBlock = 10.5;
+
+  bandCutoutStartOfNegative = (3/10)*block_z;
+  bandCutoutStopOfNegative = (7/10)*block_z;
+
+  lockClip_square = 10.0;
+  lockClip_x = lockClip_square;
+  lockClip_y = lockClip_square;
+  lockClip_z = 6.6;
+  lockClip_r = lockClip_square/2;
+  lockClip_fr = lockClip_square/3;
+
+  lockClipScrewDiameter = 2.5;
+  
+  difference() {
+    linear_extrude(height = block_z, center = false, convexity = 10)
+      difference () {
+      complexRoundSquare([block_x, block_y],
+                         [0,0],
+                         [0,0],
+                         [0,0],
+                         [0,0],
+                         center = false);
+
+      //  1. curvature for bike frame
+      translate([block_x/2, block_y + circleCenterDistanceFromCut,0])
+        circle(r= radiusOfCurvature);
+    }
+
+    //  2. through hole around this curvature for a metal screw-band 
+    translate([0,0,bandCutoutStartOfNegative])
+      linear_extrude(height = bandCutoutStopOfNegative - bandCutoutStartOfNegative, center = false, convexity = 10)
+      difference() {
+      translate([-e, bandCutoutDistanceFromBlock,0])
+        square([block_x+2*e, block_y]);
+      
+      translate([block_x/2, block_y + circleCenterDistanceFromCut,0])
+        circle(r= radiusOfCurvature + thicknessOfBandSupport);
+    }
+      
+   //  3. mount insert piece for inserting phone carrier
+   scale([enlargePunchScale, enlargePunchScale, 1], center = false)
+     translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) ,
+                (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - 42 + e])
+     //test_sleeveMountInsert(true);
+     test_sleeveMountInsert(false);
+  }
+
+
+  translate ([block_x , 0, block_z - lockClip_z]) {   
+    linear_extrude(height = lockClip_z, center = false, convexity = 10)
+      union() {
+
+      difference () {
+        complexRoundSquare([lockClip_x, lockClip_y],
+                           [0,0],
+                           [0,0],
+                           [lockClip_r, lockClip_r],
+                           [0,0],
+                           center = false);
+        translate([lockClip_x/2, lockClip_y/2,0])
+          circle(r=lockClipScrewDiameter/2);
+
+      }
+
+      // upper curve
+      translate([0, lockClip_y, 0]) {
+        difference() {
+          complexRoundSquare([lockClip_x, lockClip_y],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             [0,0],
+                             center = false);
+          translate([-e, -e, 0])
+            complexRoundSquare([lockClip_x + 2*e, lockClip_y + 2*e],
+                               [lockClip_fr, lockClip_fr],
+                               [0,0],
+                               [0,0],
+                               [0,0],
+                               center = false);
+        }
+      }
+    }
+    
+  }
+  
+  
+}
+
+
+module test_bicycleMount() {
         mountInsertWidth = 22;
         mountInsertThickness = 3;
         mountInsertHeight = 42;
@@ -579,6 +701,26 @@ module test_sleeveMountInsert () {
           
         mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
   
+        translate([0, 0, 0])
+          rotate([180,0,0])
+          bicycleMount(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
+
+}
+
+module test_sleeveMountInsert (fit_better) {
+
+        mountInsertWidth = 22;
+        mountInsertThickness = 3;
+        mountInsertHeight = 42;
+
+        fitBetter = fit_better;
+        
+        tolerance = 0.5;
+        sleeveBottomThickness = 3.0;
+          
+        mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
+
+        
         translate([50, 0, 0])
           sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
@@ -607,8 +749,9 @@ if (test1) {
   showTogether();
 } else {
   $fn = 100;
-  translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
-  test_sleeveMountInsert();
+  *translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
+  //test_sleeveMountInsert(true);
+  test_bicycleMount();
 }
 
 
