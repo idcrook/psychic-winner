@@ -170,11 +170,9 @@ module sleeveForEncasediPhone (w, l, h) {
             linear_extrude(height = erase_sleeveInner_l_left, center = false, convexity = 10)
               translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0]) 
               difference () {
+
               complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
-                                 [0, 0],
-                                 [0, 0],
-                                 [0, 0],
-                                 [0, 0],
+                                 [0, 0], [0, 0], [0, 0], [0, 0],
                                  center = false);
       
               // cut out size of iphone in case (plus tolerance)
@@ -191,10 +189,7 @@ module sleeveForEncasediPhone (w, l, h) {
               translate([0, -(1/2)*buttonsIncludedInner_h, 0]) 
               difference () {
               complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
-                                 [0, 0],
-                                 [0, 0],
-                                 [0, 0],
-                                 [0, 0],
+                                 [0, 0], [0, 0], [0, 0], [0, 0],
                                  center = false);
       
               // cut out size of iphone in case (plus tolerance)
@@ -309,10 +304,7 @@ module sleeveForEncasediPhone (w, l, h) {
             translate([0,0, cutHeight])
               linear_extrude(height = extrHeight, center = false, convexity = 10)
               complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
-                                 [0,0],
-                                 [0,0],
-                                 [0,0],
-                                 [0,0],
+                                 [0,0], [0,0], [0,0], [0,0],
                                  center = true);
           }
         }
@@ -384,14 +376,10 @@ module sleeveForEncasediPhone (w, l, h) {
                                 [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
                                 [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
                                 center = false);
-      
         }    
-
-    
       }    
 
       // Bottom lip with cutout for Home button / thumbprint sensor
-
       difference() {
         // 2D view for height of lip
         linear_extrude(height = bottomLipHeight, center = false, convexity = 10)
@@ -411,7 +399,6 @@ module sleeveForEncasediPhone (w, l, h) {
                                [sleeveInner_r, sleeveInner_r],
                                [sleeveInner_r, sleeveInner_r],
                                center = true);
-      
         }
 
         if (CONTROL_RENDER_cutoff_top) {
@@ -433,12 +420,9 @@ module sleeveForEncasediPhone (w, l, h) {
         // cutout for fingerprint
         //// wedge(height, radius, degrees);
         echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
-        //echo("FIXME: add bevel to fingerprint cutout");
-
         translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
           rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
           wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
-    
       }
 
     
@@ -470,7 +454,6 @@ module sleeveForEncasediPhone (w, l, h) {
                            center = true);
     }
   } 
-  
 }
 
 module sleeveMountInsert (width, thickness, height, shouldTweak) {
@@ -499,55 +482,37 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
       linear_extrude(height = insertFullHeight, center = false, convexity = 10)
         difference() {
         complexRoundSquare([insertTailWidth, insertThickness],
-                           [0,0],
-                           [0,0],
-                           [0,0],
-                           [0,0],
+                           [0,0], [0,0], [0,0], [0,0],
                            center = false);
       
         translate([-e, -e, 0])
           complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
-                             [0,0],
-                             [0,0],
-                             [0,0],
-                             [0,0],
+                             [0,0], [0,0], [0,0], [0,0],
                              center = false);
     
         translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
           complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
-                             [0,0],
-                             [0,0],
-                             [0,0],
-                             [0,0],
+                             [0,0], [0,0], [0,0], [0,0],
                              center = false);
 
         if (shouldTweak) {
           translate([insertChopThickness_x, insertChopThickness_y*(1),0])
             rotate([0,0,180-rotateAngle])
             complexRoundSquare([insertChopThickness_x+1, insertChopThickness_y],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                               [0,0],
+                               [0,0], [0,0], [0,0], [0,0],
                                center = false);
           
           translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
             translate([0, insertChopThickness_y*(1),0])
             rotate([0,0,270+rotateAngle])
             complexRoundSquare([insertChopThickness_x, insertChopThickness_y+1],
-                               [0,0],
-                               [0,0],
-                               [0,0],
-                               [0,0],
+                               [0,0], [0,0], [0,0], [0,0],
                                center = false);
-
         }
       }
 
-    
       rotate([insertSlantAngle,0,0])
         cube(insertFullHeight);
-    
     }
 
     translate([insertChopThickness,
@@ -616,10 +581,7 @@ module bicycleMount() {
     linear_extrude(height = block_z, center = false, convexity = 10)
       difference () {
       complexRoundSquare([block_x, block_y],
-                         [0,0],
-                         [0,0],
-                         [0,0],
-                         [0,0],
+                         [0,0], [0,0], [0,0], [0,0],
                          center = false);
 
       //  1. curvature for bike frame
@@ -642,8 +604,8 @@ module bicycleMount() {
    scale([enlargePunchScale, enlargePunchScale, 1], center = false)
      translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) ,
                 (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - 42 + e])
-     //test_sleeveMountInsert(true);
-     test_sleeveMountInsert(false);
+     test_sleeveMountInsert(true);
+     //test_sleeveMountInsert(false);
   }
 
 
@@ -682,10 +644,7 @@ module bicycleMount() {
         }
       }
     }
-    
   }
-  
-  
 }
 
 
@@ -749,9 +708,9 @@ if (test1) {
   showTogether();
 } else {
   $fn = 100;
-  *translate([0,0,0]) sleeveForEncasediPhone(w, l, h);
-  //test_sleeveMountInsert(true);
-  test_bicycleMount();
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h);
+  test_sleeveMountInsert(true);
+  translate([-90,0,39]) test_bicycleMount();
 }
 
 
