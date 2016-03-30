@@ -535,7 +535,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
 }
 
-module bicycleMount() {
+module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBetter) {
 
   // there are four basic design features of the bike mount:
   //
@@ -553,12 +553,13 @@ module bicycleMount() {
   block_y = 24.0;
   block_z = 39.0;
 
-  mountInsert_w = 22;
-  mountInsert_h = 2*3;
+  mountInsert_w = mount_insert_w;
+  mountInsert_h = 2*mount_insert_thickness;
   enlargePunchScale = 1.08;
 
   // http://mathworld.wolfram.com/CircularSegment.html
-  heightOfArcedPortion = 7.8;
+  /* heightOfArcedPortion = 7.8;  // Original setting */
+  heightOfArcedPortion = 5.8;  // for my bicycle's handlebar column
   chordLength = block_x;
 
   // R = (1/2) (a^2/4h + h)
@@ -567,7 +568,7 @@ module bicycleMount() {
   // r = R - h
   circleCenterDistanceFromCut = radiusOfCurvature - heightOfArcedPortion;
   
-  thicknessOfBandSupport = 3.0;
+  thicknessOfBandSupport = 3.5;
   bandCutoutDistanceFromBlock = 10.5;
 
   bandCutoutStartOfNegative = (3/10)*block_z;
@@ -608,11 +609,9 @@ module bicycleMount() {
    //  3. mount insert piece for inserting phone carrier
    scale([enlargePunchScale, enlargePunchScale, 1], center = false)
      translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) ,
-                (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - 42 + e])
-     test_sleeveMountInsert(true);
-     //test_sleeveMountInsert(false);
+                (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e])
+     test_sleeveMountInsert(fitBetter);
   }
-
 
   translate ([block_x , 0, block_z - lockClip_z]) {   
     linear_extrude(height = lockClip_z, center = false, convexity = 10)
@@ -658,7 +657,8 @@ module test_bicycleMount() {
         mountInsertThickness = 3;
         mountInsertHeight = 42;
 
-        fitBetter = true;
+        //fitBetter = true;
+        fitBetter = false;
         
         tolerance = 0.5;
         sleeveBottomThickness = 3.0;
@@ -714,7 +714,7 @@ if (test1) {
 } else {
   $fn = 100;
   translate([0,0,3]) sleeveForEncasediPhone(w, l, h);
-  test_sleeveMountInsert(true);
+  // test_sleeveMountInsert(true);
   translate([-90,0,39]) test_bicycleMount();
 }
 
