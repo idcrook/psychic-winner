@@ -7,6 +7,8 @@ As part of solving this problem, I first used OpenSCAD to model the dimensions o
 
 The results are available here.
 
+![](phone_with_incipio_case_inside.png)
+
 # TODO
 
  1. Add mount setting for car and truck vents so I can have similar mounts in
