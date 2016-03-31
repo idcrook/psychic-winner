@@ -37,7 +37,7 @@ iphone_6plus_mount_family/
 
 ## Thingiverse
 
-Uploaded to thingiverse as 
+Uploaded to thingiverse as http://www.thingiverse.com/thing:1456819
 
 "Remixed" from http://www.thingiverse.com/thing:4382 "iPhone Bike Mount"
 
