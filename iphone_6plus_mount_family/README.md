@@ -7,11 +7,17 @@ As part of solving this problem, I first used OpenSCAD to model the dimensions o
 
 The results are available here.
 
+# TODO
+
+ 1. Add mount setting for car and truck vents so I can have similar mounts in
+    my autos
+ 1. Maybe try to make a customizer for Thingiverse
+
 ## Reference
 
   - http://www.thingiverse.com/thing:458102 iPhone 6 and 6 Plus Mockups
-  - http://www.thingiverse.com/thing:4382/ iPhone Bike Mount
-  - http://www.thingiverse.com/thing:18020/ Dodge Ram Vent Mount for iPhone
+  - http://www.thingiverse.com/thing:4382 iPhone Bike Mount
+  - http://www.thingiverse.com/thing:18020 Dodge Ram Vent Mount for iPhone
 
 ## Files
 
