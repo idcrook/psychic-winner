@@ -1,3 +1,35 @@
+////////////////////////////////////////////////////////////////////////
+// Initial Revision:
+//   27-Mar-2016 
+//
+// Author:
+//
+//   David Crook <dpcrook@users.noreply.github.com>
+//
+// Inspired by:
+//
+//   - http://www.thingiverse.com/thing:4382/ iPhone Bike Mount
+//   - http://www.thingiverse.com/thing:18020/ Dodge Ram Vent Mount for iPhone
+//
+// Description:
+//
+//   I decided to re-implement this iphone sleeve phone, to fit my iPhone 6
+//   Plus case and using OpenSCAD
+//
+// Revisions/Notes:
+//
+//   v1:
+//
+//   - used .STL imported into OpenSCAD to base dimensions on, and firstly
+//     modeled my incipio iPhone case
+//
+//   - after many iterations, experiments and tweaks, have an iPhone mount and
+//     sleeve for my bicycle.  plan to work on a mount system for my car/truck
+//     next
+//   
+//
+////////////////////////////////////////////////////////////////////////
+
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
 use <MCAD/2Dshapes.scad>
