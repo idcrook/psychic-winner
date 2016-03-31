@@ -934,10 +934,10 @@ if (test1) {
   sleeveWithCap = true;
   sleeveWithCap = false;
   
-  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   * test_sleeveMountInsert(tweakMountSurface);
-  * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
   * test_generateCatch();
   * test_generateCap();
   * test_generateCapTab(4, 4, 10);
