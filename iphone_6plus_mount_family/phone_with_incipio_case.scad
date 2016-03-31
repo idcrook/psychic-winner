@@ -1,7 +1,7 @@
 
-use <iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCADlocal/2Dshapes.scad>
-use <wedge.scad>
+use <files/iPhone_6_and_6_Plus_Mockups.scad>;
+use <MCAD/2Dshapes.scad>
+use <../libraries/wedge.scad>
 
   e = 0.02; // small number
 
