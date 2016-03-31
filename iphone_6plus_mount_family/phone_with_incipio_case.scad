@@ -743,7 +743,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   lockClip_r = lockClip_square/2;
   lockClip_fr = lockClip_square/3;
 
-  lockClipScrewDiameter = 2.5;
+  lockClipScrewDiameter = 2.0;
   
   difference() {
     linear_extrude(height = block_z, center = false, convexity = 10)
@@ -813,6 +813,26 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
       }
     }
   }
+  //  5. catch, to "lock" carrier into the mount 
+  //
+  printable = true;
+  //printable = false;
+  align = 3;
+  spread = 5;
+  if (printable) {
+    translate([-align, -spread, block_z])
+      rotate([180, 0, 0])
+    
+      import ("files/mount_v6-catch.stl");
+  } else {
+    translate([-align, 0.5, block_z])
+      rotate([0, 0, 0])
+    
+      %import ("files/mount_v6-catch.stl");
+    
+  }
+      
+
 }
 
 
@@ -831,6 +851,8 @@ module test_bicycleMount(tweak_mount_surface) {
         translate([0, 0, 0])
           rotate([180,0,0])
           bicycleMount(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
+
+
 
 }
 
@@ -870,11 +892,14 @@ module test_generateCap() {
 }
 
 module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_size) {
-  
   generateCapTab(cap_arm_thickness, cap_case_width, tab_size);
-  
 }
 
+module test_generateCatch() {
+    translate([0, 0, 0])
+      rotate([0, 0, 0])
+      import ("files/mount_v6-catch.stl");
+}
 
 module showTogether() {
 
@@ -909,10 +934,11 @@ if (test1) {
   sleeveWithCap = true;
   sleeveWithCap = false;
   
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   * test_sleeveMountInsert(tweakMountSurface);
   * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  * test_generateCatch();
   * test_generateCap();
   * test_generateCapTab(4, 4, 10);
 }
