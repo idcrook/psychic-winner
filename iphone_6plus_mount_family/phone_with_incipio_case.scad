@@ -970,11 +970,11 @@ module generateLidBracket (d) {
   column_x = 22;
   column_y = 19;
   column_inner_x = 12.6;
-  column_inner_y = 12.4;
-  column_h = 35;
+  column_inner_y = 12.5;
+  column_h = 40;
   column_angle = 60;
 
-  column_arm_h = 40;
+  column_arm_h = 20 + (1/2)*sin(90-column_angle) * max(column_x, column_y) ;
   
   column_y_t =  (1/2)*1/(tan(column_angle)) * (1/2)*column_y;
   column_z_t = bracketBase_thickness - cos(column_angle) * (1/2)*column_y;
@@ -1031,6 +1031,34 @@ module generateLidBracket (d) {
   
 }
 
+module generateLidBracketCoupler () {
+
+  coupler_diam = 12.5;
+  coupler_l = 20;
+  
+  base_d = 3*coupler_diam;
+  base_thickness = 3;
+
+  support_height = 3 * base_thickness;
+  support_thickness = base_thickness;
+  support_overlap = 0.5;
+
+  // base plate
+  ellipsoidColumn(base_d, base_d, 0,0, base_thickness);
+
+  translate([0,0,base_thickness])
+  {
+    // coupler column
+    ellipsoidColumn(coupler_diam, coupler_diam, 0,0, support_height +  coupler_l);
+
+    
+    /// translate([0,0,base_thickness]) #supportColumn(support_height, coupler_diam, support_thickness, support_overlap);
+    
+    // support columns
+    couplerSupportColumns(support_height, coupler_diam, support_thickness, support_overlap);
+  }
+}
+
 module ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h) {
 
   linear_extrude(height = column_h, center = false, convexity = 10)
@@ -1067,6 +1095,47 @@ module bracketHole(d, sd, h) {
   translate([radialDistance, 0, -e])
     cylinder(h = h + 2*e, d = screwDiameter, center=false);
 }
+
+module couplerSupportColumns (support_height, support_width, support_thickness, support_overlap) {
+  rotate([0,0,  0 + 45])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+
+  rotate([0,0, 90 + 45])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+
+  rotate([0,0,180 + 45])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+
+  rotate([0,0,270 + 45])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+  
+}
+
+module supportColumn (support_height, support_width, support_thickness, support_overlap) {
+
+  coupler_diam = support_width;
+  
+  support_t = coupler_diam/2 - support_overlap;
+    
+  translate([0,0,0])
+  {
+    
+    translate([0, support_t, 0])
+      rotate([0,360-90,0])
+      
+      linear_extrude(height = support_thickness, center = true, convexity = 10)
+      
+      difference()
+    {
+      square([support_height, coupler_diam], center=false );
+      
+      translate( (11/9) * [support_height, coupler_diam, 0])
+        resize(2*[support_height, coupler_diam]) circle(d = 1);
+      
+    }
+  }
+}
+
 
 module test_bicycleMount(tweak_mount_surface) {
         mountInsertWidth = 22;
@@ -1129,20 +1198,23 @@ module test_generateCatch() {
 
 
 module test_generateCupholder() {
-    *translate([-100, 0, 0])
-      rotate([0, 0, 0])
-      import ("files/2005_Mustang__Stash__Cup_Holder_Insert_/files/Ford_Musatang_Cup_Holder_insert_hollow_.STL");
+    /* *translate([-100, 0, 0]) */
+    /*   rotate([0, 0, 0]) */
+    /*   import ("files/2005_Mustang__Stash__Cup_Holder_Insert_/files/Ford_Musatang_Cup_Holder_insert_hollow_.STL"); */
     
-    * translate([0, 0, 0])
-      rotate([0, 0, 0])
-      import("files/2005_Mustang_Cup_Holder_insert/Ford_Musatang_Cup_Holder_insert.STL");
+    /* * translate([0, 0, 0]) */
+    /*   rotate([0, 0, 0]) */
+    /*   import("files/2005_Mustang_Cup_Holder_insert/Ford_Musatang_Cup_Holder_insert.STL"); */
 
-    $fn = 200;
+    //$fn = 200;
     *translate([0,0,4.5/2]) generateCup();
     topCupDiameter = 80.5;
     cupHeightWithSeperation = 72.75 + 2;
+    
     *translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
-    translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
+    *translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
+    //translate([0, -(1.5)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2]) generateLidBracketCoupler() ;
+    translate([0, 0,0]) generateLidBracketCoupler() ;
 }
 
 
