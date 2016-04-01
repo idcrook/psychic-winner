@@ -1045,14 +1045,16 @@ module generateLidBracketCoupler () {
   support_overlap = 0.5;
 
   // base plate
-  translate([0,0,0])
-    linear_extrude(height = 6, center = false, convexity = 10)
-    //square([30.5, 42], center = true);
-    square([base_d, 39], center = true);
-    
-  translate([0,0,base_mount_thickness/2])
-  ellipsoidColumn(base_d, base_d, 0,0, base_mount_thickness/2);
 
+  hull() {
+    translate([0,0,0])
+      linear_extrude(height = 6, center = false, convexity = 10)
+      square([base_d, 39], center = true);
+    
+    translate([0,0,base_mount_thickness/2])
+      ellipsoidColumn(base_d, base_d, 0,0, base_mount_thickness/2);
+  }
+  
   translate([0,0,base_mount_thickness])
   {
     // coupler column
