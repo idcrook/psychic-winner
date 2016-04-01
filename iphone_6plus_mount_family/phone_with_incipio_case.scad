@@ -868,6 +868,129 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
 
 }
 
+module generateCup () {
+  
+  cupRegionHeightAboveHolderBottom = 40.5;
+  cupRegionHeightBelowHolderBottom = 20;
+
+  holderBottomSectionSplitDiameter = 70.4;
+
+  cupBaseThickness = 4.5;
+  cupSideThickness = 3.5;
+  cupSideSlope = 10/1;
+  
+  // two parts of side of cup (cones sections)
+
+  // top section
+  sideIncreaseTop = cupRegionHeightAboveHolderBottom * (1/cupSideSlope);
+  top_t = cupRegionHeightBelowHolderBottom + cupRegionHeightBelowHolderBottom;
+  top_h = cupRegionHeightAboveHolderBottom;
+  top_r1 = holderBottomSectionSplitDiameter/2;
+  top_r2 = holderBottomSectionSplitDiameter/2 + sideIncreaseTop;
+  top_thickness = cupSideThickness;
+  translate([0,0,top_t])
+    difference () {
+    cylinder(h = top_h,
+             r1 = top_r1, r2 = top_r2, center=true);
+
+    translate([0,0,e/2])
+      cylinder(h = top_h + 2*e,
+             r1 = top_r1 - top_thickness, r2 = top_r2 - top_thickness, center=true);
+    }
+  
+  // bottom section
+  sideDecreaseBottom = cupRegionHeightBelowHolderBottom * (1/cupSideSlope);
+  bottom_t = cupRegionHeightBelowHolderBottom/2;
+  bottom_h = cupRegionHeightBelowHolderBottom;
+  bottom_r1 = holderBottomSectionSplitDiameter/2 - sideDecreaseBottom;
+  bottom_r2 = top_r1;
+  bottom_thickness = cupSideThickness;
+  
+  translate([0,0,bottom_t])
+    difference () {
+    cylinder(h = bottom_h, r1 = bottom_r1, r2 = bottom_r2, center=true);
+
+    translate([0,0,e/2])
+    cylinder(h = bottom_h + 2*e,
+             r1 = bottom_r1 - bottom_thickness, r2 = bottom_r2 - top_thickness, center=true);
+    }
+
+  // base
+  base_thickness = cupBaseThickness;
+  base_t = base_thickness/2;
+
+  translate([0,0,-base_t])
+    linear_extrude(height = base_thickness, center = false, convexity = 10)
+    circle(r = bottom_r1, center = true);
+
+  echo("sideIncreaseTop:", sideIncreaseTop);
+  echo("Top of cup Diameter:", 2*top_r2);
+  echo("sideDecreaseBottom:", sideDecreaseBottom);
+  echo("Base Diameter:", 2*bottom_r1);
+  
+  totalCupHeight = base_t + bottom_h + top_h;
+  echo("totalCupHeight:", totalCupHeight);
+}
+
+
+module generateCupLid (d) {
+  cupLidThickness = 4.5;
+
+  coin_x = 37.5;
+  coin_y = 20.5;
+
+  difference () {
+    translate([0,0,0])
+      linear_extrude(height = cupLidThickness, center = false, convexity = 10)
+      circle(d=d, center=true);
+
+    translate([0,0,-e])
+      linear_extrude(height = cupLidThickness + 2*e, center = false, convexity = 10)
+        translate([0, d/2 - (1.5)*cupLidThickness - coin_y/2, 0])
+        resize([coin_x, coin_y]) circle(d=coin_y);
+
+    translate([0,-d/4,-e])
+      lidBracketHoles((2/3) * d/4, 2.5, cupLidThickness);
+  }
+}
+
+module generateLidBracket (d) {
+
+  bracketBase_r = (d/2)/2;
+  bracketBase_thickness = 3.5;
+
+  difference () {
+    translate([0,0,0])
+      linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
+      circle(r=bracketBase_r, center=true);
+
+    lidBracketHoles((2/3) * bracketBase_r, 2.5, bracketBase_thickness);
+  }
+}
+
+module lidBracketHoles (d, sd, h) {
+  
+  rotate([0,0,  0 + 45])
+    bracketHole(d, sd, h);
+
+  rotate([0,0, 90 + 45])
+    bracketHole(d, sd, h);
+
+  rotate([0,0,180 + 45])
+    bracketHole(d, sd, h);
+
+  rotate([0,0,270 + 45])
+    bracketHole(d, sd, h);
+  
+}
+
+module bracketHole(d, sd, h) {
+  radialDistance  = d;
+  screwDiameter = sd;
+  
+  translate([radialDistance, 0, -e])
+    cylinder(h = h + 2*e, d = screwDiameter, center=false);
+}
 
 module test_bicycleMount(tweak_mount_surface) {
         mountInsertWidth = 22;
@@ -884,13 +1007,9 @@ module test_bicycleMount(tweak_mount_surface) {
         translate([0, 0, 0])
           rotate([180,0,0])
           bicycleMount(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
-
-
-
 }
 
 module test_sleeveMountInsert (fit_better) {
-
         mountInsertWidth = 22;
         mountInsertThickness = 3;
         mountInsertHeight = 42;
@@ -902,13 +1021,11 @@ module test_sleeveMountInsert (fit_better) {
           
         mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
 
-        
-        translate([50, 0, 0])
+        translate([100, 0, 0])
           sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
 
 module test_generateCap() {
-
   capArmThickness = 4;
   capCapThickness = 3.5;
   capDepth = 17.5; // sleeveOuter_h;
@@ -933,6 +1050,23 @@ module test_generateCatch() {
       rotate([0, 0, 0])
       import ("files/mount_v6-catch.stl");
 }
+
+
+module test_generateCupholder() {
+    *translate([-100, 0, 0])
+      rotate([0, 0, 0])
+      import ("files/2005_Mustang__Stash__Cup_Holder_Insert_/files/Ford_Musatang_Cup_Holder_insert_hollow_.STL");
+    
+    * translate([0, 0, 0])
+      rotate([0, 0, 0])
+      import("files/2005_Mustang_Cup_Holder_insert/Ford_Musatang_Cup_Holder_insert.STL");
+
+    translate([0,0,4.5/2]) generateCup();
+    topCupDiameter = 78.5;
+    translate([0,0,64]) generateCupLid(topCupDiameter) ;
+    translate([0, -(1/4)*topCupDiameter, 64 + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
+}
+
 
 module showTogether() {
 
@@ -967,8 +1101,8 @@ if (test1) {
   sleeveWithCap = true;
   sleeveWithCap = false;
   
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
-  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  *translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  *translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
   * translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
@@ -977,6 +1111,9 @@ if (test1) {
   // test_generateCap();
   // test_generateCapTab(4, 4, 10);
   // test_sleeveMountInsert(tweakMountSurface);
+
+  test_generateCupholder();
+
 }
 
 
