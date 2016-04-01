@@ -870,7 +870,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
 
 module generateCup () {
   
-  cupRegionHeightAboveHolderBottom = 40.5;
+  cupRegionHeightAboveHolderBottom = 40.5 + 10;
   cupRegionHeightBelowHolderBottom = 20;
 
   holderBottomSectionSplitDiameter = 70.4;
@@ -883,7 +883,7 @@ module generateCup () {
 
   // top section
   sideIncreaseTop = cupRegionHeightAboveHolderBottom * (1/cupSideSlope);
-  top_t = cupRegionHeightBelowHolderBottom + cupRegionHeightBelowHolderBottom;
+  top_t = cupRegionHeightBelowHolderBottom + (1/2)*cupRegionHeightAboveHolderBottom;
   top_h = cupRegionHeightAboveHolderBottom;
   top_r1 = holderBottomSectionSplitDiameter/2;
   top_r2 = holderBottomSectionSplitDiameter/2 + sideIncreaseTop;
@@ -964,8 +964,67 @@ module generateLidBracket (d) {
       linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
       circle(r=bracketBase_r, center=true);
 
-    lidBracketHoles((2/3) * bracketBase_r, 2.5, bracketBase_thickness);
+    lidBracketHoles((3/4) * bracketBase_r, 2.5, bracketBase_thickness);
   }
+
+  column_x = 22;
+  column_y = 19;
+  column_inner_x = 12.6;
+  column_inner_y = 12.4;
+  column_h = 30;
+  column_angle = 60;
+
+  column_y_t = 2.5;
+  column_z_t = - (1/2)*(column_y) * cos(column_angle) + bracketBase_thickness;
+  column_cut_h = 20;
+  
+  difference ()
+  {    
+    translate([0, column_y_t, column_z_t])
+    rotate([90-column_angle, 0, 0])
+    translate([0,0,0])
+      linear_extrude(height = column_h, center = false, convexity = 10)
+      difference ()
+    {
+      resize([column_x, column_y]) circle(d=column_y);
+
+      // hollow out a cylinder
+      resize([column_inner_x, column_inner_y]) circle(d=column_inner_y);
+    }
+
+    // make flush with bracket
+    translate([0,0, -column_cut_h ])
+      linear_extrude(height = bracketBase_thickness + column_cut_h - e, center = false, convexity = 10)
+      circle(r = bracketBase_r, center=true);
+
+    // make vertical slice
+    rotate([90-column_angle, 0, 0])
+    translate([0, cos(column_angle) * (1/2)* column_y ,
+               column_h - (1/2)*bracketBase_thickness - sin(180-column_angle) * (1/2)*column_y])
+      rotate([column_angle, 0, 0])
+        
+      linear_extrude(height = bracketBase_thickness + column_cut_h - e, center = false, convexity = 10)
+      resize([column_x, column_y]) circle(d=column_y);
+
+
+  }
+
+  rotate([90-column_angle, 0, 0])
+    translate([0, cos(column_angle) * (1/2)* column_y ,
+               column_h - (1/2)*bracketBase_thickness - sin(180-column_angle) * (1/2)*column_y])
+    rotate([column_angle, 0, 0])
+    
+    linear_extrude(height = bracketBase_thickness + 1.5*column_cut_h, center = false, convexity = 10)
+      difference ()
+    {
+      resize([column_x, column_y]) circle(d=column_y);
+
+      // hollow out a cylinder
+      resize([column_inner_x, column_inner_y]) circle(d=column_inner_y);
+    }
+  
+  echo("bracket column z:", bracketBase_thickness + column_h * sin(column_angle));
+  
 }
 
 module lidBracketHoles (d, sd, h) {
@@ -1061,10 +1120,12 @@ module test_generateCupholder() {
       rotate([0, 0, 0])
       import("files/2005_Mustang_Cup_Holder_insert/Ford_Musatang_Cup_Holder_insert.STL");
 
+    $fn = 200;
     translate([0,0,4.5/2]) generateCup();
     topCupDiameter = 78.5;
-    translate([0,0,64]) generateCupLid(topCupDiameter) ;
-    translate([0, -(1/4)*topCupDiameter, 64 + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
+    cupHeight = 74;
+    *translate([0,0,cupHeight]) generateCupLid(topCupDiameter) ;
+    *translate([0, -(1/4)*topCupDiameter, cupHeight + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
 }
 
 
