@@ -969,8 +969,8 @@ module generateLidBracket (d) {
 
   column_x = 22;
   column_y = 19;
-  column_inner_x = 12.6;
-  column_inner_y = 12.5;
+  column_inner_x = 12.5 + 0.2;
+  column_inner_y = 12.5 + 0.2;
   column_h = 40;
   column_angle = 60;
 
@@ -1216,14 +1216,14 @@ module test_generateCupholder() {
 
     bracketColumnZ = 38.1;
     
-    translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
+    * translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
     
     translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
       generateLidBracket(topCupDiameter) ;
 
     enlargePunchScale = 1.08;
 
-    translate([0, -(1.25)*topCupDiameter, cupHeightWithSeperation + bracketColumnZ + 4.5 + 2 - 19/2])
+    *translate([0, -(1.25)*topCupDiameter, cupHeightWithSeperation + bracketColumnZ + 4.5 + 2 - 19/2])
     {
       difference()
       {
@@ -1233,10 +1233,6 @@ module test_generateCupholder() {
         translate([-11, -(0.5)*enlargePunchScale,-20])
           scale([enlargePunchScale, enlargePunchScale, 1], center = false)
           test_sleeveMountInsert (false);
-
-        /* *translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) , */
-        /*            (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e]) */
-        
       }
     }
 
