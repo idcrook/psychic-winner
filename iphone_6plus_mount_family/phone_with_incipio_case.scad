@@ -1038,15 +1038,22 @@ module generateLidBracketCoupler () {
   
   base_d = 3*coupler_diam;
   base_thickness = 3;
+  base_mount_thickness = 4*base_thickness;
 
   support_height = 3 * base_thickness;
   support_thickness = base_thickness;
   support_overlap = 0.5;
 
   // base plate
-  ellipsoidColumn(base_d, base_d, 0,0, base_thickness);
+  translate([0,0,0])
+    linear_extrude(height = 6, center = false, convexity = 10)
+    //square([30.5, 42], center = true);
+    square([base_d, 39], center = true);
+    
+  translate([0,0,base_mount_thickness/2])
+  ellipsoidColumn(base_d, base_d, 0,0, base_mount_thickness/2);
 
-  translate([0,0,base_thickness])
+  translate([0,0,base_mount_thickness])
   {
     // coupler column
     ellipsoidColumn(coupler_diam, coupler_diam, 0,0, support_height +  coupler_l);
@@ -1166,7 +1173,7 @@ module test_sleeveMountInsert (fit_better) {
           
         mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
 
-        translate([100, 0, 0])
+        translate([0, 0, 0])
           sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
 
@@ -1210,11 +1217,33 @@ module test_generateCupholder() {
     *translate([0,0,4.5/2]) generateCup();
     topCupDiameter = 80.5;
     cupHeightWithSeperation = 72.75 + 2;
+
+    bracketColumnZ = 38.1;
     
     *translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
-    *translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
-    //translate([0, -(1.5)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2]) generateLidBracketCoupler() ;
-    translate([0, 0,0]) generateLidBracketCoupler() ;
+    
+    translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
+      generateLidBracket(topCupDiameter) ;
+
+    enlargePunchScale = 1.08;
+
+    translate([0, -(1.25)*topCupDiameter, cupHeightWithSeperation + bracketColumnZ + 4.5 + 2 - 19/2])
+    {
+      difference()
+      {
+        rotate([360-90,0,0])
+          generateLidBracketCoupler() ;
+
+        translate([-11, -(0.5)*enlargePunchScale,-20])
+          scale([enlargePunchScale, enlargePunchScale, 1], center = false)
+          test_sleeveMountInsert (false);
+
+        /* *translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) , */
+        /*            (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e]) */
+        
+      }
+    }
+
 }
 
 
