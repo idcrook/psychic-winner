@@ -950,7 +950,7 @@ module generateCupLid (d) {
         resize([coin_x, coin_y]) circle(d=coin_y);
 
     translate([0,-d/4,-e])
-      lidBracketHoles((3/4) * d/4, 2.5, cupLidThickness+e);
+      lidBracketHoles((3/4) * d/4, 3.0, cupLidThickness+e);
   }
 }
 
@@ -964,7 +964,7 @@ module generateLidBracket (d) {
       linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
       circle(r=bracketBase_r, center=true);
 
-    lidBracketHoles((3/4) * bracketBase_r, 2.5, bracketBase_thickness);
+    lidBracketHoles((3/4) * bracketBase_r, 3.0, bracketBase_thickness);
   }
 
   column_x = 22;
@@ -1207,22 +1207,15 @@ module test_generateCatch() {
 
 
 module test_generateCupholder() {
-    /* *translate([-100, 0, 0]) */
-    /*   rotate([0, 0, 0]) */
-    /*   import ("files/2005_Mustang__Stash__Cup_Holder_Insert_/files/Ford_Musatang_Cup_Holder_insert_hollow_.STL"); */
-    
-    /* * translate([0, 0, 0]) */
-    /*   rotate([0, 0, 0]) */
-    /*   import("files/2005_Mustang_Cup_Holder_insert/Ford_Musatang_Cup_Holder_insert.STL"); */
 
-    //$fn = 200;
+    $fn = 200;
     *translate([0,0,4.5/2]) generateCup();
     topCupDiameter = 80.5;
     cupHeightWithSeperation = 72.75 + 2;
 
     bracketColumnZ = 38.1;
     
-    *translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
+    translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
     
     translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
       generateLidBracket(topCupDiameter) ;
