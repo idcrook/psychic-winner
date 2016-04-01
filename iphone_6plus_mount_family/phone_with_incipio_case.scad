@@ -959,7 +959,7 @@ module generateLidBracket (d) {
   bracketBase_r = (d/2)/2;
   bracketBase_thickness = 3.5;
 
-  #difference () {
+  difference () {
     translate([0,0,0])
       linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
       circle(r=bracketBase_r, center=true);
@@ -971,65 +971,62 @@ module generateLidBracket (d) {
   column_y = 19;
   column_inner_x = 12.6;
   column_inner_y = 12.4;
-  column_h = 30;
+  column_h = 35;
   column_angle = 60;
 
-  column_y_t = 2.5;
-  column_y_t = 0;
-  //column_z_t =  (1/2)*(column_y)*cos(column_angle) + bracketBase_thickness ;
-  column_z_t =  (1/2)*sin(column_angle) * (column_y - bracketBase_thickness );
+  column_arm_h = 40;
   
-  column_z_t =   (1/2)*bracketBase_thickness;
+  column_y_t =  (1/2)*1/(tan(column_angle)) * (1/2)*column_y;
+  column_z_t = bracketBase_thickness - cos(column_angle) * (1/2)*column_y;
   
-  column_cut_h = (1/2)*(column_y) * cos(column_angle) ;
+  column_base_cut_t = cos(column_angle) * (1/2)*column_y;
+  column_base_cut_h = 2* column_base_cut_t;
 
-  column_slice_y_t = (1/2)*column_y * sin(column_angle - 45) ;
-  column_slice_y_t = column_y_t;
-  
-  column_slice_z_t = column_h - bracketBase_thickness;
+  column_slice_y_t = 0;  
   column_slice_z_t = column_h;
-    
+
+  column_slice_45_d = max(column_x, column_y);
   
   translate([0, column_y_t, column_z_t]) {
-  difference ()
-  {    
-    rotate([90-column_angle, 0, 0])
-      translate([0,0,0])
-      #ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
+    difference ()
+    {    
+      rotate([90-column_angle, 0, 0])
+        translate([0,0,0])
+        ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
+      
+      // make flush with bracket
+      translate([0,0, -column_base_cut_t-e ])
+        linear_extrude(height = column_base_cut_h, center = false, convexity = 10)
+        circle(r = bracketBase_r, center=true);
+      
+      // make vertical slice
+      rotate([90-column_angle, 0, 0])
+      translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
+        translate([0, 0, - (1/2) * (tan(column_angle/2)) * column_y ]) 
+          rotate([column_angle/2, 0, 0])
+          linear_extrude(height = column_slice_45_d , center = false, convexity = 10)
+          circle(d = column_slice_45_d + 5);
+    }
 
-    // make flush with bracket
-    translate([0,0, -column_cut_h ])
-      *linear_extrude(height = bracketBase_thickness + column_cut_h - e, center = false, convexity = 10)
-      circle(r = bracketBase_r, center=true);
+    // arm extension
+    difference ()
+    {    
+      translate([ 0,
+                  (1/2) * column_y * sin(column_angle),
+                  -(1/2) * column_y * cos(column_angle/2) * tan(column_angle/2)])
+        rotate([90-column_angle, 0, 0])
+        translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
+        rotate([column_angle, 0, 0])
+        ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_arm_h);
 
-    // make vertical slice (at 45 degree angle)
-    rotate([90-column_angle, 0, 0])  
-    translate([0, column_slice_y_t, column_slice_z_t ])
-      //rotate([column_angle - 45, 0, 0])
-      #linear_extrude(height = column_cut_h, center = false, convexity = 10)
-      circle(d = max(column_x, column_y));
+      rotate([90-column_angle, 0, 0])
+      translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
+        translate([0, 0, - (1/2) * (tan(column_angle/2)) * column_y ]) 
+        rotate([180 + (column_angle/2), 0, 0])
+        linear_extrude(height =  column_slice_45_d, center = false, convexity = 10)
+        circle(d = column_slice_45_d + 10);
     }
   }
-
-  // arm extension
-  rotate([90-column_angle, 0, 0])
-    translate([0, column_slice_y_t, column_slice_z_t ])
-    difference ()
-  {    
-    translate([0,  0, 0])
-    //translate([0,  (1/2)*column_y * cos(180 - column_angle)], 0)
-    rotate([column_angle, 0, 0])
-      translate([0,  0, 0])
-      //translate([0,  (1/2)*column_y* cos (180 - column_angle), 0])
-      //translate([0,  (1/2)*column_y* cos (180 - column_angle), -(1/2)*column_y])
-      *ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_cut_h*3 );
-
-    *rotate([180 + (column_angle - 45), 0, 0])
-      # linear_extrude(height = column_cut_h, center = false, convexity = 10)
-      circle(d = max(column_x, column_y) + 2);
-    
-  }
-  
   echo("bracket column z:", bracketBase_thickness + column_h * sin(column_angle));
   
 }
@@ -1140,12 +1137,11 @@ module test_generateCupholder() {
       rotate([0, 0, 0])
       import("files/2005_Mustang_Cup_Holder_insert/Ford_Musatang_Cup_Holder_insert.STL");
 
-    //$fn = 200;
-    translate([0,0,4.5/2]) generateCup();
-    //topCupDiameter = 78.5;
+    $fn = 200;
+    *translate([0,0,4.5/2]) generateCup();
     topCupDiameter = 80.5;
     cupHeightWithSeperation = 72.75 + 2;
-    translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
+    *translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
     translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2]) generateLidBracket(topCupDiameter) ;
 }
 
