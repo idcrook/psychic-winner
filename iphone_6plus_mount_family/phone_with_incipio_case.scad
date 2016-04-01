@@ -1013,7 +1013,7 @@ module generateLidBracket (d) {
     {    
       translate([ 0,
                   (1/2) * column_y * sin(column_angle),
-                  -(1/2) * column_y * cos(column_angle/2) * tan(column_angle/2)])
+                  -(1/2) * column_y * sin(column_angle) * tan(column_angle/2)])
         rotate([90-column_angle, 0, 0])
         translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
         rotate([column_angle, 0, 0])
