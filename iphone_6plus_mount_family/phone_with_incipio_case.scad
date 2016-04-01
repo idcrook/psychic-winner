@@ -974,9 +974,10 @@ module generateLidBracket (d) {
   column_h = 40;
   column_angle = 60;
 
-  column_arm_h = 20 + (1/2)*sin(90-column_angle) * max(column_x, column_y) ;
-  
-  column_y_t =  (1/2)*1/(tan(column_angle)) * (1/2)*column_y;
+  fudge_for_screw_holes = 2;
+  column_arm_h = 20 + (1/2)*sin(90-column_angle) * max(column_x, column_y) + fudge_for_screw_holes;
+
+  column_y_t =  (1/2)*1/(tan(column_angle)) * (1/2)*column_y + fudge_for_screw_holes;
   column_z_t = bracketBase_thickness - cos(column_angle) * (1/2)*column_y;
   
   column_base_cut_t = cos(column_angle) * (1/2)*column_y;
@@ -1033,7 +1034,7 @@ module generateLidBracket (d) {
 
 module generateLidBracketCoupler () {
 
-  coupler_diam = 12.5;
+  coupler_diam = 12.5 - 0.1;
   coupler_l = 20;
   
   base_d = 3*coupler_diam;
