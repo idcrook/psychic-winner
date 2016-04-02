@@ -12,25 +12,29 @@
 
 use <MCAD/2Dshapes.scad>
 
+// small number
+e = 0.02;
+
+baseThickness = 4.0;
+sidewallThickness = 3.5;
+sidewallHeight = 20;
+
+baseSideOverlap = sidewallThickness;
+
+bottomDiameter = 165;
+topDiameter = 185;
+
+// calculate sidewall angle
+outclineAngle = atan( (1/2)*(topDiameter-bottomDiameter) / sidewallHeight );
+
+bottom_r = bottomDiameter/2;
+top_r = topDiameter/2;
+bottomSide_r = baseThickness/2;
+
+
 // 2D profile
 
 module sideView () {
-
-  baseThickness = 4.0;
-  sidewallThickness = 3.5;
-  sidewallHeight = 20;
-
-  baseSideOverlap = sidewallThickness;
-
-  bottomDiameter = 160;
-  topDiameter = 170;
-
-  // calculate sidewall angle
-  outclineAngle = atan( (1/2)*(topDiameter-bottomDiameter) / sidewallHeight );
-
-  bottom_r = bottomDiameter/2;
-  top_r = topDiameter/2;
-  bottomSide_r = baseThickness/2;
 
   rotate([0,0,0]) {
 
@@ -74,14 +78,71 @@ module planterProfile (bottom_r, side_r, thickness, baseQ) {
   }    
 }
 
+module linearPlanterProfile(thickness) {
+
+  rotate([90,0,0]) {
+      linear_extrude(height = thickness, center = true, convexity = 10)
+        sideView();
+  }
+
+}
+
+
+module cutProfile() {
+  /* TODO:  */
+  
+}
 
 module revolve () {
-  rotate_extrude(angle = 360, convexity = 2) {
+  rotate_extrude(angle = 360, convexity = 10, $fn = 200) {
     sideView();
 
   }
 }
 
-*sideView();
 
-revolve();
+module revolveHalf () {
+
+  extant = topDiameter + sidewallHeight;
+  
+  difference() {
+    revolve();
+
+    translate([-extant,-extant/2, -e])
+      cube([extant, extant, extant]);
+  }
+  
+}
+
+*sideView();
+* revolve();
+
+
+module buildPrintable() {
+
+  separationWidth = 2/2;
+  
+  difference() {
+    union() {
+      translate([separationWidth,0,0])
+        revolveHalf();
+
+      rotate([0,0,180])
+        translate([separationWidth,0,0])
+        revolveHalf();
+
+      rotate([0,0,90])
+      translate([0,0,0])
+        linearPlanterProfile(2*separationWidth);
+      
+      rotate([0,0,270])
+      translate([0,0,0])
+        linearPlanterProfile(2*separationWidth);
+    }
+
+    
+  }  
+
+}
+
+buildPrintable();
