@@ -1209,21 +1209,23 @@ module test_generateCatch() {
 
 module test_generateCupholder() {
 
-    $fn = 200;
-    *translate([0,0,4.5/2]) generateCup();
+    //$fn = 200;
+    translate([0,0,4.5/2]) generateCup();
     topCupDiameter = 80.5;
     cupHeightWithSeperation = 72.75 + 2;
 
     bracketColumnZ = 38.1;
     
-    * translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
-    
+    translate([0,0,cupHeightWithSeperation]) generateCupLid(topCupDiameter) ;
+
+    //rotate([90,0,0])    
     translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
       generateLidBracket(topCupDiameter) ;
 
     enlargePunchScale = 1.08;
 
-    *translate([0, -(1.25)*topCupDiameter, cupHeightWithSeperation + bracketColumnZ + 4.5 + 2 - 19/2])
+    //rotate([90,0,0])
+    translate([0, -(1.25)*topCupDiameter, cupHeightWithSeperation + bracketColumnZ + 4.5 + 2 - 19/2])
     {
       difference()
       {
@@ -1272,8 +1274,8 @@ if (test1) {
   sleeveWithCap = true;
   sleeveWithCap = false;
   
-  *translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
-  *translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
   * translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
@@ -1283,7 +1285,7 @@ if (test1) {
   // test_generateCapTab(4, 4, 10);
   // test_sleeveMountInsert(tweakMountSurface);
 
-  test_generateCupholder();
+  translate([120,0,0]) test_generateCupholder();
 
 }
 
