@@ -80,8 +80,9 @@ module planterProfile (bottom_r, side_r, thickness, baseQ) {
 
 module linearPlanterProfile(thickness) {
 
-  rotate([90,0,0]) {
-      linear_extrude(height = thickness, center = true, convexity = 10)
+  #rotate([90,0,0]) {
+    translate([0,0,-1*e])
+      linear_extrude(height = thickness+e, center = true, convexity = 10)
         sideView();
   }
 
