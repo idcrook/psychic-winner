@@ -743,7 +743,8 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   //
   //  4. clip latch to "lock" iphone carrier into the mount unless released
   //
-
+  //  5. catch, to "lock" carrier into the mount 
+  //
   block_x = 30.5;
   block_y = 24.0;
   block_z = 39.0;
@@ -801,11 +802,11 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
         circle(r= radiusOfCurvature + thicknessOfBandSupport);
     }
       
-   //  3. mount insert piece for inserting phone carrier
-   scale([enlargePunchScale, enlargePunchScale, 1], center = false)
-     translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) ,
-                (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e])
-     test_sleeveMountInsert(fitBetter);
+    //  3. mount insert piece for inserting phone carrier
+    scale([enlargePunchScale, enlargePunchScale, 1], center = false)
+      translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) ,
+                 (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e])
+      test_sleeveMountInsert(fitBetter, 50);
   }
 
   //  4. clip latch to "lock" iphone carrier into the mount unless released
@@ -849,7 +850,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   //  5. catch, to "lock" carrier into the mount 
   //
   printable = true;
-  //printable = false;
+  printable = false;
   align = 3;
   spread = 5;
   if (printable) {
@@ -1164,7 +1165,7 @@ module test_bicycleMount(tweak_mount_surface) {
           bicycleMount(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
 
-module test_sleeveMountInsert (fit_better) {
+module test_sleeveMountInsert (fit_better, translate_x) {
         mountInsertWidth = 22;
         mountInsertThickness = 3;
         mountInsertHeight = 42;
@@ -1176,7 +1177,7 @@ module test_sleeveMountInsert (fit_better) {
           
         mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
 
-        translate([0, 0, 0])
+        translate([translate_x, 0, 0])
           sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
 
@@ -1234,7 +1235,7 @@ module test_generateCupholder() {
 
         translate([-11, -(0.5)*enlargePunchScale,-20])
           scale([enlargePunchScale, enlargePunchScale, 1], center = false)
-          test_sleeveMountInsert (false);
+          test_sleeveMountInsert (false, 0);
       }
     }
 
@@ -1283,7 +1284,7 @@ if (test1) {
   // test_generateCatch();
   // test_generateCap();
   // test_generateCapTab(4, 4, 10);
-  // test_sleeveMountInsert(tweakMountSurface);
+  * test_sleeveMountInsert(tweakMountSurface, 0);
 
   translate([120,0,0]) test_generateCupholder();
 
