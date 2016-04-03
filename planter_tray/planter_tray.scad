@@ -5,12 +5,12 @@
 // - has to fit on 3D printer bed, so this means based on required dimensions,
 //   has to be printed in at least two pieces
 //
-// - base diameter ~160 mm
+// - base interior diameter 172 mm
 //
-// - inner diameter at top of lip ~170 mm, at a height ~20 mm
+// - inner diameter at top of lip 185 mm, at a height ~20 mm
 //
 
-use <MCAD/2Dshapes.scad>
+use <MCADlocal/2Dshapes.scad>
 
 // small number
 e = 0.02;
@@ -21,7 +21,7 @@ sidewallHeight = 20;
 
 baseSideOverlap = sidewallThickness;
 
-bottomDiameter = 165;
+bottomDiameter = 172;
 topDiameter = 185;
 
 // calculate sidewall angle
@@ -80,22 +80,99 @@ module planterProfile (bottom_r, side_r, thickness, baseQ) {
 
 module linearPlanterProfile(thickness) {
 
-  #rotate([90,0,0]) {
+  rotate([90,0,0]) {
     translate([0,0,-1*e])
-      linear_extrude(height = thickness+e, center = true, convexity = 10)
+      linear_extrude(height = thickness+2*e, center = true, convexity = 10)
         sideView();
   }
 
-}
+  *rotate([90,0,0]) {
+    translate([0,0,-1*e])
+      linear_extrude(height = thickness+e, center = true, convexity = 10)
+        sideViewProjection();
+  }
 
-
-module cutProfile() {
-  /* TODO:  */
+  *sideViewProjection(thickness+e);
   
 }
 
+
+// the projection
+module sideViewProjection(height) {
+
+  //linear_extrude(height = height, center = true, convexity = 10)
+  rotate([-90,0,0])
+  projection(cut=true)
+    rotate([90,0,0]) revolve();
+
+
+}
+
+module cutProfile(thickness) {
+
+  D = topDiameter + 15;
+  r = D/2;
+  u = r/6;
+  rr = thickness/2;
+
+  translate([0, -thickness/2,0])
+  difference ()
+  {
+    union()
+    {
+      complexRoundSquare([r, thickness],
+                         [0,0],
+                         [rr, rr],
+                         [0,0],
+                         [0,0],
+                         center = false);
+      
+      translate([2*u, 0, 0])
+        circle(r = u + rr);
+    }
+    
+    translate([2*u, 0, 0])
+    {
+      circle(r = u - rr);
+      
+      translate([0,-u,0])
+        square([2*(u+rr) + e, 2*(u+rr) + e], center = true);
+      
+    }
+  }    
+  
+}
+
+module generateCutProfile(width) {
+
+  linear_extrude(height = 2*sidewallHeight+10, center = true, convexity = 10) {
+    
+    translate([0,-width,0])
+      difference()
+    {
+      cutProfile(2*width) ;
+      
+      translate([0,-width, 0])
+        cutProfile(2*width) ;
+      
+    }
+
+    translate([0,0,0])
+      difference()
+    {
+      cutProfile(2*width) ;
+      
+      translate([0,-width, 0])
+        cutProfile(2*width) ;
+    }
+  }
+  
+}
+
+
+
 module revolve () {
-  rotate_extrude(angle = 360, convexity = 10, $fn = 200) {
+  rotate_extrude(angle = 360, convexity = 10) {
     sideView();
 
   }
@@ -109,7 +186,7 @@ module revolveHalf () {
   difference() {
     revolve();
 
-    translate([-extant,-extant/2, -e])
+    translate([-(extant+e),-extant/2, -e])
       cube([extant, extant, extant]);
   }
   
@@ -122,6 +199,10 @@ module revolveHalf () {
 module buildPrintable() {
 
   separationWidth = 2/2;
+
+  fillIn = true;
+
+  $fn = 200;
   
   difference() {
     union() {
@@ -129,21 +210,33 @@ module buildPrintable() {
         revolveHalf();
 
       rotate([0,0,180])
-        translate([separationWidth,0,0])
+        translate([separationWidth-e,0,0])
         revolveHalf();
 
-      rotate([0,0,90])
-      translate([0,0,0])
-        linearPlanterProfile(2*separationWidth);
       
-      rotate([0,0,270])
-      translate([0,0,0])
-        linearPlanterProfile(2*separationWidth);
+      if (fillIn) {
+        rotate([0,0,90])
+          translate([0,0,0])
+          linearPlanterProfile(2*separationWidth);
+      
+        rotate([0,0,270])
+          translate([0,0,0])
+          linearPlanterProfile(2*separationWidth);
+      }
     }
 
-    
-  }  
-
+    union () {
+      rotate([0,0,  0 + 90])
+      {
+        generateCutProfile(separationWidth);
+      }    
+      rotate([0,0,180 + 90])
+      {
+        generateCutProfile(separationWidth);
+      }
+    }
+  }
+  
 }
 
 buildPrintable();
