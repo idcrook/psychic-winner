@@ -21,8 +21,11 @@ sidewallHeight = 20;
 
 baseSideOverlap = sidewallThickness;
 
-bottomDiameter = 172;
-topDiameter = 185;
+buildSmall = true;
+//buildSmall = false;
+
+bottomDiameter = buildSmall ? 135  : 172;
+topDiameter = buildSmall ? 140 : 185;
 
 // calculate sidewall angle
 outclineAngle = atan( (1/2)*(topDiameter-bottomDiameter) / sidewallHeight );
@@ -101,7 +104,7 @@ module linearPlanterProfile(thickness) {
 module sideViewProjection(height) {
 
   //linear_extrude(height = height, center = true, convexity = 10)
-  rotate([-90,0,0])
+  #rotate([-90,0,0])
   projection(cut=true)
     rotate([90,0,0]) revolve();
 
@@ -239,4 +242,12 @@ module buildPrintable() {
   
 }
 
-buildPrintable();
+
+module buildSmall() {
+  $fn = 200;
+  revolve();
+}
+
+* buildPrintable();
+
+buildSmall();
