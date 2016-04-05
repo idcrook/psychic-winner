@@ -953,10 +953,98 @@ module generateCup () {
 }
 
 
+module generateCup2 () {
+  
+  cupRegionHeightAboveHolderBottom = 27.667 * 2;
+  cupRegionHeightBelowHolderBottom = 27.667;
+
+  holderBottomSectionSplitDiameter = 68.667;
+
+  cupBaseThickness = 4.5 - 0.5;
+  cupSideThickness = 3.5 - 0.5;
+  cupSideSlope = 30/1;
+  
+  // two parts of side of cup (cones sections)
+
+  // top section
+  sideIncreaseTop = cupRegionHeightAboveHolderBottom * (1/cupSideSlope);
+  top_t = cupRegionHeightBelowHolderBottom + (1/2)*cupRegionHeightAboveHolderBottom;
+  top_h = cupRegionHeightAboveHolderBottom;
+  top_r1 = holderBottomSectionSplitDiameter/2;
+  top_r2 = holderBottomSectionSplitDiameter/2 + sideIncreaseTop;
+  top_thickness = cupSideThickness;
+  translate([0,0,top_t])
+    difference () {
+    cylinder(h = top_h,
+             r1 = top_r1, r2 = top_r2, center=true);
+
+    translate([0,0,e/2])
+      cylinder(h = top_h + 2*e,
+             r1 = top_r1 - top_thickness, r2 = top_r2 - top_thickness, center=true);
+    }
+  
+  // bottom section
+  sideDecreaseBottom = cupRegionHeightBelowHolderBottom * (1/cupSideSlope);
+  bottom_t = cupRegionHeightBelowHolderBottom/2;
+  bottom_h = cupRegionHeightBelowHolderBottom;
+  bottom_r1 = holderBottomSectionSplitDiameter/2 - sideDecreaseBottom;
+  bottom_r2 = top_r1;
+  bottom_thickness = cupSideThickness;
+  
+  translate([0,0,bottom_t])
+    difference () {
+    cylinder(h = bottom_h, r1 = bottom_r1, r2 = bottom_r2, center=true);
+
+    translate([0,0,e/2])
+    cylinder(h = bottom_h + 2*e,
+             r1 = bottom_r1 - bottom_thickness, r2 = bottom_r2 - top_thickness, center=true);
+    }
+
+  // base
+  base_thickness = cupBaseThickness;
+  base_t = base_thickness/2;
+
+  translate([0,0,-base_t])
+    linear_extrude(height = base_thickness, center = false, convexity = 10)
+    circle(r = bottom_r1, center = true);
+
+  echo("sideIncreaseTop:", sideIncreaseTop);
+  echo("Top of cup Diameter:", 2*top_r2);
+  echo("sideDecreaseBottom:", sideDecreaseBottom);
+  echo("Base Diameter:", 2*bottom_r1);
+  
+  totalCupHeight = base_t + bottom_h + top_h;
+  echo("totalCupHeight:", totalCupHeight);
+}
+
+
+
+
 module generateCupLid (d) {
   cupLidThickness = 4.5;
 
   coin_x = 37.5;
+  coin_y = 20.5;
+
+  difference () {
+    translate([0,0,0])
+      linear_extrude(height = cupLidThickness, center = false, convexity = 10)
+      circle(d=d, center=true);
+
+    translate([0,0,-e])
+      linear_extrude(height = cupLidThickness + 2*e, center = false, convexity = 10)
+        translate([0, d/2 - (1.5)*cupLidThickness - coin_y/2, 0])
+        resize([coin_x, coin_y]) circle(d=coin_y);
+
+    translate([0,-d/4,-e])
+      lidBracketHoles((3/4) * d/4, 3.0, cupLidThickness+e);
+  }
+}
+
+module generateCupLid2 (d) {
+  cupLidThickness = 4.5 - 1.0;
+
+  coin_x = 38.5;
   coin_y = 20.5;
 
   difference () {
@@ -1052,6 +1140,86 @@ module generateLidBracket (d) {
   
 }
 
+
+module generateLidBracket2 (d) {
+
+  bracketBase_r = (d/2)/2;
+  bracketBase_thickness = 3.5 - 0.5;
+
+  difference () {
+    translate([0,0,0])
+      linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
+      circle(r=bracketBase_r, center=true);
+
+    lidBracketHoles((3/4) * bracketBase_r, 3.0, bracketBase_thickness);
+  }
+
+  column_x = 22;
+  column_y = 19;
+  column_inner_x = 12.5 + 0.2;
+  column_inner_y = 12.5 + 0.2;
+  column_h = 70;
+  column_angle = 65;
+
+  fudge_for_screw_holes = 2;
+  column_arm_h = 30 + (1/2)*sin(90-column_angle) * max(column_x, column_y) + fudge_for_screw_holes;
+
+  column_y_t =  (1/2)*1/(tan(column_angle)) * (1/2)*column_y + fudge_for_screw_holes;
+  column_z_t = bracketBase_thickness - cos(column_angle) * (1/2)*column_y;
+  
+  column_base_cut_t = cos(column_angle) * (1/2)*column_y;
+  column_base_cut_h = 2* column_base_cut_t;
+
+  column_slice_y_t = 0;  
+  column_slice_z_t = column_h;
+
+  column_slice_45_d = max(column_x, column_y);
+  
+  translate([0, column_y_t, column_z_t]) {
+    difference ()
+    {    
+      rotate([90-column_angle, 0, 0])
+        translate([0,0,0])
+        ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
+      
+      // make flush with bracket
+      translate([0,0, -column_base_cut_t-e ])
+        linear_extrude(height = column_base_cut_h, center = false, convexity = 10)
+        circle(r = bracketBase_r, center=true);
+      
+      // make vertical slice
+      rotate([90-column_angle, 0, 0])
+        translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
+        translate([0, 0, - (tan(column_angle/2)) * column_y -  bracketBase_thickness ]) 
+          rotate([column_angle/2 - 90 , 0, 0])
+          linear_extrude(height = column_slice_45_d , center = false, convexity = 10)
+          circle(d = column_slice_45_d + 15);
+    }
+
+    // arm extension
+    difference ()
+    {    
+      translate([ 0,
+                  (1/2) * column_y * sin(column_angle),
+                  -(1/2) * column_y * sin(column_angle) * tan(column_angle/2) - bracketBase_thickness ])
+        rotate([90-column_angle, 0, 0])
+        translate([0, column_slice_y_t, column_slice_z_t - bracketBase_thickness ]) // translate to end of column
+        rotate([-column_angle, 0, 0])
+        #ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_arm_h);
+      
+      rotate([90-column_angle, 0, 0])
+      translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
+        translate([0, 0, - (tan(column_angle/2)) * column_y - bracketBase_thickness ]) 
+        rotate([(column_angle/2) + 90  , 0, 0])
+        %linear_extrude(height =  column_slice_45_d, center = false, convexity = 10)
+        circle(d = column_slice_45_d + 15);
+    }
+  }
+  echo("bracket column z:", bracketBase_thickness + column_h * sin(column_angle));
+  
+}
+
+
 module generateLidBracketCoupler () {
 
   coupler_diam = 12.5 - 0.1;
@@ -1088,6 +1256,45 @@ module generateLidBracketCoupler () {
     couplerSupportColumns(support_height, coupler_diam, support_thickness, support_overlap);
   }
 }
+
+
+module generateLidBracketCoupler2 () {
+
+  coupler_diam = 12.5 - 0.1;
+  coupler_l = 20;
+  
+  base_d = 3*coupler_diam;
+  base_thickness = 3;
+  base_mount_thickness = 4*base_thickness;
+
+  support_height = 3 * base_thickness;
+  support_thickness = base_thickness;
+  support_overlap = 0.5;
+
+  // base plate
+
+  hull() {
+    translate([0,0,0])
+      linear_extrude(height = 6, center = false, convexity = 10)
+      square([base_d, 39], center = true);
+    
+    translate([0,0,base_mount_thickness/2])
+      ellipsoidColumn(base_d, base_d, 0,0, base_mount_thickness/2);
+  }
+  
+  translate([0,0,base_mount_thickness])
+  {
+    // coupler column
+    ellipsoidColumn(coupler_diam, coupler_diam, 0,0, support_height +  coupler_l);
+
+    
+    /// translate([0,0,base_thickness]) #supportColumn(support_height, coupler_diam, support_thickness, support_overlap);
+    
+    // support columns
+    couplerSupportColumns(support_height, coupler_diam, support_thickness, support_overlap);
+  }
+}
+
 
 module ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h) {
 
@@ -1261,6 +1468,42 @@ module test_generateCupholder() {
 }
 
 
+module test_generateCupholder2() {
+
+    //$fn = 200;
+    #translate([0,0,4.5/2]) generateCup2();
+    topCupDiameter = 72.5;
+    cupHeightWithSeperation = 77+6 + 4;
+
+    bracketColumnZ = 38.1;
+    
+    rotate([0,0,180])    
+    translate([0,0,cupHeightWithSeperation]) generateCupLid2(topCupDiameter) ;
+
+    rotate([0,0,180])    
+    translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
+      generateLidBracket2(topCupDiameter) ;
+
+    enlargePunchScale = 1.08;
+
+    *translate([0, -(0.5)*topCupDiameter, cupHeightWithSeperation + 3*bracketColumnZ ])
+    rotate([-65,0,0])
+    {
+      difference()
+      {
+        rotate([360-90,0,0])
+          generateLidBracketCoupler2() ;
+
+        translate([-11, -(0.5)*enlargePunchScale,-20])
+          scale([enlargePunchScale, enlargePunchScale, 1], center = false)
+          test_sleeveMountInsert (false, 0);
+      }
+    }
+
+}
+
+
+
 module showTogether() {
 
   withCap = true;
@@ -1294,7 +1537,7 @@ if (test1) {
   sleeveWithCap = true;
   //sleeveWithCap = false;
   
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
   * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
@@ -1308,6 +1551,9 @@ if (test1) {
   
   * translate([120,0,0]) test_generateCupholder();
 
+  translate([0,0,0]) test_generateCupholder2();
+
+  
 }
 
 
