@@ -15,14 +15,15 @@ use <MCADlocal/2Dshapes.scad>
 // small number
 e = 0.02;
 
-baseThickness = 4.0;
-sidewallThickness = 3.5;
+buildSmall = true;
+//buildSmall = false;
+
+baseThickness = 3.0;
+sidewallThickness = 3.0;
 sidewallHeight = 20;
 
 baseSideOverlap = sidewallThickness;
 
-buildSmall = true;
-//buildSmall = false;
 
 bottomDiameter = buildSmall ? 135  : 172;
 topDiameter = buildSmall ? 140 : 185;
