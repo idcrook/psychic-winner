@@ -27,6 +27,10 @@
 //     sleeve for my bicycle.  plan to work on a mount system for my car/truck
 //     next
 //   
+//   v2:
+//
+//   - cupholder mount system for my truck
+//
 //
 ////////////////////////////////////////////////////////////////////////
 
@@ -104,7 +108,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  //CONTROL_RENDER_experiment5 = false;
   
   wantThinner = true;
   //wantThinner = false;
@@ -368,14 +372,16 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
       }
 
       // cap
-      if (with_cap) {
+      %if (with_cap) {
         capArmThickness = 4;
         capCapThickness = 3.5;
         capDepth = sleeveOuter_h;
         caseHeight = sleeveInner_l;
-        capCaseWidth = sleeveOuter_w + 2*tolerance;  // tolerance here should
-                                                     // not be necessary on
-                                                     // higher-quality prints
+        capCaseWidth = sleeveOuter_w + 2*tolerance + tolerance;  // tolerance
+                                                                 // shouldn't
+                                                                 // here be
+                                                                 // higher-quality
+                                                                 // prints
         powerSideCut = powerButtonHeightFromBottom;
         powerSideHeight = powerButtonCutoutHeight;        
         powerButtonCapClip_z = caseHeight - powerSideCut - powerSideHeight; 
@@ -557,6 +563,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
 module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                       power_button_z, mute_switch_z) {
 
+  tolerance = 0.5;
+  
   capCaseWidth = cap_case_width;
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
@@ -564,15 +572,15 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
 
   fudge = true;
   //fudge = false;
-  powerButtonCapClip_z = fudge ? power_button_z + 1 : power_button_z;
-  muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 : mute_switch_z;
+  powerButtonCapClip_z = fudge ? power_button_z + 1 + 1 : power_button_z;
+  muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 + 1: mute_switch_z;
 
-  tabInsertDepth = 2.5;
+  tabInsertDepth = 2.5 + 1;
   
   powerButtonCap_tabHeight = 15;
-  powerButtonCap_tabWidth = 10;
+  powerButtonCap_tabWidth = 10 - tolerance;
   muteSwitchCap_tabHeight = 15.2;
-  muteSwitchCap_tabWidth = 10;
+  muteSwitchCap_tabWidth = 10 - tolerance;
   
   capSideDistance = (capCaseWidth + capArmThickness)/2;
   caseOverlap = 10.0;
@@ -631,6 +639,15 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
   tabWidth = tab_width;
   tabInsertDepth = tab_insert_depth;
 
+  if (true) {
+    echo("=== generateCapTab ===");
+    echo("capCaseWidth:", capCaseWidth);
+    echo("capArmThickness:", capArmThickness);
+    echo("tabHeight:", tabHeight);
+    echo("tabWidth:", tabWidth);
+    echo("tabInsertDepth:", tabInsertDepth);
+  }
+  
   translate([0,0,0])
     linear_extrude(height = tabHeight, center = false, convexity = 10)
     complexRoundSquare([capArmThickness, tabWidth],
@@ -639,7 +656,7 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
 
   translate([(1/2)*capArmThickness,0,(1/2)*tabHeight])
     rotate([0,90,0])
-    linear_extrude(height = tabInsertDepth, scale = 0.3, center = false, convexity = 10)
+    linear_extrude(height = tabInsertDepth, scale = 0.7, center = false, convexity = 10)
     complexRoundSquare([tabHeight, tabWidth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
@@ -648,6 +665,7 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
   translate([0,0,tabHeight])
     rotate([0,180,0])    
     linear_extrude(height = tabHeight/2, center = false, scale = 0.7, convexity = 10)
+    //linear_extrude(height = tabHeight/2, center = false, scale = 0.7, convexity = 10)
     complexRoundSquare([capArmThickness, capCaseWidth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
@@ -1197,8 +1215,8 @@ module test_generateCap() {
                 powerButtonCapClip_z, muteSwitchCapClip_z); 
 }
 
-module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_size) {
-  generateCapTab(cap_arm_thickness, cap_case_width, tab_size);
+module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth ) {
+  generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth);
 }
 
 module test_generateCatch() {
@@ -1273,20 +1291,21 @@ if (test1) {
   
   tweakMountSurface = false;
   sleeveWithCap = true;
-  sleeveWithCap = false;
+  //sleeveWithCap = false;
   
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
-  translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
-  * translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  //translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   // test_generateCatch();
-  // test_generateCap();
-  // test_generateCapTab(4, 4, 10);
+  test_generateCap();
+  // cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth
+  // test_generateCapTab(17.5, 4, 15.2, 9.5, 2.5);
   * test_sleeveMountInsert(tweakMountSurface, 0);
-
-  translate([120,0,0]) test_generateCupholder();
+  
+  * translate([120,0,0]) test_generateCupholder();
 
 }
 
