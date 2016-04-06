@@ -1471,17 +1471,28 @@ module test_generateCupholder() {
 module test_generateCupholder2() {
 
     //$fn = 200;
-    #translate([0,0,4.5/2]) generateCup2();
+
+  difference()
+  {
+    translate([0,0,4.5/2]) generateCup2();
+    
+    // chop top of cup off for printing experiment
+    if (true) {
+      translate([0,0,100/2 + 20]) 
+        cube (100, center = true);
+    }
+  }
+    
     topCupDiameter = 72.5;
     cupHeightWithSeperation = 77+6 + 4;
 
     bracketColumnZ = 38.1;
     
-    rotate([0,0,180])    
-    translate([0,0,cupHeightWithSeperation]) generateCupLid2(topCupDiameter) ;
+    *rotate([0,0,180])    
+      translate([0,0,cupHeightWithSeperation]) generateCupLid2(topCupDiameter) ;
 
-    rotate([0,0,180])    
-    translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
+    *rotate([0,0,180])    
+      translate([0, -(1/4)*topCupDiameter, cupHeightWithSeperation + 4.5 + 2])
       generateLidBracket2(topCupDiameter) ;
 
     enlargePunchScale = 1.08;
