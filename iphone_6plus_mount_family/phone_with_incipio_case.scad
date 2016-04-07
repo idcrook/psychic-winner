@@ -1470,14 +1470,14 @@ module test_generateCupholder() {
 
 module test_generateCupholder2() {
 
-    //$fn = 200;
+  //$fn = 200;
 
-  difference()
+  *difference()
   {
     translate([0,0,4.5/2]) generateCup2();
     
     // chop top of cup off for printing experiment
-    if (true) {
+    if (false) {
       translate([0,0,100/2 + 20]) 
         cube (100, center = true);
     }
@@ -1488,7 +1488,7 @@ module test_generateCupholder2() {
 
     bracketColumnZ = 38.1;
     
-    *rotate([0,0,180])    
+    rotate([0,0,180])    
       translate([0,0,cupHeightWithSeperation]) generateCupLid2(topCupDiameter) ;
 
     *rotate([0,0,180])    
