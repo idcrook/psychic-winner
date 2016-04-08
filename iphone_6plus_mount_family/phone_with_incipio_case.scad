@@ -1470,7 +1470,7 @@ module test_generateCupholder2() {
 
   //$fn = 200;
 
-  *difference()
+  difference()
   {
     translate([0,0,4.5/2]) generateCup2();
     
@@ -1486,7 +1486,7 @@ module test_generateCupholder2() {
 
     bracketColumnZ = 38.1;
     
-    *rotate([0,0,180])    
+    rotate([0,0,180])    
       translate([0,0,cupHeightWithSeperation]) generateCupLid2(topCupDiameter) ;
 
     rotate([0,0,180])    
@@ -1495,8 +1495,8 @@ module test_generateCupholder2() {
 
     enlargePunchScale = 1.08;
 
-    *translate([0, -(0.5)*topCupDiameter, cupHeightWithSeperation + 3*bracketColumnZ ])
-    rotate([-65,0,0])
+    translate([0, +(1/6)*topCupDiameter, cupHeightWithSeperation + 4*bracketColumnZ - 6])
+    rotate([-75,0,0])
     {
       difference()
       {
