@@ -1174,7 +1174,8 @@ module generateLidBracket2 (d) {
   column_slice_z_t = column_h;
 
   column_slice_45_d = max(column_x, column_y);
-  
+
+  // first leg of arm
   translate([0, column_y_t, column_z_t]) {
     difference ()
     {    
@@ -1182,7 +1183,7 @@ module generateLidBracket2 (d) {
         translate([0,0,0])
         ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
       
-      // make flush with bracket
+      // make flush with bracket mount
       translate([0,0, -column_base_cut_t-e ])
         linear_extrude(height = column_base_cut_h, center = false, convexity = 10)
         circle(r = bracketBase_r, center=true);
@@ -1537,6 +1538,17 @@ test1 = true;
 test1 = false;
 
 
+CONTROL_OUTPUT_bicycleMount = true;
+CONTROL_OUTPUT_bicycleMount = false;
+
+CONTROL_OUTPUT_Cupholder = true;
+CONTROL_OUTPUT_Cupholder = false;
+
+CONTROL_OUTPUT_Cupholder2 = true;
+CONTROL_OUTPUT_Cupholder2 = false;
+
+
+
 if (test1) {
   showTogether();
 } else {
@@ -1547,7 +1559,10 @@ if (test1) {
   //sleeveWithCap = false;
   
   * translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
-  * translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+
+  if (CONTROL_OUTPUT_bicycleMount) {
+    translate([-90,0,39]) test_bicycleMount(tweakMountSurface);
+  }
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
   * translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
@@ -1557,11 +1572,17 @@ if (test1) {
   // cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth
   // test_generateCapTab(17.5, 4, 15.2, 9.5, 2.5);
   * test_sleeveMountInsert(tweakMountSurface, 0);
+
+  rotate([0,0,180])
+    generateLidBracket2(72.5) ;
   
-  * translate([120,0,0]) test_generateCupholder();
+  if (CONTROL_OUTPUT_Cupholder) {
+    translate([120,0,0]) test_generateCupholder();
+  }
 
-  translate([0,0,0]) test_generateCupholder2();
-
+  if (CONTROL_OUTPUT_Cupholder2) {
+    translate([0,0,0]) test_generateCupholder2();
+  }
   
 }
 
