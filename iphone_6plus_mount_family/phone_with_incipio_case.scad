@@ -1153,7 +1153,7 @@ module generateLidBracket2 (d) {
   column_inner_x = 12.5 + 0.2;
   column_inner_y = 12.5 + 0.2;
   column_h = 70;
-  column_angle = 75;
+  column_angle = 68;
 
   column_x_thickness = (1/2) * (column_x - column_inner_x);
   column_y_thickness = (1/2) * (column_y - column_inner_y);
@@ -1196,7 +1196,7 @@ module generateLidBracket2 (d) {
             ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
 
           // add some anchors
-          translate([0, -1.5, 0])
+          translate([0, -1.5, 2])
             lidBracketAnchors((1/2) * bracketBase_r, 3.0, bracketBase_thickness);
           
         }          
@@ -1208,7 +1208,7 @@ module generateLidBracket2 (d) {
       
 	// make vertical slice
 	rotate([90-column_angle, 0, 0])
-	  translate([0, column_slice_y_t, column_slice_z_t ]) // translate to end of column
+	  translate([0, column_slice_y_t, column_slice_z_t + 0.5 ]) // translate to end of column
 	  rotate([-(90-column_angle) + 180, 0, 0])
 	  translate([0,0, -1 * (column_base_cut_t + e + e)])
 	  linear_extrude(height = column_base_cut_h, center = false, convexity = 10)
@@ -1226,7 +1226,7 @@ module generateLidBracket2 (d) {
 	  ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_arm_h);
       
 	rotate([90-column_angle, 0, 0])
-	  translate([0, column_slice_y_t, column_slice_z_t - (1/2) * column_base_cut_h - e -e ]) //
+	  translate([0, column_slice_y_t, column_slice_z_t - (1/2) * column_base_cut_h - e -e - 0.5 ]) //
 	  rotate([column_angle + 90  , 0, 0])
 	  linear_extrude(height =  column_slice_45_d, center = false, convexity = 10)
 	  circle(d = column_slice_45_d * 2);
@@ -1347,8 +1347,8 @@ module lidBracketHoles (d, sd, h) {
 
 module lidBracketAnchors (d, sd, h) {
 
-  support_height = 9;
-  support_width = 11.5;
+  support_height = 8.5;
+  support_width = 11.0;
   support_thickness = 3;
   support_overlap = -1;
     
