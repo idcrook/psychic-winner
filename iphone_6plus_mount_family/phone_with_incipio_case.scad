@@ -1584,8 +1584,8 @@ if (test1) {
   * test_sleeveMountInsert(tweakMountSurface, 0);
 
   rotate([0,0,180])
-    //generateLidBracket2(72.5) ;
-    generateLidBracket(72.5, 60) ;
+    generateLidBracket2(72.5) ;
+    //generateLidBracket(72.5, 60) ;
   
   if (CONTROL_OUTPUT_Cupholder) {
     translate([120,0,0]) test_generateCupholder();
