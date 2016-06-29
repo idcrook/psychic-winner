@@ -1178,12 +1178,12 @@ module generateLidBracket2 (d) {
     union() {
       
       // screw base
-      translate([0, -column_y_t + 2, -column_z_t])
+      translate([0, -column_y_t + 1.2, -column_z_t])
       difference () {          
         linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
           circle(r=bracketBase_r, center=true);
         
-        lidBracketHoles((3/4) * bracketBase_r, 3.0, bracketBase_thickness);
+        lidBracketHoles((3/4) * bracketBase_r, 3.3, bracketBase_thickness);
       }
 
       // angled column
@@ -1196,7 +1196,7 @@ module generateLidBracket2 (d) {
             ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
 
           // add some anchors
-          translate([0, -1.5, 2])
+          translate([0, -2.4, 2])
             lidBracketAnchors((1/2) * bracketBase_r, 3.0, bracketBase_thickness);
           
         }          
