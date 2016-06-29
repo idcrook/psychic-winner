@@ -1147,13 +1147,6 @@ module generateLidBracket2 (d) {
   bracketBase_r = (d/2)/2;
   bracketBase_thickness = 3.5 - 0.5;
 
-  difference () {
-    translate([0,0,0])
-      linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
-      circle(r=bracketBase_r, center=true);
-
-    lidBracketHoles((3/4) * bracketBase_r, 3.0, bracketBase_thickness);
-  }
 
   column_x = 22;
   column_y = 19;
@@ -1179,16 +1172,35 @@ module generateLidBracket2 (d) {
 
   column_slice_45_d = max(column_x, column_y);
   column_slice_45_d_thick = max(column_x_thickness, column_y_thickness);
+      
 
   translate([0, column_y_t, column_z_t]) {
     union() {
-      difference ()
-      {    
-	rotate([90-column_angle, 0, 0])
-	  translate([0,0,0])
-	  // first segment of arm
-	  ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
       
+      // screw base
+      translate([0, -column_y_t + 2, -column_z_t])
+      difference () {          
+        linear_extrude(height = bracketBase_thickness, center = false, convexity = 10)
+          circle(r=bracketBase_r, center=true);
+        
+        lidBracketHoles((3/4) * bracketBase_r, 3.0, bracketBase_thickness);
+      }
+
+      // angled column
+      difference ()
+      {
+        union() {
+          rotate([90-column_angle, 0, 0])
+            translate([0,0,0])
+            // first segment of arm
+            ellipsoidColumn(column_x, column_y, column_inner_x, column_inner_y, column_h);
+
+          // add some anchors
+          translate([0, -1.5, 0])
+            lidBracketAnchors((1/2) * bracketBase_r, 3.0, bracketBase_thickness);
+          
+        }          
+          
 	// make flush with bracket mount
 	translate([0,0, -column_base_cut_t-e ])
 	  linear_extrude(height = column_base_cut_h, center = false, convexity = 10)
@@ -1332,6 +1344,28 @@ module lidBracketHoles (d, sd, h) {
     bracketHole(d, sd, h);
   
 }
+
+module lidBracketAnchors (d, sd, h) {
+
+  support_height = 9;
+  support_width = 11.5;
+  support_thickness = 3;
+  support_overlap = -1;
+    
+  rotate([0,0,  0 + 0])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+
+  rotate([0,0, 90 + 0])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+
+  rotate([0,0,180 + 0])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+
+  rotate([0,0,270 + 0])
+    supportColumn(support_height, support_width, support_thickness, support_overlap);
+  
+}
+
 
 module bracketHole(d, sd, h) {
   radialDistance  = d;
@@ -1585,8 +1619,21 @@ if (test1) {
 
   rotate([0,0,180])
     generateLidBracket2(72.5) ;
-    //generateLidBracket(72.5, 60) ;
+
+  * translate([50,0,0])
+  rotate([0,0,180])
+    generateLidBracket(72.5, 60) ;
+
+
+  * rotate([360-90,0,0])
+      generateLidBracketCoupler() ;
+
   
+  /* translate([-50,0,0]) */
+  /* rotate([0,0,180]) */
+  /*   generateLidBracket(72.5, 80) ; */
+  
+
   if (CONTROL_OUTPUT_Cupholder) {
     translate([120,0,0]) test_generateCupholder();
   }
