@@ -24,7 +24,7 @@
 
 // use <ruler.scad>
 // use <MCAD/shapes.scad>
-use <MCADlocal/2Dshapes.scad>
+use <../MCAD/2Dshapes.scad>
 
 // small number
 //e=0.02;
