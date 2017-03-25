@@ -4,7 +4,7 @@
 //   http://www.thingiverse.com/thing:1353400  - Lulzbot Mini filament spool bushing
 //   by ggrieves is licensed under the Creative Commons - Attribution license.
 
-// Email: dpcrook@users.noreply.github.com
+// Email: idcrook@users.noreply.github.com
 
 // resized dimensions to fit spools with a inner diameter of ~38mm
 
