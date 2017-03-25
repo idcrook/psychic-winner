@@ -296,7 +296,7 @@ module test_generate_coupler2() {
       rotate([360-90,0,0])
 	generateLidBracketCoupler2() ;
 
-      translate([-(1.0)*enlargePunchScale*11, -(e/2)*enlargePunchScale, -20])
+      translate([-(1.0)*enlargePunchScale*11, -(3*0.30)*enlargePunchScale, -20])
 	scale([enlargePunchScale, enlargePunchScale, 1], center = false)
 	test_sleeveMountInsert (false, 0.0);
 
