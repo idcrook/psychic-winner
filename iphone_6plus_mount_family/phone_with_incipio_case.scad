@@ -1144,7 +1144,7 @@ module generateLidBracket (d, angle) {
 
 module generateLidBracket2 (d) {
 
-  bracketBase_r = (d/2)/2;
+  bracketBase_r = (d/2)/1.8;
   bracketBase_thickness = 3.5 - 0.5;
 
 
@@ -1595,6 +1595,12 @@ CONTROL_OUTPUT_Cupholder2 = false;
 
 if (test1) {
   showTogether();
+   // incipio case
+  //translate([0,0,0]) rotate([90,0,0]) incipioNgpCase();
+  //import("/Users/dpc/Downloads/3dprint/models/Downloads/iPhone_Plus_and_watch_dock.STL");
+
+
+    
 } else {
   $fn = 100;
   
@@ -1617,7 +1623,7 @@ if (test1) {
   // test_generateCapTab(17.5, 4, 15.2, 9.5, 2.5);
   * test_sleeveMountInsert(tweakMountSurface, 0);
 
-  rotate([0,0,180])
+  * rotate([0,0,180])
     generateLidBracket2(72.5) ;
 
   * translate([50,0,0])
@@ -1625,7 +1631,7 @@ if (test1) {
     generateLidBracket(72.5, 60) ;
 
 
-  * rotate([360-90,0,0])
+  rotate([360-90,0,0])
       generateLidBracketCoupler() ;
 
   
