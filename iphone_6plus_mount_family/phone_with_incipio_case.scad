@@ -109,7 +109,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  // CONTROL_RENDER_experiment5 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -1615,7 +1615,7 @@ if (test1) {
   }
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
-  * translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   // test_generateCatch();
   // test_generateCap();
@@ -1631,7 +1631,7 @@ if (test1) {
     generateLidBracket(72.5, 60) ;
 
 
-  rotate([360-90,0,0])
+  * rotate([360-90,0,0])
       generateLidBracketCoupler() ;
 
 
