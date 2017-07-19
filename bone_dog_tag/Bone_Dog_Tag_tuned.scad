@@ -52,12 +52,20 @@ difference(){
                 rotate([0,0,-45]) {
                     cube([tag_attachment_flare_width , tag_attachment_flare_width ,tag_attachment_height]);
                 }
+                rotate([0,0, -30 ]) {
+                    cube([tag_attachment_flare_width , tag_attachment_flare_width + 1.5 ,tag_attachment_height * 4/3]);
+                }
+ 
             };
            translate([-3,-(tag_attachment_outer_diameter/2 + tag_attachment_width/2) ,0])
             {
                 rotate([0,0,-45]) {
                     cube([tag_attachment_flare_width , tag_attachment_flare_width ,tag_attachment_height]);
                 }
+                rotate([0,0,-60]) {
+                    cube([tag_attachment_flare_width + 1.5 , tag_attachment_flare_width ,tag_attachment_height * 4/3]);
+                }
+ 
             };
         }
     }
