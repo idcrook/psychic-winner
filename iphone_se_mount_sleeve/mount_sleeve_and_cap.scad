@@ -37,7 +37,7 @@ use <../libraries/wedge.scad>
 //  - Depth 0.50 inches (12.7 mm)
 
   l = 127.0;  //
-  w = 64.7;
+  w = 64.0;
   h = 12.7;   // at corners; elsewhere as low as 10.1 mm
 
 
@@ -124,10 +124,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   base_l = sleeveBaseThickness;
 
   sleeveInner_w =  tolerance + w + tolerance;
-  sleeveInner_h =  tolerance + h + tolerance;
+  sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 1.7;
 
-  //buttonsIncludedInner_w =  tolerance + 59.3 + tolerance + 0.5;
   buttonsIncludedInner_w =  tolerance + 64.7 + tolerance + 0.5;
   buttonsIncludedInner_h =            +  3.0 + tolerance;
   buttonsIncludedInner_r =  tolerance ;
@@ -136,7 +135,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
   sleeveOuter_r = 3.2;
 
-  iphoneDisplay_w = 49.83;
+  iphoneDisplay_w = 48.5;
   iphoneScreenBezel_w = 3.5;
 
   iphoneScreenOpening_w = iphoneScreenBezel_w + iphoneDisplay_w + iphoneScreenBezel_w;
@@ -169,7 +168,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   speakerCutoutHeight = 16;
   speakerCutoutDepth = 5;
   speakerCutoutRadius = speakerCutoutDepth/2;
-  //speakerHoleOffcenter = 10.8 ;
   speakerHoleOffcenter = 8.8 ;
 
   lightningCutoutHeight = 14.4;
@@ -180,12 +178,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   headphoneMicCutoutHeight = 15 - 2;
   headphoneMicCutoutDepth = 7.2;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
-  //headphoneMicHoleOffcenter = 28.5 + 3.9 - 2;
-  headphoneMicHoleOffcenter = 22.5;
+  headphoneMicHoleOffcenter = 21.8;
   headphoneJackDiameter = 3.5;
 
   headphoneMicBoreDiameter = 8.0 + 0.2;
-  // headphoneMicBoreOffcenter = 28.5 + 2.6 + headphoneMicCutoutDepth - headphoneMicBoreDiameter;
   headphoneMicBoreOffcenter = 23.2 ;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
