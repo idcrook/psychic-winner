@@ -159,9 +159,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   muteSwitchCutoutDepth = 7.7 + 2.3;
   muteSwitchCutoutRadius = 2;
 
-  cameraHeightFromBottom = 109.7;
+  cameraHeightFromBottom = 110.2;
   cameraCutoutHeight = 0.5 + 25.7 + 0.5;
-  cameraCutoutDepth = 14.1;
+  cameraCutoutDepth = 13.1;
   cameraCutoutRadius = cameraCutoutDepth/2-1;
   cameraHoleOffcenter = 3.0 - 0.5;
 
