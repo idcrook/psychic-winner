@@ -37,7 +37,7 @@ use <../libraries/wedge.scad>
 //  - Depth 0.50 inches (12.7 mm)
 
   l = 127.0;  //
-  w = 64.0;
+  w = 64.5;
   h = 12.7;   // at corners; elsewhere as low as 10.1 mm
 
 
@@ -102,13 +102,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
   CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_prototype_bottom = true;
-  //CONTROL_RENDER_prototype_bottom = false;
+  CONTROL_RENDER_prototype_bottom = false;
 
   CONTROL_RENDER_experiment3 = true;
   CONTROL_RENDER_experiment3 = false;
 
   CONTROL_RENDER_experiment4 = true;
-  CONTROL_RENDER_experiment4 = false;
+  //CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
   CONTROL_RENDER_experiment5 = false;
@@ -565,7 +565,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
 
     if (CONTROL_RENDER_prototype_bottom) {
       keepHeight = 55;
-      cutHeight  = 20 ;
+      cutHeight  = 25;
       extrHeight = keepHeight ;
 
       translate([0,0, cutHeight - keepHeight])
