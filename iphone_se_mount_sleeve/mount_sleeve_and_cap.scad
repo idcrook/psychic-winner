@@ -384,7 +384,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         capArmThickness = 4;
         capCapThickness = 3.5;
         capDepth = sleeveOuter_h;
-        caseHeight = sleeveInner_l;
+	// added 1.5 mm since case sits higher in sleeve
+        caseHeight = sleeveInner_l + 1.5;
         capCaseWidth = sleeveOuter_w + 2*tolerance + tolerance;  // tolerance
                                                                  // shouldn't
                                                                  // here be
@@ -851,10 +852,14 @@ if (test1) {
   withCap = true;
   withCap = false;
 
-  translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
+  printCap = true;
+  //printCap = false;
 
-  // change sleeveWithCap to T and run with experiment5 to generate Cap
-  //scale ([1.043,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, false);
+  if (! printCap) {
+    translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
+  } else {
+    scale ([1.043,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+  }
 
   * test_sleeveMountInsert(tweakMountSurface, 0);
 
