@@ -600,6 +600,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
+  with_split_top_of_sleeve = false;
 
   fudge = true;
   //fudge = false;
@@ -629,11 +630,13 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
-  translate([capSideDistance - (capArmThickness - 1), 0, - caseOverlap + e])
-    linear_extrude(height = caseOverlap, center = false, convexity = 10)
-    complexRoundSquare([capArmThickness, capDepth],
-                       [0,0], [0,0], [0,0], [0,0],
-                       center = true);
+  if (with_split_top_of_sleeve) {
+    translate([capSideDistance - (capArmThickness - 1), 0, - caseOverlap + e])
+      linear_extrude(height = caseOverlap, center = false, convexity = 10)
+      complexRoundSquare([capArmThickness, capDepth],
+			 [0,0], [0,0], [0,0], [0,0],
+			 center = true);
+  }
 
   translate([capSideDistance, 0,  - powerButtonCapClip_z - powerButtonCap_tabHeight])
     rotate([0,0,180])
@@ -648,11 +651,13 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
-  translate([-(capSideDistance - (capArmThickness - 1)), 0, - caseOverlap + e])
-    linear_extrude(height = caseOverlap, center = false, convexity = 10)
-    complexRoundSquare([capArmThickness, capDepth],
-                       [0,0], [0,0], [0,0], [0,0],
-                       center = true);
+  if (with_split_top_of_sleeve) {
+    translate([-(capSideDistance - (capArmThickness - 1)), 0, - caseOverlap + e])
+      linear_extrude(height = caseOverlap, center = false, convexity = 10)
+      complexRoundSquare([capArmThickness, capDepth],
+			 [0,0], [0,0], [0,0], [0,0],
+			 center = true);
+  }
 
   translate([-(capSideDistance), 0, - muteSwitchCapClip_z - muteSwitchCap_tabHeight])
     rotate([0,0,0])
@@ -850,7 +855,7 @@ if (test1) {
 
   tweakMountSurface = false;
   withCap = true;
-  withCap = false;
+  //withCap = false;
 
   printCap = true;
   //printCap = false;
@@ -858,7 +863,7 @@ if (test1) {
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
   } else {
-    scale ([1.043,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+    scale ([1.01,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
   }
 
   * test_sleeveMountInsert(tweakMountSurface, 0);
