@@ -111,7 +111,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  //CONTROL_RENDER_experiment5 = false;
+  CONTROL_RENDER_experiment5 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -161,9 +161,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   cameraHeightFromBottom = 109.7;
   cameraCutoutHeight = 0.5 + 25.7 + 0.5;
-  cameraCutoutDepth = 12.1;
+  cameraCutoutDepth = 14.1;
   cameraCutoutRadius = cameraCutoutDepth/2-1;
-  cameraHoleOffcenter = 3.5 - 0.5;
+  cameraHoleOffcenter = 3.0 - 0.5;
 
   speakerCutoutHeight = 16;
   speakerCutoutDepth = 5;
