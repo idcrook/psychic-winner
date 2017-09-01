@@ -545,7 +545,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	  mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness - e;
 
-	  translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.58) * l - mountInsertHeight + base_l])
+	  // y dimension needs to overlap with sleeve
+	  translate([-mountInsertWidth/2, mountInsert_yTranslation - (2 * e), (0.65) * l - mountInsertHeight + base_l])
 	    difference() {
 	    sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
 	    // chop off top 1.5 mm
@@ -854,11 +855,13 @@ if (test1) {
   $fn = 100;
 
   tweakMountSurface = false;
+  tweakMountSurface = true;
+
   withCap = true;
-  //withCap = false;
+  withCap = false;
 
   printCap = true;
-  //printCap = false;
+  printCap = false;
 
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
