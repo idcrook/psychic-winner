@@ -21,3 +21,8 @@ Measurements:
 ![](img/dimensions_iphone_x.png)
 
  - Weight: 6.14 ounces (174 grams)
+
+
+## Thingiverse
+
+ - [iPhone X mockup mechanical dummy model](https://www.thingiverse.com/thing:2534947) -  https://www.thingiverse.com/thing:2534947
