@@ -129,24 +129,27 @@ module iphone_x (width, length, depth, corner_radius, edge_radius)
 /// Utility modules
 
 
-module shell(width, length, depth, corner_radius)
+module shell(width, length, depth, corner_radius, edge_radius)
 {
   face_corner_radius = corner_radius;
 
   // Try to parameterize the curves
-  corner_r1 = face_corner_radius + 2;
-  corner_r2 = face_corner_radius + 2 ;
+  corner_r1 = face_corner_radius - 2;
+  corner_r2 = face_corner_radius - 2 ;
 
-  edge_curvature_radius = 1/2*depth;
+  edge_curvature_radius = edge_radius;
   edge_offset = edge_curvature_radius;
 
+  corner_sphere_r = face_corner_radius - (corner_radius - edge_radius)/8;
 
-  round_rect_offset_factor = 0.35 * face_corner_radius;
-  display_round_rect_offset_factor = 0.35 * face_corner_radius;
+
+  round_rect_offset_factor = 0.40 * face_corner_radius;
+  display_round_rect_offset_factor = 0.45 * face_corner_radius;
+  display_inset_depth = 0.8;
 
   length_edge_extr_height = length - 2*face_corner_radius;
   width_edge_extr_height  = width  - 2*face_corner_radius ;
-  corner_sphere_chop_height = 4;
+  corner_sphere_chop_height = 5;
 
 
   // generate the basic solid outline
@@ -155,6 +158,7 @@ module shell(width, length, depth, corner_radius)
 
       // most of body
       hull($fn = 25)
+      // DEBUG
       //% union($fn = 25)
       {
 
@@ -178,8 +182,8 @@ module shell(width, length, depth, corner_radius)
 	translate([face_corner_radius, face_corner_radius, depth/2])
 	{
 	  intersection() {
-	    sphere(r = face_corner_radius, $fn = 50);
-	    cube(size = [10, 10, corner_sphere_chop_height], center = true);
+	    sphere(r = corner_sphere_r, $fn = 50);
+	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
 	  }
 	}
 
@@ -204,8 +208,8 @@ module shell(width, length, depth, corner_radius)
 	translate([face_corner_radius, length - face_corner_radius, depth/2])
 	{
 	  intersection() {
-	    sphere(r = face_corner_radius, $fn = 50);
-	    cube(size = [10, 10, corner_sphere_chop_height], center = true);
+	    sphere(r = corner_sphere_r, $fn = 50);
+	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
 	  }
 	}
 
@@ -213,8 +217,8 @@ module shell(width, length, depth, corner_radius)
 	translate([width - face_corner_radius, length - face_corner_radius, depth/2])
 	{
 	  intersection() {
-	    sphere(r = face_corner_radius, $fn = 50);
-	    cube(size = [10, 10, corner_sphere_chop_height], center = true);
+	    sphere(r = corner_sphere_r, $fn = 50);
+	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
 	  }
 	}
 
@@ -238,8 +242,8 @@ module shell(width, length, depth, corner_radius)
 	translate([width - face_corner_radius, face_corner_radius, depth/2])
 	{
 	  intersection() {
-	    sphere(r = face_corner_radius, $fn = 50);
-	    cube(size = [10, 10, corner_sphere_chop_height], center = true);
+	    sphere(r = corner_sphere_r, $fn = 50);
+	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
 	  }
 	}
 
@@ -250,10 +254,10 @@ module shell(width, length, depth, corner_radius)
     // display main rectangular region
     translate([display_round_rect_offset_factor,
 	       display_round_rect_offset_factor,
-	       depth - 1])
+	       depth - display_inset_depth])
     {
-      color ("Black", alpha = 0.85)
-	linear_extrude(height = 1 + e, center = false, convexity = 10)
+      color ("Black", alpha = 0.92)
+	linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
 	complexRoundSquare([ width - 2*display_round_rect_offset_factor,
 			     length - 2*display_round_rect_offset_factor ],
 			   [corner_r1, corner_r2],
@@ -268,25 +272,14 @@ module shell(width, length, depth, corner_radius)
 }
 
 
-      /* * translate([edge_curvature_radius, edge_curvature_radius, depth/2]) */
-      /* { */
-      /* 	translate([0,                                   0,  0])  sphere(r = edge_curvature_radius, $fn = 50); */
-      /* 	translate([width - 2*edge_curvature_radius,       0,  0])  sphere(r = edge_curvature_radius, $fn = 50); */
-      /* 	translate([0,      length - 2*edge_curvature_radius,  0])  sphere(r = edge_curvature_radius, $fn = 50); */
-      /* 	translate([width - (2.0*edge_curvature_radius), length - (2.0*edge_curvature_radius), 0]) sphere(r = edge_curvature_radius, $fn = 50); */
-      /* } */
-
-
-
-
 
 // Create it!
 /// Gross iphone dimensions
 iphone_x__height = 143.6;
 iphone_x__width  =  70.9;
 iphone_x__depth  =   7.7;
-iphone_x__face_corner_radius = 5.5;
-// iphone_x__edge_radius = iphone_x__depth / 2;
+iphone_x__face_corner_radius = 7.0;
+iphone_x__edge_radius = (iphone_x__depth - 0.25) / 2 ;
 
 
-iphone_x(iphone_x__width, iphone_x__height, iphone_x__depth, iphone_x__face_corner_radius);
+iphone_x(iphone_x__width, iphone_x__height, iphone_x__depth, iphone_x__face_corner_radius, iphone_x__edge_radius);
