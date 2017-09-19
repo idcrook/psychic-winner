@@ -152,7 +152,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
-  powerButtonHeightFromBottom = 117.4 - 1.0;
+  powerButtonHeightFromBottom = 158.22 - (35.5 + 5.31);
   powerButtonCutoutHeight = 12.2 + 2.0 + 1.0;
   powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
