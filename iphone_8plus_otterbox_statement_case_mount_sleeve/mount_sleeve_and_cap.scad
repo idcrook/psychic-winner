@@ -33,11 +33,13 @@ use <../libraries/wedge.scad>
 // Measurements with case attached
 //
 //  - Length: 165.8 mm at longest
-//  - Width: 85.1 mm (86.9 mm across buttons, 2 X 0.9 mm delta)
+//  - Width: 85.2 mm at widest (86.9 mm across buttons, 2 X 0.9 mm delta)
 //  - Depth (bottom): 12.7 mm
 
   l = 165.8;
   w =  85.1;
+  w_atButtons = 86.9;
+
   h =  12.7 + 0.1;
 
 
@@ -102,24 +104,47 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
 
-  // For prototyping bottom port sizing and layout:
+  // FOR PROTOTYPING or PRINT RENDERING
+  //
+  // sleeve without a cut at top
+  //     all false
+  //
+  // For PRINTING sleeve
+  //     CONTROL_RENDER_cutoff_top = true;
+  //     (with_cap == false, with_sleeve == true)
+  //
+  // For PRINTING cap with corresponding cut part included
+  //     CONTROL_RENDER_cutoff_top = false;
+  //     CONTROL_RENDER_experiment5 = true;
+  //     (with_cap == with_sleeve == true)
+  //
+  // sleeve cut at top
+  //     CONTROL_RENDER_cutoff_top = true
+  //
+  // bottom port sizing and layout:
   //     CONTROL_RENDER_cutoff_top = true
   //     CONTROL_RENDER_experiment3 = true;
+  //   OR
+  //     CONTROL_RENDER_prototype_bottom = true;
+  //
+  // sleeve with cap "assembled" (no cut)
+  //     (with_cap == with_sleeve == true)
+
 
   CONTROL_RENDER_cutoff_top = true;
-  //CONTROL_RENDER_cutoff_top = false;
+  CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_prototype_bottom = true;
   CONTROL_RENDER_prototype_bottom = false;
 
   CONTROL_RENDER_experiment3 = true;
-  //CONTROL_RENDER_experiment3 = false;
+  CONTROL_RENDER_experiment3 = false;
 
   CONTROL_RENDER_experiment4 = true;
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  //CONTROL_RENDER_experiment5 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -135,8 +160,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 1.7;
 
-  // Width: 85.1 mm (86.9 mm across buttons, 2 X 0.9 mm delta)
-  buttonsIncludedInner_w =  tolerance + 86.9 + tolerance;
+  // Width: 85.1 mm (86.9 mm across buttons, 2 times +0.9 mm delta)
+  buttonsIncludedInner_w =  tolerance + w_atButtons + tolerance;
+  // groove for buttons to slide along
   buttonsIncludedInner_h =            +  4.4 + tolerance;
   buttonsIncludedInner_r =  tolerance ;
 
@@ -373,9 +399,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 				  center = false);
 
 	    if (CONTROL_RENDER_cutoff_top) {
-	      cutHeight  = CONTROL_RENDER_experiment3 ? 5 + 10 : l - 10.0 ;
+	      cutHeight  = CONTROL_RENDER_experiment3 ? 5 + 10 : cameraMedialHeightFromBottom ;
 	      extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
+	      // Makerbot Replicator 2X volume height: 155 mm
+	      // Lulzbot Mini print volume height: 158 mm
+	      // Current cutHeight: 151.35
 	      echo("cutHeight:", cutHeight);
 	      translate([0,0, cutHeight])
 		linear_extrude(height = extrHeight, center = false, convexity = 10)
@@ -384,7 +413,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 				   center = true);
 	    } else {
 	      if (CONTROL_RENDER_experiment5) {
-		cutHeight  = l - 10.0 ;
+		cutHeight  = cameraMedialHeightFromBottom;
 		extrHeight = l;
 		echo("cutHeight:", cutHeight);
 		translate([0,0, cutHeight])
@@ -525,7 +554,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 	  }
 
 	  if (CONTROL_RENDER_cutoff_top) {
-	    cutHeight  = CONTROL_RENDER_experiment3 ? 5 + 10 : l - 10.0 ;
+	    cutHeight  = CONTROL_RENDER_experiment3 ? 5 + 10 : cameraMedialHeightFromBottom ;
 	    extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
 	    echo("cutHeight:", cutHeight);
@@ -874,12 +903,12 @@ if (test1) {
   withCap = false;
 
   printCap = true;
-  printCap = false;
+  // printCap = false;
 
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
   } else {
-    scale ([1.01,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+    scale ([1.01,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, true);
   }
 
   * test_sleeveMountInsert(tweakMountSurface, 0);
