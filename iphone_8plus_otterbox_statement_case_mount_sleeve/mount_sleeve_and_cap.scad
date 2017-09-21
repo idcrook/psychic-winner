@@ -32,13 +32,13 @@ use <../libraries/wedge.scad>
 
 // Measurements with case attached
 //
-//  - Length
-//  - Width
-//  - Depth
+//  - Length: 165.8 mm at longest
+//  - Width: 85.1 mm (86.9 mm across buttons, 2 X 0.9 mm delta)
+//  - Depth (bottom): 12.7 mm
 
-  l = 161.9;  //
-  w = 81.5;
-  h = 10.5;   // at corners; elsewhere as low as 10.1 mm
+  l = 165.8;
+  w =  85.1;
+  h =  12.7 + 0.1;
 
 
 // Measurements: https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -131,8 +131,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 1.7;
 
-  buttonsIncludedInner_w =  tolerance + 82.3 + tolerance + 0.5;
-  buttonsIncludedInner_h =            +  3.0 + tolerance;
+  // Width: 85.1 mm (86.9 mm across buttons, 2 X 0.9 mm delta)
+  buttonsIncludedInner_w =  tolerance + 86.9 + tolerance;
+  buttonsIncludedInner_h =            +  4.4 + tolerance;
   buttonsIncludedInner_r =  tolerance ;
 
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
@@ -146,48 +147,59 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   sleeveInner_l = l;
-  volumeButtonsHeightFromBottom = 104.75;
-  volumeButtonsCutoutHeight = 12.61 + 2*(5.31);
+  // volumeButtonsHeightFromBottom = 104.75;
+  volumeButtonsHeightFromBottom = 105.4;
+  //volumeButtonsCutoutHeight = 12.61 + 2*(5.31);
+  volumeButtonsCutoutHeight = 30.1;
   volumeButtonsCutoutDepth = 7.7 + 2.3;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
-  powerButtonHeightFromBottom = 158.22 - (35.5 + 5.31);
+  // powerButtonHeightFromBottom = 158.22 - (35.5 + 5.31);
+  powerButtonHeightFromBottom = 118.9;
   powerButtonCutoutHeight = 12.2 + 2.0 + 1.0;
   powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
-  muteSwitchHeightFromBottom = 132.7;
-  muteSwitchCutoutHeight = 12.2 + 3.0;
+  //muteSwitchHeightFromBottom = 132.7;
+  muteSwitchHeightFromBottom = 133.6 - 1.5 - 2.0;
+  muteSwitchCutoutHeight = 13.0 + 3.0 + 2.0;
   muteSwitchCutoutDepth = 7.7 + 2.3;
   muteSwitchCutoutRadius = 2;
 
-  cameraHeightFromBottom = 141.29;
-  cameraCutoutHeight = 0.5 + 33.19 + (1/2)*(4.10) + 0.5;
-  cameraCutoutDepth = 12.1;
+  cameraHeightFromBottom = 141.2;
+  cameraCutoutHeight = 42.9;
+  cameraCutoutDepth = 20.3;
   cameraCutoutRadius = cameraCutoutDepth/2-1;
-  cameraHoleOffcenter = 0.5;
+  cameraHoleOffcenter = -4.0;
 
-  speakerCutoutHeight = 17.23 + 5.0;
-  speakerCutoutDepth = 5;
+  cameraMedialHeightFromBottom = cameraHeightFromBottom + (1/2)*cameraCutoutDepth;
+
+  // BOTTOM PORTS AND SENSORS
+  bottomPortsShiftToFront = 1.40;
+
+  //speakerCutoutHeight = 17.23 + 5.0;
+  speakerCutoutHeight = 21.7 + 1.5;
+  //speakerCutoutDepth = 5;
+  speakerCutoutDepth = 6.2;
   speakerCutoutRadius = speakerCutoutDepth/2;
-  speakerHoleOffcenter = 10.8 ;
+  //speakerHoleOffcenter = 10.8 ;
+  speakerHoleOffcenter = 9.0 ;
 
   lightningCutoutHeight = 14.4;
-  lightningCutoutDepth = lightningCutoutHeight/2;
+  //  ~(lightningCutoutHeight/2)
+  lightningCutoutDepth = 7.4;
   lightningCutoutRadius = lightningCutoutDepth/2;
   lightningHoleOffcenter = 0;
 
-  headphoneMicCutoutHeight = 17.23 + 5.0;
-  headphoneMicCutoutDepth = 5;
+  //headphoneMicCutoutHeight = 17.23 + 5.0;
+  headphoneMicCutoutHeight = 21.7 + 1.5;
+  //headphoneMicCutoutDepth = 5;
+  headphoneMicCutoutDepth = 6.2;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
-  headphoneMicHoleOffcenter = 34.5 ;
+  headphoneMicHoleOffcenter = 31.0 + 1.7;
   headphoneJackDiameter = 3.5;
-
-  headphoneMicBoreDiameter = 8.0 + 0.2;
-  headphoneMicBoreOffcenter = 28.5 + 2.6 + headphoneMicCutoutDepth -
-    headphoneMicBoreDiameter;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipHeight = 18.0 - 3;
@@ -439,7 +451,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	  // speaker hole
 	  rotate([180,0,0])
-	    translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
+	    translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth + bottomPortsShiftToFront, -e])
 	    linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
 	    complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth],
 				[speakerCutoutRadius/2, speakerCutoutRadius/2],
@@ -450,7 +462,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	  // lightning hole
 	  rotate([180,0,0])
-	    translate([-tolerance, 0, -e])
+	    translate([-tolerance, + bottomPortsShiftToFront, -e])
 	    linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
 	    complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth],
 				[lightningCutoutRadius, lightningCutoutRadius],
@@ -461,7 +473,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	  // widen lightning hole
 	  rotate([180,0,0])
-	    translate([-tolerance, 0, -e])
+	    translate([-tolerance, + bottomPortsShiftToFront, -e])
 	    linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
 	    complexRoundSquare( [lightningCutoutHeight - 5, lightningCutoutDepth + 2],
 				[lightningCutoutRadius/2, lightningCutoutRadius/2],
@@ -470,9 +482,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 				[lightningCutoutRadius/2, lightningCutoutRadius/2],
 				center = true);
 
-	  // headphone and Mic hole
+	  // Mic hole
 	  rotate([180,0,0]) {
-	    translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
+	    translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth + bottomPortsShiftToFront, -e])
 	      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
 	      complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
 				[speakerCutoutRadius, speakerCutoutRadius],
