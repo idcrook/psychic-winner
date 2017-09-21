@@ -102,14 +102,18 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
 
+  // For prototyping bottom port sizing and layout:
+  //     CONTROL_RENDER_cutoff_top = true
+  //     CONTROL_RENDER_experiment3 = true;
+
   CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
+  //CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_prototype_bottom = true;
   CONTROL_RENDER_prototype_bottom = false;
 
   CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
+  //CONTROL_RENDER_experiment3 = false;
 
   CONTROL_RENDER_experiment4 = true;
   CONTROL_RENDER_experiment4 = false;
@@ -177,7 +181,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraMedialHeightFromBottom = cameraHeightFromBottom + (1/2)*cameraCutoutDepth;
 
   // BOTTOM PORTS AND SENSORS
-  bottomPortsShiftToFront = 1.40;
+  bottomPortsShiftToFront = 0.9;
 
   //speakerCutoutHeight = 17.23 + 5.0;
   speakerCutoutHeight = 21.7 + 1.5;
@@ -369,7 +373,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 				  center = false);
 
 	    if (CONTROL_RENDER_cutoff_top) {
-	      cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+	      cutHeight  = CONTROL_RENDER_experiment3 ? 5 + 10 : l - 10.0 ;
 	      extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
 	      echo("cutHeight:", cutHeight);
@@ -521,7 +525,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 	  }
 
 	  if (CONTROL_RENDER_cutoff_top) {
-	    cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+	    cutHeight  = CONTROL_RENDER_experiment3 ? 5 + 10 : l - 10.0 ;
 	    extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
 	    echo("cutHeight:", cutHeight);
