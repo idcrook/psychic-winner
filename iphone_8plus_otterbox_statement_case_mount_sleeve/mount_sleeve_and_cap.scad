@@ -647,7 +647,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
   with_split_top_of_sleeve = false;
-  //with_split_top_of_sleeve = true;
+  with_split_top_of_sleeve = true;
 
   fudge = true;
   //fudge = false;
@@ -884,7 +884,7 @@ if (test1) {
   tweakMountSurface = true;
 
   withCap = true;
-  //withCap = false;
+  withCap = false;
 
   printCap = true;
   //printCap = false;
@@ -892,7 +892,8 @@ if (test1) {
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
   } else {
-    scale ([1.01,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, true);
+    // scale ([1.01,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, true);
+    scale ([1.0,1.0,1.0]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, true);
   }
 
   * test_sleeveMountInsert(tweakMountSurface, 0);
