@@ -186,7 +186,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
   // powerButtonHeightFromBottom = 158.22 - (35.5 + 5.31);
-  powerButtonHeightFromBottom = 118.9;
+  powerButtonHeightFromBottom = 118.9 - 1.5;
   powerButtonCutoutHeight = 12.2 + 2.0 + 1.0;
   powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
@@ -414,7 +414,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 	    } else {
 	      // cut out bottom part of sleeve
 	      if (CONTROL_RENDER_experiment5) {
-		cutHeight  = cameraMedialHeightFromBottom;
+		cutHeight  = cameraMedialHeightFromBottom ;
 		extrHeight = l;
 		echo("cutHeight:", cutHeight);
 		translate([0,0, cutHeight])
@@ -603,7 +603,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
     }
 
     if ((CONTROL_RENDER_cutoff_top && CONTROL_RENDER_experiment4) || CONTROL_RENDER_experiment5) {
-      keepHeight = 45 + 10;
+      // magic number
+      keepHeight = 45 + 14;
       cutHeight  = l + 10 ;
       extrHeight = keepHeight ;
 
