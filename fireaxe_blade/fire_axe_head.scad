@@ -77,7 +77,10 @@ test1 = true;
 test1 = false;
 
 test2 = true;
-//test2 = false;
+test2 = false;
+
+test3 = true;
+//test3 = false;
 
 length_at_handle_base = 57.7;
 length_at_handle_top = 58.8;
@@ -90,6 +93,8 @@ handle_scale_vector = [1 - (length_at_handle_base-length_at_handle_top)/length_a
 		       1];
 
 if (test1) {
+
+  /* Assembly test view */
 
   %translate([15,0,50])
     rotate([90,0,0])
@@ -116,7 +121,7 @@ if (test1) {
 
 } else if (test2) {
 
-
+  /* Test print for handle hole */
 
   intersection() {
     translate([-10,0,40/2])
@@ -137,19 +142,70 @@ if (test1) {
 
     }
   }
-}
-else {
+
+} else if (test3) {
+
 
   difference () {
 
     translate([15,0,50])
       rotate([90,0,0])
-      scale(3.0*[1.0,1.0,1.1])
+      scale(3.3*[1.08,1.0,0.98])
       import("Pick_fire_ax__thingi_2355402.stl");
 
     // cut out a spot for axe handle
     rotate([0, 0, 0])
-     axeHandle(length_at_handle_base, width_at_handle_base, handle_scale_vector, 100, 2.8, false);
+      scale([1.02,1.01,1])
+      axeHandle(length_at_handle_base, width_at_handle_base, handle_scale_vector, 100, 2.8, false);
+
+    // tongue-and-groove parameters
+    h = 150;
+    l = 24;
+    gap = 0.5;
+    d1 = 5;
+    d2 = d1 + gap;
+    il1 = 9.5;
+    ol1 = il1 + gap;
+    sl1 = 1.2;
+    iw1 = l - (2 * il1) - (2*sl1);
+    iw2 = l - (2 * ol1) - (2*sl1);
+
+    y_end_offset = il1 + sl1 + iw1 + sl1 + il1;
+
+    // cut out a tongue and groove for glueing
+    translate([67, -l/2, -10]) {
+      linear_extrude(height = h)
+	polygon(points=[[ d1, 0],
+			[ d1, il1],
+			[  0, il1 + sl1],
+			[  0, il1 + sl1 + iw1],
+			[ d1, il1 + sl1 + iw1 + sl1],
+			[ d1, il1 + sl1 + iw1 + sl1 + il1],
+
+			[ d2,    y_end_offset],
+			[ d2,    y_end_offset - ol1],
+			[ d2-d1, y_end_offset - ol1 - sl1],
+			[ d2-d1, y_end_offset - ol1 - sl1 - iw2],
+			[ d2,    y_end_offset - ol1 - sl1 - iw2 - sl1],
+			[ d2,    0]]);
+    }
+
+
+  }
+
+} else {
+
+  difference () {
+
+    translate([15,0,50])
+      rotate([90,0,0])
+      scale(3.3*[1.08,1.0,0.98])
+      import("Pick_fire_ax__thingi_2355402.stl");
+
+    // cut out a spot for axe handle
+    rotate([0, 0, 0])
+      scale([1.02,1.01,1])
+      axeHandle(length_at_handle_base, width_at_handle_base, handle_scale_vector, 100, 2.8, false);
 
 
   }
