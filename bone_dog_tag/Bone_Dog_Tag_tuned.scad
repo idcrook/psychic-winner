@@ -7,10 +7,10 @@ font_face="Consolas";
 font_thickness=3.5;
 
 tag_attachment_outer_diameter = 8;
-tag_attachment_inner_diameter = 4;
+tag_attachment_inner_diameter = 3.5;
 tag_attachment_width = (tag_attachment_outer_diameter - tag_attachment_inner_diameter);
-tag_attachment_height = bone_height*3/4;
-tag_attachment_flare_width = 6;
+tag_attachment_height = bone_height*5/6;
+tag_attachment_flare_width = 8;
 
 module t(t){
  translate([-1,(-len(t)*3.8),bone_height])
@@ -55,7 +55,7 @@ difference(){
                 rotate([0,0, -30 ]) {
                     cube([tag_attachment_flare_width , tag_attachment_flare_width + 1.5 ,tag_attachment_height * 4/3]);
                 }
- 
+
             };
            translate([-3,-(tag_attachment_outer_diameter/2 + tag_attachment_width/2) ,0])
             {
@@ -65,7 +65,7 @@ difference(){
                 rotate([0,0,-60]) {
                     cube([tag_attachment_flare_width + 1.5 , tag_attachment_flare_width ,tag_attachment_height * 4/3]);
                 }
- 
+
             };
         }
     }
