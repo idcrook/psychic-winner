@@ -2,7 +2,7 @@ $fa=1;
 $fs=1;
 bone_height = 3.5;//set this to how thick you want the tag
 pet_name="KOKONUT";
-phone_number="970.555.1212";
+phone_number="123.555.1212";
 font_face="Consolas";
 font_thickness=3.5;
 
