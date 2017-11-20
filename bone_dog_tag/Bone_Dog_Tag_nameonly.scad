@@ -4,7 +4,7 @@ bone_height = 3.5;//set this to how thick you want the tag
 pet_name="FIDOLA";
 //phone_number="123.555.1212";
 font_face="Consolas";
-font_thickness=3.5;
+font_thickness=3.8;
 
 tag_attachment_outer_diameter = 8;
 tag_attachment_inner_diameter = 3.5;
@@ -13,10 +13,10 @@ tag_attachment_height = bone_height*5/6;
 tag_attachment_flare_width = 8;
 
 module t(t){
- translate([-1,(-len(t)*3.8),bone_height])
+ translate([-1,(-len(t)*4.0),bone_height])
    rotate([0, 0, 90])
     linear_extrude(height = font_thickness)
-      text(t, 16, font = str(font_face), $fn = 16);
+      text(t, 17, font = str(font_face), $fn = 16);
 }
 //bone
 //left side of bone
