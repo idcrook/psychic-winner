@@ -1615,7 +1615,7 @@ if (test1) {
   }
 
   // change sleeveWithCap to T and run with experiment5 to generate Cap
-  translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
+  scale ([1.043,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, sleeveWithCap);
 
   // test_generateCatch();
   // test_generateCap();
