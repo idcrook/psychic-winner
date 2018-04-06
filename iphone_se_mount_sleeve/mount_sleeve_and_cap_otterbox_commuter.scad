@@ -544,10 +544,24 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	  mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness - e;
 
-	  // y dimension needs to overlap with sleeve
+	  // Trim a little off the top of the mount
 	  translate([-mountInsertWidth/2, mountInsert_yTranslation - (2 * e), (0.65) * l - mountInsertHeight + base_l])
 	    difference() {
 	    sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
+	    // chop off top 1.5 mm
+	    translate([-e, -e, mountInsertHeight - 1.5])
+	      cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
+	  }
+
+	  // y dimension needs to overlap with sleeve (needs enough overlap to become manifold)
+	  more_overlap = 1.0;
+	  translate([-mountInsertWidth/2, mountInsert_yTranslation - (more_overlap), (0.65) * l - mountInsertHeight + base_l])
+	    difference() {
+	    sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
+
+	    translate([0, mountInsertThickness, 0])
+	       cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, mountInsertHeight]);
+
 	    // chop off top 1.5 mm
 	    translate([-e, -e, mountInsertHeight - 1.5])
 	      cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
