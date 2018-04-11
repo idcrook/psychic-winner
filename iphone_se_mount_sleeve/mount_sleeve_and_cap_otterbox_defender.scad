@@ -142,8 +142,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   //volumeButtonsHeightFromBottom = 78.0;
   volumeButtonsHeightFromBottom = 78.3;
   //volumeButtonsCutoutHeight = 22.3;
-  volumeButtonsCutoutHeight = 22.8;
-  volumeButtonsCutoutDepth = 7.7 + 2.3;
+  volumeButtonsCutoutHeight = 22.8 + 5;
+  volumeButtonsCutoutDepth = 7.7 + 2.3 + 2.0;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
@@ -155,7 +155,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   //muteSwitchHeightFromBottom = 99.5;
   muteSwitchHeightFromBottom = 101.3;
-  muteSwitchCutoutHeight = 12.2 + 3.0;
+  muteSwitchCutoutHeight = 12.2 + 3.0 + 2.0;
   muteSwitchCutoutDepth = 7.7 + 2.3;
   muteSwitchCutoutRadius = 2;
 
@@ -386,7 +386,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         capCapThickness = 3.5;
         capDepth = sleeveOuter_h;
 	// added 1.5 mm since case sits higher in sleeve
-        caseHeight = sleeveInner_l + 1.5;
+        caseHeight = sleeveInner_l + 1.0;
         capCaseWidth = sleeveOuter_w + 2*tolerance + tolerance;  // tolerance
                                                                  // shouldn't
                                                                  // here be
