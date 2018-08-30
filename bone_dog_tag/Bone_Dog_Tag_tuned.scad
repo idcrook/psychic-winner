@@ -3,13 +3,15 @@ $fs=1;
 bone_height = 3.5;//set this to how thick you want the tag
 pet_name="FIDO";
 phone_number="(123)555-1212";
+//pet_name="FIDO";
+//phone_number="(123)555-1212";
 font_face="Consolas";
 font_thickness=3.8;
 
-tag_attachment_outer_diameter = 8;
-tag_attachment_inner_diameter = 3.5;
+tag_attachment_outer_diameter = 9;
+tag_attachment_inner_diameter = 3.4;
 tag_attachment_width = (tag_attachment_outer_diameter - tag_attachment_inner_diameter);
-tag_attachment_height = bone_height*5/6;
+tag_attachment_height = bone_height*9/10;
 tag_attachment_flare_width = 8;
 
 module t(t, font_size, align_scale){
@@ -36,8 +38,8 @@ translate([-12,40,0])
 
 //center of bone
 translate([-15,-49,0]) cube([30,90,bone_height]);
-t(pet_name, 12, 4.6);
-translate([11,0,0]) t(phone_number, 9, 3.55);
+t(pet_name, 13, 4.6);
+translate([11,0,0]) t(phone_number, 8, 3.3);
 
 //tag attachment
 difference(){
