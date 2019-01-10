@@ -1,24 +1,23 @@
 $fa=1;
 $fs=1;
-bone_height = 3.5;//set this to how thick you want the tag
+bone_height = 3.4;//set this to how thick you want the tag
 pet_name="FIDO";
-phone_number="(123)555-1212";
-//pet_name="FIDO";
-//phone_number="(123)555-1212";
-font_face="Consolas";
-font_thickness=3.8;
+phone_number="123-555-1212";
+font_face="San Franscisco:style=Bold";
+font_thickness=3.15;
+delta = 0.01;
 
 tag_attachment_outer_diameter = 9;
 tag_attachment_inner_diameter = 3.4;
 tag_attachment_width = (tag_attachment_outer_diameter - tag_attachment_inner_diameter);
-tag_attachment_height = bone_height*9/10;
+tag_attachment_height = bone_height*95/100;
 tag_attachment_flare_width = 8;
 
-module t(t, font_size, align_scale){
- translate([-1,(-len(t)*align_scale),bone_height])
+module t(t, font_size, align_scale, character_spacing){
+ translate([-1,(-len(t)*align_scale),bone_height - delta])
    rotate([0, 0, 90])
     linear_extrude(height = font_thickness)
-      text(t, font_size, font = str(font_face), $fn = 16);
+      text(t, font_size, font = str(font_face), spacing = character_spacing, $fn = 20);
 }
 //bone
 //left side of bone
@@ -38,8 +37,10 @@ translate([-12,40,0])
 
 //center of bone
 translate([-15,-49,0]) cube([30,90,bone_height]);
-t(pet_name, 13, 4.6);
-translate([11,0,0]) t(phone_number, 8, 3.3);
+
+// TEXT
+translate([1.5,    0, 0]) t(pet_name,    14, 9.0, 1.3);
+translate([1.5+11.5, 0, -0.2]) t(phone_number, 10, 3.9, 1.1);
 
 //tag attachment
 difference(){
