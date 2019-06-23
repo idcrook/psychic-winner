@@ -76,6 +76,15 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
   microb_port_height_from_base = 5.0;
   microb_port_inset_from_side = 19.4;
 
+  // bottom contours
+  bottom_cutout_length = 33.0;
+  bottom_cutout_height = 3.2;
+  bottom_cutout_corner_radius = 4.0;
+  bottom_semicircle_height = bottom_cutout_height;
+  bottom_semicircle_radius = 15.0/2 ;
+  bottom_semicircle_center_offset = 1.0;
+
+
   difference () {
     echoAutoRoughShell(length, depth_prism, height_shell, ext_height_bumper, ext_height_side_radius);
 
@@ -114,7 +123,18 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
                           usb_height_from = microb_port_height_from_base,
                           usb_inset_from = microb_port_inset_from_side);
 
-    // TODO: bottom mount contours
+    // bottom cutouts (subtractive)
+    translate([0, 0, 0])
+      rotate(a=[0, 0, 0])
+      bottomMountCutouts(length = length,
+                         width = depth,
+                         cutout_square_width = bottom_cutout_length,
+                         cutout_square_depth = bottom_cutout_height,
+                         cutout_square_corner_radius  = bottom_cutout_corner_radius,
+                         cutout_circle_radius = bottom_semicircle_radius,
+                         cutout_circle_depth = bottom_semicircle_height,
+                         cutout_circle_center_offset = bottom_semicircle_center_offset);
+
   }
 
   // TODO: bottom bumpers
@@ -225,9 +245,29 @@ module passengersSidePorts (aux_diameter, usb_width, usb_height,
     square([usb_width, usb_height]);
 
 
-  /* % translate([edge_offset, -e, edge_height - (1/2)*height]) */
-  /*   linear_extrude(height=depth) */
-  /*   square([length, height], center=false); */
+}
+
+
+module bottomMountCutouts(length, width, cutout_square_width, cutout_square_depth, cutout_square_corner_radius,
+                         cutout_circle_radius , cutout_circle_depth , cutout_circle_center_offset ) {
+
+  center_x_pos = (1/2)*(width - cutout_square_width + cutout_square_width);
+  center_y_pos = (1/2)*(length - cutout_square_width + cutout_square_width) ;
+
+  // square cutout
+  translate([center_x_pos, center_y_pos, -e])  // position to center of rounded rect
+    linear_extrude(height = cutout_square_depth)
+    roundedSquare(pos=[cutout_square_width, cutout_square_width], r=cutout_square_corner_radius);
+
+  x_pos = center_x_pos;
+  y_pos = center_y_pos + (1/2)*cutout_square_width - cutout_circle_center_offset ;
+
+  // hemisperical groove
+  translate([x_pos, y_pos, 0])  // position to center of circle/sphere
+    resize(newsize=2*[cutout_circle_radius, cutout_circle_radius + cutout_circle_center_offset, cutout_circle_depth])
+    sphere(r=cutout_circle_radius);
+
+
 }
 
 
