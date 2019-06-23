@@ -67,9 +67,19 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
   side_port_edge_height = ext_height_bumper + (height_shell/2);
   side_port_depth = 1.2;
 
+  // passenger side ports
+  aux_port_diameter = 5.0;
+  aux_port_height_from_base = 3.4;
+  aux_port_inset_from_side = 4.5;
+  microb_port_width = 8.2;
+  microb_port_height = 3.6;
+  microb_port_height_from_base = 5.0;
+  microb_port_inset_from_side = 19.4;
 
   difference () {
     echoAutoRoughShell(length, depth_prism, height_shell, ext_height_bumper, ext_height_side_radius);
+
+    // FIXME: eight holes on top surface
 
     // top buttons (subtractive)
     translate([0,0, ext_height])
@@ -93,14 +103,22 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
                       edge_offset = side_port_edge_offset,
                       depth =  side_port_depth );
 
-    // FIXME: eight holes on top surface
-    // TODO: USB microB, aux jack
+    // passenger-side ports (subtractive)
+    translate([0, length, 0])
+      rotate(a=[90, 0, 0])
+      passengersSidePorts(aux_diameter = aux_port_diameter,
+                          usb_width = microb_port_width,
+                          usb_height = microb_port_height,
+                          aux_height_from = aux_port_height_from_base,
+                          aux_inset_from = aux_port_inset_from_side,
+                          usb_height_from = microb_port_height_from_base,
+                          usb_inset_from = microb_port_inset_from_side);
 
     // TODO: bottom mount contours
-    // TODO: USB microB, aux jack keepouts
   }
 
   // TODO: bottom bumpers
+  // TODO: USB microB, aux jack keepouts
 }
 
 
@@ -184,6 +202,32 @@ module driversSidePort (length, height, edge_height, edge_offset, depth) {
   translate([edge_offset, -e, edge_height - (1/2)*height])
     linear_extrude(height=depth)
     square([length, height], center=false);
+}
+
+// subtractive volume for passengers side ports
+module passengersSidePorts (aux_diameter, usb_width, usb_height,
+                            aux_height_from, aux_inset_from, usb_height_from, usb_inset_from ) {
+
+  aux_radius = (aux_diameter / 2);
+  hole_depth = 10.0;
+
+  echo("passengersSidePorts", aux_diameter, usb_width, usb_height);
+  echo("passengersSidePorts placement",  aux_height_from, aux_inset_from, usb_height_from, usb_inset_from);
+
+  // aux port
+  translate([aux_inset_from + aux_radius, aux_height_from + aux_radius, -e])
+    linear_extrude(height=hole_depth)
+    circle(r=aux_radius);
+
+  // microUSB B port
+  translate([usb_inset_from, usb_height_from, -e])
+    linear_extrude(height=hole_depth)
+    square([usb_width, usb_height]);
+
+
+  /* % translate([edge_offset, -e, edge_height - (1/2)*height]) */
+  /*   linear_extrude(height=depth) */
+  /*   square([length, height], center=false); */
 }
 
 
