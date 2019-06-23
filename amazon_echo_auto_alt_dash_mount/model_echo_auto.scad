@@ -54,24 +54,57 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
   top_button_edge_offset =  12.0;
   top_button_depth = 1.2;
 
+
+  // light bar
+  light_bar_length = 76.0;
+  light_bar_height = 2.0;
+  light_bar_edge_offset = (length - light_bar_length) / 2.0;
+
+  // driver side side port
+  side_port_length = 35.0;
+  side_port_height = 1.0;
+  side_port_edge_offset = (depth - side_port_length) / 2.0;
+  side_port_edge_height = ext_height_bumper + (height_shell/2);
+  side_port_depth = 1.2;
+
+
   difference () {
     echoAutoRoughShell(length, depth_prism, height_shell, ext_height_bumper, ext_height_side_radius);
 
-    // top buttons
-    // TODO: eight holes on top surface
+    // top buttons (subtractive)
     translate([0,0, ext_height])
-    topButtonsOutline(length, top_button_side_offset, top_button_edge_offset,
-                        top_button_diameter /2, top_button_depth);
+    topButtons(length, top_button_side_offset, top_button_edge_offset,
+               top_button_diameter /2, top_button_depth);
 
+    // light bar outline (subtractive)
+    // light_bar_height subtracted since lightbar itselfis completely below mid-line
+    translate([depth, 0, ((1/2)*ext_height) - (light_bar_height) ])
+      rotate(a=[90, 0, 90])
+      frontLightBar(length = light_bar_length,
+                    height = light_bar_height,
+                    edge_offset = light_bar_edge_offset );
+
+    // driver-side port (subtractive)
+    translate([0, 0, 0])
+      rotate(a=[0, 0, 0])
+      driversSidePort(length = side_port_length,
+                      height = side_port_height,
+                      edge_height = side_port_edge_height,
+                      edge_offset = side_port_edge_offset,
+                      depth =  side_port_depth );
+
+    // FIXME: eight holes on top surface
     // TODO: USB microB, aux jack
-    // TODO: Front light bar
-    // TODO: side slit
+
+    // TODO: bottom mount contours
+    // TODO: USB microB, aux jack keepouts
   }
 
-
-  // TODO: bottom mount and bumber contours
-  // TODO: USB microB, aux jack keepouts
+  // TODO: bottom bumpers
 }
+
+
+
 
 // Rough outline of the Echo Auto
 module echoAutoRoughShell (length, depth, height, height_bumpers, side_radius) {
@@ -111,7 +144,7 @@ module echoAutoRoughShell (length, depth, height, height_bumpers, side_radius) {
 }
 
 // subtractive volumes for top buttons
-module topButtonsOutline (echo_length, side_offset, edge_offset, button_radius, button_depth) {
+module topButtons (echo_length, side_offset, edge_offset, button_radius, button_depth) {
 
   // "Microphone off" button
   translate([side_offset, edge_offset + button_radius, 0])  // position to center of circle/sphere
@@ -127,12 +160,33 @@ module topButtonsOutline (echo_length, side_offset, edge_offset, button_radius, 
 
     // make the bump by subtracting out of the difference volume :)
     translate([0, 0, -button_depth])
-    linear_extrude(height=(1/3) * button_depth)
+    linear_extrude(height=(1/4) * button_depth)
       circle(r=button_radius/7);
-
   }
 
 }
+
+// subtractive volumes for front side (light bar side) features
+module frontLightBar (length, height, edge_offset) {
+
+  inset = 0.3;
+
+  echo("frontLightBar", length, height, edge_offset);
+  translate([edge_offset, 0, -inset])
+    linear_extrude(height=inset)
+    square([length, height], center=false);
+}
+
+// subtractive volume for drivers side port
+module driversSidePort (length, height, edge_height, edge_offset, depth) {
+
+  echo("driversSidePort", length, height, edge_height, edge_offset, depth);
+  translate([edge_offset, -e, edge_height - (1/2)*height])
+    linear_extrude(height=depth)
+    square([length, height], center=false);
+}
+
+
 
 $fn = $preview ? 30 : 100;
 modelEchoAuto();
