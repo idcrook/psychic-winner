@@ -22,7 +22,6 @@
 
 
 use <MCAD/2Dshapes.scad>
-use <../libraries/wedge.scad>
 
 e = 0.02; // small number
 
@@ -84,16 +83,22 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
   bottom_semicircle_radius = 15.0/2 ;
   bottom_semicircle_center_offset = 1.0;
 
+  // bottom bumpers - see addBottomBumpers() for additional placement information
+  bottom_bumper_height = ext_height_bumper;
+  bottom_bumper_short_side_offset = 6.0;
+  bottom_bumper_edge_to_edge_distance = 34.0;
 
+  // color("#08080880")
   difference () {
     echoAutoRoughShell(length, depth_prism, height_shell, ext_height_bumper, ext_height_side_radius);
 
-    // FIXME: eight holes on top surface
 
     // top buttons (subtractive)
     translate([0,0, ext_height])
     topButtons(length, top_button_side_offset, top_button_edge_offset,
                top_button_diameter /2, top_button_depth);
+
+    // FIXME: eight holes on top surface
 
     // light bar outline (subtractive)
     // light_bar_height subtracted since lightbar itselfis completely below mid-line
@@ -113,6 +118,7 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
                       depth =  side_port_depth );
 
     // passenger-side ports (subtractive)
+    // TODO: microB, aux jack keepouts
     translate([0, length, 0])
       rotate(a=[90, 0, 0])
       passengersSidePorts(aux_diameter = aux_port_diameter,
@@ -124,7 +130,7 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
                           usb_inset_from = microb_port_inset_from_side);
 
     // bottom cutouts (subtractive)
-    translate([0, 0, 0])
+    translate([0, 0, ext_height_bumper])
       rotate(a=[0, 0, 0])
       bottomMountCutouts(length = length,
                          width = depth,
@@ -137,8 +143,14 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
 
   }
 
-  // TODO: bottom bumpers
-  // TODO: USB microB, aux jack keepouts
+  if (true) {
+    addBottomBumpers(length = length,
+                     width = depth,
+                     bumper_height = bottom_bumper_height,
+                     short_edge_offset = bottom_bumper_short_side_offset,
+                     outside_distance = bottom_bumper_edge_to_edge_distance);
+  }
+
 }
 
 
@@ -147,7 +159,7 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
 // Rough outline of the Echo Auto
 module echoAutoRoughShell (length, depth, height, height_bumpers, side_radius) {
 
-  shellColor = "#080808A0";
+  shellColor = "#080808A8";
 
    // case outer dimensions
   // contructed as rectangular solid prism with semi-circle cylinders along
@@ -270,7 +282,59 @@ module bottomMountCutouts(length, width, cutout_square_width, cutout_square_dept
 
 }
 
+module addBottomBumpers(length, width, bumper_height, short_edge_offset, outside_distance) {
 
+  long_side = 18.5;
+  half_long_side = (1/2)*long_side ;
+  short_side = 5.5;
+  half_short_side = (1/2)*short_side ;
+
+  outside_offset = (1/2) * (width - outside_distance);
+  otherside_offset = width - outside_offset;
+  farside_pos = length - short_edge_offset;
+
+  positions = [[otherside_offset - half_short_side, short_edge_offset + half_long_side],
+               [outside_offset   + half_short_side, short_edge_offset + half_long_side],
+               [otherside_offset - half_short_side, farside_pos - half_long_side],
+               [outside_offset   + half_short_side, farside_pos - half_long_side]];
+
+  bumperColor = "DimGray";
+
+  echo("addBottomBumpers", length, width, bumper_height, short_edge_offset, outside_distance);
+
+  // four bumpers
+  for (i = [0:3]) {
+    let (pos = positions[i]) {
+      color(bumperColor)
+      translate([pos[0], pos[1], 0])
+        // the call should be pre-positioned at the center of the bumper
+        drawBumper(height = bumper_height, short_side = short_side, long_side = long_side);
+    }
+  }
+
+}
+
+
+module drawBumper(height, short_side, long_side) {
+
+  r = short_side/2;
+  end_translate = (1/2)*long_side - r;
+
+
+
+  linear_extrude(height = height)
+    union ()
+  {
+    square([short_side, long_side - 2*r], center=true);
+    translate([0,-end_translate,0])
+      circle(r=r);
+    translate([0, end_translate,0])
+      circle(r=r);
+  }
+
+
+
+}
 
 $fn = $preview ? 30 : 100;
 modelEchoAuto();
