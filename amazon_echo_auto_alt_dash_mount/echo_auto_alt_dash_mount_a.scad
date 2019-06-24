@@ -41,10 +41,9 @@ module dash_mount_a (length = auto_length, width = auto_depth, height = auto_hei
 
   echo ("dash_mount_a ", length, width, height);
   center = [width/2, length/2];
-  arc_radius = center.y + 10.0;
   thickness = 2*6.0;
 
-  driver_side_arc(radius = arc_radius, center = center, chord_length = width, arc_thickness = thickness, height = mount_thickness);
+  driver_side_arc(center = center, chord_length = width, arc_thickness = thickness, height = mount_thickness);
 
 }
 
@@ -98,6 +97,7 @@ if (showEchoAuto) {
     #translate([0,0,mount_thickness + 2*e])
       modelEchoAuto();
   } else {
+    // does not get rendered
     %translate([0,0,mount_thickness + 2*e])
       modelEchoAuto();
   }
