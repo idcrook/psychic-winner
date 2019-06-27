@@ -16,6 +16,10 @@
 //
 // Revisions/Notes:
 //
+//   - Requires OpenSCAD 2019.5 features (let(), $preview, e.g.)
+//
+//
+//
 //
 ////////////////////////////////////////////////////////////////////////
 
@@ -36,15 +40,21 @@ auto_height = 12.85;
 mount_thickness = 2.0;
 
 
-// TBD!
 module dash_mount_a (length = auto_length, width = auto_depth, height = auto_height) {
 
   echo ("dash_mount_a ", length, width, height);
   center = [width/2, length/2];
-  thickness = 2*6.0;
+  arc_width = 2*6.0;
+  bar_width = (1/2)*arc_width;
 
-  driver_side_arc(center = center, chord_length = width, arc_thickness = thickness, height = mount_thickness);
+  bracket_size = 10.0;
+  bracket_thickness = 3.5;
 
+  driver_side_arc(center = center, chord_length = width, arc_thickness = arc_width, height = mount_thickness);
+
+  corner_brackets(auto_length = length, auto_width = width, bracket_size = bracket_size, thickness = bracket_thickness);
+
+  crossbars(auto_length = length, auto_width = width, bar_width = bar_width,  thickness = mount_thickness);
 }
 
 
@@ -87,7 +97,102 @@ module driver_side_arc (center, chord_length, arc_thickness, height) {
 
 }
 
-showEchoAuto = false;
+
+
+module  corner_brackets(auto_length, auto_width, bracket_size, thickness) {
+
+  origin = [0.0, 0.0];
+  bracket_height = auto_height + mount_thickness + thickness;
+
+  // amount that center of corner block should be positioned toward Echo Auto
+  overhang = 2;
+  z_enlarge_for_fit = 1.05;
+
+  corner_positions = [[origin.x + overhang,              origin.y + overhang],
+                      [origin.x + auto_width - overhang, origin.y + overhang],
+                      [origin.x + overhang,              origin.y + auto_length - overhang]];
+
+  cornerColor ="#808000";
+
+  // form by putting a "block" on each corner, then subtracting out Echo Auto profile
+  difference () {
+    union () {
+      // three corners
+      for (pos = corner_positions) {
+      color(cornerColor)
+        translate([pos[0], pos[1], 0])
+        // the call should be pre-positioned at the center of the corner
+        drawCorner(size = bracket_size, height = bracket_height, thickness = thickness);
+      }
+    }
+    translate([0,0,mount_thickness ])
+      if ($preview) {
+        scale([1,1,z_enlarge_for_fit])
+          modelEchoAuto();
+      } else {
+        // the convex hull() function here eliminates reliefs/holes on the
+        // surface and smooths them (only done for render since it is computationally expensive)
+        hull () {
+          scale([1,1,z_enlarge_for_fit])
+            modelEchoAuto();
+        }
+      }
+  }
+
+}
+
+
+module drawCorner(size, height, thickness) {
+
+  rounded_size = 2;
+  square_size = size - rounded_size;
+
+  linear_extrude(height = height)
+  minkowski() {
+    square(square_size, center=true);
+    circle(r = rounded_size);
+  }
+}
+
+
+module  crossbars(auto_length, auto_width, bar_width, thickness, center_hole = true) {
+
+  echo("crossbars: (", auto_length, auto_width, bar_width, thickness, ")");
+
+  origin = [0,0];
+  center = [auto_width/2, auto_length/2];
+
+  // trace out a shape that is like the letter "y"
+  crossbars_points = [
+    [origin.x, origin.y],
+    [origin.x + auto_width, origin.y],
+    [center.x -e, center.y - e],
+    [center.x +e, center.y + e],
+    [origin.x, origin.y + auto_length]];
+
+  order = [[1,2,0,3,4]];
+  echo ("points ", crossbars_points);
+
+  difference () {
+    linear_extrude(height = thickness) {
+      offset(r=bar_width/2) {
+        polygon(points = crossbars_points, paths = order);
+      }
+    }
+    if (center_hole) {
+        translate ([center.x, center.y - 1.5, -e]) {
+          linear_extrude(height = thickness + 2*e) {
+            circle(r=0.4);
+          }
+        }
+    }
+  }
+
+
+}
+
+
+//showEchoAuto = false;
 showEchoAuto = true;
 
 $fn = $preview ? 12 : 100;
