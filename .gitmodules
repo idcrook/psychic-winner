@@ -1,3 +1,6 @@
 [submodule "MCAD"]
 	path = MCAD
 	url = https://github.com/openscad/MCAD.git
+[submodule "libraries/scad-utils"]
+	path = libraries/scad-utils
+	url = https://github.com/idcrook/scad-utils.git

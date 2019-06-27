@@ -16,7 +16,7 @@
 //
 // Revisions/Notes:
 //
-//   - Requires OpenSCAD 2019.5 features (let(), $preview, e.g.)
+//   - Requires OpenSCAD 2019.05 features (let(), $preview, e.g.)
 //
 //
 //
@@ -26,10 +26,12 @@
 // contains dimensional model of Echo Auto
 use <model_echo_auto.scad>
 
-/* use <MCAD/2Dshapes.scad> */
-/* use <../psychic-winner/MCAD/2Dshapes.scad> */
+
+/* use <MCAD/2Dshapes.scad> */  // openscad's version is not updated
 use <2Dshapes.scad>
-use <../../libraries/scad-utils/morphology.scad>
+
+// https://github.com/OskarLinde/scad-utils
+use <../libraries/scad-utils/morphology.scad>
 
 e = 0.02; // small number
 
