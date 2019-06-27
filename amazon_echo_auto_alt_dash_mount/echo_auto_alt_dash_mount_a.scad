@@ -12,7 +12,7 @@
 //
 // Description:
 //
-//   Alternative dash mount for Echo Auto
+//   Alternative dash mount for Echo Auto - Cross bars are "y" shaped
 //
 // Revisions/Notes:
 //
@@ -155,7 +155,7 @@ module drawCorner(size, height, thickness) {
 }
 
 
-module  crossbars(auto_length, auto_width, bar_width, thickness, center_hole = true) {
+module  crossbars(auto_length, auto_width, bar_width, thickness, near_center_hole = true) {
 
   echo("crossbars: (", auto_length, auto_width, bar_width, thickness, ")");
 
@@ -179,10 +179,10 @@ module  crossbars(auto_length, auto_width, bar_width, thickness, center_hole = t
         polygon(points = crossbars_points, paths = order);
       }
     }
-    if (center_hole) {
+    if (near_center_hole) {
         translate ([center.x, center.y - 1.5, -e]) {
           linear_extrude(height = thickness + 2*e) {
-            circle(r=0.4);
+            circle(r=0.75);
           }
         }
     }
