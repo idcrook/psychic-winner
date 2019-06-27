@@ -127,17 +127,26 @@ module caddy_support_knob () {
 
   knob_diameter = caddy_groove_diameter;
   knob_sidewall_height = caddy_groove_height;
-  knob_length = caddy_thickness_front_to_back;
+
+  // knob_length = caddy_thickness_front_to_back;
+  knob_length = 15;
 
   knob_radius = knob_diameter/2;
-  knob_center = [knob_radius, knob_sidewall_height/4];
+
+  // trim some off the sides
+  square_width = knob_diameter - 1.8;
+
+  square_corner = [0 + (1/2)*(knob_diameter - square_width), 0];
+  knob_center = [knob_radius, (2/7)*knob_sidewall_height];
 
   linear_extrude (height = knob_length)
     // kinda like a bread loaf-- with a rounded top
     intersection() {
-    square([knob_diameter, knob_sidewall_height]);
+    translate([square_corner.x, square_corner.y])
+      square([square_width, knob_sidewall_height]);
     translate([knob_center.x, knob_center.y])
-      circle(r=knob_radius*1.15);
+      scale([1,0.85])
+      circle(r=knob_radius*1.0);
   }
 
 }
