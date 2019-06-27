@@ -52,9 +52,11 @@ mount_width_across = caddy_groove_diameter + 4*mount_thickness;
 
 module shower_caddy_hanging_mount () {
 
-  top_bracket() ;
+  //top_bracket() ;
 
-  caddy_support () ;
+  translate([caddy_thickness_front_to_back, 0, 0])
+  //rotate(a = [180, 90, 0])
+    caddy_support_knob () ;
 
 
 }
@@ -71,8 +73,8 @@ module top_bracket () {
   front_lip_height = shower_wall_front_side_extension_height;
   taper_radius =  shower_wall_rear_side_taper_round_radius;
   bracket_thickness = mount_thickness;
-  //bracket_height = mount_width_across;
-  bracket_height = 12;  // for test prints
+  bracket_height = mount_width_across;
+  //bracket_height = 12;  // for test prints
 
   // assume its symmetrical
   groove_gap = (1/2)*(top_interior_width - groove_width);
@@ -121,8 +123,22 @@ module top_bracket () {
 }
 
 
-// TODO:
-module caddy_support () {
+module caddy_support_knob () {
+
+  knob_diameter = caddy_groove_diameter;
+  knob_sidewall_height = caddy_groove_height;
+  knob_length = caddy_thickness_front_to_back;
+
+  knob_radius = knob_diameter/2;
+  knob_center = [knob_radius, knob_sidewall_height/4];
+
+  linear_extrude (height = knob_length)
+    // kinda like a bread loaf-- with a rounded top
+    intersection() {
+    square([knob_diameter, knob_sidewall_height]);
+    translate([knob_center.x, knob_center.y])
+      circle(r=knob_radius*1.15);
+  }
 
 }
 
