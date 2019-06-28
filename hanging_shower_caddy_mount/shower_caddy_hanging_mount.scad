@@ -48,16 +48,20 @@ caddy_thickness_front_to_back = 29.5;
 
 // Other dimensions
 mount_thickness = 3.5;
-mount_width_across = caddy_groove_diameter + 4*mount_thickness;
+mount_width_thickness_scale = 3;
+mount_width_thickness_scaled = mount_width_thickness_scale*mount_thickness;
+mount_width_across = caddy_groove_diameter + mount_width_thickness_scaled;
 
 module shower_caddy_hanging_mount () {
 
-  //top_bracket() ;
+  top_bracket() ;
 
-  translate([caddy_thickness_front_to_back, 0, 0])
-  //rotate(a = [180, 90, 0])
+  translate([shower_wall_top_interior_width + mount_thickness - 2*e ,
+             32,
+             (1/2)*mount_width_thickness_scaled-0.45])
+    rotate(a = [0, 270, 180])
+    rotate(a = [0, 0, 0])
     caddy_support_knob () ;
-
 
 }
 
@@ -128,25 +132,56 @@ module caddy_support_knob () {
   knob_diameter = caddy_groove_diameter;
   knob_sidewall_height = caddy_groove_height;
 
-  // knob_length = caddy_thickness_front_to_back;
-  knob_length = 15;
-
-  knob_radius = knob_diameter/2;
+  knob_length = caddy_thickness_front_to_back;
+  // knob_length = 15;  // for test prints
 
   // trim some off the sides
-  square_width = knob_diameter - 1.8;
+  square_width = knob_diameter - 0.9;
+  flange_length = 0.7;
 
-  square_corner = [0 + (1/2)*(knob_diameter - square_width), 0];
-  knob_center = [knob_radius, (2/7)*knob_sidewall_height];
+  support_knob_prism(height = knob_length,
+                     knob_diameter = knob_diameter,
+                     knob_width = square_width,
+                     sidewall_height = knob_sidewall_height);
 
-  linear_extrude (height = knob_length)
+  // create a flange, using projects
+  hull() {
+    // scale projection outline
+    linear_extrude(center = true, height = 0.5)
+      scale([1.15,1.15]) /* spitballed these */
+      translate([-1.55,-1.0])
+      projection(cut = false)
+      support_knob_prism(height = knob_length,
+                         knob_diameter = knob_diameter,
+                         knob_width = square_width,
+                         sidewall_height = knob_sidewall_height);
+
+    // shift up same projection
+    translate([0, 0, flange_length])
+      linear_extrude(center = true, height = 0.5)
+      projection(cut = false)
+      support_knob_prism(height = knob_length,
+                         knob_diameter = knob_diameter,
+                         knob_width = square_width,
+                         sidewall_height = knob_sidewall_height);
+  }
+
+}
+
+module support_knob_prism (height, knob_diameter, knob_width, sidewall_height) {
+  knob_radius = knob_diameter/2;
+
+  square_corner = [0 + (1/2)*(knob_diameter - knob_width), 0];
+  knob_center = [knob_radius, (2/7)*sidewall_height];
+
+  linear_extrude (height = height, center = false)
     // kinda like a bread loaf-- with a rounded top
     intersection() {
     translate([square_corner.x, square_corner.y])
-      square([square_width, knob_sidewall_height]);
+      square([knob_width, sidewall_height]);
     translate([knob_center.x, knob_center.y])
-      scale([1,0.85])
-      circle(r=knob_radius*1.0);
+      scale([0.89,0.90])
+      circle(r=knob_radius*1.1);
   }
 
 }
