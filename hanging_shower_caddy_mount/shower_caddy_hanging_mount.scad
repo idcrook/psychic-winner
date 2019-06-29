@@ -146,7 +146,7 @@ module caddy_support_knob () {
                      knob_width = square_width,
                      sidewall_height = knob_sidewall_height);
 
-  // create a flange, using projects
+  // create a flange, using projections
   hull() {
     // scale projection outline
     linear_extrude(center = true, height = 0.5)
@@ -160,6 +160,30 @@ module caddy_support_knob () {
 
     // shift up same projection
     translate([0, 0, flange_length])
+      linear_extrude(center = true, height = 0.5)
+      projection(cut = false)
+      support_knob_prism(height = knob_length,
+                         knob_diameter = knob_diameter,
+                         knob_width = square_width,
+                         sidewall_height = knob_sidewall_height);
+  }
+
+
+// create a flange, using projections
+  translate([0, 0, caddy_thickness_front_to_back])
+  hull() {
+    // scale projection outline
+    linear_extrude(center = true, height = 0.5)
+      scale([1.15,1.15]) /* spitballed these */
+      translate([-1.55,-1.0])
+      projection(cut = false)
+      support_knob_prism(height = knob_length,
+                         knob_diameter = knob_diameter,
+                         knob_width = square_width,
+                         sidewall_height = knob_sidewall_height);
+
+    // shift up same projection
+    translate([0, 0, -flange_length])
       linear_extrude(center = true, height = 0.5)
       projection(cut = false)
       support_knob_prism(height = knob_length,
