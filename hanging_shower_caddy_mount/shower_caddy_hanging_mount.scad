@@ -44,7 +44,7 @@ shower_wall_rear_side_taper_round_radius = 1.0;
 
 caddy_groove_diameter = 22.6;
 caddy_groove_height = 17.0;
-caddy_thickness_front_to_back = 29.5;
+caddy_thickness_front_to_back = 29.5 + 5;
 
 // Other dimensions
 mount_thickness = 3.5;
@@ -56,10 +56,10 @@ module shower_caddy_hanging_mount () {
 
   top_bracket() ;
 
-  translate([shower_wall_top_interior_width + mount_thickness - 2*e ,
+  translate([shower_wall_top_interior_width + mount_thickness - 2*e + caddy_thickness_front_to_back,
              32,
-             (1/2)*mount_width_thickness_scaled-0.45])
-    rotate(a = [0, 270, 180])
+              caddy_groove_diameter + (1/2)*mount_width_thickness_scaled])
+    rotate(a = [0, 90, 180])
     rotate(a = [0, 0, 0])
     caddy_support_knob () ;
 
@@ -88,8 +88,10 @@ module top_bracket () {
   groove_start = origin.x + groove_gap;
   groove_stop =  origin.x + groove_gap + groove_width;
   opposite_side = groove_stop + groove_gap ;
+  extra_front_padding = 1.0;
 
-  minus_square = [(opposite_side - taper_radius) - (origin.x + taper_radius), rear_height_extension + front_lip_height];
+  minus_square = [(opposite_side - taper_radius) - (origin.x + taper_radius) - extra_front_padding,
+                  rear_height_extension + front_lip_height];
 
   // 2d outline of bracket interior
   bracket_crossxn_points = [
