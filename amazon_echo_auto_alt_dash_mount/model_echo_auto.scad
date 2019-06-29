@@ -98,7 +98,7 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
     topButtons(length, top_button_side_offset, top_button_edge_offset,
                top_button_diameter /2, top_button_depth);
 
-    // FIXME: eight holes on top surface
+    // MISSING: eight holes on top surface
 
     // light bar outline (subtractive)
     // light_bar_height subtracted since lightbar itselfis completely below mid-line
@@ -118,7 +118,7 @@ module modelEchoAuto (length = ext_length, depth = ext_depth, height_shell = ext
                       depth =  side_port_depth );
 
     // passenger-side ports (subtractive)
-    // TODO: microB, aux jack keepouts
+    // WOULD BE NICE: microB, aux jack keepouts
     translate([0, length, 0])
       rotate(a=[90, 0, 0])
       passengersSidePorts(aux_diameter = aux_port_diameter,

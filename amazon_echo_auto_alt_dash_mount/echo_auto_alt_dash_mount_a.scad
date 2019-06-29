@@ -18,6 +18,8 @@
 //
 //   - Requires OpenSCAD 2019.05 features (let(), $preview, e.g.)
 //
+//   - Obscures small overlaps on driver-side slit, and on the other end, the
+//     microphone jack
 //
 //
 //
@@ -25,7 +27,6 @@
 
 // contains dimensional model of Echo Auto
 use <model_echo_auto.scad>
-
 
 /* use <MCAD/2Dshapes.scad> */  // openscad's version is not updated
 use <2Dshapes.scad>
@@ -209,6 +210,7 @@ if (showEchoAuto) {
       modelEchoAuto();
   }
 } else {
+  // elevated
   translate([0,0,20])
     modelEchoAuto();
 }
