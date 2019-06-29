@@ -44,7 +44,7 @@ shower_wall_rear_side_taper_round_radius = 1.0;
 
 caddy_groove_diameter = 22.6;
 caddy_groove_height = 17.0;
-caddy_thickness_front_to_back = 29.5 + 5;
+caddy_thickness_front_to_back = 29.5 + 3;
 
 // Other dimensions
 mount_thickness = 3.5;
