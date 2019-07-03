@@ -132,7 +132,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 
   CONTROL_RENDER_cutoff_top = true;
-  //CONTROL_RENDER_cutoff_top = false;
+  CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_prototype_bottom = true;
   CONTROL_RENDER_prototype_bottom = false;
@@ -144,7 +144,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment4 = false;
 
   CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  //CONTROL_RENDER_experiment5 = false;
 
   wantThinner = true;
   wantThinner = false;
@@ -888,12 +888,13 @@ if (test1) {
   withCap = false;
 
   printCap = true;
-  printCap = false;
+  //printCap = false;
 
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
   } else {
-      scale ([1.0,1.0,1.0]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+    //scale ([1.0,1.0,1.0]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+      scale ([1.0,1.0,1.0]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, true);
   }
 
   * test_sleeveMountInsert(tweakMountSurface, 0);
