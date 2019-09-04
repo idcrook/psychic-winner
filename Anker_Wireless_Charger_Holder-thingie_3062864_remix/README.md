@@ -3,6 +3,8 @@ Anker Wireless Charger Holder (remix)
 
 Description: Add a "cutout" on base for better accomodation of USB cable -> egress from "Charger"
 
+Published on Thingiverse: [Anker Wireless Charger Holder (remix)](https://www.thingiverse.com/thing:3844447)
+
 Inspired by [comment](https://www.thingiverse.com/thing:3062864/comments/#comment-2226273) on original.
 
 -	Remix of [Anker Wireless Charger Holder](https://www.thingiverse.com/thing:3062864)
