@@ -66,14 +66,16 @@ cut_r = 2.5;
 dcw = (w - cut_w) / 2;
 dcl = (l - cut_l) / 2;
 
+function translate_y_from_top (from_top)  = il - from_top;
 
 
 //
 module monopriceRuggedThinCase () {
 
-  difference() {
+  %difference() {
     // case outer dimensions
-    color ("Yellow") shell(w, l, h, 10, 3);
+    //color ("Green") shell(w, l, h, 10, 3);
+    shell(w, l, h, 10, 3);
 
     // carve out iphone and some tolerance
     translate([tw - tol, tl - tol, th]) {
@@ -141,22 +143,26 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   sleeveInner_l = l;
-  volumeButtonsHeightFromBottom = 78.0;
-  volumeButtonsCutoutHeight = 22.3;
+  //volumeButtonsHeightFromBottom = 78.0;
+  volumeButtonsCutoutHeight = 34; // big enough to be continuous
+  volumeButtonsHeightFromBottom = translate_y_from_top(51.37) - 5.88;
   volumeButtonsCutoutDepth = 7.7 + 2.3;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
-  powerButtonHeightFromBottom = 102;
-  powerButtonCutoutHeight = 12.2 + 2.0 + 1.0;
+  //muteSwitchHeightFromBottom = 99.5;
+  muteSwitchCutoutHeight = 12.2 + 3.0;
+  muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
+  muteSwitchCutoutDepth = 7.7 + 2.3;
+  muteSwitchCutoutRadius = 2;
+
+  //powerButtonHeightFromBottom = 102;
+  powerButtonCutoutHeight = (8.77*2) + 10;
+  powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77;
   powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
-  muteSwitchHeightFromBottom = 99.5;
-  muteSwitchCutoutHeight = 12.2 + 3.0;
-  muteSwitchCutoutDepth = 7.7 + 2.3;
-  muteSwitchCutoutRadius = 2;
 
   cameraHeightFromBottom = 110.2;
   cameraCutoutHeight = 0.5 + 25.7 + 0.5;
@@ -826,18 +832,14 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = true;
+  //withCap = true;
   withSleeve = true;
 
   // iPhone 11 Pro
   translate([tw, tl, th ]) iphone_11_pro(71.4, 144.0, 8.1);
 
   // monopriceRuggedThinCase
-  translate([0,0,0]) monopriceRuggedThinCase();
-
-  /* * color ("White") */
-  /*   translate ([200, 50, 0]) */
-  /*   import ("files/iPhone_Bike_Mount/mount_v4-case.stl"); */
+  %translate([0,0,0]) monopriceRuggedThinCase();
 
   // design
   %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
