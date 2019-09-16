@@ -24,7 +24,7 @@ use <mockup/iPhone_11_Pro_Mockup.scad>;
 use <MCAD/2Dshapes.scad>
 use <../libraries/wedge.scad>
 
-  e = 0.02; // small number
+e = 0.02; // small number
 
 
 // -	[FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case, Clear](https://www.monoprice.com/product?c_id=309&cp_id=30901&cs_id=3090101&p_id=39619)
@@ -33,9 +33,9 @@ use <../libraries/wedge.scad>
 //  - Width  77.5 mm
 //  - Depth  12.7 mm
 
-  l = 150.0;  //
-  w = 77.5;
-  h = 12.7;   // at corners; elsewhere as low as 10.1 mm
+l = 150.0;  //
+w = 77.5;
+h = 12.7;   // at corners; elsewhere as low as 10.1 mm
 
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -44,25 +44,27 @@ use <../libraries/wedge.scad>
 //  - Width:   71.36 mm
 //  - Depth:    8.10 mm
 
-  il = 144.00;
-  iw =  71.36;
-  ih =   8.10;
-  tol = 0.2;
+il = 144.00;
+iw =  71.36;
+ih =   8.10;
+tol = 0.2;
 
-  dw = w - iw;
-  dl = l - il;
-  dh = h - ih;
+dw = w - iw;
+dl = l - il;
+dh = h - ih;
 
-  tw = (1/2) * dw  ;
-  tl = (1/2) * dl  ;
-  th = (1/2) * dh  ;
+tw = (1/2) * dw  ;
+tl = (1/2) * dl  ;
+th = (1/2) * dh  ;
 
-  cut_w = 54.8;
-  cut_l = 109.5;
-  cut_r = 2.5;
+// display cutout
+cut_w = 62.33;
+cut_l = 134.95;
+cut_r = 2.5;
 
-  dcw = (w - cut_w) / 2;
-  dcl = (l - cut_l) / 2;
+// display
+dcw = (w - cut_w) / 2;
+dcl = (l - cut_l) / 2;
 
 
 
@@ -71,11 +73,11 @@ module monopriceRuggedThinCase () {
 
   difference() {
     // case outer dimensions
-    color ("Yellow") shell(w, l, h, 13);
+    color ("Yellow") shell(w, l, h, 10, 3);
 
     // carve out iphone and some tolerance
     translate([tw - tol, tl - tol, th]) {
-      shell(iw + 2*tol, il + 2*tol, ih + 2*tol, 9.5 + 2*tol);
+      shell(iw + 2*tol, il + 2*tol, ih + 2*tol, 9.5 + 2*tol, 3);
     }
 
     // cut out above phone too (rounded rect with dimensions 73.3 x 153.8)
@@ -831,7 +833,7 @@ module showTogether() {
   translate([tw, tl, th ]) iphone_11_pro(71.4, 144.0, 8.1);
 
   // monopriceRuggedThinCase
-  ////translate([0,0,0]) monopriceRuggedThinCase();
+  translate([0,0,0]) monopriceRuggedThinCase();
 
   /* * color ("White") */
   /*   translate ([200, 50, 0]) */
