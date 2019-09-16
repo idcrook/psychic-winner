@@ -111,7 +111,7 @@ model_quality = 25;
 
 //
 
-module iphone_11_pro (width, length, depth, corner_radius, edge_radius)
+module iphone_11_pro (width, length, depth, corner_radius = 7, edge_radius = 3.925)
   {
 
     shell(width, length, depth, corner_radius, edge_radius);
@@ -274,6 +274,9 @@ iphone_11_pro__depth  =   8.1;
 // estimate
 iphone_11_pro__face_corner_radius = 7.0;
 iphone_11_pro__edge_radius = (iphone_11_pro__depth - 0.25) / 2 ;
+
+echo ("corner_radius: ", iphone_11_pro__face_corner_radius);
+echo ("edge_radius: ", iphone_11_pro__edge_radius);
 
 
 iphone_11_pro(iphone_11_pro__width, iphone_11_pro__height, iphone_11_pro__depth, iphone_11_pro__face_corner_radius, iphone_11_pro__edge_radius);
