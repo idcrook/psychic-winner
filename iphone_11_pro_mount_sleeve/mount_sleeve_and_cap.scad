@@ -117,10 +117,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   wantThinner = true;
   //wantThinner = false;
 
-  sleeveSideThickness   =  wantThinner ? 3.0 : 3.5;
-  sleeveBottomThickness =  wantThinner ? 3.0 : 3.5;
-  sleeveTopThickness    =  wantThinner ? 3.0 : 3.5;
-  sleeveBaseThickness   =  wantThinner ? 3.0 : 3.5;
+  sleeveSideThickness   =  wantThinner ? 2.8 : 3.5;
+  sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
+  sleeveTopThickness    =  wantThinner ? 2.8 : 3.5;
+  sleeveBaseThickness   =  wantThinner ? 2.8 : 3.5;
 
   base_l = sleeveBaseThickness;
 
@@ -831,7 +831,7 @@ module showTogether() {
 }
 
 test1 = true;
-//test1 = false;
+test1 = false;
 
 
 
