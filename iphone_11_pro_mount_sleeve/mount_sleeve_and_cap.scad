@@ -97,28 +97,33 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
 
-  CONTROL_RENDER_cutoff_top = true;
+  //CONTROL_RENDER_cutoff_top = true;
   CONTROL_RENDER_cutoff_top = false;
 
-  CONTROL_RENDER_prototype_bottom = true;
-  //CONTROL_RENDER_prototype_bottom = false;
+  //CONTROL_RENDER_prototype_bottom = true;
+  CONTROL_RENDER_prototype_bottom = false;
 
-  CONTROL_RENDER_experiment3 = true;
+  //CONTROL_RENDER_experiment3 = true;
   CONTROL_RENDER_experiment3 = false;
 
-  CONTROL_RENDER_experiment4 = true;
+  //CONTROL_RENDER_experiment4 = true;
   CONTROL_RENDER_experiment4 = false;
 
-  CONTROL_RENDER_experiment5 = true;
+  //CONTROL_RENDER_experiment5 = true;
   CONTROL_RENDER_experiment5 = false;
 
   wantThinner = true;
   //wantThinner = false;
 
+  wantCameraHoleToBeSlot = true;
+  //wantCameraHoleToBeSlot = false;
+
   sleeveSideThickness   =  wantThinner ? 2.8 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
   sleeveTopThickness    =  wantThinner ? 2.8 : 3.5;
   sleeveBaseThickness   =  wantThinner ? 2.8 : 3.5;
+
+  sleeveSideThickness__button_cutout = sleeveSideThickness + tolerance;
 
   base_l = sleeveBaseThickness;
 
@@ -143,10 +148,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   sleeveInner_l = l;
+  sleeve_button__cutout_depth = 7.7 + 2.3;
+
   //volumeButtonsHeightFromBottom = 78.0;
   volumeButtonsCutoutHeight = 34; // big enough to be continuous
   volumeButtonsHeightFromBottom = translate_y_from_top(51.37) - 5.88;
-  volumeButtonsCutoutDepth = 7.7 + 2.3;
+  volumeButtonsCutoutDepth = sleeve_button__cutout_depth;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
@@ -154,14 +161,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   muteSwitchCutoutHeight = 12.2 + 3.0 + 8; // extend so that button is
                                             // accessible with cap on
   muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
-  muteSwitchCutoutDepth = 7.7 + 2.3;
+  muteSwitchCutoutDepth = sleeve_button__cutout_depth;
   muteSwitchCutoutRadius = 2;
 
   //powerButtonHeightFromBottom = 102;
   powerButtonCutoutHeight = (8.77*2) + 10 + 12;  // extend so that button is
                                                  // accessible with cap on
   powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77;
-  powerButtonCutoutDepth = 7.7 + 2.3;
+  powerButtonCutoutDepth = sleeve_button__cutout_depth;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
@@ -322,7 +329,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
-              linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
+              linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.9, convexity = 10)
               complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
                                   [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
                                   [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
@@ -333,7 +340,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // power button cutout
             translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
               rotate([0, 180 + 90, 0])
-              linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
+              linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.9, convexity = 10)
               complexRoundSquare( [powerButtonCutoutHeight, powerButtonCutoutDepth],
                                   [powerButtonCutoutRadius, powerButtonCutoutRadius],
                                   [powerButtonCutoutRadius, powerButtonCutoutRadius],
@@ -346,7 +353,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
-              linear_extrude(height = sleeveSideThickness + 2*e, center = false,  scale = 0.9, convexity = 10)
+              linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false,  scale = 0.9, convexity = 10)
               complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth ],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -365,6 +372,21 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   center = false);
+
+            // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
+            if (wantCameraHoleToBeSlot) {
+              // slide up camera cutout
+              translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + 20])
+                rotate([90, 0, 0])
+                mirror([0,0,1])
+                linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
+                complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth ],
+                                    [cameraCutoutRadius, cameraCutoutRadius],
+                                    [cameraCutoutRadius, cameraCutoutRadius],
+                                    [cameraCutoutRadius, cameraCutoutRadius],
+                                    [cameraCutoutRadius, cameraCutoutRadius],
+                                    center = false);
+            }
 
             if (CONTROL_RENDER_cutoff_top) {
               cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
@@ -845,7 +867,7 @@ module showTogether() {
 
 }
 
-// test1 = true;
+test1 = true;
 
 
 if (test1) {
@@ -853,15 +875,15 @@ if (test1) {
 } else {
   $fn = 100;
 
-  tweakMountSurface = false;
+  //tweakMountSurface = false;
   tweakMountSurface = true;
 
-  withCap = true;
+  //withCap = true;
   withCap = false;
 
   withSleeve = true;
 
-  printCap = true;
+  //printCap = true;
   printCap = false;
 
   if (! printCap) {
