@@ -150,13 +150,15 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
   //muteSwitchHeightFromBottom = 99.5;
-  muteSwitchCutoutHeight = 12.2 + 3.0;
+  muteSwitchCutoutHeight = 12.2 + 3.0 + 12; // extend so that button is
+                                            // accessible with cap on
   muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
   muteSwitchCutoutDepth = 7.7 + 2.3;
   muteSwitchCutoutRadius = 2;
 
   //powerButtonHeightFromBottom = 102;
-  powerButtonCutoutHeight = (8.77*2) + 10;
+  powerButtonCutoutHeight = (8.77*2) + 10 + 12;  // extend so that button is
+                                                 // accessible with cap on
   powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77;
   powerButtonCutoutDepth = 7.7 + 2.3;
   powerButtonCutoutRadius = 2;
@@ -186,9 +188,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
   headphoneMicHoleOffcenter = 20.0;
 
-  // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   //bottomLipHeight = 18.0 - 3;
   bottomLipHeight = 5;
+
+  // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipFingerprintDiameter = 17;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.6*bottomLipCutoutMaxWidth;  // pick a multiple
@@ -830,7 +833,7 @@ module showTogether() {
 }
 
 test1 = true;
-test1 = false;
+//test1 = false;
 
 
 
