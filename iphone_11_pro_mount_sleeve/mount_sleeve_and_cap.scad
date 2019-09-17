@@ -149,7 +149,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
   //muteSwitchHeightFromBottom = 99.5;
-  muteSwitchCutoutHeight = 12.2 + 3.0 + 12; // extend so that button is
+  muteSwitchCutoutHeight = 12.2 + 3.0 + 8; // extend so that button is
                                             // accessible with cap on
   muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
   muteSwitchCutoutDepth = 7.7 + 2.3;
@@ -188,7 +188,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   headphoneMicHoleOffcenter = 20.0;
 
   //bottomLipHeight = 18.0 - 3;
-  bottomLipHeight = 5;
+  bottomLipHeight = 5 + sleeveBottomThickness ;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipFingerprintDiameter = 17;
@@ -829,7 +829,9 @@ module showTogether() {
   translate([0,0,0]) monopriceRuggedThinCase();
 
   // design
-  // %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+
+  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 
 
 }
