@@ -388,11 +388,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
       // cap
       if (with_cap) {
-        capArmThickness = 4;
-        capCapThickness = 3.5;
+        capArmThickness = wantThinner ? 3.5 : 4.0;
+        capCapThickness = wantThinner ? 3.0 : 3.5;
         capDepth = sleeveOuter_h;
-        // added 1.5 mm since case sits higher in sleeve
-        caseHeight = sleeveInner_l + 1.5;
+        // caseHeight = sleeveInner_l + 1.5;         // added 1.5 mm since case sits higher in sleeve
+        caseHeight = sleeveInner_l + 0.56 ;
         capCaseWidth = sleeveOuter_w + 2*tolerance + tolerance;  // tolerance
                                                                  // shouldn't
                                                                  // here be
@@ -461,7 +461,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 center = true);
 
-          // headphone and Mic hole
+          // Mic holes
           rotate([180,0,0]) {
             translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
               linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
@@ -528,6 +528,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 
       if (with_sleeve) {
+        // add mounting wedge
         if (!CONTROL_RENDER_experiment3) {
           mountInsertWidth = 22;
           mountInsertThickness = 3;
