@@ -3,16 +3,7 @@ Sleeve for iPhone 11 Pro With Cases
 
 As part of a family of interchangeable mounts
 
--	FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case
-
-	-	[FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case, Clear](https://www.monoprice.com/product?c_id=309&cp_id=30901&cs_id=3090101&p_id=39619)
-
-<!-- -  Incipio DualPro Dual Layer Case for Apple iPhone 11 Pro - [Incipio DualPro Case](https://www.amazon.com/Incipio-DualPro-Flexible-Shock-Absorbing-Drop-Protection/dp/B07WDYZ9N8/) -->
-
-<!--    -   [Product page](https://incipio.com/cases/iphone-cases/iphone-11-pro-cases/dualpro-platinum-iphone-11-pro-case.html) -->
-
-iPhone 11 Pro
--------------
+#### iPhone 11 Pro
 
 https://www.apple.com/iphone-11-pro/specs/
 
@@ -26,24 +17,27 @@ Size and Weight:
 FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case
 ----------------------------------------------------
 
+![empty monoprice case](img/case_form_monoprice.png)
+
+-	[FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case, Clear](https://www.monoprice.com/product?c_id=309&cp_id=30901&cs_id=3090101&p_id=39619)
+
 Case Measurements:
 
--	Length inches ( mm)
--	Width inches ( mm)
--	Depth inches ( mm)
+-	Length 147.4 mm
+-	Width 74.4 mm (at side buttons)
+-	Depth 11.4 mm (at corners)
 
-	-	thickest
-	-	camera bump
-	-	rise over display
+	-	thinnest 10.6 mm
 
--	Weight oz ( g)
+-	Weight 0.92 oz (26 g)
 
 Views and Renders
 -----------------
 
 ![front view render](img/front_view_sleeve_render.png)
 
-#### thingiverse
+thingiverse
+-----------
 
 -	[iPhone 11 Pro mockup mechanical dummy model](https://www.thingiverse.com/thing:3865803)
 -	This model [Modular mount system Sleeve for iPhone 11 Pro with case](https://www.thingiverse.com/thing:3865844)

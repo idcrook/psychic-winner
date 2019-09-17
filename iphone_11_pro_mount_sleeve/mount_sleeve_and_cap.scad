@@ -27,14 +27,13 @@ e = 0.02; // small number
 
 
 // -	[FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case, Clear](https://www.monoprice.com/product?c_id=309&cp_id=30901&cs_id=3090101&p_id=39619)
-// Blind guesses to start
-//  - Length 150.0 mm
-//  - Width  77.5 mm
-//  - Depth  12.7 mm
+//  - Length 147.38 mm
+//  - Width  74.36 mm (at side buttons)
+//  - Depth  11.4 mm (at thickest, at corners)
 
-l = 150.0;  //
-w = 77.5;
-h = 12.7;   // at corners; elsewhere as low as 10.1 mm
+l = 147.38;  //
+w = 74.4;
+h = 11.4;   // at corners; elsewhere as low as 10.6 mm
 
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -59,7 +58,7 @@ th = (1/2) * dh  ;
 // display cutout
 cut_w = 62.33;
 cut_l = 134.95;
-cut_r = 2.5;
+cut_r = 6.0;
 
 // display
 dcw = (w - cut_w) / 2;
@@ -73,8 +72,8 @@ module monopriceRuggedThinCase () {
 
   difference() {
     // case outer dimensions
-    //color ("Green") shell(w, l, h, 10, 3);
-    shell(w, l, h, 10, 3);
+    color("White", alpha = 0.650) shell(w, l, h, 10, 3);
+    //shell(w, l, h, 10, 3);
 
     // carve out iphone and some tolerance
     translate([tw - tol, tl - tol, th]) {
@@ -822,13 +821,15 @@ module showTogether() {
   withSleeve = true;
 
   // iPhone 11 Pro
-  translate([tw, tl, th ]) iphone_11_pro(71.4, 144.0, 8.1, show_lightning_keepout = true);
+  //translate([tw, tl, th ]) iphone_11_pro(71.4, 144.0, 8.1, show_lightning_keepout = true);
+  translate([tw, tl, th ]) iphone_11_pro(iw, il, ih, show_lightning_keepout = true);
+
 
   // monopriceRuggedThinCase
-  %translate([0,0,0]) monopriceRuggedThinCase();
+  translate([0,0,0]) monopriceRuggedThinCase();
 
   // design
-  %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  // %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 
 
 }
