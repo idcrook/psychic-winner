@@ -74,10 +74,10 @@ sim_slot__bump     =  0.03;  // flush actually
 
 
 // Front facing camera and sensors
-truedepth_camera_sensor_bar__height   = 4.99;
-truedepth_camera_sensor_bar__width    = 34.8;
+truedepth_camera_sensor_bar__height   = 6.23;
+truedepth_camera_sensor_bar__width    = 33.9;
 truedepth_camera_sensor_bar__from_top = 4.52;
-truedepth_camera_sensor_bar__curve_radius = 6.23/2;
+truedepth_camera_sensor_bar__curve_radius = truedepth_camera_sensor_bar__height/2;
 
 //
 speaker_top__height       = 1.38;
@@ -90,6 +90,12 @@ mic_top__height       = 1.38; // diameter
 mic_top__from_top     = 6.08;
 mic_top__from_left    = 35.68;
 mic_top__curve_radius = 3.0;
+
+notch__width = 34.80;
+notch__height =  4.99; // bottom half of a "rounded" box
+notch__R =  3.59;
+notch__r =  0.81;
+
 
 // rear facing cameras
 rear_cam1_center__from_top = 12.04;
