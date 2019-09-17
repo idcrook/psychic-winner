@@ -124,7 +124,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
-  sleeveInner_r = 1.7;
+  //sleeveInner_r = 1.7;
+  sleeveInner_r = 2.6;
 
   buttonsIncludedInner_w =  tolerance + 64.7 + tolerance + 0.5;
   buttonsIncludedInner_h =            +  3.0 + tolerance;
@@ -132,7 +133,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
-  sleeveOuter_r = 3.2;
+  //sleeveOuter_r = 3.2;
+  sleeveOuter_r = 4.6;
 
   iphoneDisplay_w = 48.5;
   iphoneScreenBezel_w = 3.5;
@@ -188,7 +190,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   headphoneMicHoleOffcenter = 20.0;
 
   //bottomLipHeight = 18.0 - 3;
-  bottomLipHeight = 5 + sleeveBottomThickness ;
+  bottomLipHeight = 3.5 + sleeveBottomThickness ;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipFingerprintDiameter = 17;
@@ -265,6 +267,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             }
           }
 
+          // trim based on experiments (makes sense since tolerance of 0.5*2 was added)
+          trim__width = 0.93;
+          trim__height = 0.93;
+
+
           // need a difference here to be able to punch out button and camera access holes
           difference () {
             // 2D view for length of case
@@ -278,8 +285,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
 
 
-              // cut out size of iphone in case (includes tolerance)
-              complexRoundSquare([sleeveInner_w, sleeveInner_h],
+              // cut out size of iphone in case
+              complexRoundSquare([sleeveInner_w - trim__width,
+                                  sleeveInner_h - trim__height],
                                  [sleeveInner_r, sleeveInner_r],
                                  [sleeveInner_r, sleeveInner_r],
                                  [sleeveInner_r, sleeveInner_r],
@@ -294,7 +302,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                  center = true);
 
-              bevel_angle = 50;
+              //bevel_angle = 50;
+              bevel_angle = 46;
 
               // cut for screen and add bevel
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
