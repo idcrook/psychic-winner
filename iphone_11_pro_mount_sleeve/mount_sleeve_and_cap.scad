@@ -72,7 +72,7 @@ function translate_y_from_top (from_top)  = il - from_top;
 //
 module monopriceRuggedThinCase () {
 
-  %difference() {
+  difference() {
     // case outer dimensions
     //color ("Green") shell(w, l, h, 10, 3);
     shell(w, l, h, 10, 3);
@@ -170,24 +170,21 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraCutoutRadius = cameraCutoutDepth/2-1;
   cameraHoleOffcenter = 3.0 - 0.5;
 
-  speakerCutoutHeight = 16;
-  speakerCutoutDepth = 5;
+  speakerCutoutHeight = 18;
+  speakerCutoutDepth = 5.5;
   speakerCutoutRadius = speakerCutoutDepth/2;
-  speakerHoleOffcenter = 8.8 ;
+  // speakerHoleOffcenter = 8.8 ;
+  speakerHoleOffcenter = 8.5 ;
 
-  lightningCutoutHeight = 14.4;
-  lightningCutoutDepth = lightningCutoutHeight/2;
-  lightningCutoutRadius = lightningCutoutDepth/2;
+  lightningCutoutHeight = 13.85;
+  lightningCutoutDepth = 6.85;
+  lightningCutoutRadius = 3.4;
   lightningHoleOffcenter = 0;
 
-  headphoneMicCutoutHeight = 15 - 2;
-  headphoneMicCutoutDepth = 7.2;
+  headphoneMicCutoutHeight = 15 - 2 - 1;
+  headphoneMicCutoutDepth = 6.0;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
-  headphoneMicHoleOffcenter = 21.8;
-  headphoneJackDiameter = 3.5;
-
-  headphoneMicBoreDiameter = 8.0 + 0.2;
-  headphoneMicBoreOffcenter = 23.2 ;
+  headphoneMicHoleOffcenter = 20.0;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipHeight = 18.0 - 3;
@@ -441,7 +438,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 	  rotate([180,0,0])
 	    translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
 	    linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-	    complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth],
+	    complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth + 4*e],
 				[speakerCutoutRadius/2, speakerCutoutRadius/2],
 				[speakerCutoutRadius, speakerCutoutRadius],
 				[speakerCutoutRadius, speakerCutoutRadius],
@@ -450,24 +447,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	  // lightning hole
 	  rotate([180,0,0])
-	    translate([-tolerance, 0, -e])
+	    translate([-tolerance/2, 0, -e])
 	    linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-	    complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth],
+	    complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + tolerance],
 				[lightningCutoutRadius, lightningCutoutRadius],
 				[lightningCutoutRadius, lightningCutoutRadius],
 				[lightningCutoutRadius, lightningCutoutRadius],
 				[lightningCutoutRadius, lightningCutoutRadius],
-				center = true);
-
-	  // widen lightning hole
-	  rotate([180,0,0])
-	    translate([-tolerance, 0, -e])
-	    linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-	    complexRoundSquare( [lightningCutoutHeight - 5, lightningCutoutDepth + 2],
-				[lightningCutoutRadius/2, lightningCutoutRadius/2],
-				[lightningCutoutRadius/2, lightningCutoutRadius/2],
-				[lightningCutoutRadius/2, lightningCutoutRadius/2],
-				[lightningCutoutRadius/2, lightningCutoutRadius/2],
 				center = true);
 
 	  // headphone and Mic hole
@@ -481,14 +467,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 				  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
 				  center = false);
 
-	    translate([-headphoneMicBoreOffcenter, -(1/2) * headphoneMicBoreDiameter, -e])
-	      linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-	      complexRoundSquare( [headphoneMicBoreDiameter, headphoneMicBoreDiameter],
-				  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-				  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-				  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-				  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-				  center = false);
 	  }
 	}
       }
