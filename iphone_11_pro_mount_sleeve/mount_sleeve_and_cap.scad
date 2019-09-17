@@ -484,7 +484,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           rotate([180,0,0])
             translate([-tolerance/2, 0, -e])
             linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-            complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + tolerance],
+            complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 3*tolerance],
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 [lightningCutoutRadius, lightningCutoutRadius],
