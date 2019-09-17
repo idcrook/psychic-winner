@@ -814,7 +814,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  //withCap = true;
+  withCap = true;
   withSleeve = true;
 
   // iPhone 11 Pro
@@ -830,7 +830,7 @@ module showTogether() {
 }
 
 test1 = true;
-test1 = false;
+//test1 = false;
 
 
 

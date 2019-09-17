@@ -70,7 +70,7 @@ sim_slot__from_top = 71.67 + (1/2)*(sim_slot__height);
 sim_slot__bump     =  0.03;  // flush actually
 
 
-// Face and sensors
+// Front facing camera and sensors
 truedepth_camera_sensor_bar__height   = 5.0;
 truedepth_camera_sensor_bar__width    = 3.0;
 truedepth_camera_sensor_bar__from_top = 3.0;
@@ -86,6 +86,43 @@ microphone_top__height       = 5.0;
 microphone_top__from_top     = 3.0;
 microphone_top__from_right   = 3.0;
 microphone_top__curve_radius = 3.0;
+
+// rear facing cameras
+
+rear_cam1_center__from_top = 12.04;
+rear_cam2_center__from_top = 27.06;
+rear_cam3_center__from_top = 19.55;
+rear_flash_center__from_top = 9.31;
+rear_mic_center__from_top  = 29.78;
+
+rear_cam1_center__from_left = 12.04;
+rear_cam2_center__from_left = 12.04;
+rear_cam3_center__from_left = 25.04;
+rear_flash_center__from_left = 25.04;
+rear_mic_center__from_left  = 25.04;
+
+rear_cam_center__diameter = 2 * 5.5;  // guess
+
+rear_flash_center__diameter = 2 * (rear_cam1_center__from_top - rear_flash_center__from_top);
+rear_mic_center__diameter = 2.40;
+
+rear_cam_turret__height_inner = 28.99;
+rear_cam_turret__width_inner = 26.87;
+rear_cam_turret__rradius_inner = 7.0;
+rear_cam_turret__width_outer = 30.59;
+rear_cam_turret__height_outer = 32.71;
+rear_cam_turret__rradius_outer = 9.0;
+
+rear_cam_turret_center__from_top = (rear_cam1_center__from_top + rear_cam2_center__from_top)/2;
+rear_cam_turret_center__from_left = (rear_cam1_center__from_left + rear_cam3_center__from_left)/2;
+rear_cam_turret_keepout__height_above = 1.21;
+
+
+// the logo locates the center of the inductive charger coil
+rear_logo_center__from_top = 72.0;
+rear_logo_keepout__diameter = 48.80;
+
+rear_housing_spline_inlay_to_start_of_flat_area__width = 4.96;
 
 display__width     =  62.33;
 display__height    = 134.95;
@@ -135,6 +172,7 @@ lightning_connector_keepout__outward = 14.0;
 model_quality = 25;
 
 function translate_y_from_top (from_top)  = iphone_11_pro__height - from_top;
+function translate_back_x_from_left (from_left)  = iphone_11_pro__width - from_left;
 
 
 /// creates for() range to give desired no of steps to cover range
@@ -144,7 +182,8 @@ function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 module iphone_11_pro (width, length, depth,
                       corner_radius = 7, edge_radius = 3.925, show_lightning_keepout = true)
   {
-    // fixme: add an inset translate so that, including buttons, is bound {x,y} >= {0,0}
+    // fixme: add an inset translate for all following so that, including
+    // button bumps, are bound {x,y} >= {0,0}
     shell(width, length, depth, corner_radius, edge_radius);
 
     // ring/silent switch
@@ -257,6 +296,12 @@ module iphone_11_pro (width, length, depth,
                              center=true);
       }
     }
+
+
+    // rear camera module
+    translate([iphone_11_pro__width, iphone_11_pro__height, 0])
+      rotate([0, 180, 0])
+      rear_camera();
 
 }
 
@@ -401,6 +446,64 @@ module shell(width, length, depth, corner_radius, edge_radius)
   }
 }
 
+
+module rear_camera (camera_lens_radius = 13/2) {
+
+  h = rear_cam_turret_keepout__height_above ;
+
+  // turret enclosure
+  rradius_outer = rear_cam_turret__rradius_outer;
+  rradius_inner = rear_cam_turret__rradius_inner;
+  translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, 0])
+    color("Green")
+    difference() {
+    linear_extrude(height = h)
+      complexRoundSquare([rear_cam_turret__width_outer,
+                          rear_cam_turret__height_outer],
+                         [rradius_outer, rradius_outer],
+                         [rradius_outer, rradius_outer],
+                         [rradius_outer, rradius_outer],
+                         [rradius_outer, rradius_outer],
+                         center=true);
+
+
+    translate ([0,0, -e])
+    linear_extrude(height = h+1)
+      complexRoundSquare([rear_cam_turret__width_inner,
+                          rear_cam_turret__height_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         center=true);
+    }
+
+
+  // interior features
+  translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0])
+    rear_camera_lens(r = camera_lens_radius);
+
+  translate ([rear_cam2_center__from_left, -rear_cam2_center__from_top, 0])
+    rear_camera_lens(r = camera_lens_radius);
+
+  translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0])
+    rear_camera_lens(r = camera_lens_radius);
+
+  translate ([rear_flash_center__from_left, -rear_flash_center__from_top, 0])
+    linear_extrude(height = h/4)
+    circle(d = rear_flash_center__diameter);
+
+  translate ([rear_mic_center__from_left, -rear_mic_center__from_top, 0])
+    color("Black")
+    linear_extrude(height = h/4)
+    circle(d = rear_mic_center__diameter);
+  }
+
+module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
+  color("Grey")
+    linear_extrude(height=h/2)
+    circle(r=r);
+}
 
 
 echo ("corner_radius: ", iphone_11_pro__face_corner_radius);
