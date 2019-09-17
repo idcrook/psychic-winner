@@ -71,10 +71,10 @@ sim_slot__bump     =  0.03;  // flush actually
 
 
 // Front facing camera and sensors
-truedepth_camera_sensor_bar__height   = 5.0;
-truedepth_camera_sensor_bar__width    = 3.0;
-truedepth_camera_sensor_bar__from_top = 3.0;
-truedepth_camera_sensor_bar__curve_radius = 3.0;
+truedepth_camera_sensor_bar__height   = 4.99;
+truedepth_camera_sensor_bar__width    = 34.8;
+truedepth_camera_sensor_bar__from_top = 4.52;
+truedepth_camera_sensor_bar__curve_radius = 3.59;
 
 speaker_top__height       = 5.0;
 speaker_top__width        = 3.0;
@@ -108,10 +108,11 @@ rear_mic_center__diameter = 2.40;
 
 rear_cam_turret__height_inner = 28.99;
 rear_cam_turret__width_inner = 26.87;
-rear_cam_turret__rradius_inner = 7.0;
-rear_cam_turret__width_outer = 30.59;
 rear_cam_turret__height_outer = 32.71;
-rear_cam_turret__rradius_outer = 9.0;
+rear_cam_turret__width_outer = 30.59;
+
+rear_cam_turret__rradius_inner = 6.5;
+rear_cam_turret__rradius_outer = 8.5;
 
 rear_cam_turret_center__from_top = (rear_cam1_center__from_top + rear_cam2_center__from_top)/2;
 rear_cam_turret_center__from_left = (rear_cam1_center__from_left + rear_cam3_center__from_left)/2;
@@ -431,7 +432,7 @@ module shell(width, length, depth, corner_radius, edge_radius)
 	       display_round_rect_offset_factor,
 	       depth - display_inset_depth])
     {
-      color ("Black", alpha = 0.92)
+      color ("Black", alpha = 0.62)
         linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
         complexRoundSquare([ width - 2*display_round_rect_offset_factor,
                              length - 2*display_round_rect_offset_factor ],
@@ -447,15 +448,15 @@ module shell(width, length, depth, corner_radius, edge_radius)
 }
 
 
-module rear_camera (camera_lens_radius = 13/2) {
+module rear_camera (camera_lens_radius = 13.08/2) {
 
   h = rear_cam_turret_keepout__height_above ;
 
   // turret enclosure
   rradius_outer = rear_cam_turret__rradius_outer;
   rradius_inner = rear_cam_turret__rradius_inner;
-  translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, 0])
-    color("Green")
+  translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
+    color("Green", alpha = 0.70)
     difference() {
     linear_extrude(height = h)
       complexRoundSquare([rear_cam_turret__width_outer,
@@ -468,7 +469,7 @@ module rear_camera (camera_lens_radius = 13/2) {
 
 
     translate ([0,0, -e])
-    linear_extrude(height = h+1)
+    linear_extrude(height = h + 2*e)
       complexRoundSquare([rear_cam_turret__width_inner,
                           rear_cam_turret__height_inner],
                          [rradius_inner, rradius_inner],
@@ -490,6 +491,7 @@ module rear_camera (camera_lens_radius = 13/2) {
     rear_camera_lens(r = camera_lens_radius);
 
   translate ([rear_flash_center__from_left, -rear_flash_center__from_top, 0])
+  color(alpha=0.30)
     linear_extrude(height = h/4)
     circle(d = rear_flash_center__diameter);
 
@@ -500,9 +502,14 @@ module rear_camera (camera_lens_radius = 13/2) {
   }
 
 module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
-  color("Grey")
+  color("Grey", alpha=0.30)
     linear_extrude(height=h/2)
     circle(r=r);
+
+  color("Black", alpha=0.86)
+    linear_extrude(height=h/2 + e)
+    circle(r=r-0.9);
+
 }
 
 
