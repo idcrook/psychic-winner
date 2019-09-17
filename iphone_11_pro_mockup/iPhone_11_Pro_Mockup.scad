@@ -7,17 +7,17 @@
   2019-Sep-16
 
   Thingiverse:
-    http://www.thingiverse.com/thing:3865803/
+  http://www.thingiverse.com/thing:3865803/
 
   GitHub:
-    https://github.com/idcrook/psychic-winner/tree/master/iphone_11_pro_mockup
+  https://github.com/idcrook/psychic-winner/tree/master/iphone_11_pro_mockup
 
 
   NOTES:
 
   - OpenSCAD generation relies on the MCAD library (https://github.com/openscad/MCAD)
 
-  */
+*/
 
 
 // * All measurements in millimeters * //
@@ -74,10 +74,11 @@ sim_slot__bump     =  0.03;  // flush actually
 
 
 // Front facing camera and sensors
-truedepth_camera_sensor_bar__height   = 6.23;
-truedepth_camera_sensor_bar__width    = 33.9;
-truedepth_camera_sensor_bar__from_top = 4.52;
-truedepth_camera_sensor_bar__curve_radius = truedepth_camera_sensor_bar__height/2;
+truedepth_sensor_bar__height   = 6.23;
+truedepth_sensor_bar__width    = 33.9;
+truedepth_sensor_bar__from_top = 5.35;
+truedepth_sensor_bar__from_left = 35.68;
+truedepth_sensor_bar__curve_radius = truedepth_sensor_bar__height/2;
 
 //
 speaker_top__height       = 1.38;
@@ -89,7 +90,7 @@ speaker_top__curve_radius = 0.69;
 mic_top__height       = 1.38; // diameter
 mic_top__from_top     = 6.08;
 mic_top__from_left    = 35.68;
-mic_top__curve_radius = 3.0;
+mic_top__radius       = mic_top__height/2;
 
 notch__width = 34.80;
 notch__height =  4.99; // bottom half of a "rounded" box
@@ -191,134 +192,140 @@ function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 
 module iphone_11_pro (width, length, depth,
                       corner_radius = 7, edge_radius = 3.925, show_lightning_keepout = true)
-  {
-    // fixme: add an inset translate for all following so that, including
+{
+  // fixme: add an inset translate for all following so that, including
 
-    color(iphone_11_pro__midnight_green, alpha = 0.86)
+  color(iphone_11_pro__midnight_green, alpha = 0.86)
     // button bumps, are bound {x,y} >= {0,0}
     shell(width, length, depth, corner_radius, edge_radius);
 
-    // ring/silent switch
-    color(iphone_11_pro__midnight_green_button)
+  // ring/silent switch
+  color(iphone_11_pro__midnight_green_button)
     translate([-ringsilent_switch_cutout__bump,
                translate_y_from_top(ringsilent_switch_cutout__from_top),
                iphone_11_pro__z_mid]) {
-      rotate([90,0,90])
-        linear_extrude(ringsilent_switch_cutout__bump+e)
-        square([ringsilent_switch_cutout__height, ringsilent_switch_cutout__depth],center=true);
-      }
+    rotate([90,0,90])
+      linear_extrude(ringsilent_switch_cutout__bump+e)
+      square([ringsilent_switch_cutout__height, ringsilent_switch_cutout__depth],center=true);
+  }
 
-    // volume up button
-    color(iphone_11_pro__midnight_green_button)
+  // volume up button
+  color(iphone_11_pro__midnight_green_button)
     translate([-volume_up__bump,
                translate_y_from_top(volume_up__from_top),
                iphone_11_pro__z_mid]) {
-      rotate([90,0,90])
-        linear_extrude(volume_up__bump+e)
-        square([volume_up__height, volume_up__depth],center=true);
-      }
+    rotate([90,0,90])
+      linear_extrude(volume_up__bump+e)
+      square([volume_up__height, volume_up__depth],center=true);
+  }
 
-    // volume down button
-    color(iphone_11_pro__midnight_green_button)
+  // volume down button
+  color(iphone_11_pro__midnight_green_button)
     translate([-volume_down__bump,
                translate_y_from_top(volume_down__from_top),
                iphone_11_pro__z_mid]) {
-      rotate([90,0,90])
-        linear_extrude(volume_down__bump+e)
-        square([volume_down__height, volume_down__depth],center=true);
-      }
+    rotate([90,0,90])
+      linear_extrude(volume_down__bump+e)
+      square([volume_down__height, volume_down__depth],center=true);
+  }
 
-    // side button
-    color(iphone_11_pro__midnight_green_button)
+  // side button
+  color(iphone_11_pro__midnight_green_button)
     translate([iphone_11_pro__width-e,
                translate_y_from_top(side_button__from_top),
                iphone_11_pro__z_mid]) {
-      rotate([90,0,90])
-        linear_extrude(side_button__bump+e)
-        square([side_button__height, side_button__depth],center=true);
-      }
+    rotate([90,0,90])
+      linear_extrude(side_button__bump+e)
+      square([side_button__height, side_button__depth],center=true);
+  }
 
-    // sim slot
-    color(iphone_11_pro__midnight_green_button)
+  // sim slot
+  color(iphone_11_pro__midnight_green_button)
     translate([iphone_11_pro__width-e,
                translate_y_from_top(sim_slot__from_top),
                iphone_11_pro__z_mid]) {
-      rotate([90,0,90])
-        linear_extrude(sim_slot__bump+e)
-        square([sim_slot__height, sim_slot__depth],center=true);
-      }
+    rotate([90,0,90])
+      linear_extrude(sim_slot__bump+e)
+      square([sim_slot__height, sim_slot__depth],center=true);
+  }
 
-    // mic1 holes
-    for (i=steps(mic1_bottom__hole_1__from_left, 3, mic1_bottom__hole_3__from_left)) {
-      echo (i);
-      color("Black")
-      translate([i, 0, iphone_11_pro__z_mid]) {
-      rotate([0, 90, 90])
-        linear_extrude(1+e)
-        circle(d=grill_hole__diameter);
-      }
-    }
-
-    // mic2 holes
-    for (i=steps(mic2_bottom__hole_1__from_left, 6, mic2_bottom__hole_6__from_left)) {
-      echo (i);
-      color("Black")
-      translate([i, 0, iphone_11_pro__z_mid]) {
-      rotate([0, 90, 90])
-        linear_extrude(1+e)
-        circle(d=grill_hole__diameter);
-      }
-    }
-
-    // bottom screw holes
-    for (i=[screw_bottom_1__from_left, screw_bottom_2__from_left]) {
-      color("Black")
-        translate([i, 0, iphone_11_pro__z_mid]) {
-        rotate([-90, 0, 0])
-          linear_extrude(1+e)
-          circle(d=screw_bottom__diameter);
-      }
-    }
-
-    // lightning
-    corner_r1 = 1.5;
-    corner_r2 = 1.5;
+  // mic1 holes
+  for (i=steps(mic1_bottom__hole_1__from_left, 3, mic1_bottom__hole_3__from_left)) {
+    echo (i);
     color("Black")
-      translate([lightning_connector__from_left, 0, iphone_11_pro__z_mid]) {
-      rotate([-90, 0, 0])
-        linear_extrude(height = 1+e, center = false, convexity = 10)
-	    complexRoundSquare([lightning_connector__width,
-                            lightning_connector__height],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           center=true);
-      }
-
-    // lightning keepout
-    if (show_lightning_keepout) {
-      corner_r1_keepout = lightning_connector_keepout__radius;
-      corner_r2_keepout = lightning_connector_keepout__radius;
-      color("Red")
-        translate([lightning_connector__from_left, 0, iphone_11_pro__z_mid]) {
-        rotate([90, 0, 0])
-          %linear_extrude(height = lightning_connector_keepout__outward, center = false, convexity = 10)
-          complexRoundSquare([lightning_connector_keepout__width,
-                              lightning_connector_keepout__height],
-                             [corner_r1_keepout, corner_r2_keepout],
-                             [corner_r1_keepout, corner_r2_keepout],
-                             [corner_r1_keepout, corner_r2_keepout],
-                             [corner_r1_keepout, corner_r2_keepout],
-                             center=true);
-      }
+      translate([i, 0, iphone_11_pro__z_mid]) {
+      rotate([0, 90, 90])
+        linear_extrude(1+e)
+        circle(d=grill_hole__diameter);
     }
+  }
+
+  // mic2 holes
+  for (i=steps(mic2_bottom__hole_1__from_left, 6, mic2_bottom__hole_6__from_left)) {
+    echo (i);
+    color("Black")
+      translate([i, 0, iphone_11_pro__z_mid]) {
+      rotate([0, 90, 90])
+        linear_extrude(1+e)
+        circle(d=grill_hole__diameter);
+    }
+  }
+
+  // bottom screw holes
+  for (i=[screw_bottom_1__from_left, screw_bottom_2__from_left]) {
+    color("Black")
+      translate([i, 0, iphone_11_pro__z_mid]) {
+      rotate([-90, 0, 0])
+        linear_extrude(1+e)
+        circle(d=screw_bottom__diameter);
+    }
+  }
+
+  // lightning
+  corner_r1 = 1.5;
+  corner_r2 = 1.5;
+  color("Black")
+    translate([lightning_connector__from_left, 0, iphone_11_pro__z_mid]) {
+    rotate([-90, 0, 0])
+      linear_extrude(height = 1+e, center = false, convexity = 10)
+      complexRoundSquare([lightning_connector__width,
+                          lightning_connector__height],
+                         [corner_r1, corner_r2],
+                         [corner_r1, corner_r2],
+                         [corner_r1, corner_r2],
+                         [corner_r1, corner_r2],
+                         center=true);
+  }
+
+  // lightning keepout
+  if (show_lightning_keepout) {
+    corner_r1_keepout = lightning_connector_keepout__radius;
+    corner_r2_keepout = lightning_connector_keepout__radius;
+    color("Red")
+      translate([lightning_connector__from_left, 0, iphone_11_pro__z_mid]) {
+      rotate([90, 0, 0])
+        %linear_extrude(height = lightning_connector_keepout__outward, center = false, convexity = 10)
+        complexRoundSquare([lightning_connector_keepout__width,
+                            lightning_connector_keepout__height],
+                           [corner_r1_keepout, corner_r2_keepout],
+                           [corner_r1_keepout, corner_r2_keepout],
+                           [corner_r1_keepout, corner_r2_keepout],
+                           [corner_r1_keepout, corner_r2_keepout],
+                           center=true);
+    }
+  }
 
 
-    // rear camera module
-    translate([iphone_11_pro__width, iphone_11_pro__height, 0])
-      rotate([0, 180, 0])
-      rear_camera();
+  // rear camera module
+  translate([iphone_11_pro__width, iphone_11_pro__height, 0])
+    rotate([0, 180, 0])
+    rear_camera();
+
+  // front sensor bar module
+  translate([0, iphone_11_pro__height, iphone_11_pro__depth])
+    rotate([0, 0, 0])
+    front_sensor_bar();
+
 
 }
 
@@ -351,106 +358,107 @@ module shell(width, length, depth, corner_radius, edge_radius)
 
       // most of body
       hull($fn = 25)
-      // DEBUG
-      //% union($fn = 25)
+        // DEBUG
+        //% union($fn = 25)
       {
 
-	// main rectangular region
-	translate([round_rect_offset_factor,
-		   round_rect_offset_factor,
-		   0])
-	{
-	  linear_extrude(height = depth, center = false, convexity = 10)
-	    complexRoundSquare([ width - 2*round_rect_offset_factor,
-				 length - 2*round_rect_offset_factor ],
-			       [corner_r1, corner_r2],
-			       [corner_r1, corner_r2],
-			       [corner_r1, corner_r2],
-			       [corner_r1, corner_r2],
-			       center=false);
-	}
+        // main rectangular region
+        translate([round_rect_offset_factor,
+                   round_rect_offset_factor,
+                   0])
+        {
+          linear_extrude(height = depth, center = false, convexity = 10)
+            complexRoundSquare([ width - 2*round_rect_offset_factor,
+                                 length - 2*round_rect_offset_factor ],
+                               [corner_r1, corner_r2],
+                               [corner_r1, corner_r2],
+                               [corner_r1, corner_r2],
+                               [corner_r1, corner_r2],
+                               center=false);
+        }
 
 
-	// lower left corner
-	translate([face_corner_radius, face_corner_radius, depth/2])
-	{
-	  intersection() {
-	    sphere(r = corner_sphere_r, $fn = 50);
-	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
-	  }
-	}
+        // lower left corner
+        translate([face_corner_radius, face_corner_radius, depth/2])
+        {
+          intersection() {
+            sphere(r = corner_sphere_r, $fn = 50);
+            cube(size = [20, 20, corner_sphere_chop_height], center = true);
+          }
+        }
 
-	// left length side
-	translate([edge_curvature_radius, face_corner_radius, depth/2]) {
+        // left length side
+        translate([edge_curvature_radius, face_corner_radius, depth/2]) {
 
-	  rotate([-90,0,0])
-	    linear_extrude(height = length_edge_extr_height, center = false)
-	    projection(cut = true)
-	    sphere(r = edge_curvature_radius, $fn = 50) ;
-	}
+          rotate([-90,0,0])
+            linear_extrude(height = length_edge_extr_height, center = false)
+            projection(cut = true)
+            sphere(r = edge_curvature_radius, $fn = 50) ;
+        }
 
-	// bottom width side
-	translate([face_corner_radius, edge_curvature_radius, depth/2]) {
-	  rotate([0,90,0])
-	    linear_extrude(height = width_edge_extr_height, center = false)
-	    projection(cut = true)
-	    sphere(r = edge_curvature_radius, $fn = 50) ;
-	}
+        // bottom width side
+        translate([face_corner_radius, edge_curvature_radius, depth/2]) {
+          rotate([0,90,0])
+            linear_extrude(height = width_edge_extr_height, center = false)
+            projection(cut = true)
+            sphere(r = edge_curvature_radius, $fn = 50) ;
+        }
 
-	// upper left corner
-	translate([face_corner_radius, length - face_corner_radius, depth/2])
-	{
-	  intersection() {
-	    sphere(r = corner_sphere_r, $fn = 50);
-	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
-	  }
-	}
+        // upper left corner
+        translate([face_corner_radius, length - face_corner_radius, depth/2])
+        {
+          intersection() {
+            sphere(r = corner_sphere_r, $fn = 50);
+            cube(size = [20, 20, corner_sphere_chop_height], center = true);
+          }
+        }
 
-	// upper right corner
-	translate([width - face_corner_radius, length - face_corner_radius, depth/2])
-	{
-	  intersection() {
-	    sphere(r = corner_sphere_r, $fn = 50);
-	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
-	  }
-	}
+        // upper right corner
+        translate([width - face_corner_radius, length - face_corner_radius, depth/2])
+        {
+          intersection() {
+            sphere(r = corner_sphere_r, $fn = 50);
+            cube(size = [20, 20, corner_sphere_chop_height], center = true);
+          }
+        }
 
-	// right length side
-	translate([width - edge_curvature_radius, length- face_corner_radius, depth/2]) {
-	  rotate([90,0,0])
-	    linear_extrude(height = length_edge_extr_height, center = false)
-	    projection(cut = true)
-	    sphere(r = edge_curvature_radius, $fn = 50) ;
-	}
+        // right length side
+        translate([width - edge_curvature_radius, length- face_corner_radius, depth/2]) {
+          rotate([90,0,0])
+            linear_extrude(height = length_edge_extr_height, center = false)
+            projection(cut = true)
+            sphere(r = edge_curvature_radius, $fn = 50) ;
+        }
 
-	// top width side
-	translate([width - face_corner_radius, length- edge_curvature_radius, depth/2]) {
-	  rotate([0,-90,0])
-	    linear_extrude(height = width_edge_extr_height, center = false)
-	    projection(cut = true)
-	    sphere(r = edge_curvature_radius, $fn = 50) ;
-	}
+        // top width side
+        translate([width - face_corner_radius, length- edge_curvature_radius, depth/2]) {
+          rotate([0,-90,0])
+            linear_extrude(height = width_edge_extr_height, center = false)
+            projection(cut = true)
+            sphere(r = edge_curvature_radius, $fn = 50) ;
+        }
 
-	// lower right corner
-	translate([width - face_corner_radius, face_corner_radius, depth/2])
-	{
-	  intersection() {
-	    sphere(r = corner_sphere_r, $fn = 50);
-	    cube(size = [20, 20, corner_sphere_chop_height], center = true);
-	  }
-	}
+        // lower right corner
+        translate([width - face_corner_radius, face_corner_radius, depth/2])
+        {
+          intersection() {
+            sphere(r = corner_sphere_r, $fn = 50);
+            cube(size = [20, 20, corner_sphere_chop_height], center = true);
+          }
+        }
 
 
       }
     }
+
+
     // display main rectangular region
     translate([display_round_rect_offset_factor,
-	       display_round_rect_offset_factor,
-	       depth - display_inset_depth])
-    {
+               display_round_rect_offset_factor,
+               depth - display_inset_depth]) {
       color ("Black")
-        linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
-        complexRoundSquare([ width - 2*display_round_rect_offset_factor,
+        linear_extrude(height = display_inset_depth + 2*e, center = false, convexity = 10)
+        complexRoundSquare([ width  - 2*display_round_rect_offset_factor,
                              length - 2*display_round_rect_offset_factor ],
                            [corner_r1, corner_r2],
                            [corner_r1, corner_r2],
@@ -462,7 +470,6 @@ module shell(width, length, depth, corner_radius, edge_radius)
 
   }
 }
-
 
 module rear_camera (camera_lens_radius = 13.08/2) {
 
@@ -485,7 +492,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
 
 
     translate ([0,0, -e])
-    linear_extrude(height = h + 2*e)
+      linear_extrude(height = h + 2*e)
       complexRoundSquare([rear_cam_turret__width_inner,
                           rear_cam_turret__height_inner],
                          [rradius_inner, rradius_inner],
@@ -493,7 +500,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
                          [rradius_inner, rradius_inner],
                          [rradius_inner, rradius_inner],
                          center=true);
-    }
+  }
 
 
   // interior features
@@ -507,7 +514,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
     rear_camera_lens(r = camera_lens_radius);
 
   translate ([rear_flash_center__from_left, -rear_flash_center__from_top, 0])
-  color(alpha=0.30)
+    color(alpha=0.30)
     linear_extrude(height = h/4)
     circle(d = rear_flash_center__diameter);
 
@@ -515,7 +522,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
     color("Black")
     linear_extrude(height = h/4)
     circle(d = rear_mic_center__diameter);
-  }
+}
 
 module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
   color(iphone_11_pro__midnight_green_lens_bezel, alpha=0.95)
@@ -527,6 +534,40 @@ module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
     circle(r=r-0.9);
 
 }
+
+module front_sensor_bar () {
+
+  corner_radius = truedepth_sensor_bar__curve_radius;
+
+  translate ([truedepth_sensor_bar__from_left, -truedepth_sensor_bar__from_top, -e])
+    color("#101010", alpha = 0.50)
+    linear_extrude(height = 3*e)
+    complexRoundSquare([truedepth_sensor_bar__width,
+                        truedepth_sensor_bar__height],
+                       [corner_radius, corner_radius],
+                       [corner_radius, corner_radius],
+                       [corner_radius, corner_radius],
+                       [corner_radius, corner_radius],
+                       center=true);
+
+  translate ([speaker_top__from_left, -speaker_top__from_top, -e])
+    color("#101010", alpha = 0.80)
+    linear_extrude(height = 4*e)
+    complexRoundSquare([speaker_top__width,
+                        speaker_top__height],
+                       [speaker_top__curve_radius, speaker_top__curve_radius],
+                       [speaker_top__curve_radius, speaker_top__curve_radius],
+                       [speaker_top__curve_radius, speaker_top__curve_radius],
+                       [speaker_top__curve_radius, speaker_top__curve_radius],
+                       center=true);
+
+  translate ([mic_top__from_left, -mic_top__from_top, -e])
+    color("#101010")
+    linear_extrude(height = 5*e)
+    circle(r=mic_top__radius);
+
+}
+
 
 
 echo ("corner_radius: ", iphone_11_pro__face_corner_radius);
