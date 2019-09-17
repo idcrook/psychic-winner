@@ -195,9 +195,8 @@ module iphone_11_pro (width, length, depth,
 {
   // fixme: add an inset translate for all following so that, including
 
-  color(iphone_11_pro__midnight_green, alpha = 0.86)
-    // button bumps, are bound {x,y} >= {0,0}
-    shell(width, length, depth, corner_radius, edge_radius);
+  // button bumps, are bound {x,y} >= {0,0}
+  shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_11_pro__midnight_green);
 
   // ring/silent switch
   color(iphone_11_pro__midnight_green_button)
@@ -329,7 +328,7 @@ module iphone_11_pro (width, length, depth,
 
 }
 
-module shell(width, length, depth, corner_radius, edge_radius)
+module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Silver")
 {
   face_corner_radius = corner_radius;
 
@@ -354,6 +353,7 @@ module shell(width, length, depth, corner_radius, edge_radius)
 
   // generate the basic solid outline
   {
+    color(shell_color, alpha = 0.82)
     difference() {
 
       // most of body
@@ -456,8 +456,8 @@ module shell(width, length, depth, corner_radius, edge_radius)
     translate([display_round_rect_offset_factor,
                display_round_rect_offset_factor,
                depth - display_inset_depth]) {
-      color ("Black")
-        linear_extrude(height = display_inset_depth + 2*e, center = false, convexity = 10)
+      color ("#4060B1", alpha = 0.70)
+        linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
         complexRoundSquare([ width  - 2*display_round_rect_offset_factor,
                              length - 2*display_round_rect_offset_factor ],
                            [corner_r1, corner_r2],
