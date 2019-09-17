@@ -101,7 +101,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_cutoff_top = false;
 
   CONTROL_RENDER_prototype_bottom = true;
-  CONTROL_RENDER_prototype_bottom = false;
+  //CONTROL_RENDER_prototype_bottom = false;
 
   CONTROL_RENDER_experiment3 = true;
   CONTROL_RENDER_experiment3 = false;
@@ -836,9 +836,7 @@ module showTogether() {
 
 }
 
-test1 = true;
-//test1 = false;
-
+// test1 = true;
 
 
 if (test1) {
