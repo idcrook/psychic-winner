@@ -24,7 +24,9 @@ Measurements:
 Drawings and renders
 --------------------
 
-![front view](img/iphone_11_pro_rough_top_view.png)
+![top view](img/iphone_11_pro_rough_top_view.png)
+
+![front view](img/iphone_11_pro_rough_front_view.png)
 
 ![rear view](img/iphone_11_pro_rough_rear_view.png)
 
