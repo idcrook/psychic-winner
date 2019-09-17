@@ -165,7 +165,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   muteSwitchCutoutRadius = 2;
 
   //powerButtonHeightFromBottom = 102;
-  powerButtonCutoutHeight = (8.77*2) + 10 + 12;  // extend so that button is
+  powerButtonCutoutHeight = (8.77*2) + 10 + 10;  // extend so that button is
                                                  // accessible with cap on
   powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77;
   powerButtonCutoutDepth = sleeve_button__cutout_depth;
