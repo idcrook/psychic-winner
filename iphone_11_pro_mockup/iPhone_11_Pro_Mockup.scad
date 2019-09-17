@@ -92,12 +92,6 @@ mic_top__from_top     = 6.08;
 mic_top__from_left    = 35.68;
 mic_top__radius       = mic_top__height/2;
 
-notch__width = 34.80;
-notch__height =  4.99; // bottom half of a "rounded" box
-notch__R =  3.59;
-notch__r =  0.81;
-
-
 // rear facing cameras
 rear_cam1_center__from_top = 12.04;
 rear_cam2_center__from_top = 27.06;
@@ -135,16 +129,25 @@ rear_logo_keepout__diameter = 48.80;
 
 rear_housing_spline_inlay_to_start_of_flat_area__width = 4.96;
 
-display__width     =  62.33;
-display__height    = 134.95;
-display__recessed  =   0.0;
-display__from_top  =   0.0;
-display__from_right  =   0.0;
+active_display__width     =  62.33;
+active_display__height    = 134.95;
+active_display__recessed  =   0.0;
+active_display__from_top  =   0.0;
+active_display__from_right  =   0.0;
 
 display_glass__width     =  67.37;
 display_glass__height    = 139.99;
-display_glass_over__width = (1/2)*(display_glass__width - display__width);    // ~2.5 mm
-display_glass_over__height = (1/2)*(display_glass__height - display__height); // ~2.5 mm
+display_glass_over__width = (1/2)*(display_glass__width - active_display__width);    // ~2.5 mm
+display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
+
+notch__width = 34.80;
+notch__height =  4.99 * 2; // bottom half of a "rounded" box
+notch__from_left_active  = active_display__width/2; // center
+notch__R =  3.59;
+notch__r =  0.81;
+
+
+
 
 /// Bottom sensors and connectors
 // from_left -> hole centers
@@ -451,13 +454,16 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Si
       }
     }
 
+    notch__centered_from_left_active = notch__from_left_active + display_round_rect_offset_factor/2 - 0.2;
+    notch__centered_from_top_active = length - 2*display_round_rect_offset_factor - e;
 
     // display main rectangular region
     translate([display_round_rect_offset_factor,
                display_round_rect_offset_factor,
                depth - display_inset_depth]) {
-      color ("#4060B1", alpha = 0.70)
+      color ("#103080", alpha = 0.70)
         linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
+        difference() {
         complexRoundSquare([ width  - 2*display_round_rect_offset_factor,
                              length - 2*display_round_rect_offset_factor ],
                            [corner_r1, corner_r2],
@@ -465,6 +471,37 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Si
                            [corner_r1, corner_r2],
                            [corner_r1, corner_r2],
                            center=false);
+
+        translate([notch__centered_from_left_active,
+                   notch__centered_from_top_active])
+          complexRoundSquare([ notch__width, notch__height ],
+                             [notch__R, notch__R],
+                             [notch__R, notch__R],
+                             [notch__R, notch__R],
+                             [notch__R, notch__R],
+                             center=true);
+
+        // tiny circle for bendout on left
+        translate([notch__centered_from_left_active - (1/2)*notch__width - notch__r,
+                   notch__centered_from_top_active - notch__r])
+          difference() {
+          square(notch__r);
+          circle(r = notch__r);
+        }
+
+        // tiny circle for bendout on right
+        translate([notch__centered_from_left_active + (1/2)*notch__width + notch__r,
+                   notch__centered_from_top_active - notch__r])
+          mirror([1,0,0]) {
+          difference() {
+            square(notch__r);
+            circle(r = notch__r);
+          }
+        }
+
+
+
+      }
     }
 
 
