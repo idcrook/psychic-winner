@@ -37,7 +37,10 @@ iphone_11_pro__z_mid  =   iphone_11_pro__depth / 2;
 // estimate
 iphone_11_pro__face_corner_radius = 7.0;
 iphone_11_pro__edge_radius = (iphone_11_pro__depth - 0.25) / 2 ;
-
+iphone_11_pro__midnight_green = "#788473";
+iphone_11_pro__midnight_green_button = "#55625D";
+iphone_11_pro__midnight_green_turret = "#485249";
+iphone_11_pro__midnight_green_lens_bezel = "#7B8D7E";
 
 // "from_top" measurements are to center/midpoint of object
 
@@ -74,21 +77,21 @@ sim_slot__bump     =  0.03;  // flush actually
 truedepth_camera_sensor_bar__height   = 4.99;
 truedepth_camera_sensor_bar__width    = 34.8;
 truedepth_camera_sensor_bar__from_top = 4.52;
-truedepth_camera_sensor_bar__curve_radius = 3.59;
+truedepth_camera_sensor_bar__curve_radius = 6.23/2;
 
-speaker_top__height       = 5.0;
-speaker_top__width        = 3.0;
-speaker_top__from_top     = 3.0;
-speaker_top__curve_radius = 3.0;
+//
+speaker_top__height       = 1.38;
+speaker_top__width        = 7.84;
+speaker_top__from_top     = 6.08;
+speaker_top__from_left    = 35.68;
+speaker_top__curve_radius = 0.69;
 
-microphone_top__height       = 5.0;
-// microphone_top__width        = 3.0;
-microphone_top__from_top     = 3.0;
-microphone_top__from_right   = 3.0;
-microphone_top__curve_radius = 3.0;
+mic_top__height       = 1.38; // diameter
+mic_top__from_top     = 6.08;
+mic_top__from_left    = 35.68;
+mic_top__curve_radius = 3.0;
 
 // rear facing cameras
-
 rear_cam1_center__from_top = 12.04;
 rear_cam2_center__from_top = 27.06;
 rear_cam3_center__from_top = 19.55;
@@ -184,10 +187,13 @@ module iphone_11_pro (width, length, depth,
                       corner_radius = 7, edge_radius = 3.925, show_lightning_keepout = true)
   {
     // fixme: add an inset translate for all following so that, including
+
+    color(iphone_11_pro__midnight_green, alpha = 0.86)
     // button bumps, are bound {x,y} >= {0,0}
     shell(width, length, depth, corner_radius, edge_radius);
 
     // ring/silent switch
+    color(iphone_11_pro__midnight_green_button)
     translate([-ringsilent_switch_cutout__bump,
                translate_y_from_top(ringsilent_switch_cutout__from_top),
                iphone_11_pro__z_mid]) {
@@ -197,6 +203,7 @@ module iphone_11_pro (width, length, depth,
       }
 
     // volume up button
+    color(iphone_11_pro__midnight_green_button)
     translate([-volume_up__bump,
                translate_y_from_top(volume_up__from_top),
                iphone_11_pro__z_mid]) {
@@ -206,6 +213,7 @@ module iphone_11_pro (width, length, depth,
       }
 
     // volume down button
+    color(iphone_11_pro__midnight_green_button)
     translate([-volume_down__bump,
                translate_y_from_top(volume_down__from_top),
                iphone_11_pro__z_mid]) {
@@ -215,6 +223,7 @@ module iphone_11_pro (width, length, depth,
       }
 
     // side button
+    color(iphone_11_pro__midnight_green_button)
     translate([iphone_11_pro__width-e,
                translate_y_from_top(side_button__from_top),
                iphone_11_pro__z_mid]) {
@@ -224,6 +233,7 @@ module iphone_11_pro (width, length, depth,
       }
 
     // sim slot
+    color(iphone_11_pro__midnight_green_button)
     translate([iphone_11_pro__width-e,
                translate_y_from_top(sim_slot__from_top),
                iphone_11_pro__z_mid]) {
@@ -432,7 +442,7 @@ module shell(width, length, depth, corner_radius, edge_radius)
 	       display_round_rect_offset_factor,
 	       depth - display_inset_depth])
     {
-      color ("Black", alpha = 0.62)
+      color ("Black")
         linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
         complexRoundSquare([ width - 2*display_round_rect_offset_factor,
                              length - 2*display_round_rect_offset_factor ],
@@ -456,7 +466,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
   rradius_outer = rear_cam_turret__rradius_outer;
   rradius_inner = rear_cam_turret__rradius_inner;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
-    color("Green", alpha = 0.70)
+    color(iphone_11_pro__midnight_green_turret, alpha = 0.70)
     difference() {
     linear_extrude(height = h)
       complexRoundSquare([rear_cam_turret__width_outer,
@@ -502,7 +512,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
   }
 
 module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
-  color("Grey", alpha=0.30)
+  color(iphone_11_pro__midnight_green_lens_bezel, alpha=0.95)
     linear_extrude(height=h/2)
     circle(r=r);
 
