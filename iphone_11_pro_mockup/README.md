@@ -17,11 +17,18 @@ Measurements:
 -	Width: 2.81 inches (71.4 mm)
 -	Depth: 0.32 inch (8.1 mm)
 
-![](img/dimensions_iphone_11_pro__screenshot.jpg)
+![dimensional drawing](img/dimensions_iphone_11_pro__screenshot.jpg)
 
 -	Weight: 6.63 ounces (188 grams)
+
+Drawings and renders
+--------------------
+
+![front view](img/iphone_11_pro_rough_top_view.png)
+
+![rear view](img/iphone_11_pro_rough_rear_view.png)
 
 Thingiverse
 -----------
 
--	[iPhone 11 Pro mockup mechanical dummy model]() - TBD
+-	[iPhone 11 Pro mockup mechanical dummy model](https://www.thingiverse.com/thing:3865803/)
