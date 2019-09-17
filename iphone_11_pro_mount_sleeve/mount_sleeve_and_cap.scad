@@ -164,11 +164,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
 
-  cameraHeightFromBottom = 110.2;
-  cameraCutoutHeight = 0.5 + 25.7 + 0.5;
-  cameraCutoutDepth = 13.1;
-  cameraCutoutRadius = cameraCutoutDepth/2-1;
-  cameraHoleOffcenter = 3.0 - 0.5;
+  cameraHeightFromBottom = translate_y_from_top(32.71) - 1.5/2;
+  cameraCutoutHeight = 30.59 + 1.3;
+  cameraCutoutDepth = 32.71 + 1.3;
+  cameraCutoutRadius = 7.5;
+  //cameraHoleOffcenter = 3.0 - 0.5;
+  cameraHoleOffcenter = 0.65;
 
   speakerCutoutHeight = 18;
   speakerCutoutDepth = 5.5;
@@ -348,7 +349,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               rotate([90, 0, 0])
               mirror([0,0,1])
               linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-              complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth + 1.2],
+              complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth ],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
