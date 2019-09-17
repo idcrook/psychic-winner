@@ -7,7 +7,7 @@
   2019-Sep-16
 
   Thingiverse:
-    http://www.thingiverse.com/thing:
+    http://www.thingiverse.com/thing:3865803/
 
   GitHub:
     https://github.com/idcrook/psychic-winner/tree/master/iphone_11_pro_mockup
