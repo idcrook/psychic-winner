@@ -97,26 +97,19 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
 
-  //CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
+  CONTROL_RENDER_cutoff_top       = ! true ? true : false;
 
-  //CONTROL_RENDER_prototype_bottom = true;
-  CONTROL_RENDER_prototype_bottom = false;
+  CONTROL_RENDER_prototype_bottom = true ? true : false;
 
-  //CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
+  CONTROL_RENDER_experiment3      = ! true ? true : false;
 
-  //CONTROL_RENDER_experiment4 = true;
-  CONTROL_RENDER_experiment4 = false;
+  CONTROL_RENDER_experiment4      = ! true ? true : false;
 
-  //CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  CONTROL_RENDER_experiment5      = ! true ? true : false;
 
-  wantThinner = true;
-  //wantThinner = false;
+  wantThinner = true ? true : false;
 
-  wantCameraHoleToBeSlot = true;
-  //wantCameraHoleToBeSlot = false;
+  wantCameraHoleToBeSlot = true ? true : false;
 
   sleeveSideThickness   =  wantThinner ? 2.8 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
@@ -197,7 +190,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   headphoneMicHoleOffcenter = 20.0;
 
   //bottomLipHeight = 18.0 - 3;
-  bottomLipHeight = 3.5 + sleeveBottomThickness ;
+  bottomLipHeight = 4.0; // matches height of case lip
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipFingerprintDiameter = 17;
@@ -275,8 +268,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           }
 
           // trim based on experiments (makes sense since tolerance of 0.5*2 was added)
-          trim__width = 0.93;
-          trim__height = 0.93;
+          //trim__width = 0.93;  test_bottom2
+          //trim__height = 0.93; test_bottom2
+          //trim__flatten_curve = 0.0; test_bottom2
+          trim__width  = 0.93 - 0.60 ;  // test_bottom3
+          trim__height = 0.93 - 0.30;    // test_bottom3
+          //trim__flatten_curve = 2.0; // test_bottom3
+          trim__flatten_curve = 2.8; // test_bottom3
 
 
           // need a difference here to be able to punch out button and camera access holes
@@ -295,10 +293,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               // cut out size of iphone in case
               complexRoundSquare([sleeveInner_w - trim__width,
                                   sleeveInner_h - trim__height],
-                                 [sleeveInner_r, sleeveInner_r],
-                                 [sleeveInner_r, sleeveInner_r],
-                                 [sleeveInner_r, sleeveInner_r],
-                                 [sleeveInner_r, sleeveInner_r],
+                                 [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
+                                 [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
+                                 [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
+                                 [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
                                  center = true);
 
               // include groove for buttons (covered back in above)
@@ -310,7 +308,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
 
               //bevel_angle = 50;
-              bevel_angle = 46;
+              //bevel_angle = 46;
+              bevel_angle = 44;
 
               // cut for screen and add bevel
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
@@ -506,7 +505,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         }
       }
 
-      // Bottom lip with cutout for Home button / thumbprint sensor
+      // Bottom lip
       if (with_sleeve) {
         difference() {
           // 2D view for height of lip
@@ -520,7 +519,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                center = true);
 
             // cut out size of iphone plus some additional
-            scale ([1,1.22,1])
+            //scale ([1,1.22,1])
+            scale ([1,1,1])
               complexRoundSquare([sleeveInner_w, sleeveInner_h],
                                  [sleeveInner_r, sleeveInner_r],
                                  [sleeveInner_r, sleeveInner_r],
@@ -867,7 +867,8 @@ module showTogether() {
 
 }
 
-test1 = true;
+
+test1 =  !true ? true : false;
 
 
 if (test1) {
