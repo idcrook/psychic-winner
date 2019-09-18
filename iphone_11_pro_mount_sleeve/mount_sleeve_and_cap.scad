@@ -99,7 +99,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   CONTROL_RENDER_cutoff_top       = ! true ? true : false;
 
-  CONTROL_RENDER_prototype_bottom = true ? true : false;
+  CONTROL_RENDER_prototype_bottom = ! true ? true : false;
 
   CONTROL_RENDER_experiment3      = ! true ? true : false;
 
@@ -166,12 +166,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
 
-  cameraHeightFromBottom = translate_y_from_top(32.71) - 1.5/2;
+  cameraHeightFromBottom = translate_y_from_top(32.71) - 1.5;  // test 5
   cameraCutoutHeight = 30.59 + 1.3;
   cameraCutoutDepth = 32.71 + 1.3;
   cameraCutoutRadius = 7.5;
-  //cameraHoleOffcenter = 3.0 - 0.5;
-  cameraHoleOffcenter = 0.65;
+  cameraHoleOffcenter = 0.7 * 2; // test 5
 
   speakerCutoutHeight = 18;
   speakerCutoutDepth = 5.5;
@@ -889,7 +888,7 @@ module showTogether() {
 }
 
 
-test1 =  !true ? true : false;
+test1 =   true ? true : false;
 
 
 if (test1) {
