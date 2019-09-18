@@ -191,6 +191,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   //bottomLipHeight = 18.0 - 3;
   bottomLipHeight = 4.0; // matches height of case lip
+  bottom_lip_rounded_corners = true;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipFingerprintDiameter = 17;
@@ -309,7 +310,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
               //bevel_angle = 50;
               //bevel_angle = 46;
-              bevel_angle = 44;
+              bevel_angle = 43;
 
               // cut for screen and add bevel
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
@@ -374,7 +375,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
             // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
             if (wantCameraHoleToBeSlot) {
-              // slide up camera cutout
+              // shift up camera cutout past top to make it a slot
               translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + 20])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
@@ -505,11 +506,17 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         }
       }
 
+
+      bottom_lip_rounded_corners__radius = 4.94;
+      extraBottomLipHeight = bottom_lip_rounded_corners ? bottom_lip_rounded_corners__radius : 0;
+      bottomLipDisplayOpeningWidth = 68.4;
+      bottomLipDisplayOpeningHeight = 2 * bottom_lip_rounded_corners__radius;
+
       // Bottom lip
       if (with_sleeve) {
         difference() {
           // 2D view for height of lip
-          linear_extrude(height = bottomLipHeight, center = false, convexity = 10)
+          linear_extrude(height = bottomLipHeight + extraBottomLipHeight, center = false, convexity = 10)
             difference () {
             complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
                                [sleeveOuter_r, sleeveOuter_r],
@@ -544,7 +551,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
           }
 
-
           // cutout for fingerprint
           if (fingerprint_sensor_cutout) {
             //// wedge(height, radius, degrees);
@@ -553,6 +559,21 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
               wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
           }
+
+          // rounded bottom corners
+          if (bottom_lip_rounded_corners) {
+            translate([0, 0, bottomLipHeight +  extraBottomLipHeight ])
+              rotate([90, 0, 0])
+               linear_extrude(height = 10, center = false, convexity = 10)
+               complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight],
+                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                  center = true);
+          }
+
+
         }
       }
 
