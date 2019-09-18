@@ -166,11 +166,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
 
-  cameraHeightFromBottom = translate_y_from_top(32.71) - 1.5;  // test 5
+  cameraHeightFromBottom = translate_y_from_top(32.71) - 2.0;  // test 5
   cameraCutoutHeight = 30.59 + 1.3;
   cameraCutoutDepth = 32.71 + 1.3;
   cameraCutoutRadius = 7.5;
-  cameraHoleOffcenter = 0.7 * 2; // test 5
+  cameraHoleOffcenter = 0.70 * 2; // test 5
 
   speakerCutoutHeight = 18;
   speakerCutoutDepth = 5.5;
