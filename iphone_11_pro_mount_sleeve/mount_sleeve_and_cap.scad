@@ -888,7 +888,7 @@ module showTogether() {
 }
 
 
-test1 =   true ? true : false;
+test1 =  ! true ? true : false;
 
 
 if (test1) {
@@ -896,16 +896,14 @@ if (test1) {
 } else {
   $fn = 100;
 
-  //tweakMountSurface = false;
-  tweakMountSurface = true;
+  tweakMountSurface =  true ? true : false;
 
-  //withCap = true;
-  withCap = false;
+  withCap    = ! true ? true : false;
 
-  withSleeve = true;
+  withSleeve =  true ? true : false;
 
-  //printCap = true;
-  printCap = false;
+  printCap   =  true ? true : false;
+
 
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, withSleeve);
