@@ -641,7 +641,12 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
-  with_split_top_of_sleeve = false;
+  capCornerSupportThickness = 2.0; // test 5
+  capCornerSupportWidth = 8.0;  // test 5
+  capCornerSupportHeight = 4.4;  // test 5
+
+  with_split_top_of_sleeve = false ? true : false;
+  with_tab_corner_support =  true ? true : false;
 
   fudge =  true ? true : false;
   powerButtonCapClip_z = fudge ? power_button_z + 1 : power_button_z;
@@ -649,7 +654,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
 
   tabInsertDepth = 2.5 + 1 + 0.2; // test 5
 
-  powerButtonCap_tabHeight = 15;
+  powerButtonCap_tabHeight = 15.2;
   powerButtonCap_tabWidth = 10 - tolerance;
   muteSwitchCap_tabHeight = 15.2;
   muteSwitchCap_tabWidth = 10 - tolerance;
@@ -658,7 +663,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   caseOverlap = 10.0;
 
   linear_extrude(height = capCapThickness + e, center = false, convexity = 10)
-    // 2D view for cap
+    // 2D view for cap (base of cap)
     complexRoundSquare([capCaseWidth + 2*capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
@@ -678,13 +683,29 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                          center = true);
   }
 
+  // tab for power button side
   translate([capSideDistance, 0,  - powerButtonCapClip_z - powerButtonCap_tabHeight])
     rotate([0,0,180])
     generateCapTab(capArmThickness, capDepth,
                    powerButtonCap_tabHeight, powerButtonCap_tabWidth, tabInsertDepth);
 
 
+  if (with_tab_corner_support) {
+    translate([capSideDistance, ((1/2)*capDepth) - e, - (1/2)*capCornerSupportHeight])
+      mirror([1,0,0])
+
+      linear_extrude(height = capCornerSupportHeight, center = false, convexity = 10)
+      complexRoundSquare([capCornerSupportWidth, capCornerSupportThickness],
+                         [0,0],
+                         [0,0],
+                         [1.5,1.5],
+                         [1.5,1.5],
+                         center = false);
+  }
+
+
   // mute switch side
+  // bar for mute switch side
   translate([-(capSideDistance), 0,  - muteSwitchCapClip_z])
     linear_extrude(height = muteSwitchCapClip_z, center = false, convexity = 10)
     complexRoundSquare([capArmThickness, capDepth],
@@ -699,10 +720,24 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                          center = true);
   }
 
+  // tab for  mute switch side
   translate([-(capSideDistance), 0, - muteSwitchCapClip_z - muteSwitchCap_tabHeight])
     rotate([0,0,0])
     generateCapTab(capArmThickness, capDepth,
                    muteSwitchCap_tabHeight, muteSwitchCap_tabWidth, tabInsertDepth);
+
+  if (with_tab_corner_support) {
+    translate([-(capSideDistance - 0), (1/2)*capDepth  - e, - (1/2)*capCornerSupportHeight])
+      mirror([0,0,0])
+      linear_extrude(height = capCornerSupportHeight, center = false, convexity = 10)
+      complexRoundSquare([capCornerSupportWidth, capCornerSupportThickness],
+                         [0,0],
+                         [0,0],
+                         [1.5,1.5],
+                         [1.5,1.5],
+                         center = false);
+  }
+
 
 }
 
