@@ -420,8 +420,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         capArmThickness = wantThinner ? 3.5 : 4.0;
         capCapThickness = wantThinner ? 3.0 : 3.5;
         capDepth = sleeveOuter_h;
-        // caseHeight = sleeveInner_l + 1.5;         // added 1.5 mm since case sits higher in sleeve
-        caseHeight = sleeveInner_l + 0.56 ;
+        caseHeight = sleeveInner_l + 0.56 ; // test 5
         capCaseWidth = sleeveOuter_w + 2*tolerance + tolerance;  // tolerance
                                                                  // shouldn't
                                                                  // here be
@@ -644,12 +643,11 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capDepth = cap_depth;
   with_split_top_of_sleeve = false;
 
-  fudge = true;
-  //fudge = false;
+  fudge =  true ? true : false;
   powerButtonCapClip_z = fudge ? power_button_z + 1 : power_button_z;
   muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 : mute_switch_z;
 
-  tabInsertDepth = 2.5 + 1;
+  tabInsertDepth = 2.5 + 1 + 0.2; // test 5
 
   powerButtonCap_tabHeight = 15;
   powerButtonCap_tabWidth = 10 - tolerance;
@@ -659,7 +657,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capSideDistance = (capCaseWidth + capArmThickness)/2;
   caseOverlap = 10.0;
 
-  linear_extrude(height = capCapThickness, center = false, convexity = 10)
+  linear_extrude(height = capCapThickness + e, center = false, convexity = 10)
     // 2D view for cap
     complexRoundSquare([capCaseWidth + 2*capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
@@ -726,26 +724,29 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
     echo("tabInsertDepth:", tabInsertDepth);
   }
 
-  translate([0,0,0])
+  // straight piece along back
+  translate([0,0,+2*e])
     linear_extrude(height = tabHeight, center = false, convexity = 10)
     complexRoundSquare([capArmThickness, tabWidth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
-  translate([(1/2)*capArmThickness,0,(1/2)*tabHeight])
+  // tab piece
+  translate([(1/2)*capArmThickness - e,0,(1/2)*tabHeight])
     rotate([0,90,0])
-    linear_extrude(height = tabInsertDepth, scale = 0.7, center = false, convexity = 10)
+    // greater than scale [,] x =~ 0.50 generally will imply supports to print
+    linear_extrude(height = tabInsertDepth, scale = [0.68, 0.70],  twist=0, center = false)
     complexRoundSquare([tabHeight, tabWidth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
-
-  translate([0,0,tabHeight])
+  // tapered pieces on side of straight piece
+  translate([0,0,tabHeight + 2*e])
     rotate([0,180,0])
-    linear_extrude(height = tabHeight/2, center = false, scale = 0.7, convexity = 10)
-    //linear_extrude(height = tabHeight/2, center = false, scale = 0.7, convexity = 10)
+    linear_extrude(height = (2/3)*tabHeight,  // test 5
+                   center = false, scale = 0.7, convexity = 10)
     complexRoundSquare([capArmThickness, capCaseWidth],
-                       [0,0], [0,0], [0,0], [0,0],
+                       [1,1], [1,1], [1,1], [1,1],
                        center = true);
 
 
