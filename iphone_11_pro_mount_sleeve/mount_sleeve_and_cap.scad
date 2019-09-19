@@ -583,7 +583,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.65) * l - mountInsertHeight + base_l])
           difference() {
           sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
-          // chop off top 1.5 mm
+
+          // chop off top 1.5 mm of insert (as it seems to not fully insert into slot)
           translate([-e, -e, mountInsertHeight - 1.5])
             cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
         }
@@ -793,6 +794,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
   insertPartialHeight = 30;
   insertSlantedHeight = insertFullHeight - insertPartialHeight;
   insertSlantAngle = 60;
+  insertSlantAngle2 = 70;
 
   tolerance = 0.5;
 
@@ -812,17 +814,21 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
                            [0,0], [0,0], [0,0], [0,0],
                            center = false);
 
+        // vertical side nearest attach surface
         translate([-e, -e, 0])
           complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
                              [0,0], [0,0], [0,0], [0,0],
                              center = false);
 
+        // other vertical side nearest attach surface
         translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
           complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
                              [0,0], [0,0], [0,0], [0,0],
                              center = false);
 
+        // this carves a small slant on the side rails
         if (shouldTweak) {
+
           translate([insertChopThickness_x, insertChopThickness_y*(1),0])
             rotate([0,0,180-rotateAngle])
             complexRoundSquare([insertChopThickness_x+1, insertChopThickness_y],
@@ -838,6 +844,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
         }
       }
 
+      // carve bottom side insert wedge
       rotate([insertSlantAngle,0,0])
         cube(insertFullHeight);
     }
@@ -845,14 +852,14 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
     translate([insertChopThickness,
                insertChopThickness - 2*e,
                (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
-      rotate([360-(90-insertSlantAngle),0,90])
-      cube(7);
+      rotate([360-(90-insertSlantAngle2),0,90])
+      cube(7+3);
 
     translate([insertTailWidth - insertChopThickness,
                insertChopThickness - 2*e,
                (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
-      rotate([0, (90 - insertSlantAngle) ,0])
-      cube(7);
+      rotate([0, (90 - insertSlantAngle2) ,0])
+      cube(7+3);
   }
 
 }
@@ -866,9 +873,11 @@ module test_sleeveMountInsert (fit_better, translate_x) {
   fitBetter = fit_better;
 
   tolerance = 0.5;
-  sleeveBottomThickness = 3.0;
+  wantThinner = true ? true : false;
+  sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
 
-  mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness;
+
+  mountInsert_yTranslation = (1/2)*(tolerance + h) + sleeveBottomThickness;
 
   translate([translate_x, 0, 0])
     sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
@@ -945,7 +954,7 @@ if (test1) {
       sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, ! withSleeve);
   }
 
-  * test_sleeveMountInsert(tweakMountSurface, 0);
+  // *test_sleeveMountInsert(tweakMountSurface, 0);
 
 
 }
