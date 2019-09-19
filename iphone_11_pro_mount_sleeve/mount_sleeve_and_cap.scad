@@ -572,21 +572,20 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
       if (with_sleeve) {
         // add mounting wedge
-        if (!CONTROL_RENDER_experiment3) {
-          mountInsertWidth = 22;
-          mountInsertThickness = 3;
-          mountInsertHeight = 42;
+        mountInsertWidth = 22;
+        mountInsertThickness = 3;
+        mountInsertHeight = 42;
 
-          mountInsert_yTranslation = (1/2)*( tolerance + h + tolerance) + sleeveBottomThickness - e;
+        // y dimension needs to overlap with sleeve
+        mountInsert_yTranslation = (1/2)*(tolerance + h) + sleeveBottomThickness - e;
 
-          // y dimension needs to overlap with sleeve
-          translate([-mountInsertWidth/2, mountInsert_yTranslation - (2 * e), (0.65) * l - mountInsertHeight + base_l])
-            difference() {
-            sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
-            // chop off top 1.5 mm
-            translate([-e, -e, mountInsertHeight - 1.5])
-              cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
-          }
+        // y dimension needs to overlap with sleeve
+        translate([-mountInsertWidth/2, mountInsert_yTranslation, (0.65) * l - mountInsertHeight + base_l])
+          difference() {
+          sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
+          // chop off top 1.5 mm
+          translate([-e, -e, mountInsertHeight - 1.5])
+            cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
         }
       }
     }
