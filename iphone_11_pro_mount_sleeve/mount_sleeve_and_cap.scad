@@ -108,6 +108,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment5      = ! true ? true : false;
 
   wantThinner = true ? true : false;
+  wantThinnerCap = false ? true : false;
 
   wantCameraHoleToBeSlot = true ? true : false;
 
@@ -417,15 +418,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
       // cap
       if (with_cap) {
-        capArmThickness = wantThinner ? 3.5 : 4.0;
-        capCapThickness = wantThinner ? 3.0 : 3.5;
+        capArmThickness = wantThinnerCap ? 3.5 : 4.0;
+        capCapThickness = wantThinnerCap ? 3.0 : 3.5;
         capDepth = sleeveOuter_h;
         caseHeight = sleeveInner_l + 0.56 ; // test 5
-        capCaseWidth = sleeveOuter_w + 2*tolerance + tolerance;  // tolerance
-                                                                 // shouldn't
-                                                                 // here be
-                                                                 // higher-quality
-                                                                 // prints
+        capCaseWidth = sleeveOuter_w + tolerance; // test 6
         powerSideCut = powerButtonHeightFromBottom;
         powerSideHeight = powerButtonCutoutHeight;
         powerButtonCapClip_z = caseHeight - powerSideCut - powerSideHeight;
@@ -641,9 +638,11 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
-  capCornerSupportThickness = 2.0; // test 5
-  capCornerSupportWidth = 8.0;  // test 5
-  capCornerSupportHeight = 4.4;  // test 5
+  capCornerSupportThickness = 2.5; // test 5
+  //capCornerSupportWidth = 8.0;  // test 5
+  //capCornerSupportHeight = 4.4;  // test 5
+  capCornerSupportWidth = 9.0;  // test 6
+  capCornerSupportHeight = 5.0;  // test 6
 
   with_split_top_of_sleeve = false ? true : false;
   with_tab_corner_support =  true ? true : false;
@@ -934,7 +933,7 @@ if (test1) {
 
   tweakMountSurface =  true ? true : false;
 
-  withCap    = ! true ? true : false;
+  withCap    =  true ? true : false;
 
   withSleeve =  true ? true : false;
 
@@ -942,9 +941,13 @@ if (test1) {
 
 
   if (! printCap) {
-    translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, withSleeve);
+    translate([0,0,0])
+      sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, withSleeve);
   } else {
-    scale ([1.01,1.0,1]) translate([0,0,3+l+0.5]) rotate([180,0,0]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, ! withSleeve);
+    scale ([1.0,1.0,1.0])
+      translate([0,0,3+l+0.5])
+      rotate([180,0,0])
+      sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, ! withSleeve);
   }
 
   * test_sleeveMountInsert(tweakMountSurface, 0);
