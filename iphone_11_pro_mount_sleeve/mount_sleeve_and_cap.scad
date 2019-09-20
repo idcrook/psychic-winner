@@ -926,7 +926,7 @@ module showTogether() {
 }
 
 
-test1 =  true ? true : false;
+test1 = ! true ? true : false;
 
 
 if (test1) {
@@ -936,11 +936,11 @@ if (test1) {
 
   tweakMountSurface =  true ? true : false;
 
-  withCap    =  true ? true : false;
+  withCap    =  !true ? true : false;
 
   withSleeve =  true ? true : false;
 
-  printCap   =  true ? true : false;
+  printCap   =  !true ? true : false;
 
 
   if (! printCap) {
