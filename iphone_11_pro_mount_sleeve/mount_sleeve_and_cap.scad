@@ -105,7 +105,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment3      = ! true ? true : false;
   CONTROL_RENDER_experiment5      = ! true ? true : false;
 
-  wantThinner = true ? true : false;
+  wantThinner = ! true ? true : false;
   wantThinnerCap = false ? true : false;
 
   wantCameraHoleToBeSlot = true ? true : false;
@@ -123,7 +123,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 2.6;
 
-  buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 0.0; // button groove depth
+  buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 0.8; // button groove depth
   buttonsIncludedInner_h =            +  3.0 + tolerance;
   buttonsIncludedInner_r =  1.5*tolerance ;
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
@@ -908,19 +908,18 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = !true;
+  withCap = true;
   withSleeve = true;
 
   // iPhone 11 Pro
-  //translate([tw, tl, th ]) iphone_11_pro(iw, il, ih, show_lightning_keepout = true);
+  translate([tw, tl, th ]) iphone_11_pro(iw, il, ih, show_lightning_keepout = true);
 
 
   // monopriceRuggedThinCase
-  //translate([0,0,0]) monopriceRuggedThinCase();
+  translate([0,0,0]) monopriceRuggedThinCase();
 
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-
   translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 
 
