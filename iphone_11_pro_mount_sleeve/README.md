@@ -34,6 +34,12 @@ Case Measurements:
 Views and Renders
 -----------------
 
+![diagonal view](img/sleeve_diag_view__form_monoprice.png)
+
+![front view](img/sleeve_front__form_monoprice.png)
+
+![back view](img/sleeve_back__form_monoprice.png)
+
 ![front view render](img/front_view_sleeve_render.png)
 
 thingiverse
