@@ -55,9 +55,12 @@ tw = (1/2) * dw  ;
 tl = (1/2) * dl  ;
 th = (1/2) * dh  ;
 
-// display cutout
-cut_w = 62.33;
-cut_l = 134.95;
+// display glass cutout
+/* cut_w = 62.33; */
+/* cut_l = 134.95; */
+/* cut_r = 6.0; */
+cut_w = 67.37;
+cut_l = 139.99;
 cut_r = 6.0;
 
 // display
