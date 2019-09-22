@@ -115,7 +115,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveTopThickness    =  wantThinner ? 2.8 : 3.5;
   sleeveBaseThickness   =  wantThinner ? 2.8 : 3.5;
 
-  sleeveSideThickness__button_cutout = sleeveSideThickness + tolerance;
+  sleeveSideThickness__button_cutout = sleeveSideThickness + 2*tolerance;
 
   base_l = sleeveBaseThickness;
 
@@ -137,7 +137,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   sleeveInner_l = l;
-  sleeve_button__cutout_depth = 7.7 + 2.3 ;
+  sleeve_button__cutout_depth = 7.7 + 1.8 ;
+  sleeve_button__y_scale_factor = 1.4 ;
 
   //volumeButtonsHeightFromBottom = 78.0;
   volumeButtonsCutoutHeight = 38; // big enough to be continuous with mute switch cutout
@@ -325,6 +326,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // power button cutout
             translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
               rotate([0, 180 + 90, 0])
+              scale([1,sleeve_button__y_scale_factor,1])
               linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.9, convexity = 10)
               complexRoundSquare( [powerButtonCutoutHeight, powerButtonCutoutDepth],
                                   [powerButtonCutoutRadius, powerButtonCutoutRadius],
@@ -337,7 +339,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
-              scale([1,1,1])
+              scale([1,sleeve_button__y_scale_factor,1])
               // height is in the X direction
               linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.90)
               complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
@@ -352,8 +354,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
+              scale([1,sleeve_button__y_scale_factor,1])
               linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false,  scale = 0.9, convexity = 10)
-              complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth ],
+              complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -909,12 +912,15 @@ module showTogether() {
   withCap = true;
   withSleeve = true;
 
-  // iPhone 11 Pro
-  translate([tw, tl, th ]) iphone_11_pro(iw, il, ih, show_lightning_keepout = true);
+  show_with_phone_and_case = !true;
 
+  if (show_with_phone_and_case) {
+    // iPhone 11 Pro
+    translate([tw, tl, th ]) iphone_11_pro(iw, il, ih, show_lightning_keepout = true);
 
-  // monopriceRuggedThinCase
-  translate([0,0,0]) monopriceRuggedThinCase();
+    // monopriceRuggedThinCase
+    translate([0,0,0]) monopriceRuggedThinCase();
+  }
 
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
@@ -924,7 +930,7 @@ module showTogether() {
 }
 
 
-show_everything = ! true ? true : false;
+show_everything = true ? true : false;
 
 
 if (show_everything) {
