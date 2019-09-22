@@ -373,7 +373,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
             if (wantCameraHoleToBeSlot) {
               // shift up camera cutout past top to make it a slot
-              translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + 20])
+              shiftUpAmount = 12;
+              translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + shiftUpAmount])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
                 linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
