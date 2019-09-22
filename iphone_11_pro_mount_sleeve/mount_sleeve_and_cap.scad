@@ -137,6 +137,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   sleeveInner_l = l;
+
   sleeve_button__cutout_depth = 7.7 + 1.8 ;
   sleeve_button__y_scale_factor = 1.4 ;
 
@@ -684,7 +685,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   translate([capSideDistance, 0,  - powerButtonCapClip_z - powerButtonCap_tabHeight])
     rotate([0,0,180])
     generateCapTab(capArmThickness, capDepth,
-                   powerButtonCap_tabHeight, powerButtonCap_tabWidth, tabInsertDepth);
+                   powerButtonCap_tabHeight, powerButtonCap_tabWidth, tabInsertDepth, direction = true);
 
 
   if (with_tab_corner_support) {
@@ -721,7 +722,7 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   translate([-(capSideDistance), 0, - muteSwitchCapClip_z - muteSwitchCap_tabHeight])
     rotate([0,0,0])
     generateCapTab(capArmThickness, capDepth,
-                   muteSwitchCap_tabHeight, muteSwitchCap_tabWidth, tabInsertDepth);
+                   muteSwitchCap_tabHeight, muteSwitchCap_tabWidth, tabInsertDepth, direction = false);
 
   if (with_tab_corner_support) {
     translate([-(capSideDistance - 0), (1/2)*capDepth  - e, - (1/2)*capCornerSupportHeight])
@@ -739,13 +740,17 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
 }
 
 
-module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth) {
+module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, tab_insert_depth , direction) {
 
   capCaseWidth = cap_case_width;
   capArmThickness = cap_arm_thickness;
   tabHeight = tab_height;
   tabWidth = tab_width;
   tabInsertDepth = tab_insert_depth;
+
+  cap_tab_y_shift = direction ? - 1.8 : 1.8;
+  //   sleeve_button__y_scale_factor = 1.4 ;
+  cap_tab_y_scale = 1.4;
 
   if (true) {
     echo("=== generateCapTab ===");
@@ -764,9 +769,10 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
                        center = true);
 
   // tab piece
-  translate([(1/2)*capArmThickness - e,0,(1/2)*tabHeight])
+  translate([(1/2)*capArmThickness - e, cap_tab_y_shift ,(1/2)*tabHeight])
     rotate([0,90,0])
     // greater than scale [,] x =~ 0.50 generally will imply supports to print
+    scale([1,cap_tab_y_scale,1])
     linear_extrude(height = tabInsertDepth, scale = [0.68, 0.70],  twist=0, center = false)
     complexRoundSquare([tabHeight, tabWidth],
                        [0,0], [0,0], [0,0], [0,0],
@@ -912,7 +918,7 @@ module showTogether() {
   withCap = true;
   withSleeve = true;
 
-  show_with_phone_and_case = !true;
+  show_with_phone_and_case = true;
 
   if (show_with_phone_and_case) {
     // iPhone 11 Pro
@@ -930,7 +936,7 @@ module showTogether() {
 }
 
 
-show_everything = true ? true : false;
+show_everything =  true ? true : false;
 
 
 if (show_everything) {
@@ -941,11 +947,11 @@ if (show_everything) {
 
   tweakMountSurface =  true ? true : false;
 
-  withCap    =  !true ? true : false;
+  withCap    =  true ? true : false;
 
   withSleeve =  true ? true : false;
 
-  printCap   =  !true ? true : false;
+  printCap   =  true ? true : false;
 
 
   if (! printCap) {
