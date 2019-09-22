@@ -108,7 +108,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   wantThinner = ! true ? true : false;
   wantThinnerCap = false ? true : false;
 
-  wantCameraHoleToBeSlot = true ? true : false;
+  want_camera_hole_to_be_slot = true ? true : false;
 
   sleeveSideThickness   =  wantThinner ? 2.8 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
@@ -371,7 +371,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
-            if (wantCameraHoleToBeSlot) {
+            if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
               shiftUpAmount = 12;
               translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + shiftUpAmount])
