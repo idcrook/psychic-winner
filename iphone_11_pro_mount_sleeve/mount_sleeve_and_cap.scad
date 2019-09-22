@@ -939,7 +939,7 @@ module showTogether() {
 }
 
 
-show_everything =  true ? true : false;
+show_everything =  ! true ? true : false;
 
 
 if (show_everything) {
