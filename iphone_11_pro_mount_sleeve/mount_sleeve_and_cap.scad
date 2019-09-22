@@ -950,11 +950,11 @@ if (show_everything) {
 
   tweakMountSurface =  true ? true : false;
 
-  withCap    =  true ? true : false;
-
   withSleeve =  true ? true : false;
 
-  printCap   =  true ? true : false;
+  printCap   =  ! true ? true : false;
+  withCap    =  printCap ? true : false;
+
 
 
   if (! printCap) {
