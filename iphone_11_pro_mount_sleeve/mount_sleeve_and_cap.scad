@@ -137,17 +137,17 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   sleeveInner_l = l;
-  sleeve_button__cutout_depth = 7.7 + 2.3;
+  sleeve_button__cutout_depth = 7.7 + 2.3 ;
 
   //volumeButtonsHeightFromBottom = 78.0;
-  volumeButtonsCutoutHeight = 34; // big enough to be continuous
+  volumeButtonsCutoutHeight = 38; // big enough to be continuous with mute switch cutout
   volumeButtonsHeightFromBottom = translate_y_from_top(51.37) - 5.88;
   volumeButtonsCutoutDepth = sleeve_button__cutout_depth;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
   //muteSwitchHeightFromBottom = 99.5;
-  muteSwitchCutoutHeight = 12.2 + 3.0 + 8; // extend so that button is
+  muteSwitchCutoutHeight = 12.2 + 3.0 + 8; // extend so that switch is
                                             // accessible with cap on
   muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
   muteSwitchCutoutDepth = sleeve_button__cutout_depth;
@@ -322,18 +322,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                 square([caseNonViewable, sleeveInner_h],  center = false);
             }
 
-            // volume buttons cutout
-            translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
-              mirror([1,0,0])
-              rotate([0, 180 + 90, 0])
-              linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.9, convexity = 10)
-              complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
-                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
-                                  center = false);
-
             // power button cutout
             translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
               rotate([0, 180 + 90, 0])
@@ -343,6 +331,20 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   [powerButtonCutoutRadius, powerButtonCutoutRadius],
                                   [powerButtonCutoutRadius, powerButtonCutoutRadius],
                                   [powerButtonCutoutRadius, powerButtonCutoutRadius],
+                                  center = false);
+
+            // volume buttons cutout
+            translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
+              mirror([1,0,0])
+              rotate([0, 180 + 90, 0])
+              scale([1,1,1])
+              // height is in the X direction
+              linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.90)
+              complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
+                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
+                                  [volumeButtonsCutoutRadius, volumeButtonsCutoutRadius],
                                   center = false);
 
             // mute switch cutout
@@ -435,15 +437,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         echo("powerButtonCapClip_z:", powerButtonCapClip_z);
         echo("muteSwitchCapClip_z:", muteSwitchCapClip_z);
 
-        if (CONTROL_RENDER_experiment5) {
-          translate([0, 0, caseHeight])
-            generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth,
-                        powerButtonCapClip_z, muteSwitchCapClip_z);
-        } else {
-          translate([0, 0, caseHeight])
-            generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth,
-                        powerButtonCapClip_z, muteSwitchCapClip_z);
-        }
+        translate([0, 0, caseHeight])
+          generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth,
+                      powerButtonCapClip_z, muteSwitchCapClip_z);
       }
 
 
