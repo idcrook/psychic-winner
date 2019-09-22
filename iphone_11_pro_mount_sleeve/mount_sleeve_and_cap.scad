@@ -191,9 +191,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   bottomLipFingerprintDiameter = 17;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
-  bottomLipCutoutArcRadius = 2.6*bottomLipCutoutMaxWidth;  // pick a multiple
+  bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = false;
+  fingerprint_sensor_cutout = true;
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
@@ -544,11 +544,15 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           }
 
           // cutout for fingerprint
+          // re-appropriate for extra space for sliding up from bottom edge of phone
+          // the on-screen indicator for this is ~21.5 mm wide
           if (fingerprint_sensor_cutout) {
-            //// wedge(height, radius, degrees);
-            echo ("Width of fingerprint cutout at base: ", bottomLipCutout_MinWidth);
+            echo ("Width of bottom edge cutout at 'base': ", bottomLipCutout_MinWidth);
+            // increase resolution
+            $fn = 100;
             translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
               rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
+              // wedge(height, radius, degrees);
               wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
           }
 
@@ -926,10 +930,10 @@ module showTogether() {
 }
 
 
-test1 = ! true ? true : false;
+show_everything = ! true ? true : false;
 
 
-if (test1) {
+if (show_everything) {
   showTogether();
 } else {
   $fn = 100;
