@@ -548,12 +548,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           // the on-screen indicator for this is ~21.5 mm wide
           if (fingerprint_sensor_cutout) {
             echo ("Width of bottom edge cutout at 'base': ", bottomLipCutout_MinWidth);
-            // increase resolution
-            $fn = 100;
-            translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
+            %translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
               rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
               // wedge(height, radius, degrees);
-              wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees);
+              wedge (10, bottomLipCutoutArcRadius, bottomLipCutoutArcDegrees, fn=100);
           }
 
           // rounded bottom corners
