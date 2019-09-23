@@ -939,7 +939,7 @@ module showTogether() {
 }
 
 
-show_everything =  ! true ? true : false;
+show_everything = ! true ? true : false;
 
 
 if (show_everything) {
@@ -952,7 +952,7 @@ if (show_everything) {
 
   withSleeve =  true ? true : false;
 
-  printCap   =  true ? true : false;
+  printCap   =  !true ? true : false;
   withCap    =  printCap ? true : false;
 
 
