@@ -152,7 +152,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
   //muteSwitchHeightFromBottom = 99.5;
-  muteSwitchCutoutHeight = 12.2 + 3.0 + 8; // extend so that switch is
+  muteSwitchCutoutHeight = 12.2 + 3.0 + 10; // extend so that switch is
                                             // accessible with cap on
   muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
   muteSwitchCutoutDepth = sleeve_button__cutout_depth;
@@ -952,7 +952,7 @@ if (show_everything) {
 
   withSleeve =  true ? true : false;
 
-  printCap   =  ! true ? true : false;
+  printCap   =  true ? true : false;
   withCap    =  printCap ? true : false;
 
 
