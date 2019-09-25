@@ -43,6 +43,21 @@ Views and Renders
 
 ![print back view](img/print_back__form_monoprice.jpg)
 
+OtterBox Lumen Series Case for iPhone 11 Pro
+--------------------------------------------
+
+![otterbox lumen - back](img/HNL52.jpg) ![otterbox lumen - front](img/HNL52_AV1.jpg)
+
+-	[OtterBox Lumen Series Case for iPhone 11 Pro :: Color - Black]()
+
+Case Measurements:
+
+-	Length 150.9 mm
+-	Width 79.8 mm
+-	Depth 12.4 mm
+
+Weight 1.44 oz (39.3 g)
+
 #### iPhone 11 Pro
 
 https://www.apple.com/iphone-11-pro/specs/
