@@ -48,7 +48,7 @@ OtterBox Lumen Series Case for iPhone 11 Pro
 
 ![otterbox lumen - back](img/HNL52.jpg) ![otterbox lumen - front](img/HNL52_AV1.jpg)
 
--	[OtterBox Lumen Series Case for iPhone 11 Pro :: Color - Black]()
+-	[OtterBox Lumen Series Case for iPhone 11 Pro](https://www.apple.com/shop/product/HNL62ZM/A/otterbox-lumen-series-case-for-iphone-11-pro)
 
 Case Measurements:
 
