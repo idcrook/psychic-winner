@@ -5,7 +5,7 @@ Description: Enlarge screw holes on base for M5 VESA 100mm mount screws
 
 ![object render](img/object_render.png)
 
-Published on Thingiverse: [TBD (remix)](https://www.thingiverse.com/thing:)
+Published on Thingiverse: [Raspberry Pi 3 100 mm VESA mount (remix) for M5 screws](https://www.thingiverse.com/thing:3974662)
 
 Inspired by necessity. Have an old LCD TV with 75mm and 100mm VESA mounts.
 
