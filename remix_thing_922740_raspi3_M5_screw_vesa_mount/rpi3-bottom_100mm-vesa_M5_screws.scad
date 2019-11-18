@@ -27,7 +27,7 @@ e = 1/128; // small number
 M4_to_M5_diameter_increase = 1.0;
 
 original_cutout_diameter = 4.5;  // cylinder "cutout" diameter for screw holes
-updated_for_M5_cutout_diameter = original_cutout_diameter + M4_to_M5_diameter_increase;
+updated_for_M5_cutout_diameter = original_cutout_diameter + M4_to_M5_diameter_increase + 0.2;
 
 original_surrounding_diameter = original_cutout_diameter + 4.0;  // material surrouding screw holes
 updated_for_M5_surrounding_diameter = original_surrounding_diameter + M4_to_M5_diameter_increase + 0.5;
