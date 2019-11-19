@@ -1,15 +1,23 @@
-Remix for ribbon cable opening - Raspberry Pi OctoPi Rig with 3.5" Adafruit Display
-===================================================================================
+Remix for GPIO ribbon cable opening - Raspberry Pi OctoPi Rig with 3.5" Adafruit Display
+========================================================================================
 
-Description: Enlarge screw holes on base for M5 VESA 100mm mount screws
+Published on Thingiverse: [Remix for GPIO ribbon cable opening - Raspberry Pi OctoPi Rig with 3.5" Adafruit Display](https://www.thingiverse.com/thing:3985915)
 
-![object render](img/object_render.png)
+Description: Add an opening for egress of GPIO ribbon cable via the internal 3.5" display GPIO repeated header
 
-Published on Thingiverse: [Raspberry Pi 3 100 mm VESA mount (remix) for M5 screws](https://www.thingiverse.com/thing:3974662)
+![slot version](img/slot_object_render.png)
 
-Inspired by necessity. Have an old LCD TV with 75mm and 100mm VESA mounts.
+![hole version](img/hole_object_render.png)
 
--	Remix of [Raspberry Pi 3 (B/B+), Pi 2 B, and Pi 1 B+ case with VESA mounts and more](https://www.thingiverse.com/thing:922740)
+Process
+-------
+
+Remix a version to take into account GPIO ribbon cable by using OpenSCAD to simply subtract part of the model.
+
+-	Remix of [Octoprint raspberry pi rig remix](https://www.thingiverse.com/thing:2160917)
+
+	-	which was remix of [OctoPrint Raspberry Pi Rig 3.5" PiTFT Touch Display](https://www.thingiverse.com/thing:1601055)
 
 	-	Licensed under [Creative Commons - Attribution - Non-Commercial - Share Alike](https://creativecommons.org/licenses/by-nc-sa/3.0/) license
-	-	imported downloaded `rpi3-bottom_100mm-vesa_netfabb.stl` file 2019-Nov-13
+
+	-	imported downloaded `pitft35-top_V2.stl` file 2019-Nov-18

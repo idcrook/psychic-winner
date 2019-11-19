@@ -1,6 +1,6 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Initial Revision:
-//   2019-Nov-13
+//   2019-Nov-18
 //
 // Author:
 //
@@ -10,16 +10,15 @@
 //
 // Description:
 //
-//   I decided to remix this for applying to VESA mount (75 mm X 75 mm, 100 mm
-//   X 100 mm) that uses M5 bolts instead of the more common M4 bolts that
-//   original design uses
 //
 // Revisions/Notes:
 //
-//   2019-Nov-13: Import .STL from original model and directly overlay changes
+//   2019-Nov-18: Import .STL from original model and directly overlay changes
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+
+// Octoprint raspberry pi rig remix - https://www.thingiverse.com/thing:2160917
 ORIGINAL_MODEL = "pitft35-top_V2.stl";
 
 e = 1/128; // small number
@@ -37,15 +36,6 @@ module cutout_solid (width = cutout_width, height = original_hole_distance_from_
   }
 }
 
-
-module enlarge_surrounding_solid (cylinder_diameter = original_surrounding_diameter,
-                                  cylinder_length = base_thickness) {
-
-  translate([0,0,0])
-    linear_extrude(height = cylinder_length, center = false) {
-    circle(r=cylinder_diameter / 2);
-  }
-}
 
 // translate and rotate to achieve goal
 module add_ribbon_cable_slot  () {
