@@ -7,7 +7,14 @@ Description: Add an opening for egress of GPIO ribbon cable via the internal 3.5
 
 ![slot version](img/slot_object_render.png)
 
-![hole version](img/hole_object_render.png)
+<!-- only the slot version is useful -->
+
+<!-- ![hole version](img/hole_object_render.png) -->
+
+Notes
+-----
+
+The ribbon cable for the camera is not really able to freely overlay alongside the GPIO ribbon cable. However, the camera cable can go in the seam between the top and bottom cases and alongside the GPIO cable. It fits approximately between the edge of the GPIO cable and the corner of the case.
 
 Process
 -------
