@@ -27,8 +27,9 @@ e = 1/128; // small number
 ribbon_cable_width = 33.0;
 case_thickness = 4.0;
 original_hole_distance_from_model_top = 9.0;
+cutout_width = ribbon_cable_width + case_thickness;
 
-module cutout_solid (width = ribbon_cable_width + case_thickness, height = original_hole_distance_from_model_top) {
+module cutout_solid (width = cutout_width, height = original_hole_distance_from_model_top) {
 
   translate([0,0,-e])
     linear_extrude(height = height, center = false) {
@@ -50,7 +51,7 @@ module enlarge_surrounding_solid (cylinder_diameter = original_surrounding_diame
 module add_ribbon_cable_slot  () {
 
   // the hardcodes values were empirically iterated upon
-  original_cable_slot_x = -11.48;
+  original_cable_slot_x = -11.48 - 10.0 + 3;  // move closer to center of end length
   original_cable_slot_y = 50.5;
   original_cable_slot_z = 8.52;
 
@@ -59,7 +60,7 @@ module add_ribbon_cable_slot  () {
             original_cable_slot_z];
 
   slot_instead_of_hole = true;
-  slot_instead_of_hole = false;
+  //slot_instead_of_hole = false;
 
   cutout_height = slot_instead_of_hole ? 9.0 : 4.0;
 
@@ -69,8 +70,12 @@ module add_ribbon_cable_slot  () {
       // TODO: add additional material ?
     }
 
-    translate([origin[0], origin[1], origin[2]])
+    translate([origin[0], origin[1], origin[2]]) {
+
       cutout_solid(height=cutout_height);
+      // reference for relative spacing
+      %translate([cutout_width, 0, 0]) { square(10, center=false); }
+    }
   }
 
 }
