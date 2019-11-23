@@ -7,10 +7,6 @@ Description: Add an opening for egress of GPIO ribbon cable via the internal 3.5
 
 ![slot version](img/slot_object_render.png)
 
-<!-- only the slot version is useful -->
-
-<!-- ![hole version](img/hole_object_render.png) -->
-
 Notes
 -----
 

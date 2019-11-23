@@ -26,9 +26,10 @@ e = 1/128; // small number
 ribbon_cable_width = 33.0;
 case_thickness = 4.0;
 original_hole_distance_from_model_top = 9.0;
-cutout_width = ribbon_cable_width + case_thickness;
+cutout_width = ribbon_cable_width + 5.0;
 
-module cutout_solid (width = cutout_width, height = original_hole_distance_from_model_top) {
+module cutout_solid (width = cutout_width,
+                     height = original_hole_distance_from_model_top) {
 
   translate([0,0,-e])
     linear_extrude(height = height, center = false) {
@@ -43,7 +44,7 @@ module add_ribbon_cable_slot  () {
   // the hardcodes values were empirically iterated upon
   original_cable_slot_x = -11.48 - 10.0 + 3;  // move closer to center of end length
   original_cable_slot_y = 50.5;
-  original_cable_slot_z = 8.52;
+  original_cable_slot_z = 8.52 + 5 - 1.5;
 
   origin = [original_cable_slot_x,
             original_cable_slot_y,
