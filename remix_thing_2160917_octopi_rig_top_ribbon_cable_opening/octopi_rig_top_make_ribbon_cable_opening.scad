@@ -58,7 +58,6 @@ module add_ribbon_cable_slot  () {
   difference() {
     union() {
       import(ORIGINAL_MODEL);
-      // TODO: add additional material ?
     }
 
     translate([origin[0], origin[1], origin[2]]) {
