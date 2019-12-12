@@ -106,6 +106,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
   CONTROL_RENDER_prototype_bottom =  true ? true : false;
+  CONTROL_RENDER_prototype_bottom_lightning_access =  true ? true : false;
+  CONTROL_RENDER_prototype_bottom_back_flap =  true ? true : false;
 
   CONTROL_RENDER_experiment3      = ! true ? true : false;
   CONTROL_RENDER_experiment5      = ! true ? true : false;
@@ -184,6 +186,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   lightningCutoutHeight = 13.85;
   lightningCutoutDepth = 6.85;
   lightningCutoutRadius = 3.4;
+  lightningFlapCutoutRadius = 0.74;
   lightningHoleOffcenter = 0;
 
   headphoneMicCutoutHeight = 15 - 2 - 1;
@@ -200,7 +203,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = true;
+  fingerprint_sensor_cutout = !true;
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
@@ -479,24 +482,37 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                 center = false);
 
           // lightning hole
-          rotate([180,0,0])
-            translate([-tolerance/2, 0, -e])
-            linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-            union () {
-            complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
-                                [lightningCutoutRadius, lightningCutoutRadius],
-                                [lightningCutoutRadius, lightningCutoutRadius],
-                                [lightningCutoutRadius, lightningCutoutRadius],
-                                [lightningCutoutRadius, lightningCutoutRadius],
-                                center = true);
-
-            translate([0, 7, 0])
+          extend_out_flap_space = true ? 7 : 2;
+          if (CONTROL_RENDER_prototype_bottom_lightning_access) {
+            rotate([180,0,0])
+              translate([-tolerance/2, 0, -e])
+              linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+              union () {
               complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
-                                  [lightningCutoutRadius, lightningCutoutRadius],
-                                  [lightningCutoutRadius, lightningCutoutRadius],
-                                  [lightningCutoutRadius, lightningCutoutRadius],
-                                  [lightningCutoutRadius, lightningCutoutRadius],
+                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                   center = true);
+              // extend up so flap has a place to go when inserting lightning connector
+              translate([0, extend_out_flap_space, 0])
+                complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
+                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                    center = true);
+              if (CONTROL_RENDER_prototype_bottom_back_flap) {
+                translate([0, -(1/2)*(sleeveInner_h + sleeveBottomThickness), 0])
+                  complexRoundSquare( [17 + tolerance, sleeveBottomThickness + 1.5 + 3*tolerance],
+                                      [0.5, 0.5],
+                                      [0.5, 0.5],
+                                      [0.5, 0.5],
+                                      [0.5, 0.5],
+                                      center = true);
+
+              }
+            }
 
           }
 
