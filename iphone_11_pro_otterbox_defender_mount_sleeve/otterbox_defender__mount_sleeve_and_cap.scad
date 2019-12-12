@@ -73,11 +73,11 @@ function translate_y_from_top (from_top)  = il - from_top;
 
 
 //
-module monopriceRuggedThinCase () {
+module otterboxDefenderCase () {
 
   difference() {
     // case outer dimensions
-    color("White", alpha = 0.650) shell(w, l, h, 10, 3);
+    color("DarkGray", alpha = 0.650) shell(w, l, h, 10, 3);
     //shell(w, l, h, 10, 3);
 
     // carve out iphone and some tolerance
@@ -105,7 +105,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_cutoff_top       = ! true ? true : false;
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
-  CONTROL_RENDER_prototype_bottom = ! true ? true : false;
+  CONTROL_RENDER_prototype_bottom =  true ? true : false;
 
   CONTROL_RENDER_experiment3      = ! true ? true : false;
   CONTROL_RENDER_experiment5      = ! true ? true : false;
@@ -482,12 +482,23 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           rotate([180,0,0])
             translate([-tolerance/2, 0, -e])
             linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-            complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 3*tolerance],
+            union () {
+            complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 [lightningCutoutRadius, lightningCutoutRadius],
                                 center = true);
+
+            translate([0, 7, 0])
+              complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
+                                  [lightningCutoutRadius, lightningCutoutRadius],
+                                  [lightningCutoutRadius, lightningCutoutRadius],
+                                  [lightningCutoutRadius, lightningCutoutRadius],
+                                  [lightningCutoutRadius, lightningCutoutRadius],
+                                  center = true);
+
+          }
 
           // Mic holes
           rotate([180,0,0]) {
@@ -549,14 +560,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
           }
 
-          // cutout for fingerprint
+          // previously cutout for fingerprint
           // re-appropriate for extra space for sliding up from bottom edge of phone
           // the on-screen indicator for this is ~21.5 mm wide
           if (fingerprint_sensor_cutout) {
             echo ("Width of bottom edge cutout at 'base': ", bottomLipCutout_MinWidth);
             translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
               rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
-              wedge (h = 10, r = bottomLipCutoutArcRadius, d = bottomLipCutoutArcDegrees, fn = 100);
+              wedge (h = 10 + 5, r = bottomLipCutoutArcRadius + 5, d = bottomLipCutoutArcDegrees, fn = 100);
           }
 
           // rounded bottom corners
@@ -929,19 +940,19 @@ module showTogether() {
     // iPhone 11 Pro
     translate([tw, tl, th ]) iphone_11_pro(iw, il, ih, show_lightning_keepout = true);
 
-    // monopriceRuggedThinCase
-    translate([0,0,0]) monopriceRuggedThinCase();
+    //
+    translate([0,0,0]) otterboxDefenderCase();
   }
 
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w/2,0,h/2]) rotate([360-90,0,0]) %sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 
 
 }
 
 
-show_everything =  true ? true : false;
+show_everything =  !true ? true : false;
 
 
 if (show_everything) {
