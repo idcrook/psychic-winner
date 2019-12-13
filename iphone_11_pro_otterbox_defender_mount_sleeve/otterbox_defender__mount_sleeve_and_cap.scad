@@ -119,7 +119,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_cutoff_top       = ! true ? true : false;
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
-  CONTROL_RENDER_prototype_bottom = ! true ? true : false;
+  CONTROL_RENDER_prototype_bottom =  true ? true : false;
   CONTROL_RENDER_prototype_bottom_lightning_access =  true ? true : false;
   CONTROL_RENDER_prototype_bottom_back_flap =  true ? true : false;
 
@@ -143,7 +143,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 2.6;
-  sleeveInner_rear_r = 7.0;
+  sleeveInner_rear_r = sleeveInner_r + 3.0;
 
   buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
   buttonsIncludedInner_h =            +  4.0 + tolerance;
@@ -237,7 +237,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   trim__height = 0.93 - 0.30;    // test_bottom3
   //trim__flatten_curve = 2.0; // test_bottom3
   trim__flatten_curve = 2.8; // test_bottom3
-  trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
+  trim_rear__flatten_curve = trim__flatten_curve + 2.0; // test_bottom3
 
 
   intersection() {
@@ -518,7 +518,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               translate([-tolerance/2, 0, -e])
               linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
               union () {
-              complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
+              // main stretch strip on bottom
+              complexRoundSquare( [lightningCutoutHeight + 3.5*tolerance, lightningCutoutDepth + 8.0 + tolerance],
                                   [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                   [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                   [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
