@@ -231,13 +231,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
-  needed_overlap = 2;
+  needed_overlap = 2.0;
   // trim based on experiments (makes sense since tolerance of 0.5*2 was added)
   trim__width  = 0.93 - 0.60 ;  // test_bottom3
   trim__height = 0.93 - 0.30;    // test_bottom3
   //trim__flatten_curve = 2.0; // test_bottom3
   trim__flatten_curve = 2.8; // test_bottom3
-  trim_rear__flatten_curve = 4.8; // test_bottom3
+  trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
 
 
   intersection() {
@@ -264,15 +264,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                    center = false);
 
                 // cut out size of iphone in case (plus tolerance)
-                translate([ (1/2)*(buttonsIncludedInner_w - sleeveInner_w),
-                            -(1/2)*ih,
-                            -10])
-                  complexRoundSquare([(1/2)*(sleeveInner_w - trim__width) + needed_overlap,
-                                      sleeveInner_h - trim__height],
+                translate([ (1/2)*(buttonsIncludedInner_w - sleeveInner_w + tolerance),
+                            -(1/2)*(ih + sleeveBottomThickness + tolerance), 25])
+                  complexRoundSquare([(1/2)*(sleeveInner_w - trim__width ) + needed_overlap ,
+                                      sleeveInner_h],
                                      [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
                                      [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
+                                     [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
+                                     [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
                                      center = false);
               }
 
@@ -288,13 +287,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                    center = false);
 
                 // cut out size of iphone in case (plus tolerance)
-                translate([-needed_overlap, -(1/2)*ih, -10])
+                translate([-needed_overlap,
+                           -(1/2)*(ih + sleeveBottomThickness + tolerance), 25])
                   complexRoundSquare([ (1/2)*(sleeveInner_w - trim__width) + needed_overlap,
-                                       sleeveInner_h - trim__height],
+                                       sleeveInner_h],
                                      [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
                                      [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
+                                     [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
+                                     [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
                                      center = false);
               }
             }
@@ -358,8 +358,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
                          (1/2)*(sleeveInner_h) - tolerance - e, -e])
                 lightningBackFlapOpening(flap_opening_height = bottomRearFlapCutoutHeight,
-                                          flap_opening_width = bottomRearFlapCutoutWidth,
-                                          thickness = sleeveBottomThickness + 1*tolerance);
+                                         flap_opening_width = bottomRearFlapCutoutWidth,
+                                         thickness = sleeveBottomThickness + 1*tolerance);
             }
 
             // power button cutout
@@ -588,8 +588,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               complexRoundSquare([sleeveInner_w, sleeveInner_h],
                                  [sleeveInner_r, sleeveInner_r],
                                  [sleeveInner_r, sleeveInner_r],
-                                 [sleeveInner_r, sleeveInner_r],
-                                 [sleeveInner_r, sleeveInner_r],
+                                 [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
+                                 [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
                                  center = true);
 
           }
