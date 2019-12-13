@@ -34,7 +34,8 @@ e = 1/128; // small number
 //  - Depth   14.99 mm
 
 l = 155.70 + 0.25;  // 155.95 measured
-w = 84.84;   // 83.5 near bottom corners
+// including widest at buttons /// w = 84.84;
+w = 83.5;   // 83.5 near bottom corners
 h = 15.75;   // measured
 
 
