@@ -565,10 +565,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
       }
 
-
-      bottom_lip_rounded_corners__radius = 4.94;
+      //
+      bottom_lip_increase_curve = 0.66;
+      bottom_lip_rounded_corners__radius = 4.94 + bottom_lip_increase_curve;
       extraBottomLipHeight = bottom_lip_rounded_corners ? bottom_lip_rounded_corners__radius : 0;
-      bottomLipDisplayOpeningWidth = 68.4;
+      bottomLipDisplayOpeningWidth = 68.4 + 2*1.5; // added width for conforming to otterbox shape
       bottomLipDisplayOpeningHeight = 2 * bottom_lip_rounded_corners__radius;
 
       // Bottom lip, including front band and back band
@@ -635,10 +636,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           }
 
 
-          extra_space_screen_bottom = 1.35;
+          extra_space_screen_bottom = 1.35 - bottom_lip_increase_curve;
           // rounded bottom corners for finger access to screen area
           if (bottom_lip_rounded_corners) {
-            translate([0, 0, bottomLipHeight +  extraBottomLipHeight + extra_space_screen_bottom ])
+            translate([0, 0, bottomLipHeight + extraBottomLipHeight + extra_space_screen_bottom ])
               rotate([90, 0, 0])
               linear_extrude(height = 10 + 5, center = false, convexity = 10)
               complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight],
