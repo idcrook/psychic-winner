@@ -98,6 +98,19 @@ module otterboxDefenderCase () {
 }
 
 
+module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 17, thickness) {
+  tolerance = 0.5;
+
+  linear_extrude(height = flap_opening_height + 2*e, center = false)
+    complexRoundSquare( [flap_opening_width, thickness],
+                        [0.0, 0.0],
+                        [0.0, 0.0],
+                        [0.0, 0.0],
+                        [0.0, 0.0],
+                        center = false);
+
+}
+
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
   tolerance = 0.5;
@@ -203,13 +216,17 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = !true;
+  fingerprint_sensor_cutout = true;
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
   bottomLipCutout_MinWidth = 2 * bottomLipCutout_r2 * tan((1/2) *bottomLipCutoutArcDegrees);
 
   // calculate how far we need to translate below to cut out enough
+
+  bottomRearFlapCutoutHeight = 7.0 + 2.5; // measured on case
+  bottomRearFlapCutoutWidth = 17.0; // measured on case
+
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
   needed_overlap = 2;
@@ -286,8 +303,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 
           // need a difference here to be able to punch out button and camera access holes
+
           difference () {
-            // 2D view for length of case
+            // main extrude - 2D view for length of case
             linear_extrude(height = sleeveInner_l, center = false, convexity = 10)
               difference () {
               complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
@@ -316,20 +334,30 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
 
               //bevel_angle = 50;
-              //bevel_angle = 46;
-              bevel_angle = 43;
+              bevel_angle = 46;
+              //bevel_angle = 43;
 
               // cut for screen and add bevel
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
                 square([iphoneScreenOpening_w, sleeveInner_h],  center = false);
 
+              // front left side
               translate ([-(1/2)*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
                 rotate((360 - bevel_angle) * [0, 0, 1])
                 square([caseNonViewable, sleeveInner_h],  center = false);
 
+              // front right side
               translate ([1/2*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
                 rotate((90 + bevel_angle) * [0, 0, 1])
                 square([caseNonViewable, sleeveInner_h],  center = false);
+            } // difference
+
+            if (CONTROL_RENDER_prototype_bottom_back_flap) {
+              translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
+                         (1/2)*(sleeveInner_h) - tolerance - e, -e])
+                lightningBackFlapOpening(flap_opening_height = bottomRearFlapCutoutHeight,
+                                          flap_opening_width = bottomRearFlapCutoutWidth,
+                                          thickness = sleeveBottomThickness + 1*tolerance);
             }
 
             // power button cutout
@@ -455,7 +483,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       }
 
 
-      // base
+      // flat/bottom part of base
       if (with_sleeve) {
         difference() {
           translate([0,0, -base_l])
@@ -468,7 +496,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                [sleeveOuter_r, sleeveOuter_r],
                                center = true);
 
-          // handle speaker hole, lightning, headphone
+          // handle speaker hole, lightning, headphone , lightning flap
 
           // speaker hole
           rotate([180,0,0])
@@ -502,13 +530,15 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     center = true);
+
+              // extra cutout on base to align with back flap cutout
               if (CONTROL_RENDER_prototype_bottom_back_flap) {
                 translate([0, -(1/2)*(sleeveInner_h + sleeveBottomThickness), 0])
-                  complexRoundSquare( [17 + tolerance, sleeveBottomThickness + 1.5 + 3*tolerance],
+                  complexRoundSquare( [bottomRearFlapCutoutWidth, sleeveBottomThickness + 3.0 + 3*tolerance],
                                       [0.5, 0.5],
                                       [0.5, 0.5],
-                                      [0.5, 0.5],
-                                      [0.5, 0.5],
+                                      [3.5, 2.5],
+                                      [3.5, 2.5],
                                       center = true);
 
               }
@@ -528,7 +558,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
           }
-        }
+        } // difference
+
       }
 
 
@@ -537,7 +568,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       bottomLipDisplayOpeningWidth = 68.4;
       bottomLipDisplayOpeningHeight = 2 * bottom_lip_rounded_corners__radius;
 
-      // Bottom lip
+      // Bottom lip, including front band and back band
       if (with_sleeve) {
         difference() {
           // 2D view for height of lip
@@ -550,8 +581,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                [sleeveOuter_r, sleeveOuter_r],
                                center = true);
 
-            // cut out size of iphone plus some additional
-            //scale ([1,1.22,1])
+            // by bottom screen edge, front bottom lip, cut out size of iphone
             scale ([1,1,1])
               complexRoundSquare([sleeveInner_w, sleeveInner_h],
                                  [sleeveInner_r, sleeveInner_r],
@@ -559,7 +589,22 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [sleeveInner_r, sleeveInner_r],
                                  [sleeveInner_r, sleeveInner_r],
                                  center = true);
+
           }
+
+
+          if (CONTROL_RENDER_prototype_bottom_back_flap) {
+            translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
+                       (1/2)*(sleeveInner_h) - tolerance - e, -e])
+
+              lightningBackFlapOpening(flap_opening_height = bottomRearFlapCutoutHeight,
+                                       flap_opening_width = bottomRearFlapCutoutWidth,
+                                       thickness = sleeveBottomThickness + 1*tolerance);
+
+          }
+
+
+
 
           if (CONTROL_RENDER_cutoff_top) {
             cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
@@ -586,24 +631,27 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               wedge (h = 10 + 5, r = bottomLipCutoutArcRadius + 5, d = bottomLipCutoutArcDegrees, fn = 100);
           }
 
-          // rounded bottom corners
+
+          extra_space_screen_bottom = 1.35;
+          // rounded bottom corners for finger access to screen area
           if (bottom_lip_rounded_corners) {
-            translate([0, 0, bottomLipHeight +  extraBottomLipHeight ])
+            translate([0, 0, bottomLipHeight +  extraBottomLipHeight + extra_space_screen_bottom ])
               rotate([90, 0, 0])
-               linear_extrude(height = 10, center = false, convexity = 10)
-               complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight],
-                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                  center = true);
+              linear_extrude(height = 10 + 5, center = false, convexity = 10)
+              complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight],
+                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+                                 center = true);
           }
 
+        } // difference
 
-        }
       }
 
 
+      // mounting wedge on back
       if (with_sleeve) {
         // add mounting wedge
         mountInsertWidth = 22;
@@ -645,6 +693,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       cutHeight  = 25;
       extrHeight = keepHeight ;
 
+      // only keep the bottom section here
       translate([0,0, cutHeight - keepHeight])
         linear_extrude(height = extrHeight, center = false, convexity = 10)
         complexRoundSquare([sleeveOuter_w+10+e, sleeveOuter_h+10+e],
@@ -656,7 +705,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
     }
 
 
-  }
+  } // main intersection
 }
 
 
@@ -962,7 +1011,7 @@ module showTogether() {
 
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-  translate([w/2,0,h/2]) rotate([360-90,0,0]) %sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 
 
 }
