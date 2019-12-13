@@ -35,7 +35,7 @@ e = 1/128; // small number
 
 l = 155.70 + 0.25;  // 155.95 measured
 // including widest at buttons /// w = 84.84;
-w = 83.5 + 0.44;   // 83.5 near bottom corners
+w = 83.5 + 0.04;   // 83.5 near bottom corners
 h = 15.75;   // measured
 
 
@@ -126,15 +126,15 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment3      = ! true ? true : false;
   CONTROL_RENDER_experiment5      = ! true ? true : false;
 
-  wantThinner = ! true ? true : false;
+  wantThinner =  true ? true : false;
   wantThinnerCap = false ? true : false;
 
   want_camera_hole_to_be_slot = true ? true : false;
 
-  sleeveSideThickness   =  wantThinner ? 2.8 : 3.5;
-  sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
-  sleeveTopThickness    =  wantThinner ? 2.8 : 3.5;
-  sleeveBaseThickness   =  wantThinner ? 2.8 : 3.5;
+  sleeveSideThickness   =  wantThinner ? 2.85 : 3.5;
+  sleeveBottomThickness =  wantThinner ? 2.85 : 3.5;
+  sleeveTopThickness    =  wantThinner ? 2.85 : 3.5;
+  sleeveBaseThickness   =  wantThinner ? 2.85 : 3.5;
 
   sleeveSideThickness__button_cutout = sleeveSideThickness + 2*tolerance;
 
@@ -143,7 +143,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 2.6;
-  sleeveInner_rear_r = sleeveInner_r + 3.0;
+  sleeveInner_rear_r = sleeveInner_r + 3.5;
 
   buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
   buttonsIncludedInner_h =            +  4.0 + tolerance;
@@ -218,7 +218,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = true;
+  fingerprint_sensor_cutout = !true;
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
@@ -237,7 +237,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   trim__height = 0.93 - 0.30;    // test_bottom3
   //trim__flatten_curve = 2.0; // test_bottom3
   trim__flatten_curve = 2.8; // test_bottom3
-  trim_rear__flatten_curve = trim__flatten_curve + 2.0; // test_bottom3
+  trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
 
 
   intersection() {
