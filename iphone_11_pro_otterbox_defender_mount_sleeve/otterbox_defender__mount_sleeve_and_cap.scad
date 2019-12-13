@@ -119,7 +119,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_cutoff_top       = ! true ? true : false;
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
-  CONTROL_RENDER_prototype_bottom =  true ? true : false;
+  CONTROL_RENDER_prototype_bottom = ! true ? true : false;
   CONTROL_RENDER_prototype_bottom_lightning_access =  true ? true : false;
   CONTROL_RENDER_prototype_bottom_back_flap =  true ? true : false;
 
@@ -213,7 +213,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   bottom_lip_rounded_corners = true;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
-  bottomLipFingerprintDiameter = 17;
+  bottomLipFingerprintDiameter = 14.0;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
@@ -416,7 +416,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
             if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
-              shiftUpAmount = 12;
+              shiftUpAmount = 12 + 7;
               translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + shiftUpAmount])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
