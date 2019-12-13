@@ -143,9 +143,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 2.6;
+  sleeveInner_rear_r = 7.0;
 
-  buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 0.8; // button groove depth
-  buttonsIncludedInner_h =            +  3.0 + tolerance;
+  buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
+  buttonsIncludedInner_h =            +  4.0 + tolerance;
   buttonsIncludedInner_r =  1.5*tolerance ;
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
@@ -231,6 +232,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
   needed_overlap = 2;
+  // trim based on experiments (makes sense since tolerance of 0.5*2 was added)
+  trim__width  = 0.93 - 0.60 ;  // test_bottom3
+  trim__height = 0.93 - 0.30;    // test_bottom3
+  //trim__flatten_curve = 2.0; // test_bottom3
+  trim__flatten_curve = 2.8; // test_bottom3
+  trim_rear__flatten_curve = 4.8; // test_bottom3
+
+
   intersection() {
     union() {
       if (with_sleeve) {
@@ -242,7 +251,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               erase_sleeveInner_left = erase_sleeveInner_l_left;
               erase_sleeveInner_right = erase_sleeveInner_l_right;
 
-              // left side fill-in
+              // left side groove fill-in
               linear_extrude(height = erase_sleeveInner_left, center = false, convexity = 10)
                 translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0])
                 difference () {
@@ -260,14 +269,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                             -10])
                   complexRoundSquare([(1/2)*(sleeveInner_w - trim__width) + needed_overlap,
                                       sleeveInner_h - trim__height],
-                                     [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                     [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
+                                     [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
+                                     [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
+                                     [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
+                                     [sleeveInner_r , sleeveInner_r + trim__flatten_curve],
                                      center = false);
               }
 
-              // right side fill-in
+              // right side groover fill-in at bottom part
               linear_extrude(height = erase_sleeveInner_right, center = false, convexity = 10)
                 translate([0, -(1/2)*buttonsIncludedInner_h, 0])
                 difference () {
@@ -293,15 +302,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           }
 
 
-          // trim based on experiments (makes sense since tolerance of 0.5*2 was added)
-          //trim__width = 0.93;  test_bottom2
-          //trim__height = 0.93; test_bottom2
-          //trim__flatten_curve = 0.0; test_bottom2
-          trim__width  = 0.93 - 0.60 ;  // test_bottom3
-          trim__height = 0.93 - 0.30;    // test_bottom3
-          //trim__flatten_curve = 2.0; // test_bottom3
-          trim__flatten_curve = 2.8; // test_bottom3
-
 
           // need a difference here to be able to punch out button and camera access holes
 
@@ -322,8 +322,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   sleeveInner_h - trim__height],
                                  [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
                                  [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                 [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
-                                 [sleeveInner_r, sleeveInner_r + trim__flatten_curve],
+                                 // the rear of case has more cutout of it
+                                 [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
+                                 [sleeveInner_rear_r, sleeveInner_r + trim_rear__flatten_curve],
                                  center = true);
 
               // include groove for buttons (covered back in above)
