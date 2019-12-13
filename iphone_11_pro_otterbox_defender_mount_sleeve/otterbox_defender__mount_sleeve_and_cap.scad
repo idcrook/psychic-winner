@@ -35,7 +35,7 @@ e = 1/128; // small number
 
 l = 155.70 + 0.25;  // 155.95 measured
 // including widest at buttons /// w = 84.84;
-w = 83.5;   // 83.5 near bottom corners
+w = 83.5 + 0.44;   // 83.5 near bottom corners
 h = 15.75;   // measured
 
 
