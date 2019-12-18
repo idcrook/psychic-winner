@@ -746,12 +746,15 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
 
   tabInsertDepth = 2.5 + 1 + 0.2; // test 5
 
+  sleeve_button__y_translate_adjust = 1.85;
+
   powerButtonCap_tabHeight = 15.2;
   powerButtonCap_tabWidth = 10 - tolerance;
   muteSwitchCap_tabHeight = 15.2;
   muteSwitchCap_tabWidth = 10 - tolerance;
 
-  capSideDistance = (capCaseWidth + capArmThickness)/2;
+  capSideDistance = (capCaseWidth + capArmThickness)/2 + sleeve_button__y_translate_adjust;
+
   caseOverlap = 10.0;
 
   linear_extrude(height = capCapThickness + e, center = false, convexity = 10)
