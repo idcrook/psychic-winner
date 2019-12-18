@@ -164,8 +164,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   trim_for_lulzbot_mini_height = printer_has_shorter_volume_height ? 1 : 0;
   sleeveInner_l = l - trim_for_lulzbot_mini_height ;
 
-  sleeve_button__cutout_depth = 7.7 + 1.8 ;
+  sleeve_button__cutout_depth = 7.7 + 1.8;
   sleeve_button__y_scale_factor = 1.4 ;
+  sleeve_button__y_translate_adjust = 1.85;
 
   //volumeButtonsHeightFromBottom = 78.0;
   volumeButtonsCutoutHeight = 38; // big enough to be continuous with mute switch cutout
@@ -182,19 +183,19 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   muteSwitchCutoutRadius = 2;
 
   //powerButtonHeightFromBottom = 102;
-  powerButtonCutoutHeight = (8.77*2) + 10 + 10;  // extend so that button is
-                                                 // accessible with cap on
-  powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77;
+  shift_up_power_button = 2.5;
+  powerButtonCutoutHeight = (8.77*2) + 10 + 10 + shift_up_power_button;
+  powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77 + shift_up_power_button;
   powerButtonCutoutDepth = sleeve_button__cutout_depth;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
 
-  cameraHeightFromBottom = translate_y_from_top(32.71) - 2.0;  // test 5
+  cameraHeightFromBottom = translate_y_from_top(32.71) - 2.0;
   cameraCutoutHeight = 30.59 + 1.3;
   cameraCutoutDepth = 32.71 + 1.3;
   cameraCutoutRadius = 7.5;
-  cameraHoleOffcenter = 0.70 * 2; // test 5
+  cameraHoleOffcenter = 0.70 * 2;
 
   speakerCutoutHeight = 18;
   speakerCutoutDepth = 5.5;
@@ -242,8 +243,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   //trim__flatten_curve = 2.0; // test_bottom3
   trim__flatten_curve = 2.8; // test_bottom3
   trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
-
-
 
   echo ("sleeve height from bed = ", sleeveInner_l + sleeveBottomThickness);
 
@@ -370,7 +369,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             }
 
             // power button cutout
-            translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth), powerButtonHeightFromBottom])
+            translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth) - sleeve_button__y_translate_adjust, powerButtonHeightFromBottom])
               rotate([0, 180 + 90, 0])
               scale([1,sleeve_button__y_scale_factor,1])
               linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.9, convexity = 10)
@@ -382,7 +381,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // volume buttons cutout
-            translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
+            translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth) - sleeve_button__y_translate_adjust, volumeButtonsHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
               scale([1,sleeve_button__y_scale_factor,1])
@@ -396,13 +395,16 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // mute switch cutout
+            mute_switch_expand_for_flap = 1;
             /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
-            translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
+            translate([-1 * ((1/2) * sleeveOuter_w + e),
+                       -(1/2) * (muteSwitchCutoutDepth) - sleeve_button__y_translate_adjust - 2*mute_switch_expand_for_flap,
+                       muteSwitchHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
               scale([1,sleeve_button__y_scale_factor,1])
               linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false,  scale = 0.9, convexity = 10)
-              complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth],
+              complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth + 2*mute_switch_expand_for_flap],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -1042,7 +1044,7 @@ if (show_everything) {
   withSleeve =  true ? true : false;
 
   printCap   =  !true ? true : false;
-  withCap    =  printCap ? true : false;
+  withCap    =  !printCap ? true : false;
 
 
 
