@@ -115,13 +115,15 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
   tolerance = 0.5;
+  printer_has_shorter_volume_height = true;
 
   CONTROL_RENDER_cutoff_top       = ! true ? true : false;
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
-  CONTROL_RENDER_prototype_bottom =  true ? true : false;
+  CONTROL_RENDER_prototype_bottom = ! true ? true : false;
   CONTROL_RENDER_prototype_bottom_lightning_access =  true ? true : false;
   CONTROL_RENDER_prototype_bottom_back_flap =  true ? true : false;
+  CONTROL_RENDER_bottom_front_no_bridge =  true ? true : false;
 
   CONTROL_RENDER_experiment3      = ! true ? true : false;
   CONTROL_RENDER_experiment5      = ! true ? true : false;
@@ -158,7 +160,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   iphoneScreenOpening_w = iphoneScreenBezel_w + iphoneDisplay_w + iphoneScreenBezel_w;
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
-  sleeveInner_l = l;
+  //
+  trim_for_lulzbot_mini_height = printer_has_shorter_volume_height ? 1 : 0;
+  sleeveInner_l = l - trim_for_lulzbot_mini_height ;
 
   sleeve_button__cutout_depth = 7.7 + 1.8 ;
   sleeve_button__y_scale_factor = 1.4 ;
@@ -218,7 +222,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = !true;
+  fingerprint_sensor_cutout = CONTROL_RENDER_bottom_front_no_bridge ;
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
@@ -239,6 +243,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   trim__flatten_curve = 2.8; // test_bottom3
   trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
 
+
+
+  echo ("sleeve height from bed = ", sleeveInner_l + sleeveBottomThickness);
 
   intersection() {
     union() {
