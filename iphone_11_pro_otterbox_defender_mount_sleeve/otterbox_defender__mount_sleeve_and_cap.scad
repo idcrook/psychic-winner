@@ -117,7 +117,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   tolerance = 0.5;
   printer_has_shorter_volume_height = true;
 
-  CONTROL_RENDER_cutoff_top       = ! true ? true : false;
+  CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height ? true : false;
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
   CONTROL_RENDER_prototype_bottom = ! true ? true : false;
@@ -161,7 +161,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   //
-  trim_for_lulzbot_mini_height = printer_has_shorter_volume_height ? 1 : 0;
+  //trim_for_lulzbot_mini_height = printer_has_shorter_volume_height ? 1 : 0;
+  trim_for_lulzbot_mini_height = 0;
   sleeveInner_l = l - trim_for_lulzbot_mini_height ;
 
   sleeve_button__cutout_depth = 7.7 + 1.8;
@@ -176,6 +177,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
   //muteSwitchHeightFromBottom = 99.5;
+  add_mute_flap_cutout = true;
   muteSwitchCutoutHeight = 12.2 + 3.0 + 10; // extend so that switch is
                                             // accessible with cap on
   muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
@@ -244,7 +246,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   trim__flatten_curve = 2.8; // test_bottom3
   trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
 
-  echo ("sleeve height from bed = ", sleeveInner_l + sleeveBottomThickness);
+  echo ("sleeve height from bed (unchopped) = ", sleeveInner_l + sleeveBottomThickness);
 
   intersection() {
     union() {
@@ -395,16 +397,18 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // mute switch cutout
-            mute_switch_expand_for_flap = 1;
+            mute_switch_expand_for_flap = add_mute_flap_cutout ? 3.5 : 0;
+            mute_switch_addl_cutout     = add_mute_flap_cutout ? 2 : 0;
+            mute_switch__y_scale_factor = add_mute_flap_cutout ? 1.16*sleeve_button__y_scale_factor : 1.0*sleeve_button__y_scale_factor;
             /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
             translate([-1 * ((1/2) * sleeveOuter_w + e),
-                       -(1/2) * (muteSwitchCutoutDepth) - sleeve_button__y_translate_adjust - 2*mute_switch_expand_for_flap,
+                       -(1/2) * (muteSwitchCutoutDepth) - sleeve_button__y_translate_adjust - (0/2)*mute_switch_expand_for_flap,
                        muteSwitchHeightFromBottom])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
-              scale([1,sleeve_button__y_scale_factor,1])
-              linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false,  scale = 0.9, convexity = 10)
-              complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth + 2*mute_switch_expand_for_flap],
+              scale([1,mute_switch__y_scale_factor,1])
+              linear_extrude(height = sleeveSideThickness__button_cutout + mute_switch_addl_cutout + 2*e, center = false,  scale = 0.9, convexity = 10)
+              complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth + mute_switch_expand_for_flap],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
                                   [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -439,7 +443,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                     center = false);
             }
 
-            if (CONTROL_RENDER_cutoff_top) {
+            if (CONTROL_RENDER_cutoff_top) { // chop off some amount of sleeve top
               cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
               extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
@@ -449,7 +453,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                 complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
                                    [0,0], [0,0], [0,0], [0,0],
                                    center = true);
-            } else {
+            }
+            else
+            {
               if (CONTROL_RENDER_experiment5) {
                 cutHeight  = l - 10.0 ;
                 extrHeight = l;
@@ -472,8 +478,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         capArmThickness = wantThinnerCap ? 3.5 : 4.0;
         capCapThickness = wantThinnerCap ? 3.0 : 3.5;
         capDepth = sleeveOuter_h;
-        caseHeight = sleeveInner_l + 0.56 ; // test 5
-        capCaseWidth = sleeveOuter_w + tolerance; // test 6
+        caseHeight = sleeveInner_l + 0.56 ; //
+        capCaseWidth = sleeveOuter_w + tolerance; //
         powerSideCut = powerButtonHeightFromBottom;
         powerSideHeight = powerButtonCutoutHeight;
         powerButtonCapClip_z = caseHeight - powerSideCut - powerSideHeight;
@@ -731,20 +737,18 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
-  capCornerSupportThickness = 2.5; // test 5
-  //capCornerSupportWidth = 8.0;  // test 5
-  //capCornerSupportHeight = 4.4;  // test 5
-  capCornerSupportWidth = 9.0;  // test 6
-  capCornerSupportHeight = 5.0;  // test 6
+  capCornerSupportThickness = 2.5; //
+  capCornerSupportWidth = 9.0;  //
+  capCornerSupportHeight = 5.0;  //
 
-  with_split_top_of_sleeve = false ? true : false;
+  with_split_top_of_sleeve = !false ? true : false;
   with_tab_corner_support =  true ? true : false;
 
   fudge =  true ? true : false;
   powerButtonCapClip_z = fudge ? power_button_z + 1 : power_button_z;
   muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 : mute_switch_z;
 
-  tabInsertDepth = 2.5 + 1 + 0.2; // test 5
+  tabInsertDepth = 2.5 + 1 + 0.2 + 1; //
 
   sleeve_button__y_translate_adjust = 1.85;
 
@@ -753,23 +757,26 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   muteSwitchCap_tabHeight = 15.2;
   muteSwitchCap_tabWidth = 10 - tolerance;
 
-  capSideDistance = (capCaseWidth + capArmThickness)/2 + sleeve_button__y_translate_adjust;
+  //capSideDistance = (capCaseWidth + capArmThickness)/2 + sleeve_button__y_translate_adjust;
+  capSideDistance = (capCaseWidth + capArmThickness)/2;
 
   caseOverlap = 10.0;
 
+  // main bar across tab
   linear_extrude(height = capCapThickness + e, center = false, convexity = 10)
     // 2D view for cap (base of cap)
     complexRoundSquare([capCaseWidth + 2*capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
-  // power button side
+  // power button side - length to tab
   translate([capSideDistance, 0, - powerButtonCapClip_z])
     linear_extrude(height = powerButtonCapClip_z, center = false, convexity = 10)
     complexRoundSquare([capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
+  // power button side - inner spacer
   if (with_split_top_of_sleeve) {
     translate([capSideDistance - (capArmThickness - 1), 0, - caseOverlap + e])
       linear_extrude(height = caseOverlap, center = false, convexity = 10)
@@ -778,13 +785,15 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                          center = true);
   }
 
-  // tab for power button side
+  // power button side - tab itself
+  echo("=== generateCapTab : power switch side ===");
   translate([capSideDistance, 0,  - powerButtonCapClip_z - powerButtonCap_tabHeight])
     rotate([0,0,180])
     generateCapTab(capArmThickness, capDepth,
                    powerButtonCap_tabHeight, powerButtonCap_tabWidth, tabInsertDepth, direction = true);
 
 
+  // power button side - corner reinforcement
   if (with_tab_corner_support) {
     translate([capSideDistance, ((1/2)*capDepth) - e, - (1/2)*capCornerSupportHeight])
       mirror([1,0,0])
@@ -800,13 +809,15 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
 
 
   // mute switch side
-  // bar for mute switch side
+
+  // mute switch side - length to tab
   translate([-(capSideDistance), 0,  - muteSwitchCapClip_z])
     linear_extrude(height = muteSwitchCapClip_z, center = false, convexity = 10)
     complexRoundSquare([capArmThickness, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
+  // mute switch side - inner spacer
   if (with_split_top_of_sleeve) {
     translate([-(capSideDistance - (capArmThickness - 1)), 0, - caseOverlap + e])
       linear_extrude(height = caseOverlap, center = false, convexity = 10)
@@ -815,12 +826,14 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                          center = true);
   }
 
-  // tab for  mute switch side
+  // mute switch side - tab for cutout
+  echo("=== generateCapTab : mute switch side ===");
   translate([-(capSideDistance), 0, - muteSwitchCapClip_z - muteSwitchCap_tabHeight])
     rotate([0,0,0])
     generateCapTab(capArmThickness, capDepth,
                    muteSwitchCap_tabHeight, muteSwitchCap_tabWidth, tabInsertDepth, direction = false);
 
+  // mute switch side - corner reinforcement
   if (with_tab_corner_support) {
     translate([-(capSideDistance - 0), (1/2)*capDepth  - e, - (1/2)*capCornerSupportHeight])
       mirror([0,0,0])
@@ -845,17 +858,13 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
   tabWidth = tab_width;
   tabInsertDepth = tab_insert_depth;
 
-  cap_tab_y_shift = direction ? - 1.8 : 1.8;
+  y_shift_amount = 1.8;
+  cap_tab_y_shift = direction ? - y_shift_amount : y_shift_amount;
   //   sleeve_button__y_scale_factor = 1.4 ;
   cap_tab_y_scale = 1.4;
 
   if (true) {
-    echo("=== generateCapTab ===");
-    echo("capCaseWidth:", capCaseWidth);
-    echo("capArmThickness:", capArmThickness);
-    echo("tabHeight:", tabHeight);
-    echo("tabWidth:", tabWidth);
-    echo("tabInsertDepth:", tabInsertDepth);
+    echo("capCaseWidth:", capCaseWidth, "capArmThickness:", capArmThickness, "tabHeight:", tabHeight, "tabWidth:", tabWidth, "tabInsertDepth:", tabInsertDepth);
   }
 
   // straight piece along back
@@ -878,8 +887,8 @@ module generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_width, 
   // tapered pieces on side of straight piece
   translate([0,0,tabHeight + 2*e])
     rotate([0,180,0])
-    linear_extrude(height = (2/3)*tabHeight,  // test 5
-                   center = false, scale = 0.7, convexity = 10)
+    linear_extrude(height = (3/4)*tabHeight,  //
+                   center = false, scale = [0.9, 0.55], convexity = 10)
     complexRoundSquare([capArmThickness, capCaseWidth],
                        [1,1], [1,1], [1,1], [1,1],
                        center = true);
@@ -1047,7 +1056,8 @@ if (show_everything) {
   withSleeve =  true ? true : false;
 
   printCap   =  !true ? true : false;
-  withCap    =  !printCap ? true : false;
+  withCap    =  printCap ? true : false;
+  //withCap    =  true;
 
 
 
