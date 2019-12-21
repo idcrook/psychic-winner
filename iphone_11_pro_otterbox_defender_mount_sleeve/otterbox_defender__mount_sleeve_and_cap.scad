@@ -36,7 +36,7 @@ e = 1/128; // small number
 l = 155.70 + 0.25;  // 155.95 measured
 // including widest at buttons /// w = 84.84;
 w = 83.5 + 0.04;   // 83.5 near bottom corners
-h = 15.75;   // measured
+h = 15.75 + 0.2;   // measured + padding
 
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -262,9 +262,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               // left side groove fill-in
               linear_extrude(height = erase_sleeveInner_left, center = false, convexity = 10)
                 translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0])
+                translate([0,-(1/4)*3.0])
                 difference () {
-                complexRoundSquare([(1/2)*(buttonsIncludedInner_w),
-                                    buttonsIncludedInner_h],
+                complexRoundSquare([(1/2)*(buttonsIncludedInner_w) + e,
+                                    buttonsIncludedInner_h + e],
                                    [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                    [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                    [buttonsIncludedInner_r,  buttonsIncludedInner_r],
@@ -283,11 +284,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                      center = false);
               }
 
-              // right side groover fill-in at bottom part
+              // right side groove fill-in at bottom part below button cutouts
               linear_extrude(height = erase_sleeveInner_right, center = false, convexity = 10)
                 translate([0, -(1/2)*buttonsIncludedInner_h, 0])
+                translate([0,-(1/4)*3.0])
                 difference () {
-                complexRoundSquare([buttonsIncludedInner_w/2, buttonsIncludedInner_h],
+                complexRoundSquare([buttonsIncludedInner_w/2+e, buttonsIncludedInner_h+e],
                                    [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                    [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                    [buttonsIncludedInner_r,  buttonsIncludedInner_r],
@@ -336,6 +338,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
 
               // include groove for buttons (covered back in above)
+              translate([0,-(1/4)*3.0])
               complexRoundSquare([buttonsIncludedInner_w,  buttonsIncludedInner_h],
                                  [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                  [buttonsIncludedInner_r,  buttonsIncludedInner_r],
@@ -343,9 +346,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                  center = true);
 
-              //bevel_angle = 50;
-              bevel_angle = 46;
-              //bevel_angle = 43;
+              bevel_angle = 46.5;
 
               // cut for screen and add bevel
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
