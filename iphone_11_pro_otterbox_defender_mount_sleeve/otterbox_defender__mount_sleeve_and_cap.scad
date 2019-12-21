@@ -138,11 +138,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveTopThickness    =  wantThinner ? 2.85 : 3.5;
   sleeveBaseThickness   =  wantThinner ? 2.85 : 3.5;
 
-  sleeveSideThickness__button_cutout = sleeveSideThickness + 2*tolerance;
+  sleeveSideThickness__button_cutout = sleeveSideThickness + 0.8 + 2*tolerance;
 
   base_l = sleeveBaseThickness;
 
   cutoff_top_length = !true ? 10 : 18;
+  //cutoff_top_length = !true ? 10 : 31;
 
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
@@ -448,7 +449,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
             if (CONTROL_RENDER_cutoff_top) { // chop off some amount of sleeve top
               cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
-              extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
+              extrHeight = CONTROL_RENDER_experiment3 ? 200 :  cutoff_top_length + e  ;
 
               echo("cutHeight:", cutHeight);
               translate([0,0, cutHeight])
@@ -630,7 +631,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
           if (CONTROL_RENDER_cutoff_top) {
             cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
-            extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
+            extrHeight = CONTROL_RENDER_experiment3 ? 200 : cutoff_top_length + e ;
 
             echo("cutHeight:", cutHeight);
             translate([0,0, cutHeight])
