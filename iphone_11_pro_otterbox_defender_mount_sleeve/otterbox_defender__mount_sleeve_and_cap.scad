@@ -142,6 +142,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   base_l = sleeveBaseThickness;
 
+  cutoff_top_length = !true ? 10 : 18;
+
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
   sleeveInner_r = 2.6;
@@ -398,8 +400,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // mute switch cutout
-            mute_switch_expand_for_flap = add_mute_flap_cutout ? 3.5 : 0;
-            mute_switch_addl_cutout     = add_mute_flap_cutout ? 2 : 0;
+            mute_switch_expand_for_flap = add_mute_flap_cutout ? 5.0 : 0;
+            mute_switch_addl_cutout     = add_mute_flap_cutout ? 5.5 : 0; // toward midline
             mute_switch__y_scale_factor = add_mute_flap_cutout ? 1.16*sleeve_button__y_scale_factor : 1.0*sleeve_button__y_scale_factor;
             /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
             translate([-1 * ((1/2) * sleeveOuter_w + e),
@@ -445,7 +447,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             }
 
             if (CONTROL_RENDER_cutoff_top) { // chop off some amount of sleeve top
-              cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+              cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
               extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
               echo("cutHeight:", cutHeight);
@@ -627,7 +629,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 
           if (CONTROL_RENDER_cutoff_top) {
-            cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - 10.0 ;
+            cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
             extrHeight = CONTROL_RENDER_experiment3 ? 200 : 26 ;
 
             echo("cutHeight:", cutHeight);
@@ -695,7 +697,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
     if ((CONTROL_RENDER_cutoff_top && CONTROL_RENDER_experiment4) || CONTROL_RENDER_experiment5) {
       keepHeight = 45 + 10;
-      cutHeight  = l + 10 ;
+      cutHeight  = l + cutoff_top_length ;
       extrHeight = keepHeight ;
 
       translate([0,0, cutHeight - keepHeight])
