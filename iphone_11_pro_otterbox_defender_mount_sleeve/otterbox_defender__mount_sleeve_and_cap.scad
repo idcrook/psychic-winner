@@ -35,8 +35,8 @@ e = 1/128; // small number
 
 l = 155.70 + 0.25;  // 155.95 measured
 // including widest at buttons /// w = 84.84;
-w = 83.5 + 0.04 + 0.86;   // 83.5 near bottom corners + was too tight a fit
-h = 15.75 + 0.2 + 0.4;   // measured + padding
+w = 83.5 + 0.04 + 0.46;   // 83.5 near bottom corners + was too tight a fit
+h = 15.75 + 0.2 + 0.35;   // measured + padding
 
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -247,11 +247,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   needed_overlap = 2.0;
   // trim based on experiments (makes sense since tolerance of 0.5*2 was added)
-  trim__width  = 0.93 - 0.60 ;  // test_bottom3
-  trim__height = 0.93 - 0.30;    // test_bottom3
-  //trim__flatten_curve = 2.0; // test_bottom3
-  trim__flatten_curve = 2.8; // test_bottom3
-  trim_rear__flatten_curve = trim__flatten_curve + 3.5; // test_bottom3
+  trim__width  = 0.93 - 0.60 ;  //
+  trim__height = 0.93 - 0.30;    //
+  trim__flatten_curve = 2.8; //
+  trim_rear__flatten_curve = trim__flatten_curve + 3.5; //
 
   echo ("sleeve height from bed (unchopped) = ", sleeveInner_l + sleeveBottomThickness);
 
