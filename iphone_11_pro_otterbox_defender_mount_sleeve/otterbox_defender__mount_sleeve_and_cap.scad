@@ -142,8 +142,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   base_l = sleeveBaseThickness;
 
-  cutoff_top_length = !true ? 10 : 18;
-  //cutoff_top_length = !true ? 10 : 31;
+  //cutoff_top_length = !true ? 10 : 18;
+  cutoff_top_length = !true ? 10 : 32;
 
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
@@ -201,6 +201,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraCutoutDepth = 32.71 + 1.3;
   cameraCutoutRadius = 7.5;
   cameraHoleOffcenter = 0.70 * 2;
+  cameraHoleAddOffsetForCase = 2.0;
 
   speakerCutoutHeight = 18;
   speakerCutoutDepth = 5.5;
@@ -402,7 +403,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
             // mute switch cutout
             mute_switch_expand_for_flap = add_mute_flap_cutout ? 5.0 : 0;
-            mute_switch_addl_cutout     = add_mute_flap_cutout ? 5.5 : 0; // toward midline
+            mute_switch_addl_cutout     = add_mute_flap_cutout ? 6.2 : 0; // toward midline
             mute_switch__y_scale_factor = add_mute_flap_cutout ? 1.16*sleeve_button__y_scale_factor : 1.0*sleeve_button__y_scale_factor;
             /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
             translate([-1 * ((1/2) * sleeveOuter_w + e),
@@ -420,11 +421,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // camera cutout
-            translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
+            translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
               rotate([90, 0, 0])
               mirror([0,0,1])
               linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-              complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth ],
+              complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase, cameraCutoutDepth ],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
@@ -435,11 +436,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
               shiftUpAmount = 12 + 7;
-              translate([cameraHoleOffcenter, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom + shiftUpAmount])
+              translate([cameraHoleOffcenter + cameraHoleAddOffsetForCase,
+                         (1/2) * sleeveInner_h - tolerance - e,
+                         cameraHeightFromBottom + shiftUpAmount])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
                 linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-                complexRoundSquare( [cameraCutoutHeight, cameraCutoutDepth ],
+                complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase, cameraCutoutDepth ],
                                     [cameraCutoutRadius, cameraCutoutRadius],
                                     [cameraCutoutRadius, cameraCutoutRadius],
                                     [cameraCutoutRadius, cameraCutoutRadius],
