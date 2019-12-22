@@ -35,8 +35,8 @@ e = 1/128; // small number
 
 l = 155.70 + 0.25;  // 155.95 measured
 // including widest at buttons /// w = 84.84;
-w = 83.5 + 0.04;   // 83.5 near bottom corners
-h = 15.75 + 0.2;   // measured + padding
+w = 83.5 + 0.04 + 0.86;   // 83.5 near bottom corners + was too tight a fit
+h = 15.75 + 0.2 + 0.4;   // measured + padding
 
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -144,6 +144,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   //cutoff_top_length = !true ? 10 : 18;
   cutoff_top_length = !true ? 10 : 32;
+  trim_front_bars = (cutoff_top_length > 15) ? true : false;
+  //trim_front_bars = false;
 
   sleeveInner_w =  tolerance + w + tolerance;
   sleeveInner_h =  tolerance + h + ( tolerance / 2 );
@@ -199,9 +201,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraHeightFromBottom = translate_y_from_top(32.71) - 2.0;
   cameraCutoutHeight = 30.59 + 1.3;
   cameraCutoutDepth = 32.71 + 1.3;
-  cameraCutoutRadius = 7.5;
+  cameraCutoutRadius = 7.5 + 2.0;
   cameraHoleOffcenter = 0.70 * 2;
-  cameraHoleAddOffsetForCase = 2.0;
+  cameraHoleAddOffsetForCase_midline = 2.2;
+  cameraHoleAddOffsetForCase_sideline = 2.8;
 
   speakerCutoutHeight = 18;
   speakerCutoutDepth = 5.5;
@@ -403,7 +406,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
             // mute switch cutout
             mute_switch_expand_for_flap = add_mute_flap_cutout ? 5.0 : 0;
-            mute_switch_addl_cutout     = add_mute_flap_cutout ? 6.2 : 0; // toward midline
+            mute_switch_addl_cutout     = add_mute_flap_cutout ? 6.2 + 0.5  : 0; // toward midline
             mute_switch__y_scale_factor = add_mute_flap_cutout ? 1.16*sleeve_button__y_scale_factor : 1.0*sleeve_button__y_scale_factor;
             /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
             translate([-1 * ((1/2) * sleeveOuter_w + e),
@@ -421,11 +424,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // camera cutout
-            translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase, (1/2) * sleeveInner_h - tolerance - e, cameraHeightFromBottom])
+            translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline ,
+                       (1/2) * sleeveInner_h - 3*tolerance - e,
+                       cameraHeightFromBottom])
               rotate([90, 0, 0])
               mirror([0,0,1])
-              linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-              complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase, cameraCutoutDepth ],
+              linear_extrude(height = sleeveBottomThickness + 3*tolerance +2*e, center = false, convexity = 10)
+              complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline, cameraCutoutDepth ],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
@@ -435,14 +440,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
             if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
-              shiftUpAmount = 12 + 7;
-              translate([cameraHoleOffcenter + cameraHoleAddOffsetForCase,
-                         (1/2) * sleeveInner_h - tolerance - e,
+              shiftUpAmount = 12 + 7 - 4;
+              translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline ,
+                         (1/2) * sleeveInner_h - 3*tolerance - e,
                          cameraHeightFromBottom + shiftUpAmount])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
-                linear_extrude(height = sleeveBottomThickness + 2*tolerance +2*e, center = false, convexity = 10)
-                complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase, cameraCutoutDepth ],
+                linear_extrude(height = sleeveBottomThickness + 3*tolerance +2*e, center = false, convexity = 10)
+                complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline,  cameraCutoutDepth + 6],
                                     [cameraCutoutRadius, cameraCutoutRadius],
                                     [cameraCutoutRadius, cameraCutoutRadius],
                                     [cameraCutoutRadius, cameraCutoutRadius],
@@ -460,6 +465,23 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                 complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
                                    [0,0], [0,0], [0,0], [0,0],
                                    center = true);
+
+              if (trim_front_bars) {
+                translate([-(1/2)*sleeveOuter_w, - (1/2)*sleeveOuter_h, volumeButtonsHeightFromBottom])
+                  linear_extrude(height = extrHeight + 10, center = false, convexity = 10)
+                  complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                                     [0,0], [0,0], [0,0], [0,0],
+                                     center = true);
+
+                translate([(1/2)*sleeveOuter_w, - (1/2)*sleeveOuter_h, powerButtonHeightFromBottom])
+                  linear_extrude(height = extrHeight + 10, center = false, convexity = 10)
+                  complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                                     [0,0], [0,0], [0,0], [0,0],
+                                     center = true);
+              }
+
+
+
             }
             else
             {
