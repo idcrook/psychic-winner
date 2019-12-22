@@ -115,15 +115,15 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
   tolerance = 0.5;
-  printer_has_shorter_volume_height = true;
+  printer_has_shorter_volume_height = !true;
 
-  CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height ? true : false;
+  CONTROL_RENDER_cutoff_top       = ! true && printer_has_shorter_volume_height ? true : false;
   CONTROL_RENDER_experiment4      = ! true ? true : false;
 
   CONTROL_RENDER_prototype_bottom = ! true ? true : false;
   CONTROL_RENDER_prototype_bottom_lightning_access =  true ? true : false;
   CONTROL_RENDER_prototype_bottom_back_flap =  true ? true : false;
-  CONTROL_RENDER_bottom_front_no_bridge =  true ? true : false;
+  CONTROL_RENDER_bottom_front_no_bridge =  ! true ? true : false;
 
   CONTROL_RENDER_experiment3      = ! true ? true : false;
   CONTROL_RENDER_experiment5      = ! true ? true : false;
@@ -131,7 +131,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   wantThinner =  true ? true : false;
   wantThinnerCap = false ? true : false;
 
-  want_camera_hole_to_be_slot = true ? true : false;
+  want_camera_hole_to_be_slot = ! true ? true : false;
 
   sleeveSideThickness   =  wantThinner ? 2.85 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.85 : 3.5;
@@ -318,9 +318,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
           }
 
-
-
-          // need a difference here to be able to punch out button and camera access holes
+          // need a difference here to be able to "punch out" button and camera access holes
 
           difference () {
             // main extrude - 2D view for length of case
@@ -424,13 +422,16 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = false);
 
             // camera cutout
+            extend_camera_opening = want_camera_hole_to_be_slot ? 0 : 3 ;
+
+            // normal one
             translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline ,
                        (1/2) * sleeveInner_h - 3*tolerance - e,
                        cameraHeightFromBottom])
               rotate([90, 0, 0])
               mirror([0,0,1])
               linear_extrude(height = sleeveBottomThickness + 3*tolerance +2*e, center = false, convexity = 10)
-              complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline, cameraCutoutDepth ],
+              complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline, cameraCutoutDepth + extend_camera_opening],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
