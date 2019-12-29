@@ -39,7 +39,7 @@ camera_pcb_pad_thickness = pcb_keepout_back;
 camera_pcb_castelated_from_x = 6.5;
 
 case_sidewall_thickness = 2.0;
-case_sidewall_tol = 0.1;
+case_sidewall_tol = 0.12;
 case_backwall_thickness = case_sidewall_thickness + 1;
 case_screwpad_height = pcb_keepout_back;
 
@@ -50,14 +50,15 @@ backside_mount_exterior_height = camera_pcb_thickness + case_screwpad_height + c
 backside_mount_side_cutout_length = camera_pcb_length - (2 * camera_pcb_castelated_from_x);
 backside_mount_side_cutout_offset = (0*case_sidewall_thickness + camera_pcb_castelated_from_x);
 
-usb_cutout_length = usb_connector_length;
+usb_cutout_length = usb_connector_length + 1; // +1 after test_print1
 usb_cutout_width = usb_connector_width;
 usb_cutout_height = backside_mount_exterior_height;
 
-pad_screw_hole_diameter = hole_diameter;
+pad_screw_fudge_radius = 0.19;
+pad_screw_hole_diameter = hole_diameter + 2*pad_screw_fudge_radius;
 pad_screw_hole_spacing = hole_spacing;
-pad_screw_hole_pos_x = hole_pos_x;
-pad_screw_hole_pos_y = hole_pos_y;
+pad_screw_hole_pos_x = hole_pos_x - pad_screw_fudge_radius ;
+pad_screw_hole_pos_y = hole_pos_y - pad_screw_fudge_radius ;
 
 
 // position and flip-over camera board model
@@ -99,7 +100,7 @@ module backside_case () {
   pcb_cutout_width  = cam_pcb_width - 2*camera_pcb_spacer_side_length;
   pcb_cutout_height = case_screwpad_height;
 
-  usb_cutout_surround_tol = 0.33;
+  usb_cutout_surround_tol = 0.43;
   usb_cutout_length = usb_cutout_length + 2*usb_cutout_surround_tol;
   usb_cutout_width = usb_cutout_width + 2*usb_cutout_surround_tol;
   usb_cutout_height = usb_cutout_height;
