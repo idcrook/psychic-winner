@@ -33,7 +33,7 @@ pcb_length = 32.0;
 pcb_height = 32.0;
 pcb_length_extra = pcb_length + 1.0; // castellated extra where outer pieces snapped off
 pcb_height_extra = pcb_height + 1.0; // castellated extra where outer pieces snapped off
-pcb_keepout_back = 3.5 + 0.2 - pcb_thickness;
+pcb_keepout_back = 3.5 + 0.2 + 0.3 - pcb_thickness;
 
 hole_diameter = 2.3;
 hole_spacing = 28.0;
