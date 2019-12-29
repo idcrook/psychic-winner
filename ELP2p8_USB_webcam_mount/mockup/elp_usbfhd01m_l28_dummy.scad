@@ -16,7 +16,7 @@
 //
 //   2019-Dec-28: Initial PCB dimensions
 //
-//   2019-Dec-28: First draft mount
+//   2019-Dec-29: Printed
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -220,6 +220,21 @@ module elp_usbfhd01m_l28_dummy () {
 // $preview requires version 2019.05
 $fn = $preview ? 30 : 100;
 
+if (DEVELOPING_elp_usbfhd01m_l28_dummy && false) {
+  // sizing up mount size
+  intersection() {
+    union() {
+      translate([0,0,80])
+        import( "../files/FronCover_NEW.stl");
+    }
+    translate([7-e,21-e,-24]) {
+      cube([5+2*e,10+2*e,12], center=false);
+      %translate([0, 6, 6.5])
+         rotate([0,90,0])
+         cutout_solid (cylinder_diameter = 3.6, cylinder_length = 5.0);
+    }
+  }
+}
 
 if (DEVELOPING_elp_usbfhd01m_l28_dummy) {
   elp_usbfhd01m_l28_dummy();

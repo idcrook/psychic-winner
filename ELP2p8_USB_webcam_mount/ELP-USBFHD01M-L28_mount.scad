@@ -30,6 +30,8 @@ $fn = $preview ? 30 : 100;
 
 RENDER_FOR_PRINT = false;
 SHOW_CAMERA = RENDER_FOR_PRINT ? false : true;
+TONGUE_HORIZONTAL_MOUNT = true;
+TONGUE_VERTICAL_MOUNT   = !true;
 
 // capture variables from included model
 camera_pcb_thickness = pcb_thickness;
@@ -60,6 +62,23 @@ pad_screw_hole_spacing = hole_spacing;
 pad_screw_hole_pos_x = hole_pos_x - pad_screw_fudge_radius ;
 pad_screw_hole_pos_y = hole_pos_y - pad_screw_fudge_radius ;
 
+bracket_length = 10.0;
+bracket_width = 12.0;
+bracket_height = 5.0;
+
+bracket_hole_diameter = 3.6;
+bracket_hole_length = bracket_height;
+bracket_hole_pos_x = 5.5;
+bracket_hole_pos_y = 7.5;
+
+tongue_horizontal_pos_x = 22.8;
+tongue_horizontal_pos_y = case_sidewall_thickness;
+tongue_horizontal_pos_z = backside_mount_exterior_height;
+
+tongue_vertical_pos_x = 10;
+tongue_vertical_pos_y = 10;
+tongue_vertical_pos_z = 10;
+
 
 // position and flip-over camera board model
 if (SHOW_CAMERA) {
@@ -77,6 +96,26 @@ module cutout_cylinder (cylinder_diameter = pad_screw_hole_diameter, cylinder_le
   }
 }
 
+
+module bracket_tongue (length = bracket_length, width = bracket_width, height = bracket_height) {
+
+  r  = width / 2.2;
+  r2 = width / 3.6;
+
+  difference() {
+    linear_extrude(height = height)
+      complexRoundSquare([length, width],
+                         [0,0],[0,0],
+                         [r2,r2],[r,r],
+                         center=false);
+
+    // cutout hole
+    translate([bracket_hole_pos_x, bracket_hole_pos_y, 0])
+      rotate([0, 0, 0])
+      cutout_cylinder (cylinder_diameter = bracket_hole_diameter, cylinder_length = bracket_hole_length);
+  }
+
+}
 
 module backside_case () {
 
@@ -127,6 +166,17 @@ module backside_case () {
       linear_extrude(height = height)
         complexRoundSquare([length, width],
                            [r,r],[r,r],[r,r],[r,r], center=false);
+
+      if (TONGUE_HORIZONTAL_MOUNT) {
+          translate([tongue_horizontal_pos_x, tongue_horizontal_pos_y, tongue_horizontal_pos_z - e])
+            rotate([90,0,90])
+            bracket_tongue();
+      }
+
+      if (TONGUE_VERTICAL_MOUNT) {
+        translate([tongue_vertical_pos_x, tongue_vertical_pos_y, tongue_vertical_pos_z])
+          bracket_tongue();
+      }
     }
 
     // subtract PCB area so can sit flush on screw "pads"
