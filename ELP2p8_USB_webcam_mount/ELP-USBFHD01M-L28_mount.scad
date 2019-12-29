@@ -40,7 +40,7 @@ camera_pcb_castelated_from_x = 6.5;
 
 case_sidewall_thickness = 2.0;
 case_sidewall_tol = 0.1;
-case_backwall_thickness = case_sidewall_thickness;
+case_backwall_thickness = case_sidewall_thickness + 1;
 case_screwpad_height = pcb_keepout_back;
 
 backside_mount_exterior_length = 2*(case_sidewall_thickness + case_sidewall_tol) + camera_pcb_length;  // x dim
@@ -54,12 +54,26 @@ usb_cutout_length = usb_connector_length;
 usb_cutout_width = usb_connector_width;
 usb_cutout_height = backside_mount_exterior_height;
 
+pad_screw_hole_diameter = hole_diameter;
+pad_screw_hole_spacing = hole_spacing;
+pad_screw_hole_pos_x = hole_pos_x;
+pad_screw_hole_pos_y = hole_pos_y;
+
+
 // position and flip-over camera board model
 if (SHOW_CAMERA) {
   translate([camera_pcb_length + case_sidewall_thickness, case_sidewall_thickness, camera_pcb_thickness])
     rotate([0,180,0])
     %elp_usbfhd01m_l28_dummy();
 }
+
+module cutout_cylinder (cylinder_diameter = pad_screw_hole_diameter, cylinder_length = backside_mount_exterior_height) {
+  translate([0,0,-e])
+    linear_extrude(height = cylinder_length + 2*e, center = false) {
+    circle(r=cylinder_diameter / 2);
+  }
+}
+
 
 module backside_case () {
 
@@ -91,6 +105,18 @@ module backside_case () {
   usb_cutout_height = usb_cutout_height;
   usb_cutout_t_x = case_sidewall + usb_from_x - usb_cutout_surround_tol ;
   usb_cutout_t_y = case_sidewall + usb_from_y - usb_cutout_surround_tol ;
+
+  screw_hole_diameter = pad_screw_hole_diameter ;
+  screw_hole_spacing = pad_screw_hole_spacing;
+  screw_hole_pos_x = pad_screw_hole_pos_x + case_sidewall + case_sidewall_tolerance;
+  screw_hole_pos_y = pad_screw_hole_pos_y + case_sidewall + case_sidewall_tolerance;
+
+  hole_origin = [screw_hole_pos_x, screw_hole_pos_y];
+  corner_hole_positions = [[hole_origin.x + 0,                  hole_origin.y + 0],
+                           [hole_origin.x + screw_hole_spacing, hole_origin.y + 0],
+                           [hole_origin.x + 0,                  hole_origin.y + screw_hole_spacing],
+                           [hole_origin.x + screw_hole_spacing, hole_origin.y + screw_hole_spacing]];
+
 
   difference() {
     union () {
@@ -147,7 +173,11 @@ module backside_case () {
 
     }
 
-    // subtract screw holes and
+    // subtract screw Holes
+    for (p = corner_hole_positions) {
+      translate([p[0], p[1], 0])
+        cutout_cylinder(cylinder_diameter = screw_hole_diameter);
+    }
 
 
   }
