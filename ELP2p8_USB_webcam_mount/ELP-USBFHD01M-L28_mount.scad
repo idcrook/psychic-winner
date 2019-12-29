@@ -63,7 +63,9 @@ pad_screw_hole_pos_y = hole_pos_y - pad_screw_fudge_radius ;
 
 // position and flip-over camera board model
 if (SHOW_CAMERA) {
-  translate([camera_pcb_length + case_sidewall_thickness, case_sidewall_thickness, camera_pcb_thickness])
+  translate([camera_pcb_length + case_sidewall_thickness + case_sidewall_tol,
+             case_sidewall_thickness + case_sidewall_tol,
+             camera_pcb_thickness])
     rotate([0,180,0])
     %elp_usbfhd01m_l28_dummy();
 }
