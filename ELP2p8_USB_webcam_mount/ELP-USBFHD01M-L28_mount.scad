@@ -64,7 +64,7 @@ pad_screw_hole_pos_y = hole_pos_y - pad_screw_fudge_radius ;
 
 bracket_length = 10.0;
 bracket_width = 12.0;
-bracket_height = 5.0;
+bracket_height = 5.0;  // "tongue" size
 
 bracket_hole_diameter = 3.6;
 bracket_hole_length = bracket_height;
@@ -96,17 +96,14 @@ module cutout_cylinder (cylinder_diameter = pad_screw_hole_diameter, cylinder_le
   }
 }
 
-
 module bracket_tongue (length = bracket_length, width = bracket_width, height = bracket_height) {
-
   r  = width / 2.2;
   r2 = width / 3.6;
 
   difference() {
     linear_extrude(height = height)
       complexRoundSquare([length, width],
-                         [0,0],[0,0],
-                         [r2,r2],[r,r],
+                         [0,0],[0,0], [r2,r2],[r,r],
                          center=false);
 
     // cutout hole
@@ -114,7 +111,6 @@ module bracket_tongue (length = bracket_length, width = bracket_width, height = 
       rotate([0, 0, 0])
       cutout_cylinder (cylinder_diameter = bracket_hole_diameter, cylinder_length = bracket_hole_length);
   }
-
 }
 
 module backside_case () {
@@ -135,7 +131,6 @@ module backside_case () {
   cutout_length = backside_mount_side_cutout_length;
   cutout_width  = backside_mount_exterior_width;
 
-  //pcb_cutout_side_offset = backside_mount_side_cutout_offset + 1*case_sidewall_tolerance + camera_pcb_spacer_side_length;
   pcb_cutout_side_offset = camera_pcb_spacer_side_length;
   pcb_cutout_length = cam_pcb_length;
   pcb_cutout_width  = cam_pcb_width - 2*camera_pcb_spacer_side_length;
@@ -158,7 +153,6 @@ module backside_case () {
                            [hole_origin.x + screw_hole_spacing, hole_origin.y + 0],
                            [hole_origin.x + 0,                  hole_origin.y + screw_hole_spacing],
                            [hole_origin.x + screw_hole_spacing, hole_origin.y + screw_hole_spacing]];
-
 
   difference() {
     union () {
@@ -196,16 +190,12 @@ module backside_case () {
       translate([-case_sidewall, case_cutout_side_offset, 0])
         linear_extrude(height = cam_pcb_thickness + 2*e, center = false)
         square([cutout_width + 2*case_sidewall_tolerance, cutout_length + 2*case_sidewall_tolerance, ], center=false);
-
     }
 
-    // Screw "pad" areas (leave behind)
-
-    // subtract PCB area so can sit flush on screw "pads"
+    // subtract PCB area so can sit flush on corner "pads" (the components on back side need extra space)
     translate([case_sidewall-case_sidewall_tolerance,
                case_sidewall-case_sidewall_tolerance,
                (cam_pcb_thickness-e)]) { // pcb "corner", but behind pcb
-
 
       // subtract one line of "plus sign" for PCB backside keepout
       translate([0, pcb_cutout_side_offset, 0])
@@ -216,7 +206,6 @@ module backside_case () {
       translate([pcb_cutout_side_offset, 0, 0])
         linear_extrude(height = pcb_cutout_height + 2*e, center = false)
         square([pcb_cutout_width + 2*e, pcb_cutout_length + 2*e], center=false);
-
     }
 
     // subtract USB connector cutout
@@ -224,7 +213,6 @@ module backside_case () {
       // usb cutout
       linear_extrude(height = usb_cutout_height + 2*e, center = false)
         square([usb_cutout_length, usb_cutout_width], center=false);
-
     }
 
     // subtract screw Holes
@@ -232,8 +220,6 @@ module backside_case () {
       translate([p[0], p[1], 0])
         cutout_cylinder(cylinder_diameter = screw_hole_diameter);
     }
-
-
   }
 }
 
