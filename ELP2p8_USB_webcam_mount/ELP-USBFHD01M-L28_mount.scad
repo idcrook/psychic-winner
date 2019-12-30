@@ -83,7 +83,7 @@ case_tongue_vertical_pos_z = -3;
 
 // additional parameters for linkages / brackets / mounts
 linkage_length = 70.0;
-linkage_groove_length = bracket_length;
+linkage_groove_length = bracket_length + 2;
 linkage_width = bracket_width;
 
 linkage_groove_height = bracket_height;
@@ -134,7 +134,11 @@ module linkage_span (length = linkage_length, width = linkage_width, height = li
   linkage_far_hole_pos_x = linkage_hole_pos_x;
   linkage_far_hole_pos_y = length - linkage_hole_pos_y;
 
+  linkage_far_groove_pos_y = length -  linkage_groove_length;
+
+
   difference() {
+    // main solid of linkage
     linear_extrude(height = solid_height)
       complexRoundSquare([width, length],
                          [r,r],[r2,r2],
@@ -150,6 +154,16 @@ module linkage_span (length = linkage_length, width = linkage_width, height = li
     translate([linkage_far_hole_pos_x, linkage_far_hole_pos_y, 0])
       rotate([0, 0, 0])
       cutout_cylinder (cylinder_diameter = linkage_hole_diameter, cylinder_length = solid_height);
+
+    // punch groove
+    translate([-e, 0, height])
+      rotate([0, 0, 0])
+      cube ([width + 2*e, linkage_groove_length, groove_height + 2*e], center = false);
+
+    // punch far groove
+    translate([-e, linkage_far_groove_pos_y, height])
+      rotate([0, 0, 0])
+      cube ([width + 2*e, linkage_groove_length, groove_height + 2*e], center = false);
   }
 }
 
