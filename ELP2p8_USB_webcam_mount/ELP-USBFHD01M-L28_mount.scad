@@ -28,10 +28,12 @@ e = 1/128; // small number
 // $preview requires version 2019.05
 $fn = $preview ? 30 : 100;
 
-RENDER_FOR_PRINT = false;
+RENDER_FOR_PRINT = true;
 SHOW_CAMERA = RENDER_FOR_PRINT ? false : true;
-TONGUE_HORIZONTAL_MOUNT = !true;
-TONGUE_VERTICAL_MOUNT   = true;
+CASE_TONGUE_HORIZONTAL_MOUNT = !true;
+CASE_TONGUE_VERTICAL_MOUNT   = true;
+
+INCLUDE_STAND_LINKAGE_SPAN = true; // a linkage for positioning cam
 
 // capture variables from included model
 camera_pcb_thickness = pcb_thickness;
@@ -71,14 +73,25 @@ bracket_hole_length = bracket_height;
 bracket_hole_pos_x = 5.5;
 bracket_hole_pos_y = 7.5;
 
-tongue_horizontal_pos_x = 22.8;
-tongue_horizontal_pos_y = case_sidewall_thickness;
-tongue_horizontal_pos_z = backside_mount_exterior_height;
+case_tongue_horizontal_pos_x = 22.8;
+case_tongue_horizontal_pos_y = case_sidewall_thickness;
+case_tongue_horizontal_pos_z = backside_mount_exterior_height;
 
-tongue_vertical_pos_x = 22.8;
-tongue_vertical_pos_y = 0;
-tongue_vertical_pos_z = -3;
+case_tongue_vertical_pos_x = 22.8;
+case_tongue_vertical_pos_y = 0;
+case_tongue_vertical_pos_z = -3;
 
+// additional parameters for linkages / brackets / mounts
+linkage_length = 70.0;
+linkage_groove_length = bracket_length;
+linkage_width = bracket_width;
+
+linkage_groove_height = bracket_height;
+linkage_tongue_height = bracket_height;
+linkage_height = linkage_groove_height + 2*linkage_tongue_height;
+linkage_hole_diameter = bracket_hole_diameter;
+linkage_hole_pos_x = 6.0;
+linkage_hole_pos_y = 6.0;
 
 // position and flip-over camera board model
 if (SHOW_CAMERA) {
@@ -112,6 +125,35 @@ module bracket_tongue (length = bracket_length, width = bracket_width, height = 
       cutout_cylinder (cylinder_diameter = bracket_hole_diameter, cylinder_length = bracket_hole_length);
   }
 }
+
+module linkage_span (length = linkage_length, width = linkage_width, height = linkage_tongue_height, groove_height = linkage_groove_height) {
+  r  = width / 2.2;
+  r2 = width / 3.6;
+
+  solid_height = groove_height + 2*height;
+  linkage_far_hole_pos_x = linkage_hole_pos_x;
+  linkage_far_hole_pos_y = length - linkage_hole_pos_y;
+
+  difference() {
+    linear_extrude(height = solid_height)
+      complexRoundSquare([width, length],
+                         [r,r],[r2,r2],
+                         [r2,r2],[r,r],
+                         center=false);
+
+    // punch hole
+    translate([linkage_hole_pos_x, linkage_hole_pos_y, 0])
+      rotate([0, 0, 0])
+      cutout_cylinder (cylinder_diameter = linkage_hole_diameter, cylinder_length = solid_height);
+
+    // punch far hole
+    translate([linkage_far_hole_pos_x, linkage_far_hole_pos_y, 0])
+      rotate([0, 0, 0])
+      cutout_cylinder (cylinder_diameter = linkage_hole_diameter, cylinder_length = solid_height);
+  }
+}
+
+
 
 module backside_case () {
 
@@ -161,14 +203,14 @@ module backside_case () {
         complexRoundSquare([length, width],
                            [r,r],[r,r],[r,r],[r,r], center=false);
 
-      if (TONGUE_HORIZONTAL_MOUNT) {
-          translate([tongue_horizontal_pos_x, tongue_horizontal_pos_y, tongue_horizontal_pos_z - e])
+      if (CASE_TONGUE_HORIZONTAL_MOUNT) {
+          translate([case_tongue_horizontal_pos_x, case_tongue_horizontal_pos_y, case_tongue_horizontal_pos_z - e])
             rotate([90,0,90])
             bracket_tongue();
       }
 
-      if (TONGUE_VERTICAL_MOUNT) {
-        translate([tongue_vertical_pos_x, tongue_vertical_pos_y + e, tongue_vertical_pos_z + e])
+      if (CASE_TONGUE_VERTICAL_MOUNT) {
+        translate([case_tongue_vertical_pos_x, case_tongue_vertical_pos_y + e, case_tongue_vertical_pos_z + e])
           rotate([90,270,90])
           bracket_tongue();
       }
@@ -220,6 +262,11 @@ module backside_case () {
       translate([p[0], p[1], 0])
         cutout_cylinder(cylinder_diameter = screw_hole_diameter);
     }
+  }
+
+  if (INCLUDE_STAND_LINKAGE_SPAN) {
+    translate([0, 40, -linkage_height + backside_mount_exterior_height])
+      linkage_span();
   }
 }
 
