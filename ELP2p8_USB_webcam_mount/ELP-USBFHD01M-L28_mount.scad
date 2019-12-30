@@ -22,6 +22,17 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+// Additional parts needed to fully assemble
+// -----------------------------------------
+//
+//  - M2.5 bolts (~10 mm) - for mounting camera pcb into holder
+//    - (optional) M2.5 washers and nuts
+//    - these will self-tap with sufficient fastening on their own
+//
+//  - M3 bolts (~20 mm; 16mm will be tight) - for connecting and assembling linkage / mount
+//    - M3 washers + nuts
+//
+
 include <mockup/elp_usbfhd01m_l28_dummy.scad>
 use <MCAD/2Dshapes.scad>
 
@@ -32,6 +43,7 @@ $fn = $preview ? 30 : 100;
 
 RENDER_FOR_PRINT = true;
 INCLUDE_STAND_LINKAGE_SPAN = true; // a linkage for positioning cam
+INCLUDE_STAND_SURFACE_MOUNT = true; // for bolting into a surface
 ONLY_RENDER_STAND_LINKAGE_SPAN = !true;
 SHOW_CAMERA = RENDER_FOR_PRINT ? false : true;
 CASE_TONGUE_HORIZONTAL_MOUNT = !true;
