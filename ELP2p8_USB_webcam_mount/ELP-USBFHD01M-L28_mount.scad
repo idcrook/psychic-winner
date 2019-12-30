@@ -16,7 +16,9 @@
 //
 //   2019-Dec-28: Initial PCB dimensions
 //
-//   2019-Dec-28: First draft mount
+//   2019-Dec-29: First draft mount
+//
+//   2019-Dec-30: Add a linkage
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -29,11 +31,12 @@ e = 1/128; // small number
 $fn = $preview ? 30 : 100;
 
 RENDER_FOR_PRINT = true;
+INCLUDE_STAND_LINKAGE_SPAN = true; // a linkage for positioning cam
+ONLY_RENDER_STAND_LINKAGE_SPAN = !true;
 SHOW_CAMERA = RENDER_FOR_PRINT ? false : true;
 CASE_TONGUE_HORIZONTAL_MOUNT = !true;
 CASE_TONGUE_VERTICAL_MOUNT   = true;
 
-INCLUDE_STAND_LINKAGE_SPAN = true; // a linkage for positioning cam
 
 // capture variables from included model
 camera_pcb_thickness = pcb_thickness;
@@ -83,15 +86,15 @@ case_tongue_vertical_pos_z = -3;
 
 // additional parameters for linkages / brackets / mounts
 linkage_length = 70.0;
-linkage_groove_length = bracket_length + 2;
-linkage_width = bracket_width;
+linkage_groove_length = bracket_width;
+linkage_width = bracket_length;
 
-linkage_groove_height = bracket_height;
-linkage_tongue_height = bracket_height;
+linkage_groove_height = bracket_height + 2*0.13;
+linkage_tongue_height = bracket_height - 1;
 linkage_height = linkage_groove_height + 2*linkage_tongue_height;
 linkage_hole_diameter = bracket_hole_diameter;
-linkage_hole_pos_x = 6.0;
-linkage_hole_pos_y = 6.0;
+linkage_hole_pos_x = 5.0;
+linkage_hole_pos_y = 5.0;
 
 // position and flip-over camera board model
 if (SHOW_CAMERA) {
@@ -279,14 +282,22 @@ module backside_case () {
   }
 
   if (INCLUDE_STAND_LINKAGE_SPAN) {
-    translate([0, 40, -linkage_height + backside_mount_exterior_height])
+    translate([0, -(linkage_length + 1), 0 + 7])
+      rotate([0,90,0])
       linkage_span();
   }
 }
 
 if (RENDER_FOR_PRINT) {
 
-  backside_case();
+  if (ONLY_RENDER_STAND_LINKAGE_SPAN) {
+    rotate([0,90,0])
+      linkage_span();
+  } else {
+    rotate([0,180,0])
+      backside_case();
+  }
+
 } else if (!true) {
   //translate([0,0,5])
     %backside_case();
