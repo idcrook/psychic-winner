@@ -45,6 +45,7 @@ RENDER_FOR_PRINT = true;
 INCLUDE_STAND_LINKAGE_SPAN = true; // a linkage for positioning cam
 INCLUDE_STAND_SURFACE_MOUNT = true; // for bolting into a surface
 ONLY_RENDER_STAND_LINKAGE_SPAN = !true;
+ONLY_RENDER_STAND_SURFACE_MOUNT = !true;
 SHOW_CAMERA = RENDER_FOR_PRINT ? false : true;
 CASE_TONGUE_HORIZONTAL_MOUNT = !true;
 CASE_TONGUE_VERTICAL_MOUNT   = true;
@@ -101,12 +102,26 @@ linkage_length = 70.0;
 linkage_groove_length = bracket_width;
 linkage_width = bracket_length;
 
-linkage_groove_height = bracket_height + 2*0.13;
+linkage_groove_height = bracket_height + 2*0.18;
 linkage_tongue_height = bracket_height - 1;
 linkage_height = linkage_groove_height + 2*linkage_tongue_height;
 linkage_hole_diameter = bracket_hole_diameter;
 linkage_hole_pos_x = 5.0;
 linkage_hole_pos_y = 5.0;
+
+surface_mount_base_length = 40.0;
+surface_mount_base_width =  bracket_length + 2*2.8;
+surface_mount_pad_length = 16.0;
+surface_mount_pad_width =  bracket_length + 2*0.8;
+surface_mount_thickness = 4.0;
+
+surface_mount_tongue_height = bracket_height;
+surface_mount_height = linkage_groove_height + 2*linkage_tongue_height;
+surface_mount_hole_diameter = bracket_hole_diameter;
+surface_mount_hole_pos_x = 5.0;
+surface_mount_hole_pos_y = 5.0;
+
+
 
 // position and flip-over camera board model
 if (SHOW_CAMERA) {
@@ -181,6 +196,69 @@ module linkage_span (length = linkage_length, width = linkage_width, height = li
       cube ([width + 2*e, linkage_groove_length, groove_height + 2*e], center = false);
   }
 }
+
+module surface_mount (length = surface_mount_base_length, width = surface_mount_base_width,
+                      pad_length = surface_mount_pad_length, pad_width = surface_mount_pad_width,
+                      thickness = surface_mount_thickness, tongue_height = surface_mount_tongue_height) {
+  r  = width / 1.2;
+  r2 = width / 5;
+
+  pad_pos_t_x = (1/2)*(length - pad_length);
+  pad_pos_t_y = (1/2)*(width - pad_width);
+
+  hole_pos_x = (3/5) * pad_pos_t_x;
+  hole_pos_y = (1/2) * width;
+
+  hole_far_pos_x = length - hole_pos_x;
+  hole_far_pos_y = hole_pos_y;
+
+  tongue_t_x = (1/2)*(length - bracket_length) + (1/2)*tongue_height;
+  tongue_t_y = (1/2)*(width - bracket_length);
+  tongue_t_z = thickness;
+
+  difference() {
+
+    union () {
+
+      // "base" of mount
+      hull () {
+        // base solid
+        linear_extrude(height = thickness / 2)
+          complexRoundSquare([length, width],
+                             [r,r2],[r,r2],
+                             [r,r2],[r,r2],
+                             center=false);
+        // pad solid
+        translate([pad_pos_t_x, pad_pos_t_y, thickness / 2])
+          linear_extrude(height = thickness / 2)
+          complexRoundSquare([pad_length, pad_width],
+                             [r,r2],[r,r2],
+                             [r,r2],[r,r2],
+                             center=false);
+      }
+
+      // "tongue" on mount
+        translate([tongue_t_x, tongue_t_y, tongue_t_z - e])
+          rotate([90,0,90])
+          bracket_tongue(height = tongue_height);
+
+    }
+
+
+    // punch hole
+    translate([hole_pos_x, hole_pos_y, 0])
+      rotate([0, 0, 0])
+      cutout_cylinder (cylinder_diameter = surface_mount_hole_diameter, cylinder_length = thickness);
+
+    // punch far hole
+    translate([hole_far_pos_x, hole_far_pos_y, 0])
+      rotate([0, 0, 0])
+      cutout_cylinder (cylinder_diameter = surface_mount_hole_diameter, cylinder_length = thickness);
+
+
+  }
+}
+
 
 
 
@@ -298,6 +376,13 @@ module backside_case () {
       rotate([0,90,0])
       linkage_span();
   }
+
+  if (INCLUDE_STAND_SURFACE_MOUNT) {
+    translate([40, 12, 7])
+      rotate([180,0,0])
+      surface_mount();
+  }
+
 }
 
 if (RENDER_FOR_PRINT) {
@@ -305,6 +390,10 @@ if (RENDER_FOR_PRINT) {
   if (ONLY_RENDER_STAND_LINKAGE_SPAN) {
     rotate([0,90,0])
       linkage_span();
+  }
+  else if (ONLY_RENDER_STAND_SURFACE_MOUNT) {
+    rotate([0,0,0])
+      surface_mount();
   } else {
     rotate([0,180,0])
       backside_case();
