@@ -15,7 +15,8 @@ thingiverse
 
 ### Related things
 
--	LulzBot Mini bed USB camera mount https://www.thingiverse.com/thing:1582302/comments
+-	LulzBot Mini bed USB camera mount https://www.thingiverse.com/thing:1582302
+-	LulzBot Mini bed USB camera mount, v2.1 Lulzbot extruder toolhead https://www.thingiverse.com/thing:2769142
 -	ELP-USBFHD01M-L28 Cam Case https://www.thingiverse.com/thing:2761301
 -	Prusa MK2 / ELP cam Bed Mount https://www.thingiverse.com/thing:2437491
 -	ELP cam case supports https://www.thingiverse.com/thing:2460212 -
