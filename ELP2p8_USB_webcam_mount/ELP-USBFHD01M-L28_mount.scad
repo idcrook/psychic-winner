@@ -20,17 +20,27 @@
 //
 //   2019-Dec-30: Add a linkage
 //
+//   2019-Dec-31: Completed installation
+//
 ///////////////////////////////////////////////////////////////////////////////
 
 // Additional parts needed to fully assemble
 // -----------------------------------------
 //
-//  - M2.5 bolts (~10 mm) - for mounting camera pcb into holder
-//    - (optional) M2.5 washers and nuts
-//    - these will self-tap with sufficient fastening on their own
+//  - Four (4) M2.5 bolts (~10 mm) - for mounting camera pcb into holder
 //
-//  - M3 bolts (~20 mm; 16mm will be tight) - for connecting and assembling linkage / mount
-//    - M3 washers + nuts
+//    - Two of these self-tap with sufficient fastening on their own
+//    - (optional) M2.5 washers and nuts
+//
+//  - Two (2) M3 bolts (~20 mm; 16mm barely long enough) - for connecting
+//    linkage to camera case and mount
+//
+//    - M3 nuts
+//
+//  - Two (2) M3 screws (6 mm) - for attaching surface mount
+//
+//    - use short M3 bolts as screws to directly burrow into a 3mm thick 3d
+//      printed plate
 //
 
 include <mockup/elp_usbfhd01m_l28_dummy.scad>
