@@ -382,14 +382,14 @@ module backside_case () {
   }
 
   if (INCLUDE_STAND_LINKAGE_SPAN) {
-    translate([0, -(linkage_length + 1), 0 + 7])
-      rotate([0,90,0])
+    translate([0, 54 , 0 + 7])
+      rotate([90,90,0])
       linkage_span();
   }
 
   if (INCLUDE_STAND_SURFACE_MOUNT) {
-    translate([40, 12, 7])
-      rotate([180,0,0])
+    translate([40, -3.5, 7])
+      rotate([180,0,90])
       surface_mount();
   }
 
