@@ -13,14 +13,12 @@ thingiverse
 Views and Renders
 -----------------
 
-![diagonal view](img/diag_view__.png)
+![diagonal view render](img/diag_view__all_parts.png)
 
-![front view](img/front__.png)
+#### Print (assembled)
 
-![back view](img/back__.png)
+![front view](img/front_view.jpg)
 
-![front view render](img/front_view_render.png)
+![back view](img/back_view.jpg)
 
-#### Prints
-
-![print front view](img/print_front__form_monoprice.jpg)
+![side view](img/side_view.jpg)
