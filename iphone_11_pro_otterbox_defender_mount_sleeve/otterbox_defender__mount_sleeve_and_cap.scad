@@ -115,23 +115,23 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
   tolerance = 0.5;
-  printer_has_shorter_volume_height = !true;
 
-  CONTROL_RENDER_cutoff_top       = ! true && printer_has_shorter_volume_height ? true : false;
-  CONTROL_RENDER_experiment4      = ! true ? true : false;
+  printer_has_shorter_volume_height = true;
+  CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
 
-  CONTROL_RENDER_prototype_bottom = ! true ? true : false;
-  CONTROL_RENDER_prototype_bottom_lightning_access =  true ? true : false;
-  CONTROL_RENDER_prototype_bottom_back_flap =  true ? true : false;
-  CONTROL_RENDER_bottom_front_no_bridge =  ! true ? true : false;
+  CONTROL_RENDER_bottom_front_no_bridge = true;
+  CONTROL_RENDER_prototype_bottom_lightning_access =  true;
+  CONTROL_RENDER_prototype_bottom_back_flap =  true;
 
-  CONTROL_RENDER_experiment3      = ! true ? true : false;
-  CONTROL_RENDER_experiment5      = ! true ? true : false;
+  CONTROL_RENDER_experiment3      = ! true;
+  CONTROL_RENDER_experiment4      = ! true;
+  CONTROL_RENDER_experiment5      = ! true;
+  CONTROL_RENDER_prototype_bottom = !true;
 
-  wantThinner =  true ? true : false;
-  wantThinnerCap = false ? true : false;
+  wantThinner =  true;
+  wantThinnerCap = false;
 
-  want_camera_hole_to_be_slot = ! true ? true : false;
+  want_camera_hole_to_be_slot = !true;
 
   sleeveSideThickness   =  wantThinner ? 2.85 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.85 : 3.5;
