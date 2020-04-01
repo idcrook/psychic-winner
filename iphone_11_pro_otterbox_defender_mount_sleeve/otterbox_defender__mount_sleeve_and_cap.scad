@@ -120,8 +120,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
 
   CONTROL_RENDER_bottom_front_no_bridge = true;
-  CONTROL_RENDER_prototype_bottom_lightning_access =  true;
-  CONTROL_RENDER_prototype_bottom_back_flap =  true;
+  CONTROL_RENDER_prototype_bottom_lightning_access =  !true;
+  CONTROL_RENDER_prototype_bottom_back_flap =  !true;
 
   CONTROL_RENDER_experiment3      = ! true;
   CONTROL_RENDER_experiment4      = ! true;
@@ -143,7 +143,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   base_l = sleeveBaseThickness;
 
   //cutoff_top_length = !true ? 10 : 18;
-  cutoff_top_length = !true ? 10 : 32;
+  cutoff_top_length = true ? 10 : 32;
   trim_front_bars = (cutoff_top_length > 15) ? true : false;
   //trim_front_bars = false;
 
