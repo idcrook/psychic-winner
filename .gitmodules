@@ -16,3 +16,9 @@
 [submodule "libraries/BOSL"]
 	path = libraries/BOSL
 	url = https://github.com/idcrook/BOSL.git
+[submodule "libraries/Chamfers-for-OpenSCAD"]
+	path = libraries/Chamfers-for-OpenSCAD
+	url = https://github.com/SebiTimeWaster/Chamfers-for-OpenSCAD.git
+[submodule "libraries/kitwallace__openscad"]
+	path = libraries/kitwallace__openscad
+	url = https://github.com/KitWallace/openscad.git
