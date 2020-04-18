@@ -1,6 +1,18 @@
 [submodule "MCAD"]
-	path = MCAD
+	path = libraries/MCAD
 	url = https://github.com/openscad/MCAD.git
 [submodule "libraries/scad-utils"]
 	path = libraries/scad-utils
 	url = https://github.com/idcrook/scad-utils.git
+[submodule "libraries/dotSCAD"]
+	path = libraries/dotSCAD
+	url = https://github.com/idcrook/dotSCAD.git
+[submodule "libraries/NopSCADlib"]
+	path = libraries/NopSCADlib
+	url = https://github.com/idcrook/NopSCADlib.git
+[submodule "libraries/BOLTS"]
+	path = libraries/BOLTS
+	url = https://github.com/idcrook/BOLTS.git
+[submodule "libraries/BOSL"]
+	path = libraries/BOSL
+	url = https://github.com/idcrook/BOSL.git
