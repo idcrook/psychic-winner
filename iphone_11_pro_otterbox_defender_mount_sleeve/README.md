@@ -14,7 +14,7 @@ thingiverse
 iPhone 11 Pro Defender Series Screenless Edition Case
 -----------------------------------------------------
 
-![empty case](img/case_itself.png)
+![empty case](img/case_itself.jpg)
 
 -	[iPhone 11 Pro Defender Series Screenless Edition Case](https://www.otterbox.com/en-us/apple-iphone-11-pro/defender-series-screenless-edition-case/77-62521.html)
 
@@ -35,19 +35,21 @@ Measured:
 Views and Renders
 -----------------
 
-![diagonal view](img/sleeve_diag_view__form_monoprice.png)
+![diagonal view](img/sleeve_diag_view__obx_defender.png)
 
-![front view](img/sleeve_front__form_monoprice.png)
+![front view](img/sleeve_front__obx_defender.png)
 
-![back view](img/sleeve_back__form_monoprice.png)
+![back view](img/sleeve_back__obx_defender.png)
 
 ![front view render](img/front_view_sleeve_render.png)
 
 #### Prints
 
-![print front view](img/print_front__form_monoprice.jpg)
+TBD - Using on my bicycle
 
-![print back view](img/print_back__form_monoprice.jpg)
+![print front view](img/print_front__obx_defender.jpg)
+
+![print back view](img/print_back__obx_defender.jpg)
 
 #### iPhone 11 Pro
 
