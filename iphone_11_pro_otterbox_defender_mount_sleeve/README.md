@@ -45,7 +45,9 @@ Views and Renders
 
 #### Prints
 
-TBD - Using on my bicycle
+##### Installed on bicycle
+
+![print front with cap no phone](img/print_with_cap__obx_defender.jpg)
 
 ![print front view](img/print_front__obx_defender.jpg)
 
