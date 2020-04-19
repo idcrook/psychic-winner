@@ -41,3 +41,12 @@ Brand?: EVICIV
 -	Built-in speakers
 
 ![Display on stand with product dimensions](img/7_inch_hdmi_touchscreen_on_stand.jpg)
+
+#### How Pi is connected
+
+-	FPC cable (HDMI)
+-	USB-A to micro-USB (multi-touch: Pi USB to Monitor)
+-	3 pin power cable (Power: Pi header to Monitor)
+-	Micro USB 2A+ PSU to Pi
+
+![Connection diagram](img/connect_to_Pi.png)
