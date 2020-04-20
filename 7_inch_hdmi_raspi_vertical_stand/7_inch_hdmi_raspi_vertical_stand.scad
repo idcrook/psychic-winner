@@ -22,16 +22,23 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-/* use <mockup/HDMI_7inch_touchscreen.scad>; */
+use <mockup/HDMI_7inch_touchscreen__dummy.scad>;
 use <MCAD/2Dshapes.scad>
 /* use <../libraries/wedge.scad> */
 
 e = 1/128; // small number
 
-module monitorAndPiAssembly () {
-    // from https://www.thingiverse.com/thing:1701186/
-    // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
-    import ("mockup/Raspberry_Pi_3_Light_Version.STL");
+module monitorAndPiAssembly (showPi = false) {
+
+
+  HDMI_7inch_touchscreen__dummy();
+
+
+    if (showPi) {
+        // from https://www.thingiverse.com/thing:1701186/
+        // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
+        import ("mockup/Raspberry_Pi_3_Light_Version.STL");
+    }
 }
 
 module showTogether() {
@@ -60,7 +67,7 @@ if (show_everything) {
     scale ([1.0,1.0,1.0])
         translate([0,0,0])
         rotate([0,0,0])
-        monitorAndPiAssembly();
+        monitorAndPiAssembly(showPi = !true);
   }
 
 
