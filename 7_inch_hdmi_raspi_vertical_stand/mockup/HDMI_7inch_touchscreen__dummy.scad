@@ -205,10 +205,9 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
 
     if (showPi) {
 
-        translate([0,  rectangular_pcb_y_origin + pi_pcb_rect_inset_bottom, 0])
-        rotate([180, 0, 0])
-        translate([rectangular_pcb_x_origin,  - rectangular_pcb_y_origin, 0 /* pcb_thickness */])
-        translate([pi_pcb_rect_inset_left,    -2 * pi_pcb_rect_inset_bottom, pi_pcb_riser_z_height])
+        translate([0,  rectangular_pcb_y_origin, 0 ])
+        translate([pcb_rectangular_width - pi_pcb_rect_inset_left,    pi_pcb_rect_inset_bottom, -pi_pcb_riser_z_height])
+        rotate([0, 180, 0])
 
             // from https://www.thingiverse.com/thing:1701186/
             // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
