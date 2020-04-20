@@ -69,10 +69,16 @@ pi_height = 56.0;
 pi_z_height = 17.0;
 pi_pcb_thickness = 1.7;
 
-pi_pcb_rect_inset_right = 39.6;
-pi_pcb_rect_inset_top = 25.0;
-pi_pcb_rect_inset_left = 39.6;
-pi_pcb_rect_inset_bottom = 25.0;
+/* pi_pcb_rect_inset_right = 39.6; */
+/* pi_pcb_rect_inset_top = 25.0; */
+/* pi_pcb_rect_inset_left = 39.6; */
+/* pi_pcb_rect_inset_bottom = 25.0; */
+
+// assume instead position is center of rectangular PCB region
+pi_pcb_rect_inset_right = (1/2) * (pcb_rectangular_width - pi_width);
+pi_pcb_rect_inset_top = (1/2) * (pcb_rectangular_height - pi_height);
+pi_pcb_rect_inset_left = pi_pcb_rect_inset_right;
+pi_pcb_rect_inset_bottom = pi_pcb_rect_inset_top;
 pi_pcb_riser_z_height = 7.4 - pi_pcb_thickness;
 
 module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
