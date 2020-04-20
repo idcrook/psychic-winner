@@ -24,27 +24,19 @@
 
 use <mockup/HDMI_7inch_touchscreen__dummy.scad>;
 use <MCAD/2Dshapes.scad>
-/* use <../libraries/wedge.scad> */
 
 e = 1/128; // small number
 
-module monitorAndPiAssembly (showPi = false) {
+module monitorAndPiAssembly () {
 
+  HDMI_7inch_touchscreen__dummy(showPi = true);
 
-  HDMI_7inch_touchscreen__dummy();
-
-
-    if (showPi) {
-        // from https://www.thingiverse.com/thing:1701186/
-        // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
-        import ("mockup/Raspberry_Pi_3_Light_Version.STL");
-    }
 }
 
 module showTogether() {
 
     scale ([1.0,1.0,1.0])
-        translate([0,0,3+l+0.5])
+        translate([0,0,0])
         rotate([180,0,0])
         monitorAndPiAssembly();
 
@@ -67,7 +59,7 @@ if (show_everything) {
     scale ([1.0,1.0,1.0])
         translate([0,0,0])
         rotate([0,0,0])
-        monitorAndPiAssembly(showPi = !true);
+        monitorAndPiAssembly();
   }
 
 

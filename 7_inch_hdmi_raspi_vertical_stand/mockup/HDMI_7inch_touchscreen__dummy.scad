@@ -55,7 +55,6 @@ pcb_to_lcd_glass = 8.5;
 pcb_to_edge_lcd_top = 3.0;
 pcb_to_edge_lcd_bottom = 3.0;
 
-
 hole_diameter = 2.9;
 hole_center_x_from_origin = pcb_corner_screw_pad_width / 2;
 hole_center_y_from_origin = 4; // 3.1;
@@ -64,6 +63,17 @@ first_hole_pos_y = hole_center_y_from_origin;
 hole_spacing_width = pcb_corner_screw_pad_to_screw_pad + 2 * (1/2) * pcb_corner_screw_pad_width ;
 hole_spacing_height = pcb_height - 2 * hole_center_y_from_origin ;
 
+
+pi_width = 85.0;
+pi_height = 56.0;
+pi_z_height = 17.0;
+pi_pcb_thickness = 1.7;
+
+pi_pcb_rect_inset_right = 39.6;
+pi_pcb_rect_inset_top = 25.0;
+pi_pcb_rect_inset_left = 39.6;
+pi_pcb_rect_inset_bottom = 25.0;
+pi_pcb_riser_z_height = 7.4 - pi_pcb_thickness;
 
 module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
     translate([0,0,-e])
@@ -126,7 +136,7 @@ module lcd_assembly (width = lcd_width, height = lcd_height, thickness = pcb_to_
 
 }
 
-module HDMI_7inch_touchscreen__dummy () {
+module HDMI_7inch_touchscreen__dummy (showPi = false) {
 
     origin_center_inset_x = first_hole_pos_x;
     origin_center_inset_y = first_hole_pos_y;
@@ -187,10 +197,23 @@ module HDMI_7inch_touchscreen__dummy () {
         }
     }
 
-    translate([0,  rectangular_pcb_y_origin + pcb_to_edge_lcd_bottom, pcb_thickness]) {
+    // lcd screen on PCB
+    translate([rectangular_pcb_x_origin,  rectangular_pcb_y_origin + pcb_to_edge_lcd_bottom, pcb_thickness]) {
         lcd_assembly();
     }
 
+
+    if (showPi) {
+
+        translate([0,  rectangular_pcb_y_origin + pi_pcb_rect_inset_bottom, 0])
+        rotate([180, 0, 0])
+        translate([rectangular_pcb_x_origin,  - rectangular_pcb_y_origin, 0 /* pcb_thickness */])
+        translate([pi_pcb_rect_inset_left,    -2 * pi_pcb_rect_inset_bottom, pi_pcb_riser_z_height])
+
+            // from https://www.thingiverse.com/thing:1701186/
+            // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
+            import ("Raspberry_Pi_3_Light_Version.STL");
+    }
 
 }
 
