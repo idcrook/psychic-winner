@@ -27,7 +27,7 @@ e = 1/128; // small number
 // determines whether model is instantiated by this file
 
 // Normally set to false for using as an include file
-DEVELOPING_HDMI_7inch_touchscreen__dummy = false;
+DEVELOPING_HDMI_7inch_touchscreen__dummy = !false;
 
 pcb_thickness = 1.7;
 pcb_width = 165.05;
@@ -167,6 +167,7 @@ module gift_stand_foot (total_length = gift_foot_length,
     slot_hole_center = screw_hole_center;
     slot_hole_depth = 5.0;
 
+    color("White")
     difference () {
 
         hull() {
@@ -222,8 +223,8 @@ module gift_stand_foot (total_length = gift_foot_length,
                                    center = false);
         }
 
-        distance_to_center_slot = (1/2)*(total_width - slot_width) ;
         // screw slot and hole
+        distance_to_center_slot = (1/2)*(total_width - slot_width) ;
         translate([5.25, (1/2)*gift_foot_screw_slot_length - gift_foot_screw_slot_length_delta, distance_to_center_slot-e]) //-2*e])
             union () {
             // position face at angle
@@ -319,7 +320,7 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
                     pcb_side_leg();
                 }
 
-                translate([pcb_rectangular_width -  pcb_side_leg_width, 0, 0]) {
+                translate([pcb_rectangular_width - pcb_side_leg_width, 0, 0]) {
                     pcb_side_leg();
                 }
             }
@@ -357,14 +358,6 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
     }
 
 
-    if (true)  {  // (showLegs) {
-
-        translate([ -(60 + 10), 0, 0])
-            rotate([0, 0, 0])
-            gift_stand_foot();
-    }
-
-
 }
 
 
@@ -374,5 +367,25 @@ $fn = $preview ? 30 : 100;
 
 
 if (DEVELOPING_HDMI_7inch_touchscreen__dummy) {
-    HDMI_7inch_touchscreen__dummy();
+    HDMI_7inch_touchscreen__dummy(showPi = true);
+
+    if (true)  {  // (showLegs) {
+
+        // left leg
+        translate([10.2, 34.5, -45 + pcb_thickness])
+            rotate([90, 0, 270])
+            rotate([0, 0, 45])
+            translate([0, 0, 0])
+            gift_stand_foot();
+
+        // right leg
+        translate([10.2 + (pcb_rectangular_width - pcb_side_leg_width), 34.5, -45 + pcb_thickness])
+            rotate([90, 0, 270])
+            rotate([0, 0, 45])
+            translate([0, 0, 0])
+            gift_stand_foot();
+
+    }
+
+
 }
