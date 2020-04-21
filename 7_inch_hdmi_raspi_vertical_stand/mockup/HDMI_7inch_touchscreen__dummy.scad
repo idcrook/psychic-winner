@@ -81,6 +81,22 @@ pi_pcb_rect_inset_left = pi_pcb_rect_inset_right;
 pi_pcb_rect_inset_bottom = pi_pcb_rect_inset_top;
 pi_pcb_riser_z_height = 7.4 - pi_pcb_thickness;
 
+gift_foot_length = 60.0;
+gift_foot_width = 12.3;
+gift_foot_leg_height = 7.0;
+gift_foot_angle_degrees = 45;
+
+gift_foot_screw_slot_base_to_peak_height = 12.7;
+gift_foot_screw_slot_start_to_front_face = 14.0;
+gift_foot_screw_slot_face_height = 13.0;
+gift_foot_screw_slot_length_delta = 0.2;
+gift_foot_screw_slot_length = 6.5 + gift_foot_screw_slot_length_delta;
+gift_foot_screw_slot_width = 8.0; // cut into gift_foot_width
+gift_foot_screw_slot_hole_diameter = 2.5;
+gift_foot_screw_slot_hole_center_from_edge = 3.0;
+
+
+
 module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
     translate([0,0,-e])
         linear_extrude(height = cylinder_length + 2*e, center = false) {
@@ -111,6 +127,125 @@ module pcb_side_leg (height = pcb_side_leg_height, width = pcb_side_leg_width, t
                            center = false);
 }
 
+
+
+module gift_stand_foot (total_length = gift_foot_length,
+                        total_width = gift_foot_width,
+                        leg_height = gift_foot_leg_height,
+                        angle_slot_total_length = gift_foot_screw_slot_start_to_front_face,
+                        angle_slot_total_height = gift_foot_screw_slot_base_to_peak_height,
+                        angle_degrees = gift_foot_angle_degrees ,
+                        screw_hole_diameter = gift_foot_screw_slot_hole_diameter,
+                        screw_hole_center = gift_foot_screw_slot_hole_center_from_edge,
+                        screw_hole_slot_length = gift_foot_screw_slot_length,
+                        screw_hole_slot_width = gift_foot_screw_slot_width) {
+
+    // back leg portion
+    leg_length = total_length - angle_slot_total_length;
+    leg_radius = 0.5;
+
+
+    // face
+    side_face_length = gift_foot_screw_slot_face_height;
+    side_face_width = leg_height;
+    side_face_radius_top = leg_radius;
+    side_face_radius_bottom = (1/2)*side_face_width ;
+    side_face_radius_subtract = 0.0;
+
+    side_face_translate_x = leg_length ;// + cos(angle_degrees)*side_face_length;
+    side_face_translate_y_delta = 1.5;
+    side_face_translate_y = sin(angle_degrees)*side_face_length - side_face_translate_y_delta;
+    side_face_subtract_translate_x = cos(angle_degrees)*side_face_length;
+
+    // screw slot
+    slot_thickness = pcb_thickness;
+    slot_width =  screw_hole_slot_width;
+    slot_height = screw_hole_slot_length;
+    slot_radius =  3.25; //(1/2)*slot_width;
+
+    slot_hole_diameter = screw_hole_diameter;
+    slot_hole_center = screw_hole_center;
+    slot_hole_depth = 5.0;
+
+    difference () {
+
+        hull() {
+            // position face at angle
+            translate([side_face_translate_x, side_face_translate_y , 0])
+                rotate([0,0, (360- (90 - angle_degrees))])
+
+                // side facing
+                linear_extrude(height = total_width, center = false)
+                complexRoundSquare([side_face_length, side_face_width],
+                                   [side_face_radius_top, side_face_radius_top],
+                                   [side_face_radius_bottom, side_face_radius_bottom],
+                                   [side_face_radius_bottom, side_face_radius_bottom],
+                                   [side_face_radius_top, side_face_radius_top],
+                                   center = false);
+            // leg portion side
+            translate([0, 0, 0])
+                // side facing
+                linear_extrude(height = total_width, center = false)
+                complexRoundSquare([leg_length, leg_height],
+                                   [leg_radius, leg_radius],
+                                   [leg_radius, leg_radius],
+                                   [leg_radius, leg_radius],
+                                   [leg_radius, leg_radius],
+                                   center = false);
+        } // positive part
+
+        /* start of cuts */
+
+        // top profile
+        translate([0, leg_height, -e]) //-2*e])
+            union () {
+            // position face at angle
+            translate([side_face_translate_x - side_face_subtract_translate_x, side_face_translate_y + side_face_translate_y_delta, 0])
+                rotate([0,0, (360- (90 - angle_degrees))])
+                // side facing
+                linear_extrude(height = total_width + 2*e, center = false)
+                complexRoundSquare([side_face_length, side_face_width + side_face_translate_y_delta],
+                                   [side_face_radius_subtract, side_face_radius_subtract],
+                                   [side_face_radius_subtract, side_face_radius_subtract],
+                                   [side_face_radius_subtract, side_face_radius_subtract],
+                                   [side_face_radius_subtract, side_face_radius_subtract],
+                                   center = false);
+            // leg portion side
+            translate([0, 0, 0])
+                // side facing
+                linear_extrude(height = total_width + 2*e, center = false)
+                complexRoundSquare([leg_length, leg_height],
+                                   [leg_radius, leg_radius],
+                                   [leg_radius, leg_radius],
+                                   [leg_radius, leg_radius],
+                                   [leg_radius, leg_radius],
+                                   center = false);
+        }
+
+        distance_to_center_slot = (1/2)*(total_width - slot_width) ;
+        // screw slot and hole
+        translate([5.25, (1/2)*gift_foot_screw_slot_length - gift_foot_screw_slot_length_delta, distance_to_center_slot-e]) //-2*e])
+            union () {
+            // position face at angle
+            translate([side_face_translate_x, side_face_translate_y + side_face_translate_y_delta, 0])
+                rotate([0,0, (360- (90 - angle_degrees))])
+                rotate([90,0,0]) {
+                // side facing
+                linear_extrude(height = slot_thickness + 2*e, center = false)
+                complexRoundSquare([slot_height, slot_width],
+                                   [leg_radius, leg_radius],
+                                   [slot_radius, slot_radius],
+                                   [slot_radius, slot_radius],
+                                   [leg_radius, leg_radius],
+                                   center = false);
+            translate([slot_hole_center, (1/2)*slot_width, 0])
+                linear_extrude(height = slot_hole_depth + slot_thickness + 2*e, center = false)
+                    circle(r=(1/2)*slot_hole_diameter);
+            }
+        }
+
+    }
+}
 
 
 module lcd_assembly (width = lcd_width, height = lcd_height, thickness = pcb_to_lcd_glass) {
@@ -162,6 +297,7 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
                              [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
 
     // TODO: USB connector keepouts
+    // TODO: "gift" legs
     // TODO: Power (microUSB) connector keepout
     // TODO: Raspi keepout area
     // TODO: LCD keepout areas
@@ -212,13 +348,22 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
     if (showPi) {
 
         translate([0,  rectangular_pcb_y_origin, 0 ])
-        translate([pcb_rectangular_width - pi_pcb_rect_inset_left,    pi_pcb_rect_inset_bottom, -pi_pcb_riser_z_height])
-        rotate([0, 180, 0])
+            translate([pcb_rectangular_width - pi_pcb_rect_inset_left,    pi_pcb_rect_inset_bottom, -pi_pcb_riser_z_height])
+            rotate([0, 180, 0])
 
             // from https://www.thingiverse.com/thing:1701186/
             // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
             import ("Raspberry_Pi_3_Light_Version.STL");
     }
+
+
+    if (true)  {  // (showLegs) {
+
+        translate([ -(60 + 10), 0, 0])
+            rotate([0, 0, 0])
+            gift_stand_foot();
+    }
+
 
 }
 
