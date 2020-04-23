@@ -27,7 +27,7 @@ e = 1/128; // small number
 // determines whether model is instantiated by this file
 
 // Normally set to false for using as an include file
-DEVELOPING_HDMI_7inch_touchscreen__dummy = !false;
+DEVELOPING_HDMI_7inch_touchscreen__dummy = false;
 
 pcb_thickness = 1.7;
 pcb_width = 165.05;
