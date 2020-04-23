@@ -348,9 +348,6 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
                              [hole_origin.x + 0,               hole_origin.y + hole_distance_y],
                              [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
 
-    // TODO: USB connector keepouts
-    // TODO: Power (microUSB) connector keepout
-    // TODO: Raspi keepout area
     // TODO: misc. PCB keepout areas
 
     // PCB footprint
@@ -437,6 +434,21 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
             rotate([270, 0 ,0])
             microusb_keepout();
     }
+
+    lcdusb_x = 0;
+    lcdusb_y = pcb_rectangular_y_origin + 32.5 ;
+    lcdusb_z = (1/2) * (microusb_keepout_height) - pcb_thickness;
+
+    // Pi to LCD USB connector keepout
+    if (showUsbKeepouts) {
+        translate([lcdusb_x, lcdusb_y, lcdusb_z])
+            rotate([-90, 0, 90])
+            microusb_keepout();
+    }
+
+
+    // TODO: Raspi keepout area
+
 
 }
 
