@@ -24,10 +24,9 @@ use <MCAD/2Dshapes.scad>
 
 e = 1/128; // small number
 
-// determines whether model is instantiated by this file
-
-// Normally set to false for using as an include file
-DEVELOPING_HDMI_7inch_touchscreen__dummy = false;
+// Normally set to 'false' - for use as include file (variables are exported)
+// setting to 'true' and opening file in Openscad will instantiate models
+DEVELOPING_HDMI_7inch_touchscreen__dummy = !false;
 
 pcb_thickness = 1.7;
 pcb_width = 165.05;
@@ -35,6 +34,9 @@ pcb_height = 122.2;
 
 pcb_rectangular_width = pcb_width;
 pcb_rectangular_height = 107.0;
+
+pcb_rectangular_x_origin = 0 ;
+pcb_rectangular_y_origin = (1/2) * (pcb_height - pcb_rectangular_height) ;
 
 pcb_corner_screw_pad_width = 7.95;
 pcb_corner_screw_pad_to_screw_pad = 149;
@@ -62,7 +64,6 @@ first_hole_pos_x = hole_center_x_from_origin;
 first_hole_pos_y = hole_center_y_from_origin;
 hole_spacing_width = pcb_corner_screw_pad_to_screw_pad + 2 * (1/2) * pcb_corner_screw_pad_width ;
 hole_spacing_height = pcb_height - 2 * hole_center_y_from_origin ;
-
 
 pi_width = 85.0;
 pi_height = 56.0;
@@ -95,6 +96,22 @@ gift_foot_screw_slot_width = 8.0; // cut into gift_foot_width
 gift_foot_screw_slot_hole_diameter = 2.5;
 gift_foot_screw_slot_hole_center_from_edge = 3.0;
 
+microusb_keepout_width = 15;
+microusb_keepout_height = 10;
+microusb_keepout_z_height = 20;
+
+flex_keepout_height = 4;
+flex_keepout_z_height = 2.5;
+
+flex1_distance_from_edge = 5.0;
+flex1_width = 26.5;
+flex1_height = 5.5;
+
+flex2_distance_from_edge = 69.0;
+flex2_width = 30;
+
+pipower_distance_from_edge = 42.5;
+pipower_distance_below_pcb =  2.5;
 
 
 module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
@@ -110,6 +127,38 @@ module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_th
 /*         square(size = block_side, center = false); */
 /*     } */
 /* } */
+
+module microusb_keepout (height = microusb_keepout_height, width = microusb_keepout_width,
+                         length = microusb_keepout_z_height) {
+    radius = 1.0;
+
+    color("Red")
+    translate([0, 0, 0])
+        linear_extrude(height = length, center = false)
+        complexRoundSquare([width, height],
+                           [radius, radius],
+                           [radius, radius],
+                           [radius, radius],
+                           [radius, radius],
+                           center = false);
+}
+
+
+module lcd_flex_keepout (height = flex_keepout_height, width = 10,
+                     length = flex_keepout_z_height) {
+    radius = 1.0;
+
+    color("Red")
+    translate([0, 0, 0])
+        linear_extrude(height = length, center = false)
+        complexRoundSquare([width, height],
+                           [radius, radius],
+                           [radius, radius],
+                           [radius, radius],
+                           [radius, radius],
+                           center = false);
+}
+
 
 
 module pcb_side_leg (height = pcb_side_leg_height, width = pcb_side_leg_width, thickness = pcb_thickness) {
@@ -223,7 +272,7 @@ module gift_stand_foot (total_length = gift_foot_length,
                                    center = false);
         }
 
-        // screw slot and hole
+        // Cut: screw slot and hole
         distance_to_center_slot = (1/2)*(total_width - slot_width) ;
         translate([5.25, (1/2)*gift_foot_screw_slot_length - gift_foot_screw_slot_length_delta, distance_to_center_slot-e]) //-2*e])
             union () {
@@ -280,14 +329,16 @@ module lcd_assembly (width = lcd_width, height = lcd_height, thickness = pcb_to_
 
 module HDMI_7inch_touchscreen__dummy (showPi = false) {
 
+    showLcdKeepouts = true;
+    showPiPowerKeepouts = true;
+    showUsbKeepouts = true;
+    showPcbKeepouts = true;
+
     origin_center_inset_x = first_hole_pos_x;
     origin_center_inset_y = first_hole_pos_y;
     hole_distance_x = hole_spacing_width;
     hole_distance_y = hole_spacing_height;
     hole_D = hole_diameter;
-
-    rectangular_pcb_x_origin = 0 ;
-    rectangular_pcb_y_origin = (1/2) * (pcb_height - pcb_rectangular_height) ;
 
 
     hole_origin = [origin_center_inset_x,  origin_center_inset_y];
@@ -298,10 +349,8 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
                              [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
 
     // TODO: USB connector keepouts
-    // TODO: "gift" legs
     // TODO: Power (microUSB) connector keepout
     // TODO: Raspi keepout area
-    // TODO: LCD keepout areas
     // TODO: misc. PCB keepout areas
 
     // PCB footprint
@@ -311,7 +360,7 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
             union() {
 
                 // rectangular PCB portion
-                translate([rectangular_pcb_x_origin, rectangular_pcb_y_origin, 0]) {
+                translate([pcb_rectangular_x_origin, pcb_rectangular_y_origin, 0]) {
                     linear_extrude(height = pcb_thickness, center = false)
                         square(size = [pcb_rectangular_width, pcb_rectangular_height], center = false);
                 }
@@ -341,14 +390,14 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
     }
 
     // lcd screen on PCB
-    translate([rectangular_pcb_x_origin,  rectangular_pcb_y_origin + pcb_to_edge_lcd_bottom, pcb_thickness]) {
+    translate([pcb_rectangular_x_origin, pcb_rectangular_y_origin + pcb_to_edge_lcd_bottom, pcb_thickness]) {
         lcd_assembly();
     }
 
 
     if (showPi) {
 
-        translate([0,  rectangular_pcb_y_origin, 0 ])
+        translate([0,  pcb_rectangular_y_origin, 0 ])
             translate([pcb_rectangular_width - pi_pcb_rect_inset_left,    pi_pcb_rect_inset_bottom, -pi_pcb_riser_z_height])
             rotate([0, 180, 0])
 
@@ -357,6 +406,37 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
             import ("Raspberry_Pi_3_Light_Version.STL");
     }
 
+    flex1_x =  pcb_rectangular_width - flex1_distance_from_edge - flex1_width;
+    flex1_y =   -flex_keepout_z_height + pcb_rectangular_y_origin + pcb_to_edge_lcd_bottom ;
+    flex1_z =   pcb_thickness + flex1_height; // + flex_keepout_height;
+
+    flex2_x =  pcb_rectangular_width - flex2_distance_from_edge - flex2_width;
+    flex2_y =   -flex_keepout_z_height + pcb_rectangular_y_origin + pcb_to_edge_lcd_bottom ;
+    flex2_z =   pcb_thickness + flex_keepout_height;
+
+    // LCD keepout areas
+    if (showLcdKeepouts) {
+        translate([flex1_x, flex1_y, flex1_z])
+            rotate([270, 0 ,0])
+            translate([0, 0, 0])
+            lcd_flex_keepout(width = flex1_width, height = flex1_height );
+
+        translate([flex2_x, flex2_y, flex2_z])
+            rotate([270, 0 ,0])
+            translate([0, 0, 0])
+            lcd_flex_keepout(width = flex2_width);
+    }
+
+    pipower_x = pcb_rectangular_width - pipower_distance_from_edge - microusb_keepout_width;
+    pipower_y = -microusb_keepout_z_height + pcb_rectangular_y_origin;
+    pipower_z = -pipower_distance_below_pcb;
+
+    // Pi power keepout
+    if (showPiPowerKeepouts) {
+        translate([pipower_x, pipower_y, pipower_z])
+            rotate([270, 0 ,0])
+            microusb_keepout();
+    }
 
 }
 
@@ -369,7 +449,7 @@ $fn = $preview ? 30 : 100;
 if (DEVELOPING_HDMI_7inch_touchscreen__dummy) {
     HDMI_7inch_touchscreen__dummy(showPi = true);
 
-    if (true)  {  // (showLegs) {
+    if (!true)  {  // (showLegs) {
 
         // left leg
         translate([10.2, 34.5, -45 + pcb_thickness])
