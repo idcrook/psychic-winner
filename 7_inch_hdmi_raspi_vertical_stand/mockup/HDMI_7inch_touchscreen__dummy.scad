@@ -26,7 +26,7 @@ e = 1/128; // small number
 
 // Normally set to 'false' - for use as include file (variables are exported)
 // setting to 'true' and opening file in Openscad will instantiate models
-DEVELOPING_HDMI_7inch_touchscreen__dummy = !false;
+DEVELOPING_HDMI_7inch_touchscreen__dummy = false;
 
 pcb_thickness = 1.7;
 pcb_width = 165.05;
