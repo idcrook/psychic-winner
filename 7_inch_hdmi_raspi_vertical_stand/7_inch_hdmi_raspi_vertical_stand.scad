@@ -52,13 +52,16 @@ module caseFrontPanel () {
     chamfer_size_face = 2;
     thickness_face = 2.0;
 
-    scale_cutout = 0.93;
+    scale_cutout = 0.95;
     translate_scale_cutout = (1/2) * (1/scale_cutout - 1);
     translate_x_cutout = translate_scale_cutout  * panel_width;
     translate_y_cutout = translate_scale_cutout  * panel_height;
 
+    translate_x_screen_cutout = 0;
+    translate_y_screen_cutout = 0;
 
-    // bulk - bul cutout - screen cutout
+
+    // bulk - {bulk cutout, screen cutout}
     difference () {
         intersection() {
             // outline with rounded corners
@@ -80,7 +83,7 @@ module caseFrontPanel () {
                         radius=4, $fn=25);
 
         // screen cutout
-        translate([translate_x_cutout, translate_y_cutout, -e])
+        translate([translate_x_screen_cutout, translate_y_screen_cutout, -e])
             rotate([0,0,0])
             cube_fillet([panel_width * scale_cutout,
                          panel_height * scale_cutout,
