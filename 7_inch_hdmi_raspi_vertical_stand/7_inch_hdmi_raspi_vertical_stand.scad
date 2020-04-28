@@ -61,7 +61,6 @@ lcd_cutout_y = lcd_height;
 lcd_translate_x = pcb_rectangular_x_origin + (1/2) * (panel_width - pcb_rectangular_width);
 lcd_translate_y = pcb_rectangular_y_origin + panel_shell_thickness + pcb_to_edge_lcd_bottom ;
 
-
 screw1_pos_x = first_hole_pos_x + panel_shell_thickness + case_side_edge_extra;
 screw1_pos_y = first_hole_pos_y + panel_shell_thickness + case_top_bottom_edge_extra;
 screw_hole_distance_x = hole_spacing_width;
@@ -69,6 +68,20 @@ screw_hole_distance_y = hole_spacing_height;
 screw_hole_diameter = hole_diameter;
 screw_hole_pad_size = 7.2;
 screw_hole_pad_depth = 5.0;
+
+// pushbutton related
+button_footprint_xy = 6.25;
+button_half_xy = (1/2)*button_footprint_xy;
+
+button_footprint_z_height = 3.5; // plastic base to metal faceplate
+button_diameter = 3.5;
+button_seperation = 17.0; // center to center
+button_moat_distance = 3.0;
+
+// button centers
+button1_translate_x = button_moat_distance + button_half_xy;
+button1_translate_y = button_moat_distance + button_half_xy;
+
 
 module monitorAndPiAssembly (showPi = false) {
 
@@ -89,6 +102,45 @@ module screw_hole_pad_front_face (pad_size = screw_hole_pad_size, pad_depth = sc
             cylinder(h = pad_depth + 2*e, d1 = d_bot, d2 = d_top, center = true);
 
     }
+}
+
+module pushbutton_dummy_model (footprint_xy = button_footprint_xy,
+                               footprint_z_height =  button_footprint_z_height
+                              ) {
+
+    half_z_height = (1/2)*footprint_z_height;
+
+    translate([0,0, half_z_height])
+        cube([footprint_xy, footprint_xy, footprint_z_height+2*e], center = true);
+
+}
+
+
+module pushbutton_3x_panel () {
+
+    pb_panel_length = 2*button_moat_distance + 2*button_seperation + button_footprint_xy;
+    pb_panel_width  = 2*button_moat_distance + button_footprint_xy;
+    pb_panel_z_height = button_footprint_z_height;
+
+    button_origin = [button1_translate_x , button1_translate_y];
+
+    button_positions = [[button_origin.x + 0,                   button_origin.y + 0],
+                        [button_origin.x + button_seperation,   button_origin.y + 0],
+                        [button_origin.x + 2*button_seperation, button_origin.y + 0]];
+
+
+    difference () {
+        // main panel bulk
+        cube([pb_panel_length, pb_panel_width, pb_panel_z_height]);
+
+        // cutout button areas
+        for (p = button_positions) {
+            translate([p[0], p[1], 0])
+                pushbutton_dummy_model();
+        }
+
+    }
+
 }
 
 module caseFrontPanel () {
@@ -198,6 +250,12 @@ module showTogether() {
                    0 + 20 - 20])
         rotate([0,0,0])
         caseFrontPanel();
+
+    scale ([1.0,1.0,1.0])
+        translate([panel_width - 82, panel_height, 0])
+        rotate([90, 0, 0])
+        pushbutton_3x_panel();
+
 
     *scale ([1.0,1.0,1.0])
         translate([0,0,-10])

@@ -406,7 +406,11 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
 
             // from https://www.thingiverse.com/thing:1701186/
             // "Raspberry Pi 3 Reference Design Model B Rpi Raspberrypi"
-            import ("Raspberry_Pi_3_Light_Version.STL");
+            if (DEVELOPING_HDMI_7inch_touchscreen__dummy) {
+                import ("Raspberry_Pi_3_Light_Version.STL");
+            } else {
+                import ("mockup/Raspberry_Pi_3_Light_Version.STL");
+            }
     }
 
     flex1_x =  pcb_rectangular_width - flex1_distance_from_edge - flex1_width;
