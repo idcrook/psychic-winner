@@ -25,9 +25,13 @@
 //   - Also, ABS slicer should be scaled ~1.2%-1.5% to account for intrinsic ABS
 //     shrinking properties
 //
-// 2020-Apr-28: Front face Test print 2, scale 101.35% ABS:
+// 2020-Apr-28: Front face Test print 2, scale 101.35% ABS Feedback:
 //
-//   - TBD
+//   - screw hole placements extended; lcd screen position/opening adjusted
+//
+// 2020-Apr-28: Front face Test print 3, scale 101.35% ABS Feedback:
+//
+//   - screw hole placements extended; lcd screen position/opening adjusted
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -55,7 +59,7 @@ panel_height  = pcb_height + 2*(case_top_bottom_edge_extra) + 2*panel_shell_thic
 lcd_cutout_x = lcd_width;
 lcd_cutout_y = lcd_height;
 lcd_translate_x = pcb_rectangular_x_origin + (1/2) * (panel_width - pcb_rectangular_width);
-lcd_translate_y = pcb_rectangular_y_origin + panel_shell_thickness + pcb_to_edge_lcd_bottom;
+lcd_translate_y = pcb_rectangular_y_origin + panel_shell_thickness + pcb_to_edge_lcd_bottom ;
 
 
 screw1_pos_x = first_hole_pos_x + panel_shell_thickness + case_side_edge_extra;
@@ -183,14 +187,15 @@ module showTogether() {
 
     %scale ([1.0,1.0,1.0])
         translate([(1/4)*case_side_edge_extra,
-                   (1/2)*case_top_bottom_edge_extra,0])
+                   (1/2)*case_top_bottom_edge_extra,
+                   0])
         rotate([0,0,0])
         monitorAndPiAssembly(showPi = !true);
 
     scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
-                   0])
+                   0 + 20 - 20])
         rotate([0,0,0])
         caseFrontPanel();
 
