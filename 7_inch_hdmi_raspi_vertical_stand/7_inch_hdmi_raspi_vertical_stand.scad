@@ -15,9 +15,19 @@
 //
 // Revisions/Notes:
 //
-//   2020-Apr-19: Initial dimensions
+// 2020-Apr-19: Initial dimensions
 //
-//   2020-Apr-19:
+// 2020-Apr-27: Front face Test print 1 Feedback
+//
+//   - in ABS, both X- and Y- dimensions were too short. Updated LCD monitor
+//     assembly dimensions to account.
+//
+//   - Also, ABS slicer should be scaled ~1.2%-1.5% to account for intrinsic ABS
+//     shrinking properties
+//
+// 2020-Apr-28: Front face Test print 2, scale 101.35% ABS:
+//
+//   - TBD
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -148,7 +158,7 @@ module caseFrontPanel () {
 
         // LCD usb keepout carve out
         lcdusb_x = 0 + panel_shell_thickness + 2*case_side_edge_extra + e;
-        lcdusb_y = 0 + panel_shell_thickness + case_top_bottom_edge_extra + 0.2 +
+        lcdusb_y = 0 + panel_shell_thickness + case_top_bottom_edge_extra + 0.25 +
             pcb_rectangular_y_origin + 32.5 ;
         lcdusb_z = (1/2) * (microusb_keepout_height) - pcb_thickness;
 

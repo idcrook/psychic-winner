@@ -29,11 +29,11 @@ e = 1/128; // small number
 DEVELOPING_HDMI_7inch_touchscreen__dummy = false;
 
 pcb_thickness = 1.7;
-pcb_width = 165.05;
-pcb_height = 122.2;
+pcb_width = 165.05 + 1.2;
+pcb_height = 122.9 + 0.5;
 
 pcb_rectangular_width = pcb_width;
-pcb_rectangular_height = 107.0;
+pcb_rectangular_height = 107.4;
 
 pcb_rectangular_x_origin = 0 ;
 pcb_rectangular_y_origin = (1/2) * (pcb_height - pcb_rectangular_height) ;
@@ -47,7 +47,7 @@ pcb_side_leg_width = pcb_corner_screw_pad_width;
 pcb_keepout_back = 4 - pcb_thickness;
 
 lcd_width = pcb_width;
-lcd_height = 101.3;
+lcd_height = 101.3 - 0.3;
 lcd_screen_inset_left   = 3.0;
 lcd_screen_inset_top    = 4.0;
 lcd_screen_inset_right  = 6.5;
@@ -340,6 +340,8 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
     hole_distance_y = hole_spacing_height;
     hole_D = hole_diameter;
 
+    echo("hole_distance_x = ", hole_distance_x );
+    echo("hole_distance_y = ", hole_distance_y );
 
     hole_origin = [origin_center_inset_x,  origin_center_inset_y];
 
