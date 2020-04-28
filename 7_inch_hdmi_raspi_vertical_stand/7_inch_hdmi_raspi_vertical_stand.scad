@@ -31,7 +31,12 @@
 //
 // 2020-Apr-28: Front face Test print 3, scale 101.35% ABS Feedback:
 //
-//   - screw hole placements were wrong direction, so reversed
+//   - screw hole placements were wrong direction, so reversed for print 4
+//
+// 2020-Apr-28: Front face Test print 4, scale 101.35% ABS
+//
+//   - placed 3X pushbutton area in side of front panel
+//
 //
 //
 //
@@ -74,6 +79,7 @@ screw_hole_pad_depth = 5.0;
 
 // pushbutton related
 button_footprint_xy = 6.25;
+button_footprint_xy_extra_y = 1.0;
 button_half_xy = (1/2)*button_footprint_xy;
 
 button_footprint_z_height = 3.5; // plastic base to metal faceplate
@@ -84,6 +90,12 @@ button_moat_distance = 2.5;
 // button centers
 button1_translate_x = button_moat_distance + button_half_xy;
 button1_translate_y = button_moat_distance - button_moat_distance + button_half_xy - e;
+
+pb_panel_length = 2*button_moat_distance + 2*button_seperation + button_footprint_xy;
+pb_panel_width  = 2*button_moat_distance + button_footprint_xy + button_footprint_xy_extra_y
+    - 2*button_moat_distance - 2*e;
+pb_panel_z_height = button_footprint_z_height;
+pb_panel_distance_from_corner = 82;
 
 
 module monitorAndPiAssembly (showPi = false) {
@@ -108,30 +120,26 @@ module screw_hole_pad_front_face (pad_size = screw_hole_pad_size, pad_depth = sc
 }
 
 module pushbutton_dummy_model (footprint_xy = button_footprint_xy,
-                               footprint_z_height =  button_footprint_z_height
-                              ) {
-
+                               footprint_z_height =  button_footprint_z_height ) {
+    extra_y = button_footprint_xy_extra_y;
     half_z_height = (1/2)*footprint_z_height;
 
     translate([0,0, half_z_height])
-        cube([footprint_xy, footprint_xy, footprint_z_height+2*e], center = true);
-
+        cube([footprint_xy, footprint_xy + extra_y, footprint_z_height+2*e], center = true);
 }
 
+module pushbutton_3x_panel_opening () {
+    translate([-e, -e, -e])
+        cube([pb_panel_length + 2*e,
+              pb_panel_width + 2*e,
+              pb_panel_z_height + 2*e]);
+}
 
 module pushbutton_3x_panel () {
-
-    pb_panel_length = 2*button_moat_distance + 2*button_seperation + button_footprint_xy;
-    pb_panel_width  = 2*button_moat_distance + button_footprint_xy - button_moat_distance;
-    pb_panel_z_height = button_footprint_z_height;
-
     button_origin = [button1_translate_x , button1_translate_y];
-
     button_positions = [[button_origin.x + 0,                   button_origin.y + 0],
                         [button_origin.x + button_seperation,   button_origin.y + 0],
                         [button_origin.x + 2*button_seperation, button_origin.y + 0]];
-
-
     difference () {
         // main panel bulk
         cube([pb_panel_length, pb_panel_width, pb_panel_z_height]);
@@ -141,7 +149,6 @@ module pushbutton_3x_panel () {
             translate([p[0], p[1], 0])
                 pushbutton_dummy_model();
         }
-
     }
 
 }
@@ -225,7 +232,24 @@ module caseFrontPanel () {
             rotate([-90, 0, 90])
             microusb_keepout(mycolor="Green");
 
+        // pushbutton "panel" area - opening
+        scale ([1.0,1.0,1.0])
+            translate([panel_width - pb_panel_distance_from_corner,
+                       panel_height,
+                       0])
+            rotate([90, 0, 0])
+            pushbutton_3x_panel_opening();
     }
+
+    // pushbutton "panel" area
+    scale ([1.0,1.0,1.0])
+        translate([panel_width - pb_panel_distance_from_corner,
+                   panel_height,
+                   0])
+        rotate([90, 0, 0])
+        pushbutton_3x_panel();
+
+
 
 }
 
@@ -253,11 +277,6 @@ module showTogether() {
                    0 + 20 - 20])
         rotate([0,0,0])
         caseFrontPanel();
-
-    scale ([1.0,1.0,1.0])
-        translate([panel_width - 82, panel_height - e, 0])
-        rotate([90, 0, 0])
-        pushbutton_3x_panel();
 
 
     *scale ([1.0,1.0,1.0])
