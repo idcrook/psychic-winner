@@ -76,11 +76,11 @@ button_half_xy = (1/2)*button_footprint_xy;
 button_footprint_z_height = 3.5; // plastic base to metal faceplate
 button_diameter = 3.5;
 button_seperation = 17.0; // center to center
-button_moat_distance = 3.0;
+button_moat_distance = 2.5;
 
 // button centers
 button1_translate_x = button_moat_distance + button_half_xy;
-button1_translate_y = button_moat_distance + button_half_xy;
+button1_translate_y = button_moat_distance - button_moat_distance + button_half_xy - e;
 
 
 module monitorAndPiAssembly (showPi = false) {
@@ -119,7 +119,7 @@ module pushbutton_dummy_model (footprint_xy = button_footprint_xy,
 module pushbutton_3x_panel () {
 
     pb_panel_length = 2*button_moat_distance + 2*button_seperation + button_footprint_xy;
-    pb_panel_width  = 2*button_moat_distance + button_footprint_xy;
+    pb_panel_width  = 2*button_moat_distance + button_footprint_xy - button_moat_distance;
     pb_panel_z_height = button_footprint_z_height;
 
     button_origin = [button1_translate_x , button1_translate_y];
@@ -252,7 +252,7 @@ module showTogether() {
         caseFrontPanel();
 
     scale ([1.0,1.0,1.0])
-        translate([panel_width - 82, panel_height, 0])
+        translate([panel_width - 82, panel_height - e, 0])
         rotate([90, 0, 0])
         pushbutton_3x_panel();
 
