@@ -107,7 +107,7 @@ module caseFrontPanel () {
     for (p = corner_hole_positions) {
         translate([p[0], p[1], pcb_thickness+ (1/2)*front_pad_depth ])
             screw_hole_pad_front_face(pad_size = screw_hole_pad_size,
-                                      pad_depth = front_pad_depth,
+                                      pad_depth = front_pad_depth + e,
                                       hole_diameter = hole_diameter);
     }
 
@@ -146,6 +146,16 @@ module caseFrontPanel () {
                          lcd_cutout_y,
                          thickness_face + 2*e],
                         radius=0.5, $fn=25);
+
+        // LCD usb keepout carve out
+        lcdusb_x = 0 + panel_shell_thickness + 2*case_side_edge_extra + e;
+        lcdusb_y = 0 + panel_shell_thickness + case_top_bottom_edge_extra + 0.2 +
+            pcb_rectangular_y_origin + 32.5 ;
+        lcdusb_z = (1/2) * (microusb_keepout_height) - pcb_thickness;
+
+        translate([lcdusb_x, lcdusb_y, lcdusb_z])
+            rotate([-90, 0, 90])
+            microusb_keepout(mycolor="Green");
 
     }
 

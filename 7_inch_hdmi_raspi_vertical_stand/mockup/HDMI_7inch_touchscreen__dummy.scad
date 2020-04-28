@@ -129,10 +129,10 @@ module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_th
 /* } */
 
 module microusb_keepout (height = microusb_keepout_height, width = microusb_keepout_width,
-                         length = microusb_keepout_z_height) {
+                         length = microusb_keepout_z_height, mycolor = "Red") {
     radius = 1.0;
 
-    color("Red")
+    color(mycolor)
     translate([0, 0, 0])
         linear_extrude(height = length, center = false)
         complexRoundSquare([width, height],
