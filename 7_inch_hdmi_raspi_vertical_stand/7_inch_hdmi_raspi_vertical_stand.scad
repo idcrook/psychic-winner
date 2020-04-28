@@ -45,8 +45,7 @@ panel_height  = pcb_height + 2*(case_top_bottom_edge_extra) + 2*panel_shell_thic
 lcd_cutout_x = lcd_width;
 lcd_cutout_y = lcd_height;
 lcd_translate_x = pcb_rectangular_x_origin + (1/2) * (panel_width - pcb_rectangular_width);
-lcd_translate_y = pcb_rectangular_y_origin +
-    (1/2) * (panel_height - pcb_rectangular_height) - pcb_to_edge_lcd_bottom;
+lcd_translate_y = pcb_rectangular_y_origin + panel_shell_thickness + pcb_to_edge_lcd_bottom;
 
 
 screw1_pos_x = first_hole_pos_x + panel_shell_thickness + case_side_edge_extra;
@@ -54,7 +53,7 @@ screw1_pos_y = first_hole_pos_y + panel_shell_thickness + case_top_bottom_edge_e
 screw_hole_distance_x = hole_spacing_width;
 screw_hole_distance_y = hole_spacing_height;
 screw_hole_diameter = hole_diameter;
-screw_hole_pad_size = 6.0;
+screw_hole_pad_size = 7.2;
 screw_hole_pad_depth = 5.0;
 
 module monitorAndPiAssembly (showPi = false) {
