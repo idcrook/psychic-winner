@@ -62,8 +62,8 @@ hole_center_x_from_origin = pcb_corner_screw_pad_width / 2;
 hole_center_y_from_origin = 4; // 3.1;
 first_hole_pos_x = hole_center_x_from_origin;
 first_hole_pos_y = hole_center_y_from_origin;
-spacing_width_fudge = +0.7;
-spacing_height_fudge = +1.05;
+spacing_width_fudge = -0.7;
+spacing_height_fudge = -1.05;
 hole_spacing_width = pcb_corner_screw_pad_to_screw_pad + 2 * (1/2) * pcb_corner_screw_pad_width + spacing_width_fudge ;
 hole_spacing_height = pcb_height - (2 * hole_center_y_from_origin) + spacing_height_fudge ;
 

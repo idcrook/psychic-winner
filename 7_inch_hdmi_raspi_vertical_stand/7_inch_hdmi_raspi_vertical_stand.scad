@@ -31,7 +31,10 @@
 //
 // 2020-Apr-28: Front face Test print 3, scale 101.35% ABS Feedback:
 //
-//   - screw hole placements extended; lcd screen position/opening adjusted
+//   - screw hole placements were wrong direction, so reversed
+//
+//
+//
 //
 ///////////////////////////////////////////////////////////////////////////////
 
