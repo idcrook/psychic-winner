@@ -20,6 +20,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+// on ubuntu: export OPENSCADPATH=/usr/share/openscad/libraries
 use <MCAD/2Dshapes.scad>
 
 e = 1/128; // small number
