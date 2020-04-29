@@ -100,14 +100,11 @@ pb_panel_distance_from_corner = 82;
 
 
 module monitorAndPiAssembly (showPi = false) {
-
-  HDMI_7inch_touchscreen__dummy(showPi);
-
+    HDMI_7inch_touchscreen__dummy(showPi);
 }
 
 module screw_hole_pad_front_face (pad_size = screw_hole_pad_size, pad_depth = screw_hole_pad_depth,
                                   hole_diameter = screw_hole_diameter) {
-
     // note: notice tapers smaller at d_top
     d_bot = hole_diameter;
     d_top = (95/100)*hole_diameter;
@@ -116,7 +113,22 @@ module screw_hole_pad_front_face (pad_size = screw_hole_pad_size, pad_depth = sc
         cube([pad_size, pad_size, pad_depth + e], center = true);
         translate([0,0,-e])
             cylinder(h = pad_depth + 2*e, d1 = d_bot, d2 = d_top, center = true);
+    }
+}
 
+module screw_hole_pad_rear_face_opening (pad_size = screw_hole_pad_size, pad_depth = screw_hole_pad_depth) {
+    cylinder(h = pad_depth + 2*e, d = pad_size, center = true);
+}
+
+module screw_hole_pad_rear_face (pad_size = screw_hole_pad_size, pad_depth = screw_hole_pad_depth,
+                                  hole_diameter = screw_hole_diameter) {
+    diameter = 1.05 * hole_diameter;
+
+    translate([0,0,-(1/2)*pad_depth])
+    difference () {
+        cube([pad_size, pad_size, pad_depth], center = true);
+        translate([0,0,-e])
+            cylinder(h = pad_depth + 2*e + 5, d = diameter, center = true);
     }
 }
 
@@ -153,24 +165,24 @@ module pushbutton_3x_panel () {
 
     translate([-e, -e, -2*e]) {
         difference () {
-        // main panel bulk
-        cube([pb_panel_length + 2*e, pb_panel_width, pb_panel_z_height]);
+            // main panel bulk
+            cube([pb_panel_length + 2*e, pb_panel_width, pb_panel_z_height]);
 
-        // cutout button areas
-        for (p = button_positions) {
-            translate([p[0], p[1], 0])
-                if (p[2]) {
-                    pushbutton_dummy_model(trapezoid = true);
-                } else {
-                    pushbutton_dummy_model();
-                }
+            // cutout button areas
+            for (p = button_positions) {
+                translate([p[0], p[1], 0])
+                    if (p[2]) {
+                        pushbutton_dummy_model(trapezoid = true);
+                    } else {
+                        pushbutton_dummy_model();
+                    }
+            }
         }
-    }
 
-    // "pad" past shell wall for contact with "legs" of pushbutton switch
-    slight_shift = 0.5;
-    translate([0, pb_panel_width, panel_shell_thickness - slight_shift])
-        cube([pb_panel_length, 2.0, 2*button_leg_entension + slight_shift]);
+        // "pad" past shell wall for contact with "legs" of pushbutton switch
+        slight_shift = 0.5;
+        translate([0, pb_panel_width, panel_shell_thickness - slight_shift])
+            cube([pb_panel_length, 2.0, 2*button_leg_entension + slight_shift]);
     }
 
 }
@@ -200,14 +212,12 @@ module caseFrontPanel () {
                              [hole_origin.x + 0,               hole_origin.y + hole_distance_y],
                              [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
 
-
     for (p = corner_hole_positions) {
         translate([p[0], p[1], pcb_thickness+ (1/2)*front_pad_depth ])
             screw_hole_pad_front_face(pad_size = screw_hole_pad_size,
                                       pad_depth = front_pad_depth + e,
                                       hole_diameter = hole_diameter);
     }
-
 
     // bulk - {bulk cutout, screen cutout}
     difference () {
@@ -270,19 +280,92 @@ module caseFrontPanel () {
                    0])
         rotate([90, 0, 0])
         pushbutton_3x_panel();
-
-
-
 }
 
 module caseBackPanel () {
 
-    cube([panel_width, panel_height, pcb_to_lcd_glass]);
+    chamfer_size_face = 2;
+    thickness_face = 2.0;
+    panel_z_height = pcb_to_lcd_glass + pcb_thickness;
+
+    scale_cutout = 0.95;
+    translate_scale_cutout = (1/2) * (1/scale_cutout - 1);
+    translate_x_cutout = translate_scale_cutout * panel_width;
+    translate_y_cutout = translate_scale_cutout * panel_height;
+
+    first_hole_center_inset_x = screw1_pos_x;
+    first_hole_center_inset_y = screw1_pos_y;
+    hole_distance_x = screw_hole_distance_x ;
+    hole_distance_y = screw_hole_distance_y ;
+    hole_diameter  = screw_hole_diameter ;
+
+    back_pad_depth = 2.0;
+
+    hole_origin = [first_hole_center_inset_x + (1/4)*case_side_edge_extra,
+                   first_hole_center_inset_y + (1/2)*case_top_bottom_edge_extra ];
+    corner_hole_positions = [[hole_origin.x + 0,               hole_origin.y + 0],
+                             [hole_origin.x + hole_distance_x, hole_origin.y + 0],
+                             [hole_origin.x + 0,               hole_origin.y + hole_distance_y],
+                             [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
+
+    //translate_pad_z_height = panel_z_height - back_pad_depth - pcb_thickness + 10;
+    translate_pad_z_height = panel_z_height - pcb_thickness;
+
+    // screw hole for attachment
+    for (p = corner_hole_positions) {
+        translate([p[0], p[1], translate_pad_z_height])
+            screw_hole_pad_rear_face(pad_size = screw_hole_pad_size + 5,
+                                     pad_depth = back_pad_depth + e,
+                                     hole_diameter = hole_diameter);
+    }
+
+    // bulk - {bulk cutout, screen cutout}
+    difference () {
+        intersection() {
+            // outline with rounded corners
+            translate([0, 0, 0])
+                cube_fillet([panel_width ,
+                             panel_height,
+                             panel_z_height], radius=4, $fn=25);
+
+            // add chamfer to bottom
+            scale ([1.0, 1.0, 1.0])
+                translate([0, 0, 0])
+                rotate([0,0,0])
+                chamferCube([panel_width, panel_height, panel_z_height + chamfer_size_face+ e], ch=chamfer_size_face);
+        }
+
+        // TODO: PCB + USB + power cutouts
+
+        // pi footprint cutout
+        translate([translate_x_cutout ,
+                   translate_y_cutout , thickness_face -e])
+            rotate([0,0,0])
+            cube_fillet([panel_width * scale_cutout ,
+                         panel_height * scale_cutout ,
+                         panel_z_height - thickness_face + 2*e],
+                        radius=4, $fn=25);
+
+
+        // screwdriver cutouts
+        for (p = corner_hole_positions) {
+        translate([p[0], p[1], 0 ])
+            screw_hole_pad_rear_face_opening(pad_size = screw_hole_pad_size,
+                                             pad_depth = 5 + e);
+        }
+
+        /* // LCD usb keepout carve out */
+        /* lcdusb_x = 0 + panel_shell_thickness + 2*case_side_edge_extra + e; */
+        /* lcdusb_y = 0 + panel_shell_thickness + case_top_bottom_edge_extra + 0.25 + */
+        /*     pcb_rectangular_y_origin + 32.5 ; */
+        /* lcdusb_z = (1/2) * (microusb_keepout_height) - pcb_thickness; */
+
+        /* translate([lcdusb_x, lcdusb_y, lcdusb_z]) */
+        /*     rotate([-90, 0, 90]) */
+        /*     microusb_keepout(mycolor="Green"); */
+    }
 
 }
-
-
-
 
 module showTogether() {
 
@@ -291,21 +374,21 @@ module showTogether() {
                    (1/2)*case_top_bottom_edge_extra,
                    0])
         rotate([0,0,0])
-        monitorAndPiAssembly(showPi = !true);
+        monitorAndPiAssembly(showPi = true);
 
-    scale ([1.0,1.0,1.0])
+    *%scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                    0 + 20 - 20])
         rotate([0,0,0])
         caseFrontPanel();
 
-
-    *scale ([1.0,1.0,1.0])
-        translate([0,0,-10])
+    scale ([1.0,1.0,1.0])
+        translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
+                   0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
+                   0 - 40])
         rotate([0,0,0])
         caseBackPanel();
-
 
 }
 
@@ -315,19 +398,19 @@ show_everything = true ;
 show_monitor_assembly = true ;
 
 if (show_everything) {
-  showTogether();
+    showTogether();
 } else {
 
-  // $preview requires version 2019.05
-  fn = $preview ? 30 : 100;
+    // $preview requires version 2019.05
+    fn = $preview ? 30 : 100;
 
-  if (show_monitor_assembly) {
+    if (show_monitor_assembly) {
 
-    scale ([1.0,1.0,1.0])
-        translate([0,0,0])
-        rotate([0,0,0])
-        monitorAndPiAssembly();
-  }
+        scale ([1.0,1.0,1.0])
+            translate([0,0,0])
+            rotate([0,0,0])
+            monitorAndPiAssembly();
+    }
 
 
 }
