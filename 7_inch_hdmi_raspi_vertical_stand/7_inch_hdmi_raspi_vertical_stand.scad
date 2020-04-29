@@ -37,6 +37,11 @@
 //
 //   - placed 3X pushbutton area in side of front panel
 //
+// 2020-Apr-29: Rear face Test print 1, scale 101.35% ABS
+//
+// 2020-Apr-29: Front face Test print 5, scale 101.35% ABS
+//
+//   - pushbutton related changes
 //
 //
 //
