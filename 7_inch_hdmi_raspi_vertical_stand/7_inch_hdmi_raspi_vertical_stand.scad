@@ -98,6 +98,13 @@ pb_panel_width  = 2*button_moat_distance + button_footprint_xy + button_footprin
 pb_panel_z_height = button_footprint_z_height;
 pb_panel_distance_from_corner = 82;
 
+// PCB and Pi footprints
+rear_pi_width         = pi_width  + 20;
+rear_pi_height        = pi_height + 20;
+
+rear_pi_pcb_rect_inset_right = screw1_pos_x - first_hole_pos_x + (1/2) * (pcb_rectangular_width - rear_pi_width);
+rear_pi_pcb_rect_inset_top =  screw1_pos_y  - first_hole_pos_y + (1/2) * (pcb_height - rear_pi_height)  ;
+
 
 module monitorAndPiAssembly (showPi = false) {
     HDMI_7inch_touchscreen__dummy(showPi);
@@ -117,7 +124,8 @@ module screw_hole_pad_front_face (pad_size = screw_hole_pad_size, pad_depth = sc
 }
 
 module screw_hole_pad_rear_face_opening (pad_size = screw_hole_pad_size, pad_depth = screw_hole_pad_depth) {
-    cylinder(h = pad_depth + 2*e, d = pad_size, center = true);
+    cube([pad_size, pad_size, pad_depth + e], center = true);
+    //cylinder(h = pad_depth + 2*e, d = pad_size, center = true);
 }
 
 module screw_hole_pad_rear_face (pad_size = screw_hole_pad_size, pad_depth = screw_hole_pad_depth,
@@ -308,8 +316,10 @@ module caseBackPanel () {
                              [hole_origin.x + 0,               hole_origin.y + hole_distance_y],
                              [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
 
-    //translate_pad_z_height = panel_z_height - back_pad_depth - pcb_thickness + 10;
-    translate_pad_z_height = panel_z_height - pcb_thickness;
+    translate_pad_z_height = panel_z_height;
+
+    translate_x_pi_cutout = rear_pi_pcb_rect_inset_right;
+    translate_y_pi_cutout = rear_pi_pcb_rect_inset_top;
 
     // screw hole for attachment
     for (p = corner_hole_positions) {
@@ -335,9 +345,9 @@ module caseBackPanel () {
                 chamferCube([panel_width, panel_height, panel_z_height + chamfer_size_face+ e], ch=chamfer_size_face);
         }
 
-        // TODO: PCB + USB + power cutouts
+        // TODO: PCB + power cutouts
 
-        // pi footprint cutout
+        // bulk cutout
         translate([translate_x_cutout ,
                    translate_y_cutout , thickness_face -e])
             rotate([0,0,0])
@@ -346,23 +356,63 @@ module caseBackPanel () {
                          panel_z_height - thickness_face + 2*e],
                         radius=4, $fn=25);
 
+        // pi footprint cutout
+        translate([translate_x_pi_cutout ,
+                   translate_y_pi_cutout , -e])
+            rotate([0,0,0])
+            cube([rear_pi_width ,
+                  rear_pi_height ,
+                  panel_z_height ]);
+
+
+        // pcb footprint cutout
+        translate([panel_shell_thickness + case_side_edge_extra,
+                  2*panel_shell_thickness + pcb_to_edge_lcd_bottom , -e])
+            rotate([0,0,0])
+            cube([pcb_rectangular_width ,
+                  pcb_rectangular_height ,
+                  panel_z_height ]);
+
+
+        // more cutout
+        overhang = 0.7;
+        translate([panel_shell_thickness + overhang,
+                   panel_shell_thickness + overhang , -e])
+            rotate([0,0,0])
+            cube([panel_width - 2*panel_shell_thickness - 2*overhang ,
+                  panel_height - 2*panel_shell_thickness - 2*overhang ,
+                  panel_z_height - panel_shell_thickness]);
+
 
         // screwdriver cutouts
         for (p = corner_hole_positions) {
         translate([p[0], p[1], 0 ])
-            screw_hole_pad_rear_face_opening(pad_size = screw_hole_pad_size,
+            screw_hole_pad_rear_face_opening(pad_size = 8,
                                              pad_depth = 5 + e);
         }
 
-        /* // LCD usb keepout carve out */
-        /* lcdusb_x = 0 + panel_shell_thickness + 2*case_side_edge_extra + e; */
-        /* lcdusb_y = 0 + panel_shell_thickness + case_top_bottom_edge_extra + 0.25 + */
-        /*     pcb_rectangular_y_origin + 32.5 ; */
-        /* lcdusb_z = (1/2) * (microusb_keepout_height) - pcb_thickness; */
+        // LCD usb keepout carve out
+        rear_lcdusb_x = 0 + panel_shell_thickness + 2*case_side_edge_extra + e;
+        rear_lcdusb_y = 0 + panel_shell_thickness + case_top_bottom_edge_extra + 0.25 +
+            pcb_rectangular_y_origin + 32.5 ;
+        rear_lcdusb_z =  (microusb_keepout_height) + 2 + pcb_thickness;
 
-        /* translate([lcdusb_x, lcdusb_y, lcdusb_z]) */
-        /*     rotate([-90, 0, 90]) */
-        /*     microusb_keepout(mycolor="Green"); */
+        translate([rear_lcdusb_x, rear_lcdusb_y, rear_lcdusb_z])
+            rotate([-90, 0, 90])
+            microusb_keepout(mycolor="Green");
+
+
+        // power usb keepout carve out
+        rear_powerusb_x = panel_width - ( panel_shell_thickness + case_side_edge_extra + pipower_distance_from_edge + microusb_keepout_width );
+        rear_powerusb_y = 10 + 2.3;
+        /* rear_powerusb_z =  (microusb_keepout_height) + 2 + pcb_thickness; */
+        rear_powerusb_z = 0 -(2.3);
+
+        translate([rear_powerusb_x, rear_powerusb_y, rear_powerusb_z])
+            rotate([90, 0, 0])
+            microusb_keepout(mycolor="Green");
+
+
     }
 
 }
@@ -383,10 +433,12 @@ module showTogether() {
         rotate([0,0,0])
         caseFrontPanel();
 
+    panel_z_height = pcb_to_lcd_glass + pcb_thickness;
+
     scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
-                   0 - 40])
+                   0 - 40 + 40 - panel_z_height ])
         rotate([0,0,0])
         caseBackPanel();
 

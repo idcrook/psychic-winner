@@ -456,10 +456,6 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
             microusb_keepout();
     }
 
-
-    // TODO: Raspi keepout area
-
-
 }
 
 
