@@ -85,7 +85,7 @@ button_half_xy = (1/2)*button_footprint_xy;
 button_footprint_z_height = 3.5; // plastic base to metal faceplate
 button_leg_entension = 3.0;
 button_diameter = 3.5;
-button_seperation = 17.0; // center to center
+button_seperation = 2.54 * 6; // 15.24mm, multiple of 0.1", center to center,
 button_moat_distance = 2.5;
 
 // button centers
