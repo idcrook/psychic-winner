@@ -121,12 +121,20 @@ module screw_hole_pad_front_face (pad_size = screw_hole_pad_size, pad_depth = sc
 }
 
 module pushbutton_dummy_model (footprint_xy = button_footprint_xy,
-                               footprint_z_height =  button_footprint_z_height ) {
+                               footprint_z_height =  button_footprint_z_height,
+                               trapezoid = false) {
     extra_y = button_footprint_xy_extra_y;
     half_z_height = (1/2)*footprint_z_height;
 
     translate([0, + (1/2)*extra_y, half_z_height])
-        cube([footprint_xy, footprint_xy + extra_y, footprint_z_height+2*e], center = true);
+        if (!trapezoid) {
+            cube([footprint_xy, footprint_xy + extra_y, footprint_z_height+2*e], center = true);
+        } else {
+            rotate([90,0,0])
+                // the scale here determines how much of fan "wedge" shape. 1.0 is rectangular
+                linear_extrude(height=footprint_xy + extra_y + 2*e, center=true, scale=1.08)
+                square([footprint_xy, footprint_z_height + 2*e], center = true);
+        }
 }
 
 module pushbutton_3x_panel_opening () {
@@ -139,19 +147,23 @@ module pushbutton_3x_panel_opening () {
 
 module pushbutton_3x_panel () {
     button_origin = [button1_translate_x , button1_translate_y];
-    button_positions = [[button_origin.x + 0,                   button_origin.y + 0],
-                        [button_origin.x + button_seperation,   button_origin.y + 0],
-                        [button_origin.x + 2*button_seperation, button_origin.y + 0]];
+    button_positions = [[button_origin.x + 0,                   button_origin.y + 0, false],
+                        [button_origin.x + button_seperation,   button_origin.y + 0, true],
+                        [button_origin.x + 2*button_seperation, button_origin.y + 0, false]];
 
-    translate([-e, -e, -e]) {
+    translate([-e, -e, -2*e]) {
         difference () {
         // main panel bulk
-        cube([pb_panel_length +2*e, pb_panel_width, pb_panel_z_height]);
+        cube([pb_panel_length + 2*e, pb_panel_width, pb_panel_z_height]);
 
         // cutout button areas
         for (p = button_positions) {
             translate([p[0], p[1], 0])
-                pushbutton_dummy_model();
+                if (p[2]) {
+                    pushbutton_dummy_model(trapezoid = true);
+                } else {
+                    pushbutton_dummy_model();
+                }
         }
     }
 
