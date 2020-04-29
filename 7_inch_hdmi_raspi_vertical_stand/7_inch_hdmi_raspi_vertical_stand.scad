@@ -83,6 +83,7 @@ button_footprint_xy_extra_y = 1.0;
 button_half_xy = (1/2)*button_footprint_xy;
 
 button_footprint_z_height = 3.5; // plastic base to metal faceplate
+button_leg_entension = 3.0;
 button_diameter = 3.5;
 button_seperation = 17.0; // center to center
 button_moat_distance = 2.5;
@@ -124,15 +125,16 @@ module pushbutton_dummy_model (footprint_xy = button_footprint_xy,
     extra_y = button_footprint_xy_extra_y;
     half_z_height = (1/2)*footprint_z_height;
 
-    translate([0,0, half_z_height])
+    translate([0, + (1/2)*extra_y, half_z_height])
         cube([footprint_xy, footprint_xy + extra_y, footprint_z_height+2*e], center = true);
 }
 
 module pushbutton_3x_panel_opening () {
-    translate([-e, -e, -e])
+    translate([-e, -e, -e]) {
         cube([pb_panel_length + 2*e,
               pb_panel_width + 2*e,
               pb_panel_z_height + 2*e]);
+    }
 }
 
 module pushbutton_3x_panel () {
@@ -140,15 +142,23 @@ module pushbutton_3x_panel () {
     button_positions = [[button_origin.x + 0,                   button_origin.y + 0],
                         [button_origin.x + button_seperation,   button_origin.y + 0],
                         [button_origin.x + 2*button_seperation, button_origin.y + 0]];
-    difference () {
+
+    translate([-e, -e, -e]) {
+        difference () {
         // main panel bulk
-        cube([pb_panel_length, pb_panel_width, pb_panel_z_height]);
+        cube([pb_panel_length +2*e, pb_panel_width, pb_panel_z_height]);
 
         // cutout button areas
         for (p = button_positions) {
             translate([p[0], p[1], 0])
                 pushbutton_dummy_model();
         }
+    }
+
+    // "pad" past shell wall for contact with "legs" of pushbutton switch
+    slight_shift = 0.5;
+    translate([0, pb_panel_width, panel_shell_thickness - slight_shift])
+        cube([pb_panel_length, 2.0, 2*button_leg_entension + slight_shift]);
     }
 
 }
@@ -264,7 +274,7 @@ module caseBackPanel () {
 
 module showTogether() {
 
-    %scale ([1.0,1.0,1.0])
+    *%scale ([1.0,1.0,1.0])
         translate([(1/4)*case_side_edge_extra,
                    (1/2)*case_top_bottom_edge_extra,
                    0])
