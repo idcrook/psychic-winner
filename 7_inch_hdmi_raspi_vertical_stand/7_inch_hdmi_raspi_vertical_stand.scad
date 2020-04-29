@@ -83,7 +83,7 @@ button_footprint_xy_extra_y = 1.0;
 button_half_xy = (1/2)*button_footprint_xy;
 
 button_footprint_z_height = 3.5; // plastic base to metal faceplate
-button_leg_entension = 3.0;
+button_leg_entension = 3.5;
 button_diameter = 3.5;
 button_seperation = 2.54 * 6; // 15.24mm, multiple of 0.1", center to center,
 button_moat_distance = 2.5;
@@ -192,7 +192,16 @@ module pushbutton_3x_panel () {
         // "pad" past shell wall for contact with "legs" of pushbutton switch
         slight_shift = 0.5;
         translate([0, pb_panel_width, panel_shell_thickness - slight_shift])
-            cube([pb_panel_length, 2.0, 2*button_leg_entension + slight_shift]);
+            cube([pb_panel_length, 2.0, button_leg_entension + slight_shift]);
+
+        // "stop" for one side of legs
+        stop_thickness = 2.0;
+        stop_height = (1/2)*button_footprint_xy;
+        stop_open_length = button_leg_entension;
+
+        translate([0, pb_panel_width - stop_height, 2*(panel_shell_thickness)-e ])
+            cube([pb_panel_length, stop_height + 2.0, stop_thickness]);
+
     }
 
 }
@@ -364,8 +373,6 @@ module caseBackPanel () {
                 chamferCube([panel_width, panel_height, panel_z_height + chamfer_size_face+ e], ch=chamfer_size_face);
         }
 
-        // TODO: PCB + power cutouts
-
         // bulk cutout
         translate([translate_x_cutout ,
                    translate_y_cutout , thickness_face -e])
@@ -438,7 +445,7 @@ module caseBackPanel () {
 
 module showTogether() {
 
-    %scale ([1.0,1.0,1.0])
+    scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                    0 + 20 - 20])
@@ -454,7 +461,7 @@ module showTogether() {
 
     panel_z_height = rear_panel_z_height ;
 
-    scale ([1.0,1.0,1.0])
+    *%scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                    0 - 40 + 40 - panel_z_height ])
@@ -482,6 +489,5 @@ if (show_everything) {
             rotate([0,0,0])
             monitorAndPiAssembly();
     }
-
 
 }
