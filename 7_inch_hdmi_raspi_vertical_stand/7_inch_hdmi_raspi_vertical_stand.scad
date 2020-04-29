@@ -105,6 +105,8 @@ rear_pi_height        = pi_height + 20;
 rear_pi_pcb_rect_inset_right = screw1_pos_x - first_hole_pos_x + (1/2) * (pcb_rectangular_width - rear_pi_width);
 rear_pi_pcb_rect_inset_top =  screw1_pos_y  - first_hole_pos_y + (1/2) * (pcb_height - rear_pi_height)  ;
 
+rear_panel_z_height = pcb_to_lcd_glass ;
+
 
 module monitorAndPiAssembly (showPi = false) {
     HDMI_7inch_touchscreen__dummy(showPi);
@@ -194,6 +196,13 @@ module pushbutton_3x_panel () {
     }
 
 }
+
+module pushbutton_3x_panel_shelf (thickness = 2.5) {
+    //translate([0, pb_panel_width , thickness])
+    translate([0, - (panel_shell_thickness + button_leg_entension), (-thickness)])
+        cube([pb_panel_length, 2*button_leg_entension, thickness], center = false);
+}
+
 
 module caseFrontPanel () {
     chamfer_size_face = 2;
@@ -294,7 +303,7 @@ module caseBackPanel () {
 
     chamfer_size_face = 2;
     thickness_face = 2.0;
-    panel_z_height = pcb_to_lcd_glass + pcb_thickness;
+    panel_z_height = rear_panel_z_height;
 
     scale_cutout = 0.95;
     translate_scale_cutout = (1/2) * (1/scale_cutout - 1);
@@ -328,6 +337,16 @@ module caseBackPanel () {
                                      pad_depth = back_pad_depth + e,
                                      hole_diameter = hole_diameter);
     }
+
+    // pushbutton "panel" area - shelf
+    shelf_thickness = 2.0;
+
+    scale ([1.0,1.0,1.0])
+        translate([panel_width - pb_panel_distance_from_corner,
+                   panel_height - 0,
+                   panel_z_height])
+        rotate([0, 0, 0])
+        pushbutton_3x_panel_shelf(thickness = shelf_thickness);
 
     // bulk - {bulk cutout, screen cutout}
     difference () {
@@ -406,7 +425,7 @@ module caseBackPanel () {
         rear_powerusb_x = panel_width - ( panel_shell_thickness + case_side_edge_extra + pipower_distance_from_edge + microusb_keepout_width );
         rear_powerusb_y = 10 + 2.3;
         /* rear_powerusb_z =  (microusb_keepout_height) + 2 + pcb_thickness; */
-        rear_powerusb_z = 0 -(2.3);
+        rear_powerusb_z = 0 -(2.3) - 4.5;
 
         translate([rear_powerusb_x, rear_powerusb_y, rear_powerusb_z])
             rotate([90, 0, 0])
@@ -419,6 +438,13 @@ module caseBackPanel () {
 
 module showTogether() {
 
+    %scale ([1.0,1.0,1.0])
+        translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
+                   0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
+                   0 + 20 - 20])
+        rotate([0,0,0])
+        caseFrontPanel();
+
     *%scale ([1.0,1.0,1.0])
         translate([(1/4)*case_side_edge_extra,
                    (1/2)*case_top_bottom_edge_extra,
@@ -426,14 +452,7 @@ module showTogether() {
         rotate([0,0,0])
         monitorAndPiAssembly(showPi = true);
 
-    *%scale ([1.0,1.0,1.0])
-        translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
-                   0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
-                   0 + 20 - 20])
-        rotate([0,0,0])
-        caseFrontPanel();
-
-    panel_z_height = pcb_to_lcd_glass + pcb_thickness;
+    panel_z_height = rear_panel_z_height ;
 
     scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
