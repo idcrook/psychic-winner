@@ -43,6 +43,9 @@
 //
 //   - pushbutton related changes
 //
+// 2020-Apr-29: Rear face Test print 2, scale 101.35% ABS
+//
+//   - shortened rear cover height; changed Power USB opening
 //
 //
 //
@@ -159,7 +162,7 @@ module pushbutton_dummy_model (footprint_xy = button_footprint_xy,
         } else {
             rotate([90,0,0])
                 // the scale here determines how much of fan "wedge" shape. 1.0 is rectangular
-                linear_extrude(height=footprint_xy + extra_y + 2*e, center=true, scale=1.08)
+                linear_extrude(height=footprint_xy + extra_y + 2*e, center=true, scale=1.035)
                 square([footprint_xy, footprint_z_height + 2*e], center = true);
         }
 }
@@ -175,7 +178,7 @@ module pushbutton_3x_panel_opening () {
 module pushbutton_3x_panel () {
     button_origin = [button1_translate_x , button1_translate_y];
     button_positions = [[button_origin.x + 0,                   button_origin.y + 0, false],
-                        [button_origin.x + button_seperation,   button_origin.y + 0, true],
+                        [button_origin.x + button_seperation,   button_origin.y + 0, false],
                         [button_origin.x + 2*button_seperation, button_origin.y + 0, false]];
 
     translate([-e, -e, -2*e]) {
@@ -437,10 +440,11 @@ module caseBackPanel () {
         rear_powerusb_x = panel_width - ( panel_shell_thickness + case_side_edge_extra + pipower_distance_from_edge + microusb_keepout_width );
         rear_powerusb_y = 10 + 2.3;
         /* rear_powerusb_z =  (microusb_keepout_height) + 2 + pcb_thickness; */
-        rear_powerusb_z = 0 -(2.3) - 4.5;
+        rear_powerusb_z = 0 + 3.5;
 
         translate([rear_powerusb_x, rear_powerusb_y, rear_powerusb_z])
             rotate([90, 0, 0])
+            scale([0.5, 0.6, 1])
             microusb_keepout(mycolor="Green");
 
 
@@ -450,7 +454,7 @@ module caseBackPanel () {
 
 module showTogether() {
 
-    scale ([1.0,1.0,1.0])
+    *%scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                    0 + 20 - 20])
@@ -466,7 +470,7 @@ module showTogether() {
 
     panel_z_height = rear_panel_z_height ;
 
-    *%scale ([1.0,1.0,1.0])
+    scale ([1.0,1.0,1.0])
         translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                    0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                    0 - 40 + 40 - panel_z_height ])
