@@ -77,6 +77,8 @@ sensor_housing_lock_screw_clamp_z_height = 5.2;
 lock_screw_clamp_base_width = 10.16;
 lock_screw_clamp_gap_width = 0.8;
 tripod_mount_base_width = 13.97;
+tripod_mount_base_height = 13.0; // from base to focus ring outer diameter
+tripod_mount_farthest_width = 24.4;
 
 module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
     translate([0,0,-e])
@@ -169,11 +171,23 @@ module sensor_housing_dust_cap (od = sensor_dust_cap_outer_diameter,
     }
 }
 
+module tripod_mount ( width = tripod_mount_base_width,
+                      height = tripod_mount_base_height,
+                      wrap_diameter = 0,
+                      thickness = sensor_housing_tripod_mount_z_height) {
+
+    translate([0, (1/2)*height, (1/2)*thickness])
+        cube([width, height, thickness], center = true);
+}
+
+
 module sensor_housing (install_ccs_adapter = true,
-                       show_dust_cap = true) {
+                       show_dust_cap = true,
+                       install_tripod_mount = true) {
 
     installCcsAdapter = install_ccs_adapter;
     showDustCap = show_dust_cap;
+    installTripodMount = install_tripod_mount;
 
     base_diameter = sensor_housing_base_outer_diameter;
     base_height = sensor_housing_base_z_height;
@@ -192,6 +206,8 @@ module sensor_housing (install_ccs_adapter = true,
     dust_cap_z_translate_w_adapter = adapter_ring_z_translate + adapter_ring_z_height;
     dust_cap_z_translate_wo_adapter = focus_ring_z_translate + focus_ring_z_height;
 
+    tripod_mount_pos_x = 0;
+    tripod_mount_pos_y = - ((1/2)* base_diameter  + tripod_mount_base_height);
 
     union() {
         // main base
@@ -217,6 +233,11 @@ module sensor_housing (install_ccs_adapter = true,
                     sensor_housing_dust_cap();
             }
         }
+    }
+
+    if (installTripodMount) {
+        translate([tripod_mount_pos_x, tripod_mount_pos_y, 0])
+            tripod_mount();
     }
 
 }
