@@ -6,7 +6,12 @@
 // Revisions/Notes:
 //
 //   2020-May-02: Initial PCB dimensions
+//   2020-May-03: Add notches to rings, add keepout regions to back of PCB
 //
+//
+// TODO:
+//
+//   Refine tripod mount
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -18,11 +23,19 @@ e = 1/128; // small number
 // If true, model is instantiated by this file
 DEVELOPING_HQ_Camera_model = !false;
 
-pcb_thickness = 1.4;
+pcb_thickness = 1.4 + 0.1; // measured closer to 1.5
 pcb_width = 38.0;
 pcb_height = 38.0;
+
 pcb_back_sensor_housing_fastener_z_height = 2.8;
-pcb_keepout_back = pcb_back_sensor_housing_fastener_z_height;
+pcb_back_sensor_housing_fastener_washer_diameter = 5.0;
+pcb_back_sensor_housing_fastener_diameter = 3.7;
+left_fastener_x_inset = 4.6;
+right_fastener_x_inset = 4.0;
+fastener_x_radius = (1/2)*pcb_back_sensor_housing_fastener_washer_diameter;
+fastener_y_center = (1/2) * pcb_height;
+
+pcb_keepout_back = 1.5; //surface mount components
 pcb_corner_radius = 1.8;
 
 hole_diameter = 2.5;
@@ -33,21 +46,16 @@ hole_spacing = pcb_width - (2*hole_pos_x);
 spacer_pos_x = hole_pos_x;
 spacer_pos_y = hole_pos_y;
 keepout_spacer_half = spacer_pos_x;
-keepout_spacer_side = 2 * keepout_spacer_half;
+keepout_spacer_side = 2.0 * keepout_spacer_half;
 keepout_spacing = pcb_width - 2*spacer_pos_x;
 
 
-csi_connector_length = 10;
-csi_connector_width = 5;
-csi_connector_above_board = 6.1;
-csi_from_x = 5.5;
-csi_from_y = 0.2;
-csi_pth_protrusion_length = 7.3;
-csi_pth_protrusion_width = 1.4;
-csi_pth_protrusion_height = 2.5;
-csi_pth_protrusion_from_x = 7.3;
-csi_pth_protrusion_from_y = 2.1;
-csi_pth_protrusion_from_tol = 0.3;
+csi_connector_width = 23.5;
+csi_fpc_width = 16.0;
+csi_connector_height = 8.0;
+csi_connector_above_board = 4.5 - pcb_thickness;
+csi_from_x = (1/2)* ( pcb_width - csi_connector_width);
+csi_from_y = 0.0;
 
 sensor_center_pos_x = (1/2)*pcb_width;
 sensor_center_pos_y = (1/2)*pcb_height;
@@ -113,26 +121,42 @@ module keepout_spacer (block_side = keepout_spacer_side , block_height = pcb_kee
     }
 }
 
+module fastener_model (diameter1 = pcb_back_sensor_housing_fastener_washer_diameter,
+                         diameter2 = pcb_back_sensor_housing_fastener_diameter,
+                         z_height = pcb_back_sensor_housing_fastener_z_height) {
 
-module csi_connector (length = csi_connector_length, width = csi_connector_width, height = csi_connector_above_board) {
+    washer_height = 0.8;
 
-    pth_length = csi_pth_protrusion_length + 2*csi_pth_protrusion_from_tol;
-    pth_width = csi_pth_protrusion_width + 2*csi_pth_protrusion_from_tol;
-    pth_height = csi_pth_protrusion_height;
-    pth_width_wires_offset = (3/5) * csi_connector_width; // not centered half-way in connector
-    pth_t_x = (1/2) * (length - pth_length);
-    pth_t_y = pth_width_wires_offset - (1/2) * (pth_width);
-    pth_t_z = pcb_thickness;
+    translate([0,0,-z_height])
+        linear_extrude(height = z_height + 2*e, center = false) {
+        circle(d = diameter2);
+    }
+    translate([0,0,-washer_height])
+        linear_extrude(height =  washer_height + 2*e, center = false) {
+        circle(d = diameter1);
+    }
+}
 
-    // connector insert
-    mirror([0,0,1])
-        cube([length, width, height], center = false);
 
-    // through-hole wire protrusion
+module csi_connector_footprint (width = csi_connector_width, height = csi_connector_height, z_height = csi_connector_above_board,
+                                fpc_width = csi_fpc_width ) {
+
+    // assume flat panel cable is centered
+    fpc_x_translate = (1/2)*(width-fpc_width);
+    fpc_y_translate = -5.0;
+    fpc_z_translate = (3/4)*z_height;
+
+    fpc_thickness = 0.1;
+
+    // connector on PCB
     color("Red")
-        translate([pth_t_x, pth_t_y, pth_t_z])
-        cube([pth_length, pth_width, pth_height], center = false);
+    mirror([0,0,0])
+        cube([width, height, z_height], center = false);
 
+    // flex cable
+    color("Blue")
+        translate([fpc_x_translate, fpc_y_translate, fpc_z_translate])
+        cube([fpc_width, -fpc_y_translate+1, fpc_thickness], center = false);
 
 }
 
@@ -168,15 +192,14 @@ module sensor_housing_focus_ring (od = sensor_focus_ring_outer_diameter,
             linear_extrude(height = h + 2*e, center = false)
         {
             // inner opening
-            circle(d = id, $fn = 100);
+            circle(d = id, $fn = 40);
 
             // notches
             for (angle = angles) {
-                //echo("angle = ", angle);
                 x = effective_radial_length * cos(angle) ;
                 y = effective_radial_length * sin(angle) ;
                 translate([x, y, 0])
-                    circle(d = notch_diameter);
+                    circle(d = notch_diameter, $fn = 20);
             }
         }
     }
@@ -207,7 +230,6 @@ module sensor_housing_adapter_ring (od = sensor_ccs_adapter_outer_diameter,
 
             // notches
             for (angle = angles) {
-                //echo("angle = ", angle);
                 x = effective_radial_length * cos(angle) ;
                 y = effective_radial_length * sin(angle) ;
                 translate([x, y, 0])
@@ -354,16 +376,15 @@ module raspi_hq_camera_model () {
     keepout_offset = keepout_spacer_half;
     keepout_distance = keepout_spacing;
 
-    /* csi_x_pos = pcb_width - csi_from_x - csi_connector_length; */
-    /* csi_y_pos = 0 + csi_from_y; */
+    csi_x_pos = csi_from_x;
+    csi_y_pos = csi_from_y;
+    csi_z_pos = -(csi_connector_above_board);
 
     sensor_x_pos = sensor_center_pos_x;
     sensor_y_pos = sensor_center_pos_y;
     sensor_z_pos = pcb_thickness;
 
-
     hole_origin = [origin_center_inset_x,  origin_center_inset_y];
-    //spacer_origin = [keepout_center_inset_x,  keepout_center_inset_y];
     spacer_origin = [0,0];
 
     corner_hole_positions = [[hole_origin.x + 0,             hole_origin.y + 0],
@@ -376,6 +397,12 @@ module raspi_hq_camera_model () {
                                [spacer_origin.x + 0,                spacer_origin.y + keepout_distance],
                                [spacer_origin.x + keepout_distance, spacer_origin.y + keepout_distance]];
 
+    // looking from back these are opposite
+    left_fastener_x_translate = 0 + (right_fastener_x_inset + fastener_x_radius) ;
+    right_fastener_x_translate = 0 + pcb_width - (left_fastener_x_inset + fastener_x_radius );
+
+    fastener_positions = [[left_fastener_x_translate, fastener_y_center],
+                          [right_fastener_x_translate, fastener_y_center]];
 
     difference() {
         union() {
@@ -388,10 +415,10 @@ module raspi_hq_camera_model () {
                                    [radius, radius],
                                    center = false);
 
-            // TODO: CSI connector ("back" of PCB)
-            /* *translate([csi_x_pos, csi_y_pos, 0]) { */
-            /*     csi_connector(); */
-            /* } */
+            // CSI connector ("back" of PCB)
+            translate([csi_x_pos, csi_y_pos, csi_z_pos]) {
+                csi_connector_footprint();
+            }
 
             // sensor housing ("front" of PCB)
             translate([sensor_x_pos, sensor_y_pos, sensor_z_pos]) {
@@ -399,12 +426,26 @@ module raspi_hq_camera_model () {
                     sensor_housing();
             }
 
-            // spacers
-            color("Green")
+            // keepout spacers around screws
+            %color("Green")
                 mirror([0,0,1])
                 for (p = corner_spacer_positions) {
                     translate([p[0] , p[1] , 0])
                         keepout_spacer();
+                }
+
+            // main PCB backside keepout
+            %translate([0,0,-pcb_thickness])
+                linear_extrude(height = pcb_keepout_back, center = false)
+                square([pcb_width, pcb_height] , center = false);
+
+
+            // keepout spacers around screws
+            color("Silver")
+                mirror([0,0,0])
+                for (p = fastener_positions) {
+                    translate([p[0] , p[1] , 0])
+                        fastener_model();
                 }
         }
 
@@ -428,4 +469,7 @@ $fn = $preview ? 30 : 100;
 
 if (DEVELOPING_HQ_Camera_model)  {
     raspi_hq_camera_model();
+    /* lens_6mm_model(); */
+    /* lens_16mm_model(); */
+
 }
