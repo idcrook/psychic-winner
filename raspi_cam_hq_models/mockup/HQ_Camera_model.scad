@@ -55,10 +55,15 @@ sensor_width_x = 8.5;
 sensor_width_y = sensor_width_x;
 
 sensor_opening_diameter = 22.4;
+
 sensor_focus_ring_outer_diameter = 36.0;
 sensor_focus_ring_inner_diameter = sensor_opening_diameter;
+sensor_focus_ring_notches = 48;
+
 sensor_ccs_adapter_outer_diameter = 30.75;
 sensor_ccs_adapter_inner_diameter = 24.1;
+sensor_ccs_adapter_notches = 28;
+
 sensor_dust_cap_outer_diameter = 29.3;
 sensor_dust_cap_inner_diameter = 16.6;
 sensor_dust_cap_inner_diameter_upper = 22.4;
@@ -85,6 +90,14 @@ lock_screw_cap_diameter = 2.8;
 tripod_mount_base_width = 13.97;
 tripod_mount_base_height = 13.0; // from base to focus ring outer diameter
 tripod_mount_farthest_width = 24.4;
+
+
+// Returns degrees of arc
+// sequence_number == total_number => 360
+// sequence_number == 0 => 0
+function arc_fraction(sequence_number = 1,
+                      total_number = 12) = 360 * (sequence_number / total_number);
+
 
 module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
     translate([0,0,-e])
@@ -139,24 +152,68 @@ module sensor_housing_base (od = sensor_housing_base_outer_diameter,
 module sensor_housing_focus_ring (od = sensor_focus_ring_outer_diameter,
                                   id = sensor_focus_ring_inner_diameter,
                                   h = sensor_housing_focus_ring_z_height) {
+    number_of_notches = sensor_focus_ring_notches;
+    notch_diameter = 1.12;
+    effective_radial_length = (1/2)*od + (0/10)*notch_diameter;
+
+    angles = [ for (i = [1 : 1 : number_of_notches]) arc_fraction(sequence_number = i, total_number = number_of_notches) ];
+
     difference() {
+        // bulk
         linear_extrude(height = h, center = false)
             circle(d = od, $fn = 100);
+
+        // cutout
         translate([0,0, -e])
             linear_extrude(height = h + 2*e, center = false)
+        {
+            // inner opening
             circle(d = id, $fn = 100);
+
+            // notches
+            for (angle = angles) {
+                //echo("angle = ", angle);
+                x = effective_radial_length * cos(angle) ;
+                y = effective_radial_length * sin(angle) ;
+                translate([x, y, 0])
+                    circle(d = notch_diameter);
+            }
+        }
     }
+
 }
 
 module sensor_housing_adapter_ring (od = sensor_ccs_adapter_outer_diameter,
                                     id = sensor_ccs_adapter_inner_diameter,
                                     h = sensor_housing_ccs_adapter_z_height) {
+
+    number_of_notches = sensor_ccs_adapter_notches;
+    notch_diameter = 1.85;
+    effective_radial_length = (1/2)*od + (2/10)*notch_diameter;
+
+    angles = [ for (i = [1 : 1 : number_of_notches]) arc_fraction(sequence_number = i, total_number = number_of_notches) ];
+
     difference() {
+        // bulk
         linear_extrude(height = h, center = false)
             circle(d = od, $fn = 100);
+
+        // cutout
         translate([0,0, -e])
             linear_extrude(height = h + 2*e, center = false)
+        {
+            // inner opening
             circle(d = id, $fn = 100);
+
+            // notches
+            for (angle = angles) {
+                //echo("angle = ", angle);
+                x = effective_radial_length * cos(angle) ;
+                y = effective_radial_length * sin(angle) ;
+                translate([x, y, 0])
+                    circle(d = notch_diameter);
+            }
+        }
     }
 }
 
@@ -207,8 +264,6 @@ module lock_screw_clamp ( width = lock_screw_clamp_base_width,
         translate ([(1/2)*width - screw_cap_thickness, 0 + 0.3 , 0])
             rotate ([0,90,0])
             cylinder(d = lock_screw_cap_diameter, h = screw_cap_thickness + 2*e, center = false);
-
-
         }
 }
 
