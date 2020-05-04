@@ -1,7 +1,7 @@
 ///////////////////////////////////////////////////////////////////////////////
 // Initial Revision: 2020-May-04
 // Author: David Crook <idcrook@users.noreply.github.com>
-// Description: Model of 6mm "Wide Angle" Lens for Raspberry Pi HQ Camera
+// Description: Model of 16mm "Telephoto" Lens for Raspberry Pi HQ Camera
 //
 // Revisions/Notes:
 //

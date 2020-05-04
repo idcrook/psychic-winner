@@ -4,6 +4,8 @@ Models for Raspberry Pi HQ Camera (May 2020)
 -	Intended to be useful for associated case or enclosure design.
 -	Gathered measurements from design documents and physical products.
 
+![Camera assemblies with 6mm and 16mm lenses and bare](img/assemblies_with_and_without_adapters_lenses.png)
+
 **Thingiverse**: [Raspberry Pi HQ Camera Reference Dummy Model](https://www.thingiverse.com/thing:4335497/)
 
 TODO:

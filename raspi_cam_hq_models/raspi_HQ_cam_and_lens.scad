@@ -10,6 +10,11 @@
 // Revisions/Notes:
 //
 // 2020-May-04: Start with models for camera and 6mm lens
+// 2020-May-04: Add 16mm lens model
+//
+// TODO:
+//
+// - add Nikon G mount to C-mount adapter model
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
