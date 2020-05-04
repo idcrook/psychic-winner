@@ -90,7 +90,7 @@ module camera_and_16mm_assembly () {
         translate([lens_16mm_translate_x,
                    lens_16mm_translate_y,
                    lens_16mm_translate_z])
-            %lens_16mm_model();
+            lens_16mm_model();
     }
 }
 

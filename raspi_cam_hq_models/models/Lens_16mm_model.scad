@@ -15,7 +15,7 @@
 e = 1/128; // small number
 
 // If true, model is instantiated by this file
-DEVELOPING_Lens_16mm_model = !false;
+DEVELOPING_Lens_16mm_model = false;
 
 body_diameter_16mm = 39.00 - 1.00;
 body_length_16mm = 50.00;
@@ -50,10 +50,13 @@ knob_focus_z_height_16mm = 7.0;
 knob_focus_delta_16mm = + knob_focus_z_height_16mm;
 
 // front lens
-front_outer_diameter_16mm =  body_diameter_16mm  ;
+front_outer_diameter_16mm =  hood_ring_diameter_16mm  ;
+front_outer_diameter_lower_16mm =  33.5  ;
+front_outer_height_16mm = 4;
+
 front_inner_diameter_16mm =  body_diameter_16mm - 2*(7.0) ;
-front_inner_diameter_upper_16mm = body_diameter_16mm - 2*(4.0);
-front_lens_z_height_16mm = (2/3)*hood_ring_width_16mm ;
+front_inner_diameter_upper_16mm = 37.0;
+front_lens_z_height_16mm = hood_ring_width_16mm ;
 
 module hollowCylinder(d=4, h=10, wallWidth=1, $fn=128)
 {
@@ -75,17 +78,32 @@ module knob_16mm (d = 4, h = 6.0, h_stem = 2.0, d_stem = 1.5)  {
 }
 
 module front_lens_16mm (od = front_outer_diameter_16mm,
-                   id = front_inner_diameter_16mm,
-                   id2 = front_inner_diameter_upper_16mm,
-                   h = front_lens_z_height_16mm) {
+                        od2 = front_outer_diameter_lower_16mm,
+                        h_od = front_outer_height_16mm,
+                        id = front_inner_diameter_16mm,
+                        id2 = front_inner_diameter_upper_16mm,
+                        h = front_lens_z_height_16mm) {
+    // match id2 -> id
     scale_factor = 1 + (id2-id)/id;
+    // match od2 -> od
+    outer_scale_factor = 1 + (od-od2)/od2;
+
+    outer_non_taper_height = h - h_od;
     lens_thickness = 0.0;
 
-    difference() {
-        linear_extrude(height = h, center = false)
-            circle(d = od, $fn = 100);
-        translate([0,0,lens_thickness-e])
-            linear_extrude(height = h - lens_thickness + 2*e,
+    difference()
+    {
+        union () {
+            linear_extrude(height = h_od,  scale = outer_scale_factor, center = false)
+                circle(d = od2, $fn = 100);
+
+            translate([0,0,h_od])
+            linear_extrude(height = outer_non_taper_height, center = false)
+                circle(d = od, $fn = 100);
+        }
+
+        translate([0,0, h_od-e])
+            linear_extrude(height = outer_non_taper_height + 2*e,
                            scale = scale_factor, center = false)
             circle(d = id, $fn = 100);
     }
@@ -140,16 +158,9 @@ module lens_16mm_model () {
                 hollowCylinder(d=back_diameter_16mm, h=base_ring_to_back_16mm,
                                wallWidth=1.0);
 
-            // front lens
-            intersection ()
-            {
-                // hood ring
-                translate([0, 0, front_lens_overlap_z_height-e])
-                    cylinder(d = body_diameter, h = front_lens_z_height_16mm, center = false, $fn=100);
-                // "front lens" shape
-                translate([0, 0, front_lens_overlap_z_height-e])
-                    front_lens_16mm();
-            }
+            // "front lens" with hood shape
+            translate([0, 0, front_lens_overlap_z_height-e])
+                front_lens_16mm();
         }
         // SUBTRACTIVE - shave off outside diameters
         // aperture ring <-> back gap
@@ -172,24 +183,20 @@ module lens_16mm_model () {
         translate([0, 0, focus_hood_gap_z_height-e])
         hollowCylinder(d=body_diameter+2*e, h=space_between_hood_focus_rings_16mm+2*e,
                        wallWidth=between_hood_focus_shave_width);
-        // hood ring
-        *translate([0, 0, hood_ring_z_height-e])
-        hollowCylinder(d=body_diameter+2*e, h=hood_ring_width_16mm+2*e,
-                       wallWidth=hood_ring_shave_width);
     }
 
     // focus ring knob
-    translate([body_diameter_16mm - focus_ring_shave_width - e,
-               (1/2)*body_diameter_16mm,
+    translate( [(1/2)*body_diameter_16mm,
+               0 + focus_ring_shave_width - e,
                focus_ring_z_height+(1/2)*focus_ring_width_16mm])
-        rotate([0,90,0])
+        rotate([90,90,0])
         knob_16mm();
 
     // aperture ring knob
-    translate([body_diameter_16mm - aperture_ring_shave_width - e,
-               (1/2)*body_diameter_16mm,
+    translate([ (1/2)*body_diameter_16mm,
+                0 - aperture_ring_shave_width - e,
                aperture_ring_z_height+(1/2)*aperture_ring_width_16mm])
-        rotate([0,90,0])
+        rotate([90,90,0])
         knob_16mm();
 }
 
