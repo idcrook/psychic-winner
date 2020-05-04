@@ -4,9 +4,17 @@ Models for Raspberry Pi HQ Camera (May 2020)
 -	Intended to be useful for associated case or enclosure design.
 -	Gathered measurements from design documents and phsyical products.
 
-<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
+**Thingiverse**: [Raspberry Pi HQ Camera Reference Dummy Model](https://www.thingiverse.com/thing:4335497/)
 
-**Table of Contents**
+TODO:
+
+ - Refine tripod mount
+ - 6mm Lens Model
+ - 16mm Lens Model
+
+
+*Table Of Contents*
+<!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
 
 -	[Raspberry Pi HQ Camera](#raspberry-pi-hq-camera)
 	-	[Raspberry Pi HQ Camera 6mm Wide Angle Lens](#raspberry-pi-hq-camera-6mm-wide-angle-lens)
@@ -16,7 +24,7 @@ Models for Raspberry Pi HQ Camera (May 2020)
 
 <!-- markdown-toc end -->
 
-![Back-side model desiogned in OpenSCAD](img/piHQcam_backside_model.png)
+![Back-side model designed in OpenSCAD](img/piHQcam_backside_model.png)
 
 Raspberry Pi HQ Camera
 ======================
