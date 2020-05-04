@@ -23,7 +23,10 @@ TODO:
 
 <!-- markdown-toc end -->
 
+![Front-side model designed in OpenSCAD](img/piHQcam_frontside_model.png)
+
 ![Back-side model designed in OpenSCAD](img/piHQcam_backside_model.png)
+
 
 Raspberry Pi HQ Camera
 ======================
