@@ -190,28 +190,23 @@ module sensor_housing_focus_ring (od = sensor_focus_ring_outer_diameter,
 
     angles = [ for (i = [1 : 1 : number_of_notches]) arc_fraction(sequence_number = i, total_number = number_of_notches) ];
 
-    difference() {
+    linear_extrude(height = h, center = false)
+        difference()
+    {
         // bulk
-        linear_extrude(height = h, center = false)
-            circle(d = od, $fn = 100);
+        circle(d = od, $fn = 100);
 
-        // cutout
-        translate([0,0, -e])
-            linear_extrude(height = h + 2*e, center = false)
-        {
-            // inner opening
-            circle(d = id, $fn = 40);
+        // cutout inner opening
+        circle(d = id, $fn = 40);
 
-            // notches
-            for (angle = angles) {
-                x = effective_radial_length * cos(angle) ;
-                y = effective_radial_length * sin(angle) ;
-                translate([x, y, 0])
-                    circle(d = notch_diameter, $fn = 20);
-            }
+        // notches
+        for (angle = angles) {
+            x = effective_radial_length * cos(angle) ;
+            y = effective_radial_length * sin(angle) ;
+            translate([x, y, 0])
+                circle(d = notch_diameter, $fn = 20);
         }
     }
-
 }
 
 module sensor_housing_adapter_ring (od = sensor_ccs_adapter_outer_diameter,
@@ -224,25 +219,21 @@ module sensor_housing_adapter_ring (od = sensor_ccs_adapter_outer_diameter,
 
     angles = [ for (i = [1 : 1 : number_of_notches]) arc_fraction(sequence_number = i, total_number = number_of_notches) ];
 
-    difference() {
+    linear_extrude(height = h, center = false)
+        difference()
+    {
         // bulk
-        linear_extrude(height = h, center = false)
-            circle(d = od, $fn = 100);
+        circle(d = od, $fn = 100);
 
-        // cutout
-        translate([0,0, -e])
-            linear_extrude(height = h + 2*e, center = false)
-        {
-            // inner opening
-            circle(d = id, $fn = 100);
+        // hollow out inner region
+        circle(d = id, $fn = 100);
 
-            // notches
-            for (angle = angles) {
-                x = effective_radial_length * cos(angle) ;
-                y = effective_radial_length * sin(angle) ;
-                translate([x, y, 0])
-                    circle(d = notch_diameter);
-            }
+        // notches
+        for (angle = angles) {
+            x = effective_radial_length * cos(angle) ;
+            y = effective_radial_length * sin(angle) ;
+            translate([x, y, 0])
+                circle(d = notch_diameter);
         }
     }
 }
