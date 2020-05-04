@@ -2,13 +2,12 @@ Models for Raspberry Pi HQ Camera (May 2020)
 =====================================================
 
 -	Intended to be useful for associated case or enclosure design.
--	Gathered measurements from design documents and phsyical products.
+-	Gathered measurements from design documents and physical products.
 
 **Thingiverse**: [Raspberry Pi HQ Camera Reference Dummy Model](https://www.thingiverse.com/thing:4335497/)
 
 TODO:
 
- - Refine tripod mount
  - 6mm Lens Model
  - 16mm Lens Model
 

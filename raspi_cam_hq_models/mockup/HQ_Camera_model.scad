@@ -7,16 +7,20 @@
 //
 //   2020-May-02: Initial PCB dimensions
 //   2020-May-03: Add notches to rings, add keepout regions to back of PCB
-//
+//   2020-May-03: Partially refine tripod mount portion
 //
 // TODO:
 //
-//   Refine tripod mount
+//  - Add 16mm lens model
+//  - Add  6mm lens model
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 use <MCAD/2Dshapes.scad>
-// complexRoundSquare()
+// module complexRoundSquare()
+
+use <../../libraries/wedge.scad>
+// module wedge(h, r, d, fn = $fn)
 
 e = 1/128; // small number
 
@@ -98,7 +102,11 @@ lock_screw_cap_diameter = 2.8;
 tripod_mount_base_width = 13.97;
 tripod_mount_base_height = 13.0; // from base to focus ring outer diameter
 tripod_mount_farthest_width = 24.4;
-
+tripod_mount_arc_degrees = 75;
+tripod_mount_segment_inner_radius = (1/2)*sensor_housing_base_outer_diameter;
+tripod_mount_segment_outer_radius = tripod_mount_segment_inner_radius + 6.0 + 1.0;
+tripod_mount_segment_chop_radius = tripod_mount_segment_inner_radius + 3.7;
+tripod_mount_screw_diameter = 0.25 * 25.4;
 
 // Returns degrees of arc
 // sequence_number == total_number => 360
@@ -261,8 +269,54 @@ module tripod_mount ( width = tripod_mount_base_width,
                       wrap_diameter = 0,
                       thickness = sensor_housing_tripod_mount_z_height) {
 
+    center_x = 0 ;
+    center_y = sensor_center_pos_y + height;
+    segment_arc_degrees = tripod_mount_arc_degrees;
+    rotate_amount = 270 - (1/2)*segment_arc_degrees;
+    segment_inner_radius = tripod_mount_segment_inner_radius;
+    segment_outer_radius = tripod_mount_segment_outer_radius;
+    segment_chop_radius = tripod_mount_segment_chop_radius;
+    segment_chop_rotate = 50;
+    second_chop_x = segment_chop_radius * cos(segment_arc_degrees);
+    second_chop_y = segment_chop_radius * sin(segment_arc_degrees);
+
+    echo ("tripod_mount arc = ", segment_arc_degrees );
+    echo ("tripod_mount rotate = ", rotate_amount );
+
+
+    // cube portion
     translate([0, (1/2)*height, (1/2)*thickness])
+        difference ()
+    {
         cube([width, height, thickness], center = true);
+
+        // 1/4" tripod screw mount
+        rotate([90,0,0])
+        cylinder((1/2)*height + e, d = tripod_mount_screw_diameter);
+    }
+
+    // circular arc portion
+    translate([center_x, center_y, 0])
+        rotate([0, 0, rotate_amount])
+        //rotate([0, 0, 0])
+        difference ()
+    {
+        wedge(h = thickness, r = segment_outer_radius, d = segment_arc_degrees);
+
+        // subtract inside circular segment
+        translate([-e, -e, -e])
+            wedge(h = thickness + 2*e, r = segment_inner_radius, d = segment_arc_degrees);
+
+        // chop off edges
+        translate([segment_chop_radius, -e, -e])
+            rotate([0, 0, -segment_chop_rotate])
+            cube(thickness + 2*e);
+
+        translate([second_chop_x, second_chop_y, -e])
+            rotate([0, 0, (segment_arc_degrees) - (90 - segment_chop_rotate)])
+            cube(thickness + 2*e);
+    }
+
 }
 
 module lock_screw_clamp ( width = lock_screw_clamp_base_width,
