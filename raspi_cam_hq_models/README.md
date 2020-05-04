@@ -57,7 +57,7 @@ Raspberry Pi HQ Camera 6mm Wide Angle Lens
 -	Chicago Electronic Distributors - [Raspberry Pi HQ Camera Wide Angle Lens](https://chicagodist.com/products/raspberry-pi-hq-camera-wide-angle-lens)
 -	Pi Shop - [6mm Wide Angle Lens for Raspberry Pi HQ Camera](https://www.pishop.us/product/6mm-wide-angle-lens-for-raspberry-pi-hq-camera/)
 
-![CAM 6mm HERO ALT](img/CAM_6mmHERO_600x.jpg) 6mm Wide Angle
+![CAM 6mm HERO ALT](img/CAM_6mmHero_600x.jpg) 6mm Wide Angle
 
 ![Wide Angle Dimensional drawing](img/WideAngle_600x.png)
 
