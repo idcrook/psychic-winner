@@ -7,7 +7,6 @@
 //
 //   2020-May-04: Initial dimensions
 //
-// TODO:
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -121,7 +120,6 @@ module lens_6mm_model () {
     translate([center_x, center_y, 0])
     difference()
     {
-        // TODO: back focus "keepout"
         union()
         {
             // bulk tube

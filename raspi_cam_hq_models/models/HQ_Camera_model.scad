@@ -9,7 +9,6 @@
 //   2020-May-03: Add notches to rings, add keepout regions to back of PCB
 //   2020-May-03: Partially refine tripod mount portion
 //
-// TODO:
 //
 ///////////////////////////////////////////////////////////////////////////////
 
