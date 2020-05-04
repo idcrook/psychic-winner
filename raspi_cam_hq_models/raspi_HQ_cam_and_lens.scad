@@ -21,6 +21,9 @@ include <models/HQ_Camera_model.scad>
 //use <models/Lens_6mm_model.scad>
 include <models/Lens_6mm_model.scad>
 
+//use <models/Lens_16mm_model.scad>
+include <models/Lens_16mm_model.scad>
+
 e = 1/128; // small number
 
 camera_zero_translate_y_with_tripod_mount = tripod_mount_base_height + (1/2) * (sensor_housing_base_outer_diameter - pcb_height) ;
@@ -31,9 +34,10 @@ lens_6mm_translate_x = (1/2)*(pcb_width - body_diameter_6mm);
 lens_6mm_translate_y = (1/2)*(pcb_height - body_diameter_6mm);
 lens_6mm_translate_z = (pcb_thickness + back_focal_length_6mm);
 
-lens_16mm_translate_x = (1/2)*(pcb_width - body_diameter_6mm);
-lens_16mm_translate_y = (1/2)*(pcb_height - body_diameter_6mm);
-lens_16mm_translate_z = (pcb_thickness + sensor_housing_ccs_adapter_z_height + back_focal_length_6mm );
+lens_16mm_translate_x = (1/2)*(pcb_width - body_diameter_16mm);
+lens_16mm_translate_y = (1/2)*(pcb_height - body_diameter_16mm);
+// takes into account C/CS adapter ring
+lens_16mm_translate_z = (pcb_thickness +  back_focal_length_16mm );
 
 module camera_only () {
     // position so base of tripod mount is at y==0
@@ -86,7 +90,7 @@ module camera_and_16mm_assembly () {
         translate([lens_16mm_translate_x,
                    lens_16mm_translate_y,
                    lens_16mm_translate_z])
-            %lens_6mm_model();
+            %lens_16mm_model();
     }
 }
 
