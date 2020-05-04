@@ -25,7 +25,7 @@ use <../../libraries/wedge.scad>
 e = 1/128; // small number
 
 // If true, model is instantiated by this file
-DEVELOPING_HQ_Camera_model = !false;
+DEVELOPING_HQ_Camera_model = false;
 
 pcb_thickness = 1.4 + 0.1; // measured closer to 1.5
 pcb_width = 38.0;
@@ -100,7 +100,7 @@ lock_screw_clamp_height_y_distance = lock_screw_clamp_farthest_height - lock_scr
 lock_screw_cap_diameter = 2.8;
 
 tripod_mount_base_width = 13.97;
-tripod_mount_base_height = 13.0; // from base to focus ring outer diameter
+tripod_mount_base_height = 13.5; // from base to focus ring outer diameter
 tripod_mount_farthest_width = 24.4;
 tripod_mount_base_above_pcb = sensor_housing_base_z_height - sensor_housing_tripod_mount_z_height; // flush with focus ring
 tripod_mount_arc_degrees = 70; // ~ten notches on focus ring
@@ -339,7 +339,7 @@ module lock_screw_clamp ( width = lock_screw_clamp_base_width,
 
 
 module sensor_housing (install_ccs_adapter = true,
-                       show_dust_cap = true,
+                       show_dust_cap = false,
                        install_tripod_mount = true) {
 
     showLockClamp = true;
@@ -411,7 +411,8 @@ module sensor_housing (install_ccs_adapter = true,
 }
 
 
-module raspi_hq_camera_model () {
+module raspi_hq_camera_model (install_ccs_adapter = true,
+                              install_tripod_mount = true) {
 
     origin_center_inset_x = hole_pos_x;
     origin_center_inset_y = hole_pos_y;
@@ -472,7 +473,8 @@ module raspi_hq_camera_model () {
             // sensor housing ("front" of PCB)
             translate([sensor_x_pos, sensor_y_pos, sensor_z_pos]) {
                 mirror([0,0,0])
-                    sensor_housing();
+                    sensor_housing(install_ccs_adapter = install_ccs_adapter,
+                                   install_tripod_mount = install_tripod_mount);
             }
 
             // keepout spacers around screws
@@ -518,7 +520,4 @@ $fn = $preview ? 30 : 100;
 
 if (DEVELOPING_HQ_Camera_model)  {
     raspi_hq_camera_model();
-    /* lens_6mm_model(); */
-    /* lens_16mm_model(); */
-
 }

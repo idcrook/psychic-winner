@@ -15,13 +15,13 @@
 e = 1/128; // small number
 
 // If true, model is instantiated by this file
-DEVELOPING_Lens_6mm_model = !false;
+DEVELOPING_Lens_6mm_model = false;
 
 body_diameter_6mm = 30.00;
 body_length_6mm = 34.00;
 center_x_6mm = (1/2)*body_diameter_6mm;
 center_y_6mm = (1/2)*body_diameter_6mm;
-back_focal_length = 7.53;
+back_focal_length_6mm = 7.53;
 
 focus_ring_to_back = 5.0;
 
