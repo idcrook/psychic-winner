@@ -102,11 +102,14 @@ lock_screw_cap_diameter = 2.8;
 tripod_mount_base_width = 13.97;
 tripod_mount_base_height = 13.0; // from base to focus ring outer diameter
 tripod_mount_farthest_width = 24.4;
-tripod_mount_arc_degrees = 75;
+tripod_mount_base_above_pcb = sensor_housing_base_z_height - sensor_housing_tripod_mount_z_height; // flush with focus ring
+tripod_mount_arc_degrees = 70; // ~ten notches on focus ring
 tripod_mount_segment_inner_radius = (1/2)*sensor_housing_base_outer_diameter;
-tripod_mount_segment_outer_radius = tripod_mount_segment_inner_radius + 6.0 + 1.0;
-tripod_mount_segment_chop_radius = tripod_mount_segment_inner_radius + 3.7;
-tripod_mount_screw_diameter = 0.25 * 25.4;
+tripod_mount_segment_outer_radius = tripod_mount_segment_inner_radius + 6.0 + 2.0;
+tripod_mount_segment_chop_radius = tripod_mount_segment_inner_radius +
+    (1/2)*(tripod_mount_segment_outer_radius - tripod_mount_segment_inner_radius);
+tripod_mount_screw_diameter = 0.25 * 25.4 - (0.5*2);
+
 
 // Returns degrees of arc
 // sequence_number == total_number => 360
@@ -363,6 +366,7 @@ module sensor_housing (install_ccs_adapter = true,
 
     tripod_mount_pos_x = 0;
     tripod_mount_pos_y = - ((1/2)* base_diameter  + tripod_mount_base_height);
+    tripod_mount_pos_z = tripod_mount_base_above_pcb;
 
     lock_clamp_pos_x = 0;
     lock_clamp_pos_y =  ((1/2)* base_diameter  -  lock_screw_clamp_height_y_distance);
@@ -400,7 +404,7 @@ module sensor_housing (install_ccs_adapter = true,
     }
 
     if (installTripodMount) {
-        translate([tripod_mount_pos_x, tripod_mount_pos_y, 0])
+        translate([tripod_mount_pos_x, tripod_mount_pos_y, tripod_mount_pos_z])
             tripod_mount();
     }
 
