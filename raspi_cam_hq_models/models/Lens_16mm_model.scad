@@ -74,7 +74,7 @@ module knob_16mm (d = 4, h = 6.0, h_stem = 2.0, d_stem = 1.5)  {
 		cylinder(d=d_stem, h=h_stem);
 
     translate([0,0,h_stem])
-		cylinder(d=d, h=main_height);
+		cylinder(d=d, h=main_height, $fn=24);
 }
 
 module front_lens_16mm (od = front_outer_diameter_16mm,
@@ -188,14 +188,14 @@ module lens_16mm_model () {
     // focus ring knob
     translate( [(1/2)*body_diameter_16mm,
                0 + focus_ring_shave_width - e,
-               focus_ring_z_height+(1/2)*focus_ring_width_16mm])
+               focus_ring_z_height + knob_focus_z_height_16mm])
         rotate([90,90,0])
         knob_16mm();
 
     // aperture ring knob
     translate([ (1/2)*body_diameter_16mm,
                 0 - aperture_ring_shave_width - e,
-               aperture_ring_z_height+(1/2)*aperture_ring_width_16mm])
+               aperture_ring_z_height + knob_aperture_z_height_16mm])
         rotate([90,90,0])
         knob_16mm();
 }
