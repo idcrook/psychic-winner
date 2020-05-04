@@ -437,7 +437,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   center = false);
 
-            // FIXME: refactor to avoid code duplication (copy-and-pasted from above)
+            // REFACTOR to avoid code duplication (copy-and-pasted from above)
             if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
               shiftUpAmount = 12 + 7 - 4;

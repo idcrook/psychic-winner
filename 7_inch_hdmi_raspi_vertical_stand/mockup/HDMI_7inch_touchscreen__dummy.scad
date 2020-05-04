@@ -352,8 +352,6 @@ module HDMI_7inch_touchscreen__dummy (showPi = false) {
                              [hole_origin.x + 0,               hole_origin.y + hole_distance_y],
                              [hole_origin.x + hole_distance_x, hole_origin.y + hole_distance_y]];
 
-    // TODO: misc. PCB keepout areas
-
     // PCB footprint
     difference() {
 
