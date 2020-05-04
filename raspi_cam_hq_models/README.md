@@ -8,11 +8,6 @@ Models for Raspberry Pi HQ Camera (May 2020)
 
 **Thingiverse**: [Raspberry Pi HQ Camera Reference Dummy Model](https://www.thingiverse.com/thing:4335497/)
 
-TODO:
-
- - 6mm Lens Model
- - 16mm Lens Model
-
 
 *Table Of Contents*
 <!-- markdown-toc start - Don't edit this section. Run M-x markdown-toc-refresh-toc -->
@@ -65,6 +60,9 @@ Raspberry Pi HQ Camera 6mm Wide Angle Lens
 
 ![Wide Angle Dimensional drawing](img/WideAngle_600x.png)
 
+![6mm lens dummy model](img/piHQcam_6mm_lens_model.png) 6mm Wide Angle Model
+
+
 ### TECHNICAL SPECIFICATIONS
 
 | Feature           | Value        |
@@ -90,6 +88,8 @@ Raspberry Pi HQ Camera 16mm Telephoto Lens
 ![16mm Hero](img/CAM_LONGLENSHEROALT_600x.jpg) 16mm Telephoto
 
 ![Telephoto Dimensional drawing](img/Telephoto_lens_2048x.png)
+
+![6mm lens dummy model](img/piHQcam_16mm_lens_model.png) 6mm Wide Angle Model
 
 ### TECHNICAL SPECIFICATIONS
 
