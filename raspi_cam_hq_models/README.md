@@ -36,7 +36,7 @@ Raspberry Pi HQ Camera
 
 ![Raspberry Pi HQ Camera](img/CAMERASOLO_1000x_sm1.png)
 
-![Raspberry Pi HQ Camera](img/PIHQCamDimensions_2048x.png)
+![Raspberry Pi HQ Camera dimensions](img/PIHQCamDimensions_2048x.png)
 
 ### TECHNICAL SPECIFICATIONS
 
