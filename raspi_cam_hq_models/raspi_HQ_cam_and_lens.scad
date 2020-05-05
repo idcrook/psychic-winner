@@ -42,28 +42,28 @@ lens_16mm_translate_y = (1/2)*(pcb_height - body_diameter_16mm);
 // takes into account C/CS adapter ring
 lens_16mm_translate_z = (pcb_thickness +  back_focal_length_16mm );
 
-module camera_only () {
+module camera_only (include_tripod_mount = true) {
     // position so base of tripod mount is at y==0
     translate([0,
                camera_zero_translate_y_with_tripod_mount,
                camera_zero_translate_z]) {
         raspi_hq_camera_model(install_ccs_adapter = false,
-                              install_tripod_mount = true);
+                              install_tripod_mount = include_tripod_mount);
     }
 }
 
-module camera_ccs_adapter_only () {
+module camera_ccs_adapter_only (include_tripod_mount = true) {
     // position so base of tripod mount is at y==0
     translate([0,
                camera_zero_translate_y_with_tripod_mount,
                camera_zero_translate_z]) {
         raspi_hq_camera_model(install_ccs_adapter = true,
-                              install_tripod_mount = true);
+                              install_tripod_mount = include_tripod_mount);
     }
 
 }
 
-module camera_and_6mm_assembly () {
+module camera_and_6mm_assembly (include_tripod_mount = true) {
 
     // position so base of tripod mount is at y==0
     translate([0,
@@ -71,7 +71,7 @@ module camera_and_6mm_assembly () {
                camera_zero_translate_z]) {
 
         raspi_hq_camera_model(install_ccs_adapter = false,
-                              install_tripod_mount = true);
+                              install_tripod_mount = include_tripod_mount);
 
         translate([lens_6mm_translate_x,
                    lens_6mm_translate_y,
@@ -80,7 +80,7 @@ module camera_and_6mm_assembly () {
     }
 }
 
-module camera_and_16mm_assembly () {
+module camera_and_16mm_assembly (include_tripod_mount = true) {
 
     // position so base of tripod mount is at y==0
     translate([0,
@@ -88,7 +88,7 @@ module camera_and_16mm_assembly () {
                camera_zero_translate_z]) {
 
         raspi_hq_camera_model(install_ccs_adapter = true,
-                              install_tripod_mount = true);
+                              install_tripod_mount = include_tripod_mount);
 
         translate([lens_16mm_translate_x,
                    lens_16mm_translate_y,
@@ -103,31 +103,43 @@ module showTogether() {
     y_spacing = 55;
 
     scale ([1.0,1.0,1.0])
-        translate([0,0,0])
+        translate([0*x_spacing, 0*y_spacing, 0])
         rotate([0,0,0])
-        camera_and_16mm_assembly();
+        camera_and_16mm_assembly(include_tripod_mount = true);
 
     scale ([1.0,1.0,1.0])
-        translate([x_spacing,0,0])
+        translate([1*x_spacing, 0*y_spacing, 0])
         rotate([0,0,0])
-        camera_and_6mm_assembly();
+        camera_and_6mm_assembly(include_tripod_mount = true);
 
     scale ([1.0,1.0,1.0])
-        translate([0,y_spacing,0])
+        translate([2*x_spacing, 0*y_spacing, 0])
         rotate([0,0,0])
-        camera_ccs_adapter_only();
+        camera_ccs_adapter_only(include_tripod_mount = true);
+
+
+    // row 2
+    scale ([1.0,1.0,1.0])
+        translate([0*x_spacing, 1*y_spacing, 0])
+        rotate([0,0,0])
+        camera_and_16mm_assembly(include_tripod_mount = false);
 
     scale ([1.0,1.0,1.0])
-        translate([x_spacing, y_spacing,0])
+        translate([1*x_spacing, 1*y_spacing, 0])
         rotate([0,0,0])
-        camera_only();
+        camera_and_6mm_assembly(include_tripod_mount = false);
+
+    scale ([1.0,1.0,1.0])
+        translate([2*x_spacing, 1*y_spacing, 0])
+        rotate([0,0,0])
+        camera_only(include_tripod_mount = false);
 
 
 }
 
-show_everything = !true ;
+show_everything = true ;
 
-show_camera_and_6mm = true ;
+show_camera_and_6mm = !true ;
 
 show_camera_and_16mm = !show_camera_and_6mm ;
 
