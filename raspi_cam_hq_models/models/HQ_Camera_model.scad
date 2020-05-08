@@ -39,6 +39,7 @@ pcb_keepout_back = 1.5; //surface mount components
 pcb_corner_radius = 1.8;
 
 hqpcb_hole_diameter = 2.5;
+hqpcb_hole_pcb_ring_diameter = 2*2.5;
 hqpcb_hole_pos_x = 4.0;
 hqpcb_hole_pos_y = 4.0;
 hqpcb_hole_spacing = pcb_width - (2*hqpcb_hole_pos_x);
