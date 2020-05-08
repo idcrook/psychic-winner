@@ -37,6 +37,7 @@ hqcam_pcb_housing_front_face_lip_overhang_thickness = 1.0;
 hqcam_pcb_housing_rear_thickness = 3.5;
 hqcam_pcb_housing_sidewall_thickness = 2.0;
 hqcam_pcb_housing_lower_sidewall_thickness = 2.0;
+hqcam_pcb_housing_upper_sidewall_thickness = hqcam_pcb_housing_lower_sidewall_thickness;
 z_delta_lip = (hqcam_pcb_housing_add_top_lip ? hqcam_pcb_housing_front_face_lip_overhang_thickness : 0);
 hqcam_pcb_housing_z_height = 9 + tol_e + z_delta_lip;
 
@@ -60,9 +61,10 @@ module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
             %raspi_hq_camera_model(install_tripod_mount = install_tripod_mount);
     }
 
-    beyond_upper = 4;
+    cuffs_on_upper = true;
+    beyond_upper = cuffs_on_upper ? 0 : 4;
     cutout_x =  pcb_width + 2*tol_e;
-    cutout_y =  pcb_height + hqcam_pcb_housing_lower_sidewall_thickness + beyond_upper;
+    cutout_y =  pcb_height + beyond_upper + 2*tol_e;
     cutout_z_w_lip = hqcam_pcb_housing_z_height
         - hqcam_pcb_housing_rear_thickness
         - hqcam_pcb_housing_front_face_lip_overhang_thickness + 2*e;
@@ -72,22 +74,32 @@ module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
     lip_translate_x = tol_e + hqcam_pcb_housing_front_face_lip_overhang_width;
     lip_translate_y = tol_e + hqcam_pcb_housing_front_face_lip_overhang_width;
     lip_inside_cutout_x = cutout_x - 2*lip_translate_x;
+    lip_inside_cutout_y = cutout_y - 2*lip_translate_x;
     lip_r = 1;
+
+    upper_cuff_cutout_x = csi_connector_width + 2*tol_e;
+    upper_cuff_cutout_y = hqcam_pcb_housing_upper_sidewall_thickness ;
+    upper_cuff_cutout_z = cutout_z;
+
+    upper_cuff_translate_x = (1/2)* (cutout_x - upper_cuff_cutout_x + tol_e) ;
+    upper_cuff_translate_y = cutout_y - e;
+    upper_cuff_translate_z = -e ;
 
     // hole centered 4mm from edge of pcb, pcb ring around hole is r=2.5mm
     pad_x = 4 + 3;
-    pad_y = 4 + 2.5;
+    pad_y = 4 + 2.5 ;
     pad_z_w_lip = hqcam_pcb_housing_z_height - cutout_z - pcb_thickness + 2*tol_e;
     pad_z_wo_lip =  hqcam_pcb_housing_z_height - cutout_z;
     pad_z = hqcam_pcb_housing_add_top_lip ? pad_z_w_lip : pad_z_wo_lip;
 
 
-    hole_origin = [hqpcb_hole_pos_x,  hqpcb_hole_pos_y]; // relative to PCB "corner"
+    // first hole (lower left) relative to PCB "corner"
+    hole_origin = [hqpcb_hole_pos_x + tol_e,  hqpcb_hole_pos_y + tol_e];
     hole_distance = hqpcb_hole_spacing;
-    hole_offset_x = - 4;
+    hole_offset_x = - 4 - tol_e;
     hole_offset_x_far = - (2.5 + tol_e);
-    hole_offset_y = - 4 ;
-    hole_offset_y_far = 0 - 2.5;
+    hole_offset_y = - 4 - tol_e;
+    hole_offset_y_far = 0 - 2.5 ;
 
     corner_hole_positions = [[hole_origin.x,                 hole_origin.y],
                              [hole_origin.x + hole_distance, hole_origin.y + 0],
@@ -119,7 +131,14 @@ module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
             // lip overhang
             translate([lip_translate_x, lip_translate_y, hqcam_pcb_housing_sidewall_thickness - tol_e]) // start higher
                 linear_extrude(height = cutout_z)
-                complexRoundSquare([lip_inside_cutout_x, cutout_y], rads1=[lip_r,lip_r], rads2=[lip_r,lip_r], rads3=[lip_r,lip_r], rads4=[lip_r,lip_r], center=false);
+                complexRoundSquare([lip_inside_cutout_x, lip_inside_cutout_y], rads1=[lip_r,lip_r], rads2=[lip_r,lip_r], rads3=[lip_r,lip_r], rads4=[lip_r,lip_r], center=false);
+
+            // cuff cutout
+            translate([upper_cuff_translate_x, upper_cuff_translate_y, upper_cuff_translate_z])
+                linear_extrude(height = upper_cuff_cutout_z)
+
+                 square([upper_cuff_cutout_x, upper_cuff_cutout_y],center=false);
+
         }
     }
 
@@ -174,7 +193,7 @@ if (DEVELOPING_HQ_Camera_pcb_housing)  {
 
         translate([50,0,0])
         {
-            %translate([(1/2)*(38 - 30) + hqcam_pcb_housing_sidewall_thickness, -13, 0])
+            *translate([(1/2)*(38 - 30) + hqcam_pcb_housing_sidewall_thickness, -13, 0])
                 import("camera_housing.STL");
             %hqcam_pcb_housing(instantiate_reference_hqcam_model = false);
         }
