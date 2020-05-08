@@ -285,11 +285,10 @@ module showTogether() {
     x_spacing = 100;
     y_spacing = 80;
 
-    /* scale ([1.0,1.0,1.0]) */
-    /*     translate([0*x_spacing, 0*y_spacing, 0]) */
-    /*     rotate([0,0,0]) */
-    /*      picam_original_and_vesa_poe_case(); */
-
+    scale ([1.0,1.0,1.0])
+        translate([0*x_spacing, 0*y_spacing, 0])
+        rotate([0,0,0])
+         picam_original_and_vesa_poe_case();
 
     // row 2
     scale ([1.0,1.0,1.0])
@@ -299,9 +298,9 @@ module showTogether() {
 
 }
 
-show_everything = !true ;
+show_everything = true ;
 
-print_open_chassis_poe_top = true ;
+print_open_chassis_poe_top = !true ;
 
 show_camera_and_6mm = !true ;
 show_camera_and_16mm = !show_camera_and_6mm ;

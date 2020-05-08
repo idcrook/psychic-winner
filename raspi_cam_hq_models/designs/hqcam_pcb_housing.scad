@@ -73,7 +73,7 @@ $fn = $preview ? 30 : 100;
 
 if (DEVELOPING_HQ_Camera_pcb_housing)  {
 
-    translate_y = !true ? 90 : 0;
+    translate_y = true ? 90 : 0;
 
     translate([0,translate_y,0])
     {
