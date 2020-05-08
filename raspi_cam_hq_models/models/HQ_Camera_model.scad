@@ -38,13 +38,13 @@ fastener_y_center = (1/2) * pcb_height;
 pcb_keepout_back = 1.5; //surface mount components
 pcb_corner_radius = 1.8;
 
-hole_diameter = 2.5;
-hole_pos_x = 4.0;
-hole_pos_y = 4.0;
-hole_spacing = pcb_width - (2*hole_pos_x);
+hqpcb_hole_diameter = 2.5;
+hqpcb_hole_pos_x = 4.0;
+hqpcb_hole_pos_y = 4.0;
+hqpcb_hole_spacing = pcb_width - (2*hqpcb_hole_pos_x);
 
-spacer_pos_x = hole_pos_x;
-spacer_pos_y = hole_pos_y;
+spacer_pos_x = hqpcb_hole_pos_x;
+spacer_pos_y = hqpcb_hole_pos_y;
 keepout_spacer_half = spacer_pos_x;
 keepout_spacer_side = 2.0 * keepout_spacer_half;
 keepout_spacing = pcb_width - 2*spacer_pos_x;
@@ -114,7 +114,7 @@ function arc_fraction(sequence_number = 1,
                       total_number = 12) = 360 * (sequence_number / total_number);
 
 
-module cutout_solid (cylinder_diameter = hole_diameter, cylinder_length = pcb_thickness) {
+module cutout_solid (cylinder_diameter = hqpcb_hole_diameter, cylinder_length = pcb_thickness) {
     translate([0,0,-e])
         linear_extrude(height = cylinder_length + 2*e, center = false) {
         circle(r=cylinder_diameter / 2);
@@ -410,10 +410,10 @@ module sensor_housing (install_ccs_adapter = true,
 module raspi_hq_camera_model (install_ccs_adapter = true,
                               install_tripod_mount = true) {
 
-    origin_center_inset_x = hole_pos_x;
-    origin_center_inset_y = hole_pos_y;
-    hole_distance = hole_spacing;
-    hole_D = hole_diameter;
+    origin_center_inset_x = hqpcb_hole_pos_x;
+    origin_center_inset_y = hqpcb_hole_pos_y;
+    hole_distance = hqpcb_hole_spacing;
+    hole_D = hqpcb_hole_diameter;
     radius = pcb_corner_radius;
 
     keepout_center_inset_x = spacer_pos_x;
