@@ -14,6 +14,9 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
+use <MCAD/2Dshapes.scad>
+// module complexRoundSquare()
+
 /* Pi HQ camera model - include allows variables in that files scope */
 //use <models/HQ_Camera_model.scad>
 //include <models/HQ_Camera_model.scad>
@@ -132,6 +135,84 @@ module vesa_poe_case_top () {
     import("designs/RasPi3Case-Top-PoE.stl");
 }
 
+
+module open_chassis_vesa_poe_case_top () {
+
+    open_chassis_frame_thickness = 3.0 + 0.8;
+    top_poe_main_z_height = 14;
+
+    open_chassis_sides_cut_translate_x = 10 + 2.5;
+    open_chassis_sides_cut_translate_y = 0;
+    open_chassis_sides_cut_translate_z = open_chassis_frame_thickness;
+    open_chassis_sides_cut_width = 50.8 + 5.2;
+    open_chassis_sides_cut_height = vesa_poe_case_top_extent_y;
+    open_chassis_sides_cut_z_height = top_poe_main_z_height  - open_chassis_frame_thickness;
+
+    open_chassis_ends_cut_translate_x = 0;
+    open_chassis_ends_cut_translate_y = -vesa_poe_case_top_extent_y + 20 - 2.5 ;
+    open_chassis_ends_cut_translate_z = open_chassis_frame_thickness;
+    open_chassis_ends_cut_width = 38 + 2*2;
+    open_chassis_ends_cut_height = vesa_poe_case_top_extent_y - 6;
+    open_chassis_ends_cut_z_height = top_poe_main_z_height  - open_chassis_frame_thickness + 2;
+
+    open_chassis_top_cut_translate_x = open_chassis_sides_cut_translate_x - 1.3;
+    open_chassis_top_cut_translate_y = open_chassis_ends_cut_translate_y - 4.3;
+    open_chassis_top_cut_translate_z = -(1/2)*open_chassis_frame_thickness;
+    open_chassis_top_cut_width = open_chassis_ends_cut_width + 2*4.5;
+    open_chassis_top_cut_height = open_chassis_sides_cut_width + 1.3;
+    open_chassis_top_cut_z_height = open_chassis_frame_thickness + 2;
+
+
+    radius_sides = 1;
+    radius_ends = 2;
+    radius_top = 0.5;
+
+    difference()
+    {
+        import("designs/RasPi3Case-Top-PoE.stl");
+
+        translate([-vesa_poe_case_top_translate_x, -2*vesa_poe_case_top_translate_y + 4 , 0])
+
+            {
+                // sides cut
+                translate([open_chassis_sides_cut_translate_x, open_chassis_sides_cut_translate_y, open_chassis_sides_cut_translate_z])
+                    rotate([90,0,0])
+                    linear_extrude(height = open_chassis_sides_cut_height + 2*e, center = false)
+                    complexRoundSquare([open_chassis_sides_cut_width, open_chassis_sides_cut_z_height],
+                                       [radius_sides, radius_sides],
+                                       [radius_sides, radius_sides],
+                                       [radius_sides, radius_sides],
+                                       [radius_sides, radius_sides],
+                                       center = false);
+
+                // ends cut
+                translate([open_chassis_ends_cut_translate_x, open_chassis_ends_cut_translate_y, open_chassis_ends_cut_translate_z])
+                    rotate([90,0,90])
+                    linear_extrude(height = open_chassis_ends_cut_height + 2*e, center = false)
+                    complexRoundSquare([open_chassis_ends_cut_width, open_chassis_ends_cut_z_height],
+                                       [radius_ends, radius_ends],
+                                       [radius_ends, radius_ends],
+                                       [radius_ends, radius_ends],
+                                       [radius_ends, radius_ends],
+                                       center = false);
+
+                // top cut
+                translate([open_chassis_top_cut_translate_x, open_chassis_top_cut_translate_y, open_chassis_top_cut_translate_z])
+                    rotate([90,0,90])
+                    linear_extrude(height = open_chassis_top_cut_height + 2*e, center = false)
+                    complexRoundSquare([open_chassis_top_cut_width, open_chassis_top_cut_z_height],
+                                       [radius_top, radius_top],
+                                       [radius_top, radius_top],
+                                       [radius_top, radius_top],
+                                       [radius_top, radius_top],
+                                       center = false);
+
+
+            }
+    }
+
+}
+
 module mount_footer () {
     import("designs/Camera-pi-case-adapter.stl");
 }
@@ -150,35 +231,29 @@ module simple_hqcam_pcb_housing (include_tripod_mount = false) {
 
 module case_top_and_footer () {
     rotate([180,0,0])
-    translate([vesa_poe_case_top_translate_x, vesa_poe_case_top_translate_y, vesa_poe_case_top_translate_z])
-        vesa_poe_case_top();
-
+        translate([vesa_poe_case_top_translate_x, vesa_poe_case_top_translate_y, vesa_poe_case_top_translate_z])
+        open_chassis_vesa_poe_case_top();
 
     translate([mount_footer_translate_x, mount_footer_translate_y, mount_footer_translate_z])
-    rotate([0,0,180])
+        rotate([0,0,180])
         mount_footer();
-
-    }
+}
 
 module picam_original_and_vesa_poe_case () {
-
     case_top_and_footer();
 
     rotate([90,0,-90])
         translate([0,0,0])
         translate([original_picam_housing_translate_x, original_picam_housing_translate_y, original_picam_housing_translate_z])
         original_picam_housing();
-
 }
 
 module pihqcam_and_vesa_poe_case (include_tripod_mount = false) {
-
     case_top_and_footer();
 
     rotate([90,0,-90])
         translate([hqpicam_housing_translate_x, hqpicam_housing_translate_y, hqpicam_housing_translate_z])
         simple_hqcam_pcb_housing(include_tripod_mount = include_tripod_mount);
-
 }
 
 module showTogether() {
@@ -192,44 +267,54 @@ module showTogether() {
          picam_original_and_vesa_poe_case();
 
 
-    // row 2
-    scale ([1.0,1.0,1.0])
-        translate([0*x_spacing, 1*y_spacing, 0])
-        rotate([0,0,0])
-         pihqcam_and_vesa_poe_case(include_tripod_mount = false);
+    /* // row 2 */
+    /* scale ([1.0,1.0,1.0]) */
+    /*     translate([0*x_spacing, 1*y_spacing, 0]) */
+    /*     rotate([0,0,0]) */
+    /*      pihqcam_and_vesa_poe_case(include_tripod_mount = false); */
 
     //raspi_hq_camera_model();
 
 }
 
-show_everything = true ;
+show_everything = !true ;
+
+print_open_chassis_poe_top = true ;
 
 show_camera_and_6mm = !true ;
-
-show_camera_and_16mm = !show_camera_and_6mm ;
+show_camera_and_16mm = !true ;
 
 if (show_everything) {
     showTogether();
 } else {
 
-    // $preview requires version 2019.05
-    fn = $preview ? 30 : 100;
 
-    if (show_camera_and_6mm) {
+    if (print_open_chassis_poe_top) {
+        rotate([180,0,0])
+            rotate([180,0,0])
+            translate([vesa_poe_case_top_translate_x, vesa_poe_case_top_translate_y, 0*vesa_poe_case_top_translate_z])
+            open_chassis_vesa_poe_case_top ();
 
-        scale ([1.0,1.0,1.0])
-            translate([0,0,0])
-            rotate([0,0,0])
-            camera_and_6mm_assembly();
+    } else {
+
+        // $preview requires version 2019.05
+        fn = $preview ? 30 : 100;
+
+        if (show_camera_and_6mm) {
+
+            scale ([1.0,1.0,1.0])
+                translate([0,0,0])
+                rotate([0,0,0])
+                camera_and_6mm_assembly();
+        }
+
+        if (show_camera_and_16mm) {
+
+            scale ([1.0,1.0,1.0])
+                translate([0,0,0])
+                rotate([0,0,0])
+                camera_and_16mm_assembly();
+        }
     }
-
-    if (show_camera_and_16mm) {
-
-        scale ([1.0,1.0,1.0])
-            translate([0,0,0])
-            rotate([0,0,0])
-            camera_and_16mm_assembly();
-    }
-
 
 }
