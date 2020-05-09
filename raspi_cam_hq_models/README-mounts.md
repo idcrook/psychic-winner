@@ -19,6 +19,8 @@ Refer to main [README](README.md) for Raspberry Pi HQ Camera and Lens models
 
 The existing Pi 3B+ PoE case was not dissipating heat well and the fan was kicking in a few times a minute. With this open-chassis design mod, it is much more seldom now.
 
+![Simple mount - HQ Cam PCB housing](img/hqcam_pcb_housing_with_attached_arms.png)
+
 
 | Description             | .scad file or original                                           | STL file                                                                                             |
 | ----------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
@@ -27,9 +29,7 @@ The existing Pi 3B+ PoE case was not dissipating heat well and the fan was kicki
 | mount footer            | https://www.thingiverse.com/thing:3948548                        | [designs/Camera-pi-case-adapter.stl](designs/Camera-pi-case-adapter.stl)                             |
 | shown together          | [raspi_hq_cam_mounts.scad](raspi_hq_cam_mounts.scad)             | [RasPi3Case-Top-PoE_open_chassis_simple_mount.stl](RasPi3Case-Top-PoE_open_chassis_simple_mount.stl) |
 
-
 ![Simple mount - PoE HAT case](img/piHQcam_simple_mount_poe_hat_case.png)
-
 
 ![Photo - assembled Simple mount - PoE HAT case](img/photo_assembled_piHQcam_simple_mount_poe_hat_case_sm1.jpg)
 
