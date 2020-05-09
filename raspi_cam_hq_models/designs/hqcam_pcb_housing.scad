@@ -28,7 +28,7 @@ e = 1/128; // small number
 tol_e = 0.25;
 
 // If true, model is instantiated by this file
-DEVELOPING_HQ_Camera_pcb_housing = !false;
+DEVELOPING_HQ_Camera_pcb_housing = false;
 
 hqcam_pcb_housing_add_top_lip = !true;
 
