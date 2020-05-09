@@ -14,6 +14,18 @@ Refer to main README for Raspberry Pi HQ Camera and Lens models
 
 <!-- markdown-toc end -->
 
+## Simple mount on PoE hat case modded to be open-chassis
+
+The existing Pi 3B+ PoE case was not dissipating heat well and the fan was kicking in a few times a minute. With this open-chassis design mod, it is much more seldom now.
+
+| Description         | file |
+|---------------------|------|
+| open-chassis mode   | []     |
+| simple HQ cam mount |      |
+| mount footer        |      |
+
+![Simple mount - PoE HAT case](img/piHQcam_simple_mount_poe_hat_case.png)
+
 ## Inspirations or Remix components
 
 | Component         | Original Design                                                                                                        |

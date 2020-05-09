@@ -94,11 +94,9 @@ module camera_ccs_adapter_only (include_tripod_mount = true) {
         raspi_hq_camera_model(install_ccs_adapter = true,
                               install_tripod_mount = include_tripod_mount);
     }
-
 }
 
 module camera_and_6mm_assembly (include_tripod_mount = true) {
-
     // position so base of tripod mount is at y==0
     translate([0,
                camera_zero_translate_y_with_tripod_mount,
