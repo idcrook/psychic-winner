@@ -71,9 +71,10 @@ hqpicam_housing_attach_legs_height = 4;
 hqpicam_housing_extent_x = 30.0;
 hqpicam_housing_extent_y = 38.0;
 hqpicam_housing_extent_z =  8.0;
-hqpicam_housing_translate_x = 15.8; // -y in original
-hqpicam_housing_translate_y = vesa_poe_case_top_extent_z + mount_footer_extent_z + hqpicam_housing_attach_legs_height; // z in original
-hqpicam_housing_translate_z = -12.5; // -x in original
+hqpicam_housing_translate_x = 15.8 ; // -y in original frame
+hqpicam_housing_translate_y = vesa_poe_case_top_extent_z + mount_footer_extent_z
+    + hqpicam_housing_attach_legs_height + 2 + 0.1; // z in original frame
+hqpicam_housing_translate_z = -12.5 + 0.1; // -x in original frame
 
 module camera_only (include_tripod_mount = true) {
     // position so base of tripod mount is at y==0
@@ -241,17 +242,15 @@ module mount_footer () {
     import("designs/Camera-pi-case-adapter.stl");
 }
 
-
 module original_picam_housing () {
     import("designs/camera_housing.STL");
 }
 
 module simple_hqcam_pcb_housing (include_tripod_mount = false) {
-
     hqcam_pcb_housing(instantiate_reference_hqcam_model = true,
+                      attach_arms = true, use_subdir_stl = true,
                       install_tripod_mount = include_tripod_mount);
 }
-
 
 module case_top_and_footer () {
     rotate([180,0,0])
@@ -285,10 +284,10 @@ module showTogether() {
     x_spacing = 100;
     y_spacing = 80;
 
-    scale ([1.0,1.0,1.0])
+    *scale ([1.0,1.0,1.0])
         translate([0*x_spacing, 0*y_spacing, 0])
         rotate([0,0,0])
-         picam_original_and_vesa_poe_case();
+        picam_original_and_vesa_poe_case();
 
     // row 2
     scale ([1.0,1.0,1.0])

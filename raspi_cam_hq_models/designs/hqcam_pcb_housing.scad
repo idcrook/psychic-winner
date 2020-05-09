@@ -27,7 +27,7 @@ e = 1/128; // small number
 tol_e = 0.25;
 
 // If true, model is instantiated by this file
-DEVELOPING_HQ_Camera_pcb_housing = !false;
+DEVELOPING_HQ_Camera_pcb_housing = false;
 
 hqcam_pcb_housing_add_top_lip = !true;
 
@@ -48,7 +48,36 @@ hqcam_pcb_z_height = hqcam_pcb_housing_z_height - z_delta_lip -
 hqcam_pcb_housing_rear_face_width = pcb_width + 2*hqcam_pcb_housing_rear_thickness + 0 ;
 hqcam_pcb_housing_rear_face_height = pcb_height + 2*hqcam_pcb_housing_rear_thickness + 0 ;
 
+
+hqpcb_hole_diameter_pad = hqpcb_hole_diameter - 0.3;
+
+module attach_arms_directly_to_pcb_housing (attach_flush_to_bottom = true,
+                                            use_subdir_stl = false)
+{
+    flush_attach = attach_flush_to_bottom;
+    position_z = flush_attach
+        ? 0 : (1/2)*(hqcam_pcb_housing_z_height - 8 - tol_e) - e;
+
+    housing_model_path = (!use_subdir_stl)
+        ? "camera_housing.STL"
+        : "designs/camera_housing.STL";
+
+    // position model
+    translate([(1/2)*(38 - 30) + hqcam_pcb_housing_sidewall_thickness,
+               -13,
+               position_z])
+    {
+        intersection ()
+        {
+            import(housing_model_path);
+            translate([0, -e, -e])
+                cube([30,13+2*e,10]);
+        }
+    }
+}
+
 module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
+                          attach_arms = true, use_subdir_stl = false,
                           install_tripod_mount = false) {
 
 
@@ -114,6 +143,12 @@ module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
                              corner_hole_positions[2].y + hole_offset_y_far],
                             [corner_hole_positions[3].x + hole_offset_x_far,
                              corner_hole_positions[3].y + hole_offset_y_far]];
+
+    if (attach_arms) {
+        attach_arms_directly_to_pcb_housing(attach_flush_to_bottom = true,
+                                            use_subdir_stl = use_subdir_stl);
+    }
+
     // main body
     difference ()
     {
@@ -137,8 +172,23 @@ module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
             translate([upper_cuff_translate_x, upper_cuff_translate_y, upper_cuff_translate_z])
                 linear_extrude(height = upper_cuff_cutout_z)
 
-                 square([upper_cuff_cutout_x, upper_cuff_cutout_y],center=false);
+                square([upper_cuff_cutout_x, upper_cuff_cutout_y],center=false);
 
+            // screw holes
+            for (p = corner_hole_positions) {
+                translate([p[0], p[1], -hqcam_pcb_housing_rear_thickness -e])
+                {
+                    cutout_solid(cylinder_diameter = hqpcb_hole_diameter_pad,
+                                 cylinder_length = hqcam_pcb_housing_rear_thickness + 2*e);
+
+                    // guide rings
+                    cutout_solid(cylinder_diameter = hqpcb_hole_pcb_ring_diameter,
+                                 cylinder_length = 2*e);
+                    %translate([0, 0, hqcam_pcb_housing_rear_thickness + pad_z])
+                         cutout_solid(cylinder_diameter = hqpcb_hole_pcb_ring_diameter,
+                                      cylinder_length = 2*e);
+                }
+            }
         }
     }
 
@@ -155,30 +205,41 @@ module hqcam_pcb_housing (instantiate_reference_hqcam_model = false,
             // SUBTRACTIVE - Holes
             for (p = corner_hole_positions) {
                 translate([p[0], p[1], -e])
-                    cutout_solid(cylinder_diameter = hqpcb_hole_diameter,
+                    cutout_solid(cylinder_diameter = hqpcb_hole_diameter_pad,
                                  cylinder_length = pad_z + 2*e);
             }
-
-            // slots so back bracket outcrops can slide by
+            // cut a bevel in corner
+            translate([corner_hole_positions[0].x,
+                       corner_pad_positions[0].y ,
+                       e])
+                rotate([0,0,45])
+                translate([hqpcb_hole_pcb_ring_diameter + (1+0)*tol_e,0,0])
+                linear_extrude(height = pad_z + 2*e)
+                square([pad_x + tol_e, pad_y + tol_e + 2*e], center=false);
+            // cut a bevel in corner
+            translate([corner_hole_positions[1].x - pad_x - tol_e,
+                       corner_pad_positions[1].y + pad_y + tol_e,
+                       e])
+                rotate([0,0,-45])
+                translate([-((1/2)*hqpcb_hole_pcb_ring_diameter+tol_e),0,0])
+                linear_extrude(height = pad_z + 2*e)
+                square([pad_x + tol_e, pad_y + tol_e + 2*e], center=false);
+            // *NOT NEEDED: slots so back bracket outcrops can slide by
             *translate([corner_hole_positions[2].x + 1.5,
-                       corner_pad_positions[2].y - e,
-                       (1/4)* pad_z])
+                        corner_pad_positions[2].y - e,
+                        (1/4)* pad_z])
                 linear_extrude(height = pad_z)
                 square([pad_x + tol_e, pad_y + tol_e + 2*e], center=false);
-
             *translate([corner_hole_positions[3].x - 1.5 - pad_x - tol_e,
-                       corner_pad_positions[3].y - e,
-                       (1/4)* pad_z])
+                        corner_pad_positions[3].y - e,
+                        (1/4)* pad_z])
                 linear_extrude(height = pad_z)
                 square([pad_x + tol_e, pad_y + tol_e + 2*e], center=false);
-
 
         }
     }
 
 }
-
-
 
 // $preview requires version 2019.05
 $fn = $preview ? 30 : 100;
@@ -189,13 +250,15 @@ if (DEVELOPING_HQ_Camera_pcb_housing)  {
 
     translate([0,translate_y,0])
     {
-        hqcam_pcb_housing(instantiate_reference_hqcam_model = true);
+        hqcam_pcb_housing(instantiate_reference_hqcam_model = true,
+                          attach_arms = true);
 
-        translate([50,0,0])
-        {
-            *translate([(1/2)*(38 - 30) + hqcam_pcb_housing_sidewall_thickness, -13, 0])
-                import("camera_housing.STL");
-            %hqcam_pcb_housing(instantiate_reference_hqcam_model = false);
-        }
+        // for testing/viewing in isolation
+        %translate([50,0,0])
+         {
+             attach_arms_directly_to_pcb_housing(attach_flush_to_bottom = false);
+             hqcam_pcb_housing(instantiate_reference_hqcam_model = false,
+                               attach_arms = false);
+         }
     }
 }
