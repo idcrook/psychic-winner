@@ -91,7 +91,8 @@ button_footprint_xy_extra_y = 1.0;
 button_half_xy = (1/2)*button_footprint_xy;
 
 button_footprint_z_height = 3.5; // plastic base to metal faceplate
-button_leg_entension = 3.5;
+button_leg_extension_shorten = 1.3;
+button_leg_extension = 3.5 - button_leg_extension_shorten;
 button_diameter = 3.5;
 button_seperation = 2.54 * 6; // 15.24mm, multiple of 0.1", center to center,
 button_moat_distance = 2.5;
@@ -200,14 +201,15 @@ module pushbutton_3x_panel () {
         // "pad" past shell wall for contact with "legs" of pushbutton switch
         slight_shift = 0.5;
         translate([0, pb_panel_width, panel_shell_thickness - slight_shift])
-            cube([pb_panel_length, 2.0, button_leg_entension + slight_shift]);
+            cube([pb_panel_length, 2.0, button_leg_extension + slight_shift]);
 
         // "stop" for one side of legs
         stop_thickness = 2.0;
-        stop_height = (1/2)*button_footprint_xy;
-        stop_open_length = button_leg_entension;
+        stop_height = (2/2)*button_footprint_xy;
+        stop_open_length = button_leg_extension;
 
-        translate([0, pb_panel_width - stop_height, 2*(panel_shell_thickness)-e ])
+        // end stop
+        translate([0, pb_panel_width - stop_height, 2*(panel_shell_thickness)-e - button_leg_extension_shorten])
             cube([pb_panel_length, stop_height + 2.0, stop_thickness]);
 
     }
@@ -216,8 +218,8 @@ module pushbutton_3x_panel () {
 
 module pushbutton_3x_panel_shelf (thickness = 2.5) {
     //translate([0, pb_panel_width , thickness])
-    translate([0, - (panel_shell_thickness + button_leg_entension), (-thickness)])
-        cube([pb_panel_length, 2*button_leg_entension, thickness], center = false);
+    translate([0, - (panel_shell_thickness + button_leg_extension), (-thickness)])
+        cube([pb_panel_length, 2*button_leg_extension, thickness], center = false);
 }
 
 
@@ -454,29 +456,47 @@ module caseBackPanel () {
 
 module showTogether() {
 
-    *%scale ([1.0,1.0,1.0])
-        translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
-                   0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
-                   0 + 20 - 20])
-        rotate([0,0,0])
-        caseFrontPanel();
+    intersection_only_pushbutton_area = true;
+    pushbutton_capture_extra = 3.0;
 
-    *%scale ([1.0,1.0,1.0])
-        translate([(1/4)*case_side_edge_extra,
-                   (1/2)*case_top_bottom_edge_extra,
-                   0])
-        rotate([0,0,0])
-        monitorAndPiAssembly(showPi = true);
+    intersection () {
 
-    panel_z_height = rear_panel_z_height ;
+        if (intersection_only_pushbutton_area) {
+            // pushbutton "panel" area
+            scale ([1.0,1.0,1.0])
+            translate([panel_width - pb_panel_distance_from_corner - panel_shell_thickness - ( case_side_edge_extra) - pushbutton_capture_extra,
+                       panel_height - panel_shell_thickness - ( case_top_bottom_edge_extra) + 2*e,
+                       -9])
+            rotate([90, 0, 0])
+            cube ([pb_panel_length + 2*pushbutton_capture_extra, 20, 30], center=false);
 
-    scale ([1.0,1.0,1.0])
-        translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
-                   0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
-                   0 - 40 + 40 - panel_z_height ])
-        rotate([0,0,0])
-        caseBackPanel();
+        }
 
+        union () {
+            scale ([1.0,1.0,1.0])
+                translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
+                           0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
+                           0 + 20 - 20])
+                rotate([0,0,0])
+                caseFrontPanel();
+
+            *%scale ([1.0,1.0,1.0])
+                  translate([(1/4)*case_side_edge_extra,
+                             (1/2)*case_top_bottom_edge_extra,
+                             0])
+                  rotate([0,0,0])
+                  monitorAndPiAssembly(showPi = true);
+
+            panel_z_height = rear_panel_z_height ;
+
+            scale ([1.0,1.0,1.0])
+                translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
+                           0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
+                           0 - 40 + 40 - panel_z_height ])
+                rotate([0,0,0])
+                caseBackPanel();
+        }
+    }
 }
 
 
