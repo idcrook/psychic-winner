@@ -51,6 +51,9 @@
 //
 //   - Refine pushbutton "shelf"
 //
+// 2020-May-14: Stand foot test 1, scale 101.35% ABS
+//
+//   - First outline of a foot (one for each side)
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -119,6 +122,18 @@ rear_pi_pcb_rect_inset_right = screw1_pos_x - first_hole_pos_x + (1/2) * (pcb_re
 rear_pi_pcb_rect_inset_top =  screw1_pos_y  - first_hole_pos_y + (1/2) * (pcb_height - rear_pi_height)  ;
 
 rear_panel_z_height = pcb_to_lcd_glass ;
+
+// for "stand"
+assm_foot_thickness = 3.5;
+assm_foot_width = 9.0;
+assm_foot_z_height = 30.0;
+
+assm_case_thickness = 19.3;
+assm_tilt_angle = 12.0; // in degrees
+assm_rear_outcrop = 50.0;
+assm_rear_shadow = panel_width * sin(assm_tilt_angle);
+assm_front_outcrop = 10.0;
+assm_front_lift = assm_case_thickness * sin(assm_tilt_angle);
 
 
 module monitorAndPiAssembly (showPi = false) {
@@ -226,6 +241,45 @@ module pushbutton_3x_panel_shelf (thickness = 2.5) {
         cube([pb_panel_length, 2*button_leg_extension, thickness], center = false);
 }
 
+module stand_foot () {
+    clamp_width = assm_foot_width;
+    clamp_thickness = 2*assm_foot_thickness + assm_case_thickness;
+    clamp_z_height = assm_foot_thickness + assm_foot_z_height;
+    clamp_translate = [0, 0, clamp_thickness * sin(assm_tilt_angle)];
+    assm_rear_translate = clamp_thickness * cos(assm_tilt_angle) - assm_foot_thickness;
+
+    translate(clamp_translate) {
+        // upward slot ("clamp") that case sits in
+        rotate([-assm_tilt_angle, 0, 0]) {
+            difference ()
+            {
+                union ()
+                {
+                    cube_fillet([clamp_width ,
+                                 clamp_thickness,
+                                 clamp_z_height], radius=1, $fn=25);
+                    // extend base
+                    translate([0, 0, -(assm_foot_thickness)*(1 + sin(assm_tilt_angle)) ])
+                        cube_fillet([clamp_width ,
+                                     clamp_thickness,
+                                     clamp_z_height], radius=1, $fn=25);
+                }
+                // main slot
+                translate([-e, assm_foot_thickness, assm_foot_thickness])
+                    cube([assm_foot_width + 2*e, assm_case_thickness, clamp_z_height], center = false);
+                // flatten base
+                translate([-e, 0, -clamp_translate.z -0.12])
+                rotate([assm_tilt_angle, 0, 0]) {
+                    mirror([0,0,1])
+                    cube([assm_foot_width + 2*e, clamp_z_height, 10], center = false);
+                }
+            }
+        }
+    }
+    // rear outcrop
+    translate([0, assm_rear_translate, 0])
+        cube([assm_foot_width, assm_rear_outcrop, assm_foot_thickness], center = false);
+}
 
 module caseFrontPanel () {
     chamfer_size_face = 2;
@@ -477,7 +531,7 @@ module showTogether() {
         }
 
         union () {
-            scale ([1.0,1.0,1.0])
+            %scale ([1.0,1.0,1.0])
                 translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                            0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                            0 + 20 - 20])
@@ -499,6 +553,17 @@ module showTogether() {
                            0 - 40 + 40 - panel_z_height ])
                 rotate([0,0,0])
                 caseBackPanel();
+
+            // legs
+            union () {
+                scale ([1.0,1.0,1.0])
+                    translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
+                               0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
+                               0 + 40 + 40 - panel_z_height ])
+                    rotate([0,0,0])
+                    stand_foot();
+            }
+
         }
     }
 }
