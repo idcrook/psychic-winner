@@ -47,6 +47,10 @@
 //
 //   - shortened rear cover height; changed Power USB opening
 //
+// 2020-May-14: Pushbutton test 1, scale 101.35% ABS
+//
+//   - Refine pushbutton "shelf"
+//
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -456,7 +460,7 @@ module caseBackPanel () {
 
 module showTogether() {
 
-    intersection_only_pushbutton_area = true;
+    intersection_only_pushbutton_area = !true;
     pushbutton_capture_extra = 3.0;
 
     intersection () {
@@ -489,7 +493,7 @@ module showTogether() {
 
             panel_z_height = rear_panel_z_height ;
 
-            scale ([1.0,1.0,1.0])
+            %scale ([1.0,1.0,1.0])
                 translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                            0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                            0 - 40 + 40 - panel_z_height ])
