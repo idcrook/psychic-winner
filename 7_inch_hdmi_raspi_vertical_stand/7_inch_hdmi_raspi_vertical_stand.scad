@@ -18,43 +18,28 @@
 // 2020-Apr-19: Initial dimensions
 //
 // 2020-Apr-27: Front face Test print 1 Feedback
-//
 //   - in ABS, both X- and Y- dimensions were too short. Updated LCD monitor
 //     assembly dimensions to account.
-//
 //   - Also, ABS slicer should be scaled ~1.2%-1.5% to account for intrinsic ABS
 //     shrinking properties
-//
 // 2020-Apr-28: Front face Test print 2, scale 101.35% ABS Feedback:
-//
 //   - screw hole placements extended; lcd screen position/opening adjusted
-//
 // 2020-Apr-28: Front face Test print 3, scale 101.35% ABS Feedback:
-//
 //   - screw hole placements were wrong direction, so reversed for print 4
-//
 // 2020-Apr-28: Front face Test print 4, scale 101.35% ABS
-//
 //   - placed 3X pushbutton area in side of front panel
-//
 // 2020-Apr-29: Rear face Test print 1, scale 101.35% ABS
-//
 // 2020-Apr-29: Front face Test print 5, scale 101.35% ABS
-//
 //   - pushbutton related changes
-//
 // 2020-Apr-29: Rear face Test print 2, scale 101.35% ABS
-//
 //   - shortened rear cover height; changed Power USB opening
-//
 // 2020-May-14: Pushbutton test 1, scale 101.35% ABS
-//
 //   - Refine pushbutton "shelf"
-//
 // 2020-May-14: Stand foot test 1, scale 101.35% ABS
-//
 //   - First outline of a foot (one for each side)
 //
+// 2020-May-14: Stand foot test 2, scale 101.35% ABS
+//   - add catch to foot
 //
 ///////////////////////////////////////////////////////////////////////////////
 
@@ -128,11 +113,11 @@ assm_foot_thickness = 3.5;
 assm_foot_width = 9.0;
 assm_foot_z_height = 30.0;
 
-assm_case_thickness = 19.3;
-assm_tilt_angle = 12.0; // in degrees
+assm_case_thickness = 19.3 - 0.5;
+assm_tilt_angle = 9.0; // in degrees
 assm_rear_outcrop = 50.0;
-assm_rear_shadow = panel_width * sin(assm_tilt_angle);
-assm_front_outcrop = 10.0;
+//assm_rear_shadow = panel_width * sin(assm_tilt_angle);
+//assm_front_outcrop = 10.0;
 assm_front_lift = assm_case_thickness * sin(assm_tilt_angle);
 
 
@@ -248,6 +233,11 @@ module stand_foot () {
     clamp_translate = [0, 0, clamp_thickness * sin(assm_tilt_angle)];
     assm_rear_translate = clamp_thickness * cos(assm_tilt_angle) - assm_foot_thickness;
 
+    catch_length = 6 - 0.5;
+    catch_thickness = 8.0;
+    catch_translate_y = clamp_thickness - assm_foot_thickness - catch_length + e;
+    catch_translate_z = assm_foot_thickness + panel_shell_thickness + case_side_edge_extra + 0.8 + 1.0;
+
     translate(clamp_translate) {
         // upward slot ("clamp") that case sits in
         rotate([-assm_tilt_angle, 0, 0]) {
@@ -268,12 +258,16 @@ module stand_foot () {
                 translate([-e, assm_foot_thickness, assm_foot_thickness])
                     cube([assm_foot_width + 2*e, assm_case_thickness, clamp_z_height], center = false);
                 // flatten base
-                translate([-e, 0, -clamp_translate.z -0.12])
+                translate([-e, 0, -clamp_translate.z - 0.05])
                 rotate([assm_tilt_angle, 0, 0]) {
                     mirror([0,0,1])
                     cube([assm_foot_width + 2*e, clamp_z_height, 10], center = false);
                 }
             }
+            // catch
+            translate([0, catch_translate_y, catch_translate_z])
+                cube([assm_foot_width, catch_length, catch_thickness], center = false);
+
         }
     }
     // rear outcrop
@@ -556,12 +550,20 @@ module showTogether() {
 
             // legs
             union () {
-                scale ([1.0,1.0,1.0])
-                    translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
-                               0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
-                               0 + 40 + 40 - panel_z_height ])
-                    rotate([0,0,0])
+                %scale ([1.0,1.0,1.0])
+                    translate([panel_width + (0.9)*panel_shell_thickness,
+                               panel_height - (4.3/1)*(case_top_bottom_edge_extra+panel_shell_thickness),
+                               panel_z_height + (1.3)*assm_foot_thickness ])
+                    rotate([-90 + assm_tilt_angle,0,90])
                     stand_foot();
+
+                scale ([1.0,1.0,1.0])
+                    translate([panel_width + (0.9)*panel_shell_thickness,
+                               0 + (1/4.3)*(case_top_bottom_edge_extra+panel_shell_thickness),
+                               panel_z_height + (1.3)*assm_foot_thickness ])
+                    rotate([-90 + assm_tilt_angle,0,90])
+                    stand_foot();
+
             }
 
         }
@@ -571,7 +573,8 @@ module showTogether() {
 
 show_everything = true ;
 
-show_monitor_assembly = true ;
+show_monitor_assembly = !true ;
+print_foot = true ;
 
 if (show_everything) {
     showTogether();
@@ -587,5 +590,12 @@ if (show_everything) {
             rotate([0,0,0])
             monitorAndPiAssembly();
     }
+
+
+    if (print_foot) {
+        stand_foot();
+
+    }
+
 
 }
