@@ -22,6 +22,11 @@ Models involved
 -	**Vertical Stand** for Case + display assembly
 -	Raspberry Pi Model 3 B (mechanical)
 
+![Front view](img/7_inch_hdmi_raspi_vertical_stand__front_view.png)
+
+![Back view](img/7_inch_hdmi_raspi_vertical_stand__back_view.png)
+
+
 HDMI display with its PCB (mechanical)
 --------------------------------------
 

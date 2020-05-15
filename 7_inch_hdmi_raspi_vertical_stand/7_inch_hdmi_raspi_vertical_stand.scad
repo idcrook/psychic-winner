@@ -525,14 +525,14 @@ module showTogether() {
         }
 
         union () {
-            %scale ([1.0,1.0,1.0])
+            scale ([1.0,1.0,1.0])
                 translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                            0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                            0 + 20 - 20])
                 rotate([0,0,0])
                 caseFrontPanel();
 
-            *%scale ([1.0,1.0,1.0])
+            %scale ([1.0,1.0,1.0])
                   translate([(1/4)*case_side_edge_extra,
                              (1/2)*case_top_bottom_edge_extra,
                              0])
@@ -541,7 +541,7 @@ module showTogether() {
 
             panel_z_height = rear_panel_z_height ;
 
-            %scale ([1.0,1.0,1.0])
+            scale ([1.0,1.0,1.0])
                 translate([0 - panel_shell_thickness - ( case_side_edge_extra) ,
                            0 - panel_shell_thickness - ( case_top_bottom_edge_extra),
                            0 - 40 + 40 - panel_z_height ])
@@ -550,7 +550,7 @@ module showTogether() {
 
             // legs
             union () {
-                %scale ([1.0,1.0,1.0])
+                scale ([1.0,1.0,1.0])
                     translate([panel_width + (0.9)*panel_shell_thickness,
                                panel_height - (4.3/1)*(case_top_bottom_edge_extra+panel_shell_thickness),
                                panel_z_height + (1.3)*assm_foot_thickness ])
@@ -574,7 +574,9 @@ module showTogether() {
 show_everything = true ;
 
 show_monitor_assembly = !true ;
-print_foot = true ;
+print_foot = !true ;
+print_front = !true ;
+print_rear = !print_front ;
 
 if (show_everything) {
     showTogether();
@@ -592,10 +594,10 @@ if (show_everything) {
     }
 
 
-    if (print_foot) {
-        stand_foot();
+    if (print_foot) { stand_foot(); }
+    if (print_front) { rotate([0,180,0]) caseFrontPanel(); }
+    if (print_rear) {  rotate([0,180,0]) caseBackPanel(); }
 
-    }
 
 
 }
