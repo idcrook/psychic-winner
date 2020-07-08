@@ -284,11 +284,10 @@ module tripod_mount ( width = tripod_mount_base_width,
 
     // stem portion - add the proper overhang
     translate([0, (1/2)*height, (1/2)*stem_z_height])
-        translate([0, -1*(height - stem_height), (thickness - stem_z_height)])
+        translate([0, -(1/2)*(height - stem_height), (thickness - stem_z_height)])
         difference ()
     {
         cube([stem_width, stem_height, stem_z_height], center = true);
-
 
         // 1/4" tripod screw mount
         rotate([90,0,0])
