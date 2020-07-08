@@ -139,7 +139,7 @@ module showTogether() {
 
 show_everything = true ;
 
-show_camera_and_6mm = !true ;
+show_camera_and_6mm = true ;
 
 show_camera_and_16mm = !show_camera_and_6mm ;
 

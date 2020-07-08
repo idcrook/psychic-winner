@@ -96,8 +96,12 @@ lock_screw_clamp_height_y_distance = lock_screw_clamp_farthest_height - lock_scr
     (1/2) * (sensor_focus_ring_outer_diameter-sensor_housing_base_outer_diameter);
 lock_screw_cap_diameter = 2.8;
 
-tripod_mount_base_width = 13.97;
+tripod_mount_base_width = 13.97; // stem width
 tripod_mount_base_height = 13.5; // from base to focus ring outer diameter
+tripod_mount_stem_width = tripod_mount_base_width; // stem width
+tripod_mount_stem_height = 11.5 ; // stem block
+tripod_mount_stem_z_height = 11.5; // stem block
+
 tripod_mount_farthest_width = 24.4;
 tripod_mount_base_above_pcb = sensor_housing_base_z_height - sensor_housing_tripod_mount_z_height; // flush with focus ring
 tripod_mount_arc_degrees = 70; // ~ten notches on focus ring
@@ -257,6 +261,9 @@ module sensor_housing_dust_cap (od = sensor_dust_cap_outer_diameter,
 
 module tripod_mount ( width = tripod_mount_base_width,
                       height = tripod_mount_base_height,
+                      stem_width = tripod_mount_stem_width,
+                      stem_height = tripod_mount_stem_height,
+                      stem_z_height = tripod_mount_stem_z_height,
                       wrap_diameter = 0,
                       thickness = sensor_housing_tripod_mount_z_height) {
 
@@ -275,11 +282,13 @@ module tripod_mount ( width = tripod_mount_base_width,
     echo ("tripod_mount rotate = ", rotate_amount );
 
 
-    // cube portion
-    translate([0, (1/2)*height, (1/2)*thickness])
+    // stem portion - add the proper overhang
+    translate([0, (1/2)*height, (1/2)*stem_z_height])
+        translate([0, -1*(height - stem_height), (thickness - stem_z_height)])
         difference ()
     {
-        cube([width, height, thickness], center = true);
+        cube([stem_width, stem_height, stem_z_height], center = true);
+
 
         // 1/4" tripod screw mount
         rotate([90,0,0])
