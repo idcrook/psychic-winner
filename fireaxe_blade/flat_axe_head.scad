@@ -23,7 +23,7 @@
 
 use <MCAD/2Dshapes.scad>
 use <MCAD/shapes.scad>
-use <../libraries/wedge.scad>
+use <../libraries/misc/wedge.scad>
 
   e = 0.02; // small number
 

@@ -15,7 +15,7 @@
 use <MCAD/2Dshapes.scad>
 // module complexRoundSquare()
 
-use <../../libraries/wedge.scad>
+use <../../libraries/misc/wedge.scad>
 // module wedge(h, r, d, fn = $fn)
 
 e = 1/128; // small number
