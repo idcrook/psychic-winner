@@ -25,3 +25,6 @@
 [submodule "libraries/agentscad"]
 	path = libraries/agentscad
 	url = https://github.com/idcrook/agentscad.git
+[submodule "libraries/list-comprehension-demos"]
+	path = libraries/list-comprehension-demos
+	url = https://github.com/idcrook/list-comprehension-demos.git
