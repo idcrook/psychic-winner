@@ -22,3 +22,6 @@
 [submodule "libraries/kitwallace__openscad"]
 	path = libraries/kitwallace__openscad
 	url = https://github.com/KitWallace/openscad.git
+[submodule "libraries/agentscad"]
+	path = libraries/agentscad
+	url = https://github.com/idcrook/agentscad.git
