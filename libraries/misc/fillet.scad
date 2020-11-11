@@ -1,3 +1,5 @@
+// origin? https://github.com/arduino/Steelwonder/blob/master/plastic%20parts%20(source)/OpenSCAD/inc/functions.scad
+
 module nut(d,h,horizontal=true){
     cornerdiameter =  (d / 2) / cos (180 / 6);
     cylinder(h = h, r = cornerdiameter, $fn = 6);
