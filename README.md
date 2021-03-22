@@ -54,7 +54,7 @@ ELP2p8 USB webcam mount
 </dt><dd>
 LulzBot Mini bed USB camera mount v2p1 toolhead
 
-<!-- ![LulzBot Mini bed USB camera mount v2p1 toolhead](LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead/img/IMAGE.png "LulzBot Mini bed USB camera mount v2p1 toolhead") -->
+![LulzBot Mini bed USB camera mount v2p1 toolhead](LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead/img/LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead.png "LulzBot Mini bed USB camera mount v2p1 toolhead")
 
 </dd>
 
