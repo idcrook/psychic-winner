@@ -241,7 +241,7 @@ planter tray
 </dt><dd>
 raspi box fully enclosed top cover
 
-<!-- ![raspi box fully enclosed top cover](raspi_box_fully_enclosed_top_cover/img/IMAGE.png "raspi box fully enclosed top cover") -->
+![raspi box fully enclosed top cover](raspi_box_fully_enclosed_top_cover/img/raspi_box_fully_enclosed_top_cover.png "raspi box fully enclosed top cover")
 
 </dd>
 
