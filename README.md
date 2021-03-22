@@ -131,7 +131,7 @@ fireaxe blade
 </dt><dd>
 hanging shower caddy mount
 
-<!-- ![hanging shower caddy mount](hanging_shower_caddy_mount/img/IMAGE.png "hanging shower caddy mount") -->
+![hanging shower caddy mount](hanging_shower_caddy_mount/img/hanging_shower_caddy_mount__side_view.png "hanging shower caddy mount")
 
 </dd>
 
