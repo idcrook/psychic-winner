@@ -87,7 +87,7 @@ amazon echo auto alt dash mount
 </dt><dd>
 another-lulzbot-mini-spool-holder-bushing
 
-<!-- ![another-lulzbot-mini-spool-holder-bushing](another-lulzbot-mini-spool-holder-bushing/img/IMAGE.png "another-lulzbot-mini-spool-holder-bushing") -->
+ ![another-lulzbot-mini-spool-holder-bushing](another-lulzbot-mini-spool-holder-bushing/img/another-lulzbot-mini-spool-holder-bushing_w_flange.png "another-lulzbot-mini-spool-holder-bushing")
 
 </dd>
 
@@ -98,7 +98,7 @@ another-lulzbot-mini-spool-holder-bushing
 </dt><dd>
 bone dog tag
 
-<!-- ![bone dog tag](bone_dog_tag/img/IMAGE.png "bone dog tag") -->
+![bone dog tag](bone_dog_tag/img/bone_dog_tag_tuned.png "bone dog tag")
 
 </dd>
 
