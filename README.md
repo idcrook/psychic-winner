@@ -43,7 +43,7 @@ Anker Wireless Charger Holder-thingie 3062864 remix
 </dt><dd>
 ELP2p8 USB webcam mount
 
-<!-- ![ELP2p8 USB webcam mount](ELP2p8_USB_webcam_mount/img/IMAGE.png "ELP2p8 USB webcam mount") -->
+![ELP2p8 USB webcam mount](ELP2p8_USB_webcam_mount/img/front_view.jpg "ELP2p8 USB webcam mount")
 
 </dd>
 
@@ -142,7 +142,7 @@ hanging shower caddy mount
 </dt><dd>
 iphone 11 pro mockup
 
-<!-- ![iphone 11 pro mockup](iphone_11_pro_mockup/img/IMAGE.png "iphone 11 pro mockup") -->
+![iphone 11 pro mockup](iphone_11_pro_mockup/img/iphone_11_pro_rough_rear_view.png "iphone 11 pro mockup")
 
 </dd>
 
@@ -153,7 +153,7 @@ iphone 11 pro mockup
 </dt><dd>
 iphone 11 pro mount sleeve
 
-<!-- ![iphone 11 pro mount sleeve](iphone_11_pro_mount_sleeve/img/IMAGE.png "iphone 11 pro mount sleeve") -->
+![iphone 11 pro mount sleeve](iphone_11_pro_mount_sleeve/img/sleeve_back__form_monoprice.png "iphone 11 pro mount sleeve")
 
 </dd>
 
@@ -164,7 +164,7 @@ iphone 11 pro mount sleeve
 </dt><dd>
 iphone 11 pro otterbox defender mount sleeve
 
-<!-- ![iphone 11 pro otterbox defender mount sleeve](iphone_11_pro_otterbox_defender_mount_sleeve/img/IMAGE.png "iphone 11 pro otterbox defender mount sleeve") -->
+![iphone 11 pro otterbox defender mount sleeve](iphone_11_pro_otterbox_defender_mount_sleeve/img/print_front__obx_defender.jpg "iphone 11 pro otterbox defender mount sleeve")
 
 </dd>
 
@@ -252,7 +252,11 @@ raspi box fully enclosed top cover
 </dt><dd>
 raspi cam hq models
 
-<!-- ![raspi cam hq models](raspi_cam_hq_models/img/IMAGE.png "raspi cam hq models") -->
+![raspi cam hq models](raspi_cam_hq_models/img/assemblies_with_and_without_adapters_lenses.png "raspi cam hq models")
+
+![Simple mount - HQ Cam PCB housing](raspi_cam_hq_models/img/hqcam_pcb_housing_with_attached_arms.png)
+
+![Simple mount - PoE HAT case](raspi_cam_hq_models/img/piHQcam_simple_mount_poe_hat_case.png)
 
 </dd>
 
@@ -263,7 +267,7 @@ raspi cam hq models
 </dt><dd>
 remix thing 2160917 octopi rig top ribbon cable opening
 
-<!-- ![remix thing 2160917 octopi rig top ribbon cable opening](remix_thing_2160917_octopi_rig_top_ribbon_cable_opening/img/IMAGE.png "remix thing 2160917 octopi rig top ribbon cable opening") -->
+![remix thing 2160917 octopi rig top ribbon cable opening](remix_thing_2160917_octopi_rig_top_ribbon_cable_opening/img/slot_object_render.png "remix thing 2160917 octopi rig top ribbon cable opening")
 
 </dd>
 
@@ -274,7 +278,7 @@ remix thing 2160917 octopi rig top ribbon cable opening
 </dt><dd>
 remix thing 922740 raspi3 M5 screw vesa mount
 
-<!-- ![remix thing 922740 raspi3 M5 screw vesa mount](remix_thing_922740_raspi3_M5_screw_vesa_mount/img/IMAGE.png "remix thing 922740 raspi3 M5 screw vesa mount") -->
+![remix thing 922740 raspi3 M5 screw vesa mount](remix_thing_922740_raspi3_M5_screw_vesa_mount/img/object_render.png "remix thing 922740 raspi3 M5 screw vesa mount")
 
 </dd>
 
