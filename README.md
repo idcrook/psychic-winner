@@ -120,7 +120,7 @@ choetech wireless charger stand landscape booster
 </dt><dd>
 fireaxe blade
 
-<!-- ![fireaxe blade](fireaxe_blade/img/IMAGE.png "fireaxe blade") -->
+![fireaxe blade](fireaxe_blade/img/fireaxe_blade.png "fireaxe blade")
 
 </dd>
 
