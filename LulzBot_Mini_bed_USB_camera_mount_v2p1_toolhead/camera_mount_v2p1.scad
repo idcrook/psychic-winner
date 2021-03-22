@@ -15,7 +15,7 @@ difference() {
     import("camera_mount_floating_ends__bed_mount.stl");
 
     translate(v = [-0.0000000000, +move_mount_y, 0]){
-      import("camera_mount_floating_ends__cam_mount_f360.stl");
+      import("camera_mount_floating_ends__cam_mount_mm.stl");
     }
 
 
