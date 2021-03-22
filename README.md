@@ -300,7 +300,7 @@ webcam small mount
 </dt><dd>
 x wing fighter laser cannon
 
-<!-- ![x wing fighter laser cannon](x_wing_fighter_laser_cannon/img/IMAGE.png "x wing fighter laser cannon") -->
+ ![x wing fighter laser cannon](x_wing_fighter_laser_cannon/img/x_wing_fighter_laser_cannon.png "x wing fighter laser cannon")
 
 </dd>
 
