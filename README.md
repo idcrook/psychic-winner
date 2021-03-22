@@ -230,7 +230,7 @@ lsu tiger ornament
 </dt><dd>
 planter tray
 
-<!-- ![planter tray](planter_tray/img/IMAGE.png "planter tray") -->
+![planter tray](planter_tray/img/planter_tray_split.png "planter tray")
 
 </dd>
 

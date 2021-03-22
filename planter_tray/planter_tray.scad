@@ -10,7 +10,7 @@
 // - inner diameter at top of lip 185 mm, at a height ~20 mm
 //
 
-use <MCADlocal/2Dshapes.scad>
+use <MCAD/2Dshapes.scad>
 
 // small number
 e = 0.02;
@@ -249,6 +249,6 @@ module buildSmall() {
   revolve();
 }
 
-* buildPrintable();
+buildPrintable();
 
-buildSmall();
+* buildSmall();
