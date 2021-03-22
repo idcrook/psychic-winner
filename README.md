@@ -175,7 +175,7 @@ iphone 11 pro otterbox defender mount sleeve
 </dt><dd>
 iphone 6plus bicycle mount
 
-<!-- ![iphone 6plus bicycle mount](iphone_6plus_bicycle_mount/img/IMAGE.png "iphone 6plus bicycle mount") -->
+![iphone 6plus bicycle mount](iphone_6plus_bicycle_mount/img/iphone_bicycle_mount.png "iphone 6plus bicycle mount")
 
 </dd>
 
