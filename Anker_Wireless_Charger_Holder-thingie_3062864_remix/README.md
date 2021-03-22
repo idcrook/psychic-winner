@@ -12,4 +12,4 @@ Inspired by [comment](https://www.thingiverse.com/thing:3062864/comments/#commen
 	-	Licensed under [Creative Commons - Attribution - Non-Commercial - Share Alike](https://creativecommons.org/licenses/by-nc-sa/3.0/) license
 	-	imported downloaded `Base.STL` file 2019-Sep-03
 
-![object render](object_render.png)
+![object render](img/object_render.png)

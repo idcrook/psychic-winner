@@ -11,13 +11,13 @@ There's a model for the Echo Auto itself, plus alternative dashboard mount.
 Dash Mount A
 ============
 
-![openscad dash mount a](echo_auto_alt_dash_mount_a_scad.png)
+![openscad dash mount a](img/echo_auto_alt_dash_mount_a_scad.png)
 
-![dash mount a](echo_auto_alt_dash_mount_a_sm1.jpg)
+![dash mount a](img/echo_auto_alt_dash_mount_a_sm1.jpg)
 
 Echo Auto model
 ---------------
 
-![top side](model_echo_auto.png)
+![top side](img/model_echo_auto.png)
 
-![under side](model_echo_auto__underside.png)
+![under side](img/model_echo_auto__underside.png)
