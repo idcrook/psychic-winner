@@ -65,7 +65,7 @@ LulzBot Mini bed USB camera mount v2p1 toolhead
 </dt><dd>
 SD3x5 Holder
 
-<!-- ![SD3x5 Holder](SD3x5_Holder/img/IMAGE.png "SD3x5 Holder") -->
+![SD3x5 Holder](SD3x5_Holder/img/SD3x5_Holder_2.png "SD3x5 Holder")
 
 </dd>
 
