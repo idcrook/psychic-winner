@@ -208,7 +208,7 @@ iphone 8plus otterbox statement case mount sleeve
 </dt><dd>
 iphone se mount sleeve
 
-<!-- ![iphone se mount sleeve](iphone_se_mount_sleeve/img/IMAGE.png "iphone se mount sleeve") -->
+![iphone se mount sleeve](iphone_se_mount_sleeve/img/iphone_se_mount_sleeve.png "iphone se mount sleeve")
 
 </dd>
 
