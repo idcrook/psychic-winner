@@ -289,7 +289,7 @@ remix thing 922740 raspi3 M5 screw vesa mount
 </dt><dd>
 webcam small mount
 
-<!-- ![webcam small mount](webcam_small_mount/img/IMAGE.png "webcam small mount") -->
+![webcam small mount](webcam_small_mount/img/webcam_small_mount.png "webcam small mount")
 
 </dd>
 
