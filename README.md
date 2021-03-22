@@ -219,7 +219,7 @@ iphone se mount sleeve
 </dt><dd>
 lsu tiger ornament
 
-<!-- ![lsu tiger ornament](lsu_tiger_ornament/img/IMAGE.png "lsu tiger ornament") -->
+![lsu tiger ornament](lsu_tiger_ornament/img/lsu_tiger_ornament__dual_extrusion.png "lsu tiger ornament")
 
 </dd>
 
