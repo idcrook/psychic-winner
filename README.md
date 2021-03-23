@@ -14,7 +14,7 @@ git clone --recurse-submodules https://github.com/idcrook/psychic-winner.git
 ```
 
 
-## Links
+## Index
 
  -    [7 inch hdmi raspi vertical stand](#dir-dt-7-inch-hdmi-raspi-vertical-stand)
  -    [Anker Wireless Charger Holder-thingie 3062864 remix](#dir-dt-anker-wireless-charger-holder-thingie-3062864-remix)

@@ -78,10 +78,8 @@ while($line = <>) {
 print("</dl>\n");
 
 
-print("<!-- Directory of directories -->\n");
-
 print("\n");
-print("## Links\n");
+print("## Index\n");
 print("\n");
 
 @listOfDirectories = &form_directory_directory(@htmlFragments);
