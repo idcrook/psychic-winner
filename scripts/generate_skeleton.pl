@@ -81,7 +81,7 @@ print("</dl>\n");
 print("<!-- Directory of directories -->\n");
 
 print("\n");
-print("### Links\n");
+print("## Links\n");
 print("\n");
 
 @listOfDirectories = &form_directory_directory(@htmlFragments);
