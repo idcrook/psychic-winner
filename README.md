@@ -40,6 +40,7 @@ git clone --recurse-submodules https://github.com/idcrook/psychic-winner.git
  -    [raspi cam hq models](#dir-dt-raspi-cam-hq-models)
  -    [remix thing 2160917 octopi rig top ribbon cable opening](#dir-dt-remix-thing-2160917-octopi-rig-top-ribbon-cable-opening)
  -    [remix thing 922740 raspi3 M5 screw vesa mount](#dir-dt-remix-thing-922740-raspi3-m5-screw-vesa-mount)
+ -    [servo demo](#dir-dt-servo-demo)
  -    [webcam small mount](#dir-dt-webcam-small-mount)
  -    [x wing fighter laser cannon](#dir-dt-x-wing-fighter-laser-cannon)
 
@@ -312,6 +313,17 @@ remix thing 2160917 octopi rig top ribbon cable opening
 remix thing 922740 raspi3 M5 screw vesa mount
 
 ![remix thing 922740 raspi3 M5 screw vesa mount](remix_thing_922740_raspi3_M5_screw_vesa_mount/img/object_render.png "remix thing 922740 raspi3 M5 screw vesa mount")
+
+</dd>
+
+<dt id="dir-dt-servo-demo" >
+
+[servo_demo](servo_demo/#readme)
+
+</dt><dd>
+servo demo
+
+![servo demo](servo_demo/img/servo_demo.png "servo demo")
 
 </dd>
 
