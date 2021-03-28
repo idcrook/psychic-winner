@@ -1,6 +1,7 @@
-$fa=1;
-$fs=1;
-bone_height = 3.4;//set this to how thick you want the tag
+
+//set this to how thick you want the tag
+bone_height = 3.4;
+
 pet_name="FIDO";
 phone_number="123-555-1212";
 font_face="San Franscisco:style=Bold";
@@ -12,6 +13,9 @@ tag_attachment_inner_diameter = 3.4;
 tag_attachment_width = (tag_attachment_outer_diameter - tag_attachment_inner_diameter);
 tag_attachment_height = bone_height*95/100;
 tag_attachment_flare_width = 8;
+
+$fa=1;
+$fs=1;
 
 module t(t, font_size, align_scale, character_spacing){
  translate([-1,(-len(t)*align_scale),bone_height - delta])
