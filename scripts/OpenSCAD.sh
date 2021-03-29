@@ -22,10 +22,10 @@
 
 #CURRENT_DIR="${PWD}"
 LOCAL_TOP_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && cd ../ && pwd )"
-LOCAL_LIBRARIES_DIR="$( cd ${LOCAL_TOP_DIR}/libraries/ && pwd )"
-# echo $CURRENT_DIR
-# echo $LOCAL_TOP_DIR
-# echo $LOCAL_LIBRARIES_DIR
+LOCAL_LIBRARIES_DIR=$( cd "${LOCAL_TOP_DIR}"/libraries/ && pwd )
+# echo "$CURRENT_DIR"
+# echo "$LOCAL_TOP_DIR"
+# echo "$LOCAL_LIBRARIES_DIR"
 
 # Darwin / Linux
 os_name="$(uname -s)"
@@ -55,7 +55,7 @@ esac
 # exports (also be explicit below)
 export OPENSCADPATH="$LOCAL_LIBRARIES_DIR:$DEFAULT_LIBRARIES_DIR"
 
-echo OPENSCADPATH=$OPENSCADPATH
+echo OPENSCADPATH="$OPENSCADPATH"
 # echo app_path=$app_path
 # echo app_bin=$app_bin
 
@@ -65,8 +65,8 @@ then
     # There are no arguments, so
     case $os_name in
         Darwin*)
-            echo Starting $app_path...
-            open -a "${app_path}" --env OPENSCADPATH=$OPENSCADPATH
+            echo Starting "$app_path"...
+            open -a "${app_path}" --env OPENSCADPATH="$OPENSCADPATH"
             ;;
         *)
             OPENSCADPATH=$OPENSCADPATH "${app_bin}"
@@ -81,14 +81,14 @@ else
     for arg in "${@}" ; do
         case "$arg" in
             *.scad)
-                bn=$(basename $arg)
+                bn=$(basename "$arg")
                 dir="$( cd "$( dirname "$arg" )" && pwd )"
                 #echo "$dir/$bn"
                 # only keep last .scad argument if there's more than one
                 scad_file="$dir/$bn"
             ;;
             *.stl)  # will open by creating Untitled.scad with an import
-                bn=$(basename $arg)
+                bn=$(basename "$arg")
                 dir="$( cd "$( dirname "$arg" )" && pwd )"
                 #echo "$dir/$bn"
                 # only keep last .scad/.stl argument if there's more than one
