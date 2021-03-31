@@ -33,8 +33,8 @@ os_name="$(uname -s)"
 DEFAULT_LIBRARIES_DIR_macos="$HOME/Documents/OpenSCAD/libraries"
 DEFAULT_LIBRARIES_DIR_linux="$HOME/.local/share/OpenSCAD/libraries"
 
-app_linux="openscad"
-app_path_linux="$(which $app_linux)"
+app_linux="openscad"  # TODO: add openscad-nightly as a fall-thru
+app_path_linux="$(type -P $app_linux)"
 
 app_macos="OpenSCAD.app"
 app_path_macos="/Applications/${app_macos}"
@@ -69,6 +69,7 @@ then
             open -a "${app_path}" --env OPENSCADPATH="$OPENSCADPATH"
             ;;
         *)
+            set -o xtrace
             OPENSCADPATH=$OPENSCADPATH "${app_bin}"
             ;;
     esac
@@ -116,6 +117,7 @@ else
             # "${app_bin}" "${myArgs[@]}"
             ;;
         *)
+            set -o xtrace
             OPENSCADPATH=$OPENSCADPATH "${app_bin}" "${myArgs[@]}"
             ;;
     esac
