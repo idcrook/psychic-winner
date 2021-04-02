@@ -120,8 +120,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
 
   CONTROL_RENDER_bottom_front_no_bridge = true;
-  CONTROL_RENDER_prototype_bottom_lightning_access =  !true;
-  CONTROL_RENDER_prototype_bottom_back_flap =  !true;
+  /* CONTROL_RENDER_prototype_bottom_lightning_access =  !true; */
+  /* CONTROL_RENDER_prototype_bottom_back_flap =  !true; */
+  CONTROL_RENDER_prototype_bottom_lightning_access =  true;
+  CONTROL_RENDER_prototype_bottom_back_flap =  true;
 
   CONTROL_RENDER_experiment3      = ! true;
   CONTROL_RENDER_experiment4      = ! true;
@@ -1015,7 +1017,7 @@ module test_sleeveMountInsert (fit_better, translate_x) {
   fitBetter = fit_better;
 
   tolerance = 0.5;
-  wantThinner = true ? true : false;
+  wantThinner = true ;
   sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
 
 
@@ -1071,7 +1073,7 @@ module showTogether() {
 }
 
 
-show_everything =  !true ? true : false;
+show_everything =  !true;
 
 
 if (show_everything) {
@@ -1080,12 +1082,12 @@ if (show_everything) {
   // $preview requires version 2019.05
   fn = $preview ? 30 : 100;
 
-  tweakMountSurface =  true ? true : false;
+  tweakMountSurface =  true;
 
-  withSleeve =  true ? true : false;
+  withSleeve =  true;
 
-  printCap   =  !true ? true : false;
-  withCap    =  printCap ? true : false;
+  printCap   =  !true;
+  withCap    =  printCap;
   //withCap    =  true;
 
 
