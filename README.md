@@ -9,10 +9,19 @@ Getting this repo
 ```shell
 mkdir -p ~/projects/
 cd ~/projects/
+
+# this will also check out full collection of libraries, some of which are not in use
 git clone --recurse-submodules https://github.com/idcrook/psychic-winner.git
  # aka: git@github.com:idcrook/psychic-winner.git
 ```
 
+## Launcher script for OpenSCAD
+
+Intended to find the collection of local libraries (macOS, Linux)
+
+```shell
+./scripts/OpenSCAD.sh
+```
 
 ## Index
 
