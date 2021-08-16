@@ -33,6 +33,7 @@ Intended to find the collection of local libraries (macOS, Linux)
  -    [amazon echo auto alt dash mount](#dir-dt-amazon-echo-auto-alt-dash-mount)
  -    [another-lulzbot-mini-spool-holder-bushing](#dir-dt-another-lulzbot-mini-spool-holder-bushing)
  -    [bone dog tag](#dir-dt-bone-dog-tag)
+ -    [bone dog tag dualside](#dir-dt-bone-dog-tag-dualside)
  -    [choetech wireless charger stand landscape booster](#dir-dt-choetech-wireless-charger-stand-landscape-booster)
  -    [fireaxe blade](#dir-dt-fireaxe-blade)
  -    [hanging shower caddy mount](#dir-dt-hanging-shower-caddy-mount)
@@ -142,6 +143,17 @@ another-lulzbot-mini-spool-holder-bushing
 bone dog tag
 
 ![bone dog tag](bone_dog_tag/img/bone_dog_tag_tuned.png "bone dog tag")
+
+</dd>
+
+<dt id="dir-dt-bone-dog-tag-dualside" >
+
+[bone_dog_tag_dualside](bone_dog_tag_dualside/#readme)
+
+</dt><dd>
+bone dog tag dualside
+
+![bone dog tag dualside](bone_dog_tag_dualside/img/bone_dog_tag_tuned_dualside.png "bone dog tag dualside")
 
 </dd>
 
