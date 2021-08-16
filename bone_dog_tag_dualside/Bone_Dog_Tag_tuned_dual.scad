@@ -47,7 +47,7 @@ translate([-15,-49,0]) cube([30,90,bone_height]);
 translate([1.5 + (14/2),    -3.0, -delta]) t(pet_name,    17, 9.0, 1.3);
 
 // back-side
-rotate([0, 180, 15])  translate([(14/2), 0, -(bone_height + delta + 0.3)]) t(phone_number, 10, 3.9, 1.1);
+rotate([0, 180, 15 - 180 + 180])  translate([(14/2)-0.5, 0.5, -(bone_height + delta + 0.3)]) t(phone_number, 10, 3.9, 1.1);
 
 
 //tag attachment
