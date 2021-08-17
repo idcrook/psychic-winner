@@ -6,6 +6,7 @@ Re-mix to put phone number on reverse side of name.
 ## Files
 
  - `Bone_Dog_Tag_dual.scad` <- OpenSCAD file
+ - `Bone_Dog_Tag_dual.stl` <- Example STL file
 
 ## Printing
 
