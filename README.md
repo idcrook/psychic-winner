@@ -45,6 +45,7 @@ Intended to find the collection of local libraries (macOS, Linux)
  -    [iphone 8plus otterbox statement case mount sleeve](#dir-dt-iphone-8plus-otterbox-statement-case-mount-sleeve)
  -    [iphone se mount sleeve](#dir-dt-iphone-se-mount-sleeve)
  -    [lsu tiger ornament](#dir-dt-lsu-tiger-ornament)
+ -    [palette with removable wells 2oz cups--remix-thing-4771826](#dir-dt-palette-with-removable-wells-2oz-cups--remix-thing-4771826)
  -    [planter tray](#dir-dt-planter-tray)
  -    [raspi box fully enclosed top cover](#dir-dt-raspi-box-fully-enclosed-top-cover)
  -    [raspi cam hq models](#dir-dt-raspi-cam-hq-models)
@@ -275,6 +276,17 @@ iphone se mount sleeve
 lsu tiger ornament
 
 ![lsu tiger ornament](lsu_tiger_ornament/img/lsu_tiger_ornament__dual_extrusion.png "lsu tiger ornament")
+
+</dd>
+
+<dt id="dir-dt-palette-with-removable-wells-2oz-cups--remix-thing-4771826" >
+
+[palette_with_removable_wells_2oz_cups--remix-thing-4771826](palette_with_removable_wells_2oz_cups--remix-thing-4771826/#readme)
+
+</dt><dd>
+palette with removable wells 2oz cups--remix-thing-4771826
+
+![palette with removable wells 2oz cups--remix-thing-4771826](palette_with_removable_wells_2oz_cups--remix-thing-4771826/img/object_render.png "palette with removable wells 2oz cups--remix-thing-4771826") -->
 
 </dd>
 
