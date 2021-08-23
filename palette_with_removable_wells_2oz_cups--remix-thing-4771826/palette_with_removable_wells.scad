@@ -21,6 +21,8 @@
 //use <models/plastic_cup_2oz.scad>
 include <models/plastic_cup_2oz.scad>
 
+use <../libraries/misc/2dWedge.scad>
+// 2dWedge(radius, startAngle, endAngle, stepsOverride)
 
 e = 1/128; // small number
 
@@ -103,6 +105,24 @@ module material_trim_triangle () {
                      [cos(60) * 100, sin(60) * 100]]);
 }
 
+module material_trim_sector () {
+
+  segment_outer_radius = well_cutout_radius + (3/4)*well_padding;
+  segment_inner_radius = well_cutout_radius + (1/3)*well_padding;
+  segment_arc_degrees = 25;
+
+
+  difference ()
+    {
+      2dWedge(radius = segment_outer_radius, startAngle = 0, endAngle = segment_arc_degrees);
+
+      // subtract inside circular segment
+      translate([0, 0, 0])
+        rotate([0, 0, -e])
+        2dWedge(radius = segment_inner_radius+2*e, startAngle = 0, endAngle = segment_arc_degrees+1);
+    }
+}
+
 
 module palette (trim_material = false) {
     difference () {
@@ -142,8 +162,8 @@ module palette (trim_material = false) {
     triangle_rot = -60;
     triangle_size = 27; //
 
-    triangle1_x = 2*well_padding + 1*well_outer_brim_r - 4.7;
-    triangle1_y = (1/2)*well_padding + (3/2)*well_outer_brim_r;
+    triangle1_x = 2*well_padding + 1*well_outer_brim_r - 5.0;
+    triangle1_y = (1/2)*well_padding + (3/2)*well_outer_brim_r-1.5;
 
     triangle2_x = triangle1_x + 2*well_padding +  1*well_outer_brim_r;
     triangle2_y = triangle1_y;
@@ -154,9 +174,10 @@ module palette (trim_material = false) {
 
     // use these objects to trim material
     if (trim_material) {
-      translate([0,-2,-e])
+      translate([0,0,-e])
         linear_extrude(height=palette_thickness+2*e)
 
+        // triangles
         union () {
         translate([triangle1_x, triangle1_y, 0])
           rotate([0,0, triangle_rot])
@@ -173,6 +194,76 @@ module palette (trim_material = false) {
           scale([triangle_size/100, triangle_size/100, 1])
           material_trim_triangle();
 
+        // sectors
+        // ROW 1:
+        translate([0*well_padding + 1*well_outer_brim_r,
+                   1*well_outer_brim_r,
+                   0])
+          union() {
+          rotate([0,0,60]) material_trim_sector    ();
+          rotate([0,0,90]) material_trim_sector    ();
+          rotate([0,0,120]) material_trim_sector    ();
+          rotate([0,0,180 + 15]) material_trim_sector    ();
+          rotate([0,0,180 + 45]) material_trim_sector    ();
+          rotate([0,0,180 + 105]) material_trim_sector    ();
+          rotate([0,0,180 + 135]) material_trim_sector    ();
+        }
+
+        translate([2*well_padding + 2*well_outer_brim_r,
+                   well_outer_brim_r,
+                   0])
+          union() {
+          /* rotate([0,0,60]) material_trim_sector    (); */
+          /* rotate([0,0,90]) material_trim_sector    (); */
+          /* rotate([0,0,120]) material_trim_sector    (); */
+          rotate([0,0,180 + 15]) material_trim_sector    ();
+          rotate([0,0,180 + 45]) material_trim_sector    ();
+          rotate([0,0,180 + 105]) material_trim_sector    ();
+          rotate([0,0,180 + 135]) material_trim_sector    ();
+        }
+
+        translate([4*well_padding + 3*well_outer_brim_r,
+                   well_outer_brim_r,
+                   0])
+          union() {
+          rotate([0,0,30]) material_trim_sector    ();
+          rotate([0,0,60]) material_trim_sector    ();
+          rotate([0,0,90]) material_trim_sector    ();
+          /* rotate([0,0,120]) material_trim_sector    (); */
+          rotate([0,0,180 + 15]) material_trim_sector    ();
+          rotate([0,0,180 + 45]) material_trim_sector    ();
+          rotate([0,0,180 + 105]) material_trim_sector    ();
+          rotate([0,0,180 + 135]) material_trim_sector    ();
+        }
+        // ROW 2:
+        translate([-(1/2)*well_padding + 1*well_outer_brim_r,
+                   -(3/4)*well_padding, 0]) {
+          translate([0*well_padding + 1*well_outer_brim_r,
+                     2*well_padding + 2*well_outer_brim_r,
+                     0])
+            union() {
+            rotate([0,0,110]) material_trim_sector    ();
+            rotate([0,0,140]) material_trim_sector    ();
+            rotate([0,0,170]) material_trim_sector    ();
+            rotate([0,0, 15]) material_trim_sector    ();
+            rotate([0,0, 45]) material_trim_sector    ();
+          }
+        }
+
+        translate([-(1/2)*well_padding + 1*well_outer_brim_r,
+                   -(3/4)*well_padding, 0]) {
+          translate([2*well_padding + 2*well_outer_brim_r,
+                     2*well_padding + 2*well_outer_brim_r,
+                     0])
+            union() {
+            rotate([0,0,110]) material_trim_sector    ();
+            rotate([0,0,140]) material_trim_sector    ();
+            /* rotate([0,0,170]) material_trim_sector    (); */
+            rotate([0,0, -15]) material_trim_sector    ();
+            rotate([0,0, 15]) material_trim_sector    ();
+            rotate([0,0, 45]) material_trim_sector    ();
+          }
+        }
       }
     }
 
@@ -238,7 +329,7 @@ module showTogether() {
 
 }
 
-show_everything = true ;
+show_everything = !true ;
 p_ex1 = false;
 p_ex2 = !false;
 
@@ -250,6 +341,8 @@ if (show_everything) {
     //palette_only();
     //single_2oz_well();
     //material_trim_triangle    ();
+    /* translate([well_outer_brim_r, well_outer_brim_r, palette_thickness]) */
+    /*   rotate([0,0,75]) material_trim_sector    (); */
 
     if (p_ex1) {
       intersection () { // print experiment (for smaller bed)
