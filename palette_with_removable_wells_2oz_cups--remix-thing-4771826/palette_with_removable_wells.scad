@@ -28,16 +28,24 @@ palette_exterior_length = 220;
 palette_exterior_width = 145;
 palette_thickness = 3;
 
-module palette () {
+well_cutout_radius   = get_2oz_settle_diameter() / 2;
+plastic_2oz_cutout_z_height = get_2oz_settle_depth() - palette_thickness;
+plastic_2oz_projection_diameter = get_2oz_max_diameter();
 
-  cutout_size_d  = get_settle_diameter();
-  cutout_size_r  = cutout_size_d / 2;
+well_padding = 14.5;
+well_inner_r = well_cutout_radius - 2; // the actual will be result of cup subtraction
+well_outer_brim_r = plastic_2oz_projection_diameter/2 + well_padding;
+
+module palette_rough () {
+
+  cutout_size_r  = well_cutout_radius;
+  cutout_size_d  = cutout_size_r * 2;
   start_inset_x = 10;
   start_inset_y = 10;
   space_between = 15;
   center_gap = 15;
 
-  echo ("The cutout diameter is d=", cutout_size_d);
+  echo ("The well cutout diameter is d=", cutout_size_d);
 
   difference () {
     cube([palette_exterior_length, palette_exterior_width, palette_thickness]);
@@ -87,6 +95,60 @@ module palette () {
 
 }
 
+module palette () {
+  scale ([1.0,1.0,1.0])
+    translate([0, 0, 0]) {
+
+    // ROW 1
+    translate([0*well_padding + 1*well_outer_brim_r,
+               0*well_padding + 1*well_outer_brim_r, 0])
+      single_2oz_well();
+
+    translate([2*well_padding + 2*well_outer_brim_r,
+               0*well_padding + 1*well_outer_brim_r, 0])
+      single_2oz_well();
+
+    translate([4*well_padding + 3*well_outer_brim_r,
+               0*well_padding + 1*well_outer_brim_r, 0])
+      single_2oz_well();
+
+
+    // ROW 2
+    // shift to be more closely spaced
+    translate([-(1/2)*well_padding + 1*well_outer_brim_r,
+               -(3/4)*well_padding, 0]) {
+      translate([0*well_padding + 1*well_outer_brim_r,
+                 2*well_padding + 2*well_outer_brim_r, 0])
+        single_2oz_well();
+
+      translate([2*well_padding + 2*well_outer_brim_r,
+                 2*well_padding + 2*well_outer_brim_r, 0])
+        single_2oz_well();
+
+      /* translate([4*well_padding + 3*well_outer_brim_r, */
+      /*            2*well_padding + 2*well_outer_brim_r, 0]) */
+      /*   single_2oz_well(); */
+    }
+  }
+}
+
+module single_2oz_well() {
+  padding = well_padding;
+  inner_r = well_inner_r;
+  outer_brim_r = well_outer_brim_r;
+  spacing = 2 * outer_brim_r + padding;
+
+  difference () {
+    linear_extrude (height = palette_thickness)
+      difference () {
+      circle (r = outer_brim_r);
+      circle (r = inner_r);
+    }
+
+    // subtract cup from center
+    place_solid_plastic_cup_2oz();
+  }
+}
 
 module palette_only () {
     translate([0, 0, 0]) {
@@ -95,48 +157,54 @@ module palette_only () {
 }
 
 module original_model () {
-
   import ("designs/EconoPalette--thing-4771826.stl");
-
-
 }
 
-module plastic_cup_2oz () {
-  translate([0, 0, 0]) {
-      plastic_cup_2oz_model();
+module place_solid_plastic_cup_2oz () {
+  translate([0, 0, -(plastic_2oz_cutout_z_height + palette_thickness)]) {
+      plastic_cup_2oz_model(solid=true);
     }
-
 }
-
-
 
 module showTogether() {
-
-    x_spacing = 40;
-    y_spacing = 55;
-
     %scale ([1.0,1.0,1.0])
       translate([220 + 152, 141.4/2, 0])
       rotate([90, 0, 0])
       original_model();
 
     scale ([1.0,1.0,1.0])
-      translate([0, 0, 0])
-      palette();
+      translate([0, 0, -(palette_thickness+e)])
+      %palette_rough();
 
+    scale ([1.0,1.0,1.0])
+      translate([0, 0, 0]) {
 
+      intersection () {
+        palette();
+        // trim to fit more reliably on beds
+        translate([4.5,4.5,-e])
+          cube([230,145,palette_thickness + 2*e]);
+      }
 
+    }
 
 }
 
-show_everything = true ;
+show_everything = !true ;
 
 if (show_everything) {
     showTogether();
 } else {
-
     // $preview requires version 2019.05
     fn = $preview ? 30 : 100;
-    palette_only();
+    //palette_only();
+    //single_2oz_well();
+
+    intersection () { // print experiment (for smaller bed)
+      palette();
+      translate([4.5,4.5,-e])
+        //cube([230,145,palette_thickness + 2*e]);
+        cube([130,145,palette_thickness + 2*e]);
+    }
 
 }
