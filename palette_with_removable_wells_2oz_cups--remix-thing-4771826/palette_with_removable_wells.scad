@@ -26,15 +26,16 @@ e = 1/128; // small number
 
 palette_exterior_length = 220;
 palette_exterior_width = 145;
-palette_thickness = 3;
+//palette_thickness = 3;
+palette_thickness = 2.67;
 
 well_cutout_radius   = get_2oz_settle_diameter() / 2;
 plastic_2oz_cutout_z_height = get_2oz_settle_depth() - palette_thickness;
 plastic_2oz_projection_diameter = get_2oz_max_diameter();
 
-well_padding = 14.5;
+well_padding = 7.25*2;
 well_inner_r = well_cutout_radius - 2; // the actual will be result of cup subtraction
-well_outer_brim_r = plastic_2oz_projection_diameter/2 + well_padding;
+well_outer_brim_r = (plastic_2oz_projection_diameter/2)  + well_padding;
 
 module palette_rough () {
 
@@ -95,40 +96,87 @@ module palette_rough () {
 
 }
 
-module palette () {
-  scale ([1.0,1.0,1.0])
+module material_trim_triangle () {
+  // equilateral triangle with side length 100
+  polygon(points = [ [0,0],
+                     [100, 0],
+                     [cos(60) * 100, sin(60) * 100]]);
+}
+
+
+module palette (trim_material = false) {
+    difference () {
     translate([0, 0, 0]) {
 
-    // ROW 1
-    translate([0*well_padding + 1*well_outer_brim_r,
-               0*well_padding + 1*well_outer_brim_r, 0])
-      single_2oz_well();
-
-    translate([2*well_padding + 2*well_outer_brim_r,
-               0*well_padding + 1*well_outer_brim_r, 0])
-      single_2oz_well();
-
-    translate([4*well_padding + 3*well_outer_brim_r,
-               0*well_padding + 1*well_outer_brim_r, 0])
-      single_2oz_well();
-
-
-    // ROW 2
-    // shift to be more closely spaced
-    translate([-(1/2)*well_padding + 1*well_outer_brim_r,
-               -(3/4)*well_padding, 0]) {
+      // ROW 1
       translate([0*well_padding + 1*well_outer_brim_r,
-                 2*well_padding + 2*well_outer_brim_r, 0])
+                 0*well_padding + 1*well_outer_brim_r, 0])
         single_2oz_well();
 
       translate([2*well_padding + 2*well_outer_brim_r,
-                 2*well_padding + 2*well_outer_brim_r, 0])
+                 0*well_padding + 1*well_outer_brim_r, 0])
         single_2oz_well();
 
-      /* translate([4*well_padding + 3*well_outer_brim_r, */
-      /*            2*well_padding + 2*well_outer_brim_r, 0]) */
-      /*   single_2oz_well(); */
+      translate([4*well_padding + 3*well_outer_brim_r,
+                 0*well_padding + 1*well_outer_brim_r, 0])
+        single_2oz_well();
+
+      // ROW 2
+      // shift to be more closely spaced
+      translate([-(1/2)*well_padding + 1*well_outer_brim_r,
+                 -(3/4)*well_padding, 0]) {
+        translate([0*well_padding + 1*well_outer_brim_r,
+                   2*well_padding + 2*well_outer_brim_r, 0])
+          single_2oz_well();
+
+        translate([2*well_padding + 2*well_outer_brim_r,
+                   2*well_padding + 2*well_outer_brim_r, 0])
+          single_2oz_well();
+
+        /* translate([4*well_padding + 3*well_outer_brim_r, */
+        /*            2*well_padding + 2*well_outer_brim_r, 0]) */
+        /*   single_2oz_well(); */
+      }
     }
+
+    triangle_rot = -60;
+    triangle_size = 27; //
+
+    triangle1_x = 2*well_padding + 1*well_outer_brim_r - 4.7;
+    triangle1_y = (1/2)*well_padding + (3/2)*well_outer_brim_r;
+
+    triangle2_x = triangle1_x + 2*well_padding +  1*well_outer_brim_r;
+    triangle2_y = triangle1_y;
+
+    triangle3_x  = (1/2)* (triangle1_x+triangle2_x) + triangle_size;
+    triangle3_y = triangle1_y + (1/2)*well_padding;
+
+
+    // use these objects to trim material
+    if (trim_material) {
+      translate([0,-2,-e])
+        linear_extrude(height=palette_thickness+2*e)
+
+        union () {
+        translate([triangle1_x, triangle1_y, 0])
+          rotate([0,0, triangle_rot])
+          scale([triangle_size/100, triangle_size/100, 1])
+          material_trim_triangle();
+
+        translate([triangle2_x, triangle2_y, 0])
+          rotate([0,0, triangle_rot])
+          scale([triangle_size/100, triangle_size/100, 1])
+          material_trim_triangle();
+
+        translate([triangle3_x, triangle3_y, 0])
+          rotate([0,0, triangle_rot + 180])
+          scale([triangle_size/100, triangle_size/100, 1])
+          material_trim_triangle();
+
+      }
+    }
+
+
   }
 }
 
@@ -161,7 +209,7 @@ module original_model () {
 }
 
 module place_solid_plastic_cup_2oz () {
-  translate([0, 0, -(plastic_2oz_cutout_z_height + palette_thickness)]) {
+  translate([0, 0, -(plastic_2oz_cutout_z_height + 0)]) {
       plastic_cup_2oz_model(solid=true);
     }
 }
@@ -180,17 +228,19 @@ module showTogether() {
       translate([0, 0, 0]) {
 
       intersection () {
-        palette();
+        palette(trim_material = true);
         // trim to fit more reliably on beds
         translate([4.5,4.5,-e])
-          cube([230,145,palette_thickness + 2*e]);
+          cube([227,143,palette_thickness + 2*e]);
       }
 
     }
 
 }
 
-show_everything = !true ;
+show_everything = true ;
+p_ex1 = false;
+p_ex2 = !false;
 
 if (show_everything) {
     showTogether();
@@ -199,12 +249,24 @@ if (show_everything) {
     fn = $preview ? 30 : 100;
     //palette_only();
     //single_2oz_well();
+    //material_trim_triangle    ();
 
-    intersection () { // print experiment (for smaller bed)
-      palette();
-      translate([4.5,4.5,-e])
-        //cube([230,145,palette_thickness + 2*e]);
-        cube([130,145,palette_thickness + 2*e]);
+    if (p_ex1) {
+      intersection () { // print experiment (for smaller bed)
+        palette();
+        translate([4.5,4.5,-e])
+          //cube([230,145,palette_thickness + 2*e]);
+          cube([130,145,palette_thickness + 2*e]);
+      }
+    }
+
+    if (p_ex2) {
+      intersection () { // print experiment (for smaller bed)
+        palette(trim_material=true);
+        translate([4.5,4.5,-e])
+          //cube([230,145,palette_thickness + 2*e]);
+          cube([130,145,palette_thickness + 2*e]);
+      }
     }
 
 }
