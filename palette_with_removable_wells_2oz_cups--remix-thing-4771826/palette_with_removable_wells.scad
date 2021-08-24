@@ -260,7 +260,7 @@ module place_solid_plastic_cup_2oz () {
 
 module showTogether(add_legs = false) {
     %scale ([1.0,1.0,1.0])
-      translate([220 + 152, 141.4/2, 0])
+      translate([220 + 172, 141.4/2, 0])
       rotate([90, 0, 0])
       original_model();
 
@@ -287,11 +287,11 @@ module showTogether(add_legs = false) {
 
         // ROW 2
         translate([-(1/2)*well_padding + 0*well_padding + 2*well_outer_brim_r - (1/2)*(leg_width_x),
-                   bounding_box_crop_y - (1/2)*(leg_width_y),
+                   bounding_box_crop_y - (1/2)*(leg_width_y) - 0.5,
                    -(leg_height-e)])
           single_leg();
         translate([-(1/2)*well_padding + 2*well_padding + 3*well_outer_brim_r - (1/2)*(leg_width_x),
-                   bounding_box_crop_y - (1/2)*(leg_width_y),
+                   bounding_box_crop_y - (1/2)*(leg_width_y) - 0.5,
                    -(leg_height-e)])
           single_leg();
       }
@@ -300,10 +300,10 @@ module showTogether(add_legs = false) {
 
 }
 
-show_everything = !true ;
+show_everything = true ;
 p_ex1 = false;
 p_ex2 = false;
-p_ex3 = !false;
+p_ex3 = false;
 
 if (show_everything) {
     showTogether(add_legs = true);
