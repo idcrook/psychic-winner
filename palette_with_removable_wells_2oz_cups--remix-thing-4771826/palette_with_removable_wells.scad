@@ -39,64 +39,13 @@ well_padding = 7.25*2;
 well_inner_r = well_cutout_radius - 2; // the actual will be result of cup subtraction
 well_outer_brim_r = (plastic_2oz_projection_diameter/2)  + well_padding;
 
-module palette_rough () {
+bounding_box_inset_x = 4.5;
+bounding_box_inset_y = 4.5;
+bounding_box_crop_y = 145;
 
-  cutout_size_r  = well_cutout_radius;
-  cutout_size_d  = cutout_size_r * 2;
-  start_inset_x = 10;
-  start_inset_y = 10;
-  space_between = 15;
-  center_gap = 15;
-
-  echo ("The well cutout diameter is d=", cutout_size_d);
-
-  difference () {
-    cube([palette_exterior_length, palette_exterior_width, palette_thickness]);
-
-    translate([start_inset_x,  start_inset_y, 0])
-      translate([cutout_size_r,  cutout_size_r, -e])
-      // cylinder(h = height, r1 = BottomRadius, r2 = TopRadius, center = true/false);
-      cylinder(h = palette_thickness + 2*e,
-               // todo: calculate actual slope
-               r1 = cutout_size_r, r2 = cutout_size_r + 0.5,
-               center = false);
-
-    translate([start_inset_x + cutout_size_d + space_between,  start_inset_y, 0])
-      translate([cutout_size_r,  cutout_size_r, -e])
-      cylinder(h = palette_thickness + 2*e,
-               r1 = cutout_size_r, r2 = cutout_size_r + 0.5,
-               center = false);
-
-    translate([start_inset_x + 2*cutout_size_d + 2*space_between,  start_inset_y, 0])
-      translate([cutout_size_r,  cutout_size_r, -e])
-      cylinder(h = palette_thickness + 2*e,
-               r1 = cutout_size_r, r2 = cutout_size_r + 0.5,
-               center = false);
-
-    translate([start_inset_x,
-               start_inset_y + cutout_size_d + center_gap, 0])
-      translate([cutout_size_r,  cutout_size_r, -e])
-      cylinder(h = palette_thickness + 2*e,
-               r1 = cutout_size_r, r2 = cutout_size_r + 0.5,
-               center = false);
-
-    translate([start_inset_x + cutout_size_d + space_between,
-               start_inset_y  + cutout_size_d + center_gap, 0])
-      translate([cutout_size_r,  cutout_size_r, -e])
-      cylinder(h = palette_thickness + 2*e,
-               r1 = cutout_size_r, r2 = cutout_size_r + 0.5,
-               center = false);
-
-    translate([start_inset_x + 2*cutout_size_d + 2*space_between,
-               start_inset_y  + cutout_size_d + center_gap, 0])
-      translate([cutout_size_r,  cutout_size_r, -e])
-      cylinder(h = palette_thickness + 2*e,
-               r1 = cutout_size_r, r2 = cutout_size_r + 0.5,
-               center = false);
-
-  }
-
-}
+leg_height = 23.5;
+leg_width_x = 12;
+leg_width_y = well_padding - bounding_box_inset_y;
 
 module material_trim_triangle () {
   // equilateral triangle with side length 100
@@ -106,11 +55,9 @@ module material_trim_triangle () {
 }
 
 module material_trim_sector () {
-
   segment_outer_radius = well_cutout_radius + (3/4)*well_padding;
   segment_inner_radius = well_cutout_radius + (1/3)*well_padding;
   segment_arc_degrees = 25;
-
 
   difference ()
     {
@@ -122,7 +69,6 @@ module material_trim_sector () {
         2dWedge(radius = segment_inner_radius+2*e, startAngle = 0, endAngle = segment_arc_degrees+1);
     }
 }
-
 
 module palette (trim_material = false) {
     difference () {
@@ -271,6 +217,13 @@ module palette (trim_material = false) {
   }
 }
 
+module single_leg() {
+
+  cube([leg_width_x, leg_width_y, leg_height]);
+
+}
+
+
 module single_2oz_well() {
   padding = well_padding;
   inner_r = well_inner_r;
@@ -300,20 +253,16 @@ module original_model () {
 }
 
 module place_solid_plastic_cup_2oz () {
-  translate([0, 0, -(plastic_2oz_cutout_z_height + 0)]) {
+  translate([0, 0, -(plastic_2oz_cutout_z_height + (1/2)*palette_thickness)]) {
       plastic_cup_2oz_model(solid=true);
     }
 }
 
-module showTogether() {
+module showTogether(add_legs = false) {
     %scale ([1.0,1.0,1.0])
       translate([220 + 152, 141.4/2, 0])
       rotate([90, 0, 0])
       original_model();
-
-    scale ([1.0,1.0,1.0])
-      translate([0, 0, -(palette_thickness+e)])
-      %palette_rough();
 
     scale ([1.0,1.0,1.0])
       translate([0, 0, 0]) {
@@ -321,8 +270,30 @@ module showTogether() {
       intersection () {
         palette(trim_material = true);
         // trim to fit more reliably on beds
-        translate([4.5,4.5,-e])
-          cube([227,143,palette_thickness + 2*e]);
+        translate([bounding_box_inset_x, bounding_box_inset_y,-e])
+          cube([227,bounding_box_crop_y,palette_thickness + 2*e]);
+      }
+
+      if (add_legs) {
+        // ROW 1
+        translate([0*well_padding + 1*well_outer_brim_r - (1/2)*(leg_width_x),
+                   bounding_box_inset_y,
+                   -(leg_height-e)])
+          single_leg();
+        translate([4*well_padding + 3*well_outer_brim_r - (1/2)*(leg_width_x),
+                   bounding_box_inset_y,
+                   -(leg_height-e)])
+          single_leg();
+
+        // ROW 2
+        translate([-(1/2)*well_padding + 0*well_padding + 2*well_outer_brim_r - (1/2)*(leg_width_x),
+                   bounding_box_crop_y - (1/2)*(leg_width_y),
+                   -(leg_height-e)])
+          single_leg();
+        translate([-(1/2)*well_padding + 2*well_padding + 3*well_outer_brim_r - (1/2)*(leg_width_x),
+                   bounding_box_crop_y - (1/2)*(leg_width_y),
+                   -(leg_height-e)])
+          single_leg();
       }
 
     }
@@ -331,10 +302,11 @@ module showTogether() {
 
 show_everything = !true ;
 p_ex1 = false;
-p_ex2 = !false;
+p_ex2 = false;
+p_ex3 = !false;
 
 if (show_everything) {
-    showTogether();
+    showTogether(add_legs = true);
 } else {
     // $preview requires version 2019.05
     fn = $preview ? 30 : 100;
@@ -343,23 +315,50 @@ if (show_everything) {
     //material_trim_triangle    ();
     /* translate([well_outer_brim_r, well_outer_brim_r, palette_thickness]) */
     /*   rotate([0,0,75]) material_trim_sector    (); */
+    //single_leg();
 
     if (p_ex1) {
       intersection () { // print experiment (for smaller bed)
         palette();
         translate([4.5,4.5,-e])
-          //cube([230,145,palette_thickness + 2*e]);
-          cube([130,145,palette_thickness + 2*e]);
+          cube([130,bounding_box_crop_y,palette_thickness + 2*e]);
       }
     }
 
     if (p_ex2) {
       intersection () { // print experiment (for smaller bed)
         palette(trim_material=true);
-        translate([4.5,4.5,-e])
-          //cube([230,145,palette_thickness + 2*e]);
-          cube([130,145,palette_thickness + 2*e]);
+        translate([bounding_box_inset_x, bounding_box_inset_y, -e])
+          cube([130,bounding_box_crop_y,palette_thickness + 2*e]);
       }
     }
+
+    if (p_ex3) {
+      intersection () { // print experiment (for smaller bed)
+        palette(trim_material=true);
+        translate([bounding_box_inset_x, bounding_box_inset_y, -e])
+          cube([132,bounding_box_crop_y, palette_thickness + 2*e]);
+      }
+
+      // ROW 1
+      translate([1*well_outer_brim_r - (1/2)*(leg_width_x),
+                 bounding_box_inset_y,
+                 -(leg_height-e)])
+        single_leg();
+
+      translate([2*well_padding + 2*well_outer_brim_r - (1/2)*(leg_width_x),
+                 bounding_box_inset_y,
+                 -(leg_height-e)])
+        single_leg();
+
+      // ROW 2
+      translate([-(1/2)*well_padding + 2*well_outer_brim_r - (1/2)*(leg_width_x),
+                 bounding_box_crop_y - (1/2)*(leg_width_y),
+                 -(leg_height-e)])
+        single_leg();
+
+    }
+
+
 
 }
