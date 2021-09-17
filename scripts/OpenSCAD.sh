@@ -35,6 +35,11 @@ DEFAULT_LIBRARIES_DIR_linux="$HOME/.local/share/OpenSCAD/libraries"
 
 app_linux="openscad"  # TODO: add openscad-nightly as a fall-thru
 app_path_linux="$(type -P $app_linux)"
+app_path_linux_retval=$?
+if [ "$(uname -s)" == 'Linux' ] && [ $app_path_linux_retval -ne 0 ] ; then
+    echo "ERROR: 'openscad' not found"
+    exit 1
+fi
 
 app_macos="OpenSCAD.app"
 app_path_macos="/Applications/${app_macos}"
