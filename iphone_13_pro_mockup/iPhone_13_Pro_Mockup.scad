@@ -36,10 +36,10 @@ iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 // estimate
 iphone_13_pro__face_corner_radius = 7.0;
 iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
-iphone_13_pro__midnight_green = "#788473";
-iphone_13_pro__midnight_green_button = "#55625D";
-iphone_13_pro__midnight_green_turret = "#485249";
-iphone_13_pro__midnight_green_lens_bezel = "#7B8D7E";
+iphone_13_pro__graphite = "#50504C";
+iphone_13_pro__graphite_button = "#70706C";
+iphone_13_pro__graphite_turret = "#5F5E5A";
+iphone_13_pro__graphite_lens_bezel = "#ABA9A4";
 
 // "from_top" measurements are to center/midpoint of object
 
@@ -198,10 +198,10 @@ module iphone_13_pro (width, length, depth,
   // fixme: add an inset translate for all following so that, including
 
   // button bumps, are bound {x,y} >= {0,0}
-  shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_13_pro__midnight_green);
+  shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_13_pro__graphite);
 
   // ring/silent switch
-  color(iphone_13_pro__midnight_green_button)
+  color(iphone_13_pro__graphite_button)
     translate([-ringsilent_switch_cutout__bump,
                translate_y_from_top(ringsilent_switch_cutout__from_top),
                iphone_13_pro__z_mid]) {
@@ -211,7 +211,7 @@ module iphone_13_pro (width, length, depth,
   }
 
   // volume up button
-  color(iphone_13_pro__midnight_green_button)
+  color(iphone_13_pro__graphite_button)
     translate([-volume_up__bump,
                translate_y_from_top(volume_up__from_top),
                iphone_13_pro__z_mid]) {
@@ -221,7 +221,7 @@ module iphone_13_pro (width, length, depth,
   }
 
   // volume down button
-  color(iphone_13_pro__midnight_green_button)
+  color(iphone_13_pro__graphite_button)
     translate([-volume_down__bump,
                translate_y_from_top(volume_down__from_top),
                iphone_13_pro__z_mid]) {
@@ -231,7 +231,7 @@ module iphone_13_pro (width, length, depth,
   }
 
   // side button
-  color(iphone_13_pro__midnight_green_button)
+  color(iphone_13_pro__graphite_button)
     translate([iphone_13_pro__width-e,
                translate_y_from_top(side_button__from_top),
                iphone_13_pro__z_mid]) {
@@ -241,7 +241,7 @@ module iphone_13_pro (width, length, depth,
   }
 
   // sim slot
-  color(iphone_13_pro__midnight_green_button)
+  color(iphone_13_pro__graphite_button)
     translate([iphone_13_pro__width-e,
                translate_y_from_top(sim_slot__from_top),
                iphone_13_pro__z_mid]) {
@@ -515,7 +515,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
   rradius_outer = rear_cam_turret__rradius_outer;
   rradius_inner = rear_cam_turret__rradius_inner;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
-    color(iphone_13_pro__midnight_green_turret, alpha = 0.70)
+    color(iphone_13_pro__graphite_turret, alpha = 0.70)
     difference() {
     linear_extrude(height = h)
       complexRoundSquare([rear_cam_turret__width_outer,
@@ -561,7 +561,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
 }
 
 module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
-  color(iphone_13_pro__midnight_green_lens_bezel, alpha=0.95)
+  color(iphone_13_pro__graphite_lens_bezel, alpha=0.95)
     linear_extrude(height=h/2)
     circle(r=r);
 
