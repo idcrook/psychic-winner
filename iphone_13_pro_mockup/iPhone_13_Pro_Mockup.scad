@@ -1,16 +1,15 @@
 /*
 
-  iPhone 11 Pro Mechanical Mockups dummy model
+  iPhone 13 Pro Mechanical Mockups dummy model
 
   Modeled by David Crook - https://github.com/idcrook
 
-  2019-Sep-16
+  2021-Oct-02
 
-  Thingiverse:
-  http://www.thingiverse.com/thing:3865803/
+  Thingiverse: http://www.thingiverse.com/thing:TBD/
 
   GitHub:
-  https://github.com/idcrook/psychic-winner/tree/main/iphone_11_pro_mockup
+  https://github.com/idcrook/psychic-winner/tree/main/iphone_13_pro_mockup
 
 
   NOTES:
@@ -28,19 +27,19 @@ use <MCAD/2Dshapes.scad>
 // very small number
 e = 0.02;
 
-/// Gross iPhone 11 Pro dimensions
-iphone_11_pro__height = 144.0;
-iphone_11_pro__width  =  71.4;
-iphone_11_pro__depth  =   8.1;
-iphone_11_pro__z_mid  =   iphone_11_pro__depth / 2;
+/// Gross iPhone 13 Pro dimensions
+iphone_13_pro__height = 146.71;
+iphone_13_pro__width  =  71.54;
+iphone_13_pro__depth  =   7.65;
+iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
-iphone_11_pro__face_corner_radius = 7.0;
-iphone_11_pro__edge_radius = (iphone_11_pro__depth - 0.25) / 2 ;
-iphone_11_pro__midnight_green = "#788473";
-iphone_11_pro__midnight_green_button = "#55625D";
-iphone_11_pro__midnight_green_turret = "#485249";
-iphone_11_pro__midnight_green_lens_bezel = "#7B8D7E";
+iphone_13_pro__face_corner_radius = 7.0;
+iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
+iphone_13_pro__midnight_green = "#788473";
+iphone_13_pro__midnight_green_button = "#55625D";
+iphone_13_pro__midnight_green_turret = "#485249";
+iphone_13_pro__midnight_green_lens_bezel = "#7B8D7E";
 
 // "from_top" measurements are to center/midpoint of object
 
@@ -172,7 +171,7 @@ screw_bottom_2__from_left = 42.08;
 //
 lightning_connector__height       = 3.01;
 lightning_connector__from_right   = 35.68; // distance to center point
-lightning_connector__from_left = (iphone_11_pro__width - lightning_connector__from_right);
+lightning_connector__from_left = (iphone_13_pro__width - lightning_connector__from_right);
 lightning_connector_end1__from_left = 31.30;
 lightning_connector_end2__from_left = 40.06;
 lightning_connector__width        = (lightning_connector_end2__from_left - lightning_connector_end1__from_left);
@@ -185,67 +184,67 @@ lightning_connector_keepout__outward = 14.0;
 
 model_quality = 25;
 
-function translate_y_from_top (from_top)  = iphone_11_pro__height - from_top;
-function translate_back_x_from_left (from_left)  = iphone_11_pro__width - from_left;
+function translate_y_from_top (from_top)  = iphone_13_pro__height - from_top;
+function translate_back_x_from_left (from_left)  = iphone_13_pro__width - from_left;
 
 
 /// creates for() range to give desired no of steps to cover range
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 
 
-module iphone_11_pro (width, length, depth,
+module iphone_13_pro (width, length, depth,
                       corner_radius = 7, edge_radius = 3.925, show_lightning_keepout = true)
 {
   // fixme: add an inset translate for all following so that, including
 
   // button bumps, are bound {x,y} >= {0,0}
-  shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_11_pro__midnight_green);
+  shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_13_pro__midnight_green);
 
   // ring/silent switch
-  color(iphone_11_pro__midnight_green_button)
+  color(iphone_13_pro__midnight_green_button)
     translate([-ringsilent_switch_cutout__bump,
                translate_y_from_top(ringsilent_switch_cutout__from_top),
-               iphone_11_pro__z_mid]) {
+               iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(ringsilent_switch_cutout__bump+e)
       square([ringsilent_switch_cutout__height, ringsilent_switch_cutout__depth],center=true);
   }
 
   // volume up button
-  color(iphone_11_pro__midnight_green_button)
+  color(iphone_13_pro__midnight_green_button)
     translate([-volume_up__bump,
                translate_y_from_top(volume_up__from_top),
-               iphone_11_pro__z_mid]) {
+               iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(volume_up__bump+e)
       square([volume_up__height, volume_up__depth],center=true);
   }
 
   // volume down button
-  color(iphone_11_pro__midnight_green_button)
+  color(iphone_13_pro__midnight_green_button)
     translate([-volume_down__bump,
                translate_y_from_top(volume_down__from_top),
-               iphone_11_pro__z_mid]) {
+               iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(volume_down__bump+e)
       square([volume_down__height, volume_down__depth],center=true);
   }
 
   // side button
-  color(iphone_11_pro__midnight_green_button)
-    translate([iphone_11_pro__width-e,
+  color(iphone_13_pro__midnight_green_button)
+    translate([iphone_13_pro__width-e,
                translate_y_from_top(side_button__from_top),
-               iphone_11_pro__z_mid]) {
+               iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(side_button__bump+e)
       square([side_button__height, side_button__depth],center=true);
   }
 
   // sim slot
-  color(iphone_11_pro__midnight_green_button)
-    translate([iphone_11_pro__width-e,
+  color(iphone_13_pro__midnight_green_button)
+    translate([iphone_13_pro__width-e,
                translate_y_from_top(sim_slot__from_top),
-               iphone_11_pro__z_mid]) {
+               iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(sim_slot__bump+e)
       square([sim_slot__height, sim_slot__depth],center=true);
@@ -255,7 +254,7 @@ module iphone_11_pro (width, length, depth,
   for (i=steps(mic1_bottom__hole_1__from_left, 3, mic1_bottom__hole_3__from_left)) {
     echo (i);
     color("Black")
-      translate([i, 0, iphone_11_pro__z_mid]) {
+      translate([i, 0, iphone_13_pro__z_mid]) {
       rotate([0, 90, 90])
         linear_extrude(1+e)
         circle(d=grill_hole__diameter);
@@ -266,7 +265,7 @@ module iphone_11_pro (width, length, depth,
   for (i=steps(mic2_bottom__hole_1__from_left, 6, mic2_bottom__hole_6__from_left)) {
     echo (i);
     color("Black")
-      translate([i, 0, iphone_11_pro__z_mid]) {
+      translate([i, 0, iphone_13_pro__z_mid]) {
       rotate([0, 90, 90])
         linear_extrude(1+e)
         circle(d=grill_hole__diameter);
@@ -276,7 +275,7 @@ module iphone_11_pro (width, length, depth,
   // bottom screw holes
   for (i=[screw_bottom_1__from_left, screw_bottom_2__from_left]) {
     color("Black")
-      translate([i, 0, iphone_11_pro__z_mid]) {
+      translate([i, 0, iphone_13_pro__z_mid]) {
       rotate([-90, 0, 0])
         linear_extrude(1+e)
         circle(d=screw_bottom__diameter);
@@ -287,7 +286,7 @@ module iphone_11_pro (width, length, depth,
   corner_r1 = 1.5;
   corner_r2 = 1.5;
   color("Black")
-    translate([lightning_connector__from_left, 0, iphone_11_pro__z_mid]) {
+    translate([lightning_connector__from_left, 0, iphone_13_pro__z_mid]) {
     rotate([-90, 0, 0])
       linear_extrude(height = 1+e, center = false, convexity = 10)
       complexRoundSquare([lightning_connector__width,
@@ -304,7 +303,7 @@ module iphone_11_pro (width, length, depth,
     corner_r1_keepout = lightning_connector_keepout__radius;
     corner_r2_keepout = lightning_connector_keepout__radius;
     color("Red")
-      translate([lightning_connector__from_left, 0, iphone_11_pro__z_mid]) {
+      translate([lightning_connector__from_left, 0, iphone_13_pro__z_mid]) {
       rotate([90, 0, 0])
         %linear_extrude(height = lightning_connector_keepout__outward, center = false, convexity = 10)
         complexRoundSquare([lightning_connector_keepout__width,
@@ -319,12 +318,12 @@ module iphone_11_pro (width, length, depth,
 
 
   // rear camera module
-  translate([iphone_11_pro__width, iphone_11_pro__height, 0])
+  translate([iphone_13_pro__width, iphone_13_pro__height, 0])
     rotate([0, 180, 0])
     rear_camera();
 
   // front sensor bar module
-  translate([0, iphone_11_pro__height, iphone_11_pro__depth])
+  translate([0, iphone_13_pro__height, iphone_13_pro__depth])
     rotate([0, 0, 0])
     front_sensor_bar();
 
@@ -516,7 +515,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
   rradius_outer = rear_cam_turret__rradius_outer;
   rradius_inner = rear_cam_turret__rradius_inner;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
-    color(iphone_11_pro__midnight_green_turret, alpha = 0.70)
+    color(iphone_13_pro__midnight_green_turret, alpha = 0.70)
     difference() {
     linear_extrude(height = h)
       complexRoundSquare([rear_cam_turret__width_outer,
@@ -562,7 +561,7 @@ module rear_camera (camera_lens_radius = 13.08/2) {
 }
 
 module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
-  color(iphone_11_pro__midnight_green_lens_bezel, alpha=0.95)
+  color(iphone_13_pro__midnight_green_lens_bezel, alpha=0.95)
     linear_extrude(height=h/2)
     circle(r=r);
 
@@ -607,11 +606,11 @@ module front_sensor_bar () {
 
 
 
-echo ("corner_radius: ", iphone_11_pro__face_corner_radius);
-echo ("edge_radius: ", iphone_11_pro__edge_radius);
+echo ("corner_radius: ", iphone_13_pro__face_corner_radius);
+echo ("edge_radius: ", iphone_13_pro__edge_radius);
 
 $fn = $preview ? 50 : 100;
 
-iphone_11_pro(iphone_11_pro__width, iphone_11_pro__height, iphone_11_pro__depth,
-              iphone_11_pro__face_corner_radius, iphone_11_pro__edge_radius,
+iphone_13_pro(iphone_13_pro__width, iphone_13_pro__height, iphone_13_pro__depth,
+              iphone_13_pro__face_corner_radius, iphone_13_pro__edge_radius,
               show_lightning_keepout = true);
