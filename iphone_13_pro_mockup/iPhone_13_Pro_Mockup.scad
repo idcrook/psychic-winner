@@ -92,27 +92,32 @@ mic_top__from_left    = 35.68;
 mic_top__radius       = mic_top__height/2;
 
 // rear facing cameras
-rear_cam1_center__from_top = 12.04;
-rear_cam2_center__from_top = 27.06;
-rear_cam3_center__from_top = 19.55;
-rear_flash_center__from_top = 9.31;
-rear_mic_center__from_top  = 29.78;
+rear_cam1_center__from_top = 13.43;
+rear_cam2_center__from_top = 31.35;
+rear_cam3_center__from_top = 22.39;
+rear_flash_center__from_top = 9.42;
+rear_mic_center__from_top  = rear_cam2_center__from_top + 0.6;
+rear_sensor_center__from_top = 35.35;
 
-rear_cam1_center__from_left = 12.04;
-rear_cam2_center__from_left = 12.04;
-rear_cam3_center__from_left = 25.04;
-rear_flash_center__from_left = 25.04;
-rear_mic_center__from_left  = 25.04;
+rear_cam1_center__from_left = 13.43;
+rear_cam2_center__from_left = 13.43;
+rear_cam3_center__from_left = 30.08;
+rear_flash_center__from_left = 30.08;
+rear_mic_center__from_left  = rear_cam3_center__from_left + 6;
+rear_sensor_center__from_left = 30.08;
 
-rear_cam_center__diameter = 2 * 5.5;  // guess
+// rear_cam_center__diameter = 15.80 - (2*1);  // guess
 
-rear_flash_center__diameter = 2 * (rear_cam1_center__from_top - rear_flash_center__from_top);
-rear_mic_center__diameter = 2.40;
+rear_flash_center__diameter = 6;  // guess
+rear_mic_center__diameter = 1.15;
+rear_sensor_center_keepout__height = 7.06;
+rear_sensor_center_keepout__width = 4.06;
+rear_sensor_center__diameter = rear_sensor_center_keepout__height;
 
-rear_cam_turret__height_inner = 28.99;
-rear_cam_turret__width_inner = 26.87;
-rear_cam_turret__height_outer = 32.71;
-rear_cam_turret__width_outer = 30.59;
+rear_cam_turret__height_inner = (40.51 - 4.27);
+rear_cam_turret__width_inner = (39.28 - 4.27);
+rear_cam_turret__height_outer = (43.62 - 1.15);
+rear_cam_turret__width_outer = (42.39 - 1.15);
 
 rear_cam_turret__rradius_inner = 6.5;
 rear_cam_turret__rradius_outer = 8.5;
@@ -121,10 +126,26 @@ rear_cam_turret_center__from_top = (rear_cam1_center__from_top + rear_cam2_cente
 rear_cam_turret_center__from_left = (rear_cam1_center__from_left + rear_cam3_center__from_left)/2;
 rear_cam_turret_keepout__height_above = 1.21;
 
+rear_cam_plateau__height_inner = (40.51 - 4.27);
+rear_cam_plateau__width_inner = (39.28 - 4.27);
+rear_cam_plateau__height_outer = (43.62 - 1.15);
+rear_cam_plateau__width_outer = (42.39 - 1.15);
+
+rear_cam_plateau_center__from_top = (rear_cam_plateau__height_outer/2) + 1.15;
+rear_cam_plateau_center__from_left = (rear_cam_plateau__width_outer/2) + 1.15;
+rear_cam_plateau_keepout__height_above = 1.21;
+
+rear_cam_plateau__rradius_inner = 6.5;
+rear_cam_plateau__rradius_outer = 8.5;
+rear_cam_plateau__height = 1.68;
+
+rear_cam_camera_glass__height = 3.60;
+rear_cam_camera_glass_rim__height = 2.90;  // guess
+rear_cam_camera_glass_rim__outset = 1.15;  // guess
 
 // the logo locates the center of the inductive charger coil
-rear_logo_center__from_top = 72.0;
-rear_logo_keepout__diameter = 48.80;
+rear_logo_center__from_top = 73.35;
+rear_logo_keepout__diameter = 57.50;
 
 rear_housing_spline_inlay_to_start_of_flat_area__width = 4.96;
 
@@ -507,11 +528,12 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Si
   }
 }
 
-module rear_camera (camera_lens_radius = 13.08/2) {
+module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_cam_plateau__height) {
 
-  h = rear_cam_turret_keepout__height_above ;
+  //h = rear_cam_turret_keepout__height_above ;
+  h = 0.1;
 
-  // turret enclosure
+  // turrent
   rradius_outer = rear_cam_turret__rradius_outer;
   rradius_inner = rear_cam_turret__rradius_inner;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
@@ -539,6 +561,35 @@ module rear_camera (camera_lens_radius = 13.08/2) {
   }
 
 
+  // plateau
+  rradius_outer = rear_cam_plateau__rradius_outer;
+  rradius_inner = rear_cam_plateau__rradius_inner;
+  translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
+    color(iphone_13_pro__graphite_turret, alpha = 0.70)
+    difference() {
+    linear_extrude(height = camera_plateau_height)
+      complexRoundSquare([rear_cam_plateau__width_inner,
+                          rear_cam_plateau__height_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         center=true);
+
+
+    % translate ([0,0, -e])
+      linear_extrude(height = h + 2*e)
+      complexRoundSquare([rear_cam_plateau__width_inner,
+                          rear_cam_plateau__height_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         [rradius_inner, rradius_inner],
+                         center=true);
+  }
+
+
+
   // interior features
   translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0])
     rear_camera_lens(r = camera_lens_radius);
@@ -549,25 +600,34 @@ module rear_camera (camera_lens_radius = 13.08/2) {
   translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0])
     rear_camera_lens(r = camera_lens_radius);
 
-  translate ([rear_flash_center__from_left, -rear_flash_center__from_top, 0])
+  translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height])
     color(alpha=0.30)
     linear_extrude(height = h/4)
     circle(d = rear_flash_center__diameter);
 
-  translate ([rear_mic_center__from_left, -rear_mic_center__from_top, 0])
-    color("Black")
+  translate ([rear_mic_center__from_left, -rear_mic_center__from_top, camera_plateau_height])
+    color("DarkGray")
     linear_extrude(height = h/4)
     circle(d = rear_mic_center__diameter);
+
+  translate ([rear_sensor_center__from_left, -rear_sensor_center__from_top, camera_plateau_height])
+    color("Black")
+    linear_extrude(height = h/4)
+    circle(d = rear_sensor_center__diameter);
+
+
 }
 
-module rear_camera_lens(r, h = rear_cam_turret_keepout__height_above) {
+module rear_camera_lens(r, h = rear_cam_camera_glass__height,
+                        h_rim = rear_cam_camera_glass_rim__height,
+                        inset_rim = rear_cam_camera_glass_rim__outset) {
   color(iphone_13_pro__graphite_lens_bezel, alpha=0.95)
-    linear_extrude(height=h/2)
+    linear_extrude(height=h_rim)
     circle(r=r);
 
   color("Black", alpha=0.86)
-    linear_extrude(height=h/2 + e)
-    circle(r=r-0.9);
+    linear_extrude(height=h)
+    circle(r=r - inset_rim);
 
 }
 
