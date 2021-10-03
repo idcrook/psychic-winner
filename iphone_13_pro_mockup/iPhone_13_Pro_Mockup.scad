@@ -6,7 +6,7 @@
 
   2021-Oct-02
 
-  Thingiverse: http://www.thingiverse.com/thing:TBD/
+  Thingiverse: http://www.thingiverse.com/thing:4980345/
 
   GitHub:
   https://github.com/idcrook/psychic-winner/tree/main/iphone_13_pro_mockup
@@ -17,12 +17,6 @@
   - OpenSCAD generation relies on the MCAD library (https://github.com/openscad/MCAD)
 
   TODO:
-
-  - rear camera plateau should be smoothed with a gradient
-  - round buttons
-    - ringonoff should be made into a switch
-  - add stainless steel housing around perimeter
-  - add glass materials on face and rear
 
 */
 
