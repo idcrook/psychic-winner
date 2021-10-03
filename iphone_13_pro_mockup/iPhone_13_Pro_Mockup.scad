@@ -16,6 +16,14 @@
 
   - OpenSCAD generation relies on the MCAD library (https://github.com/openscad/MCAD)
 
+  TODO:
+
+  - rear camera plateau should be smoothed with a gradient
+  - round buttons
+    - ringonoff should be made into a switch
+  - add stainless steel housing around perimeter
+  - add glass materials on face and rear
+
 */
 
 
@@ -34,7 +42,7 @@ iphone_13_pro__depth  =   7.65;
 iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
-iphone_13_pro__face_corner_radius = 8.0;
+iphone_13_pro__face_corner_radius = 9.0;
 iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_button = "#70706C";
@@ -85,23 +93,23 @@ side_button__bump        =  0.45;
 
 // Front facing camera and sensors
 truedepth_sensor_bar__height   = 5.58;
-truedepth_sensor_bar__width    = 26.79;
+truedepth_sensor_bar__width    = 25.36;
 truedepth_sensor_bar__from_top = 5.59;
-truedepth_sensor_bar__from_left = 35.68;
+truedepth_sensor_bar__from_left = 35.76;
 //truedepth_sensor_bar__curve_radius = truedepth_sensor_bar__height/2;
 truedepth_sensor_bar__curve_radius = 2.85;
 
 //
-speaker_top__height       = 1.38;
-speaker_top__width        = 11.16;
+speaker_top__height       = 0.85;
+speaker_top__width        = 11.12;
 speaker_top__from_top     = 1.05;
-speaker_top__from_left    = 35.68;
+speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
 
-mic_top__height       = 1.38; // diameter
-mic_top__from_top     = 6.08;
-mic_top__from_left    = (iphone_13_pro__width / 2);
-mic_top__radius       = mic_top__height/2;
+/* mic_top__height       = 1.38; // diameter */
+/* mic_top__from_top     = 6.08; */
+/* mic_top__from_left    = (iphone_13_pro__width / 2); */
+/* mic_top__radius       = mic_top__height/2; */
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;
@@ -159,54 +167,50 @@ rear_cam_camera_glass_rim__outset = 1.15;  // guess
 rear_logo_center__from_top = 73.35;
 rear_logo_keepout__diameter = 57.50;
 
-rear_housing_spline_inlay_to_start_of_flat_area__width = 4.96;
-
 active_display__width     =  64.58;
 active_display__height    = 139.77;
-active_display__recessed  =   0.0;
-active_display__from_top  =   0.0;
-active_display__from_right  =   0.0;
+active_display__inset_from_exterior = 3.47;
+active_display__corner_r  = 6.5; // guess
 
 display_glass__width     =  69.42;
 display_glass__height    = 144.61;
 display_glass_over__width = (1/2)*(display_glass__width - active_display__width);    // ~2.5 mm
 display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
 
-notch__width = 34.80;
-notch__height =  5.58 * 2; // bottom half of a "rounded" box
+housing_spline_inlay_to_start_of_flat_area__width = 1.15;
+
+notch__width = 26.79;
+notch_cutout__height =  5.58;
+notch__height =  notch_cutout__height * 2;
 notch__from_left_active  = active_display__width/2; // center
 notch__R =  3.8;
 notch__r =  0.95;
 
-
-
-
 /// Bottom sensors and connectors
-// from_left -> hole centers
+bottom__z_mid  = 3.75;
 
-grill_hole__diameter = 1.45;
-screw_bottom__diameter = 1.60;
+grill_hole__diameter = 1.53;
+screw_bottom__diameter = 1.50;
+
+// from_left -> hole centers
+screw_bottom_1__from_left = 29.37;
+screw_bottom_2__from_left = 42.16;
 
 // other side of lightning port from speaker
-mic1_bottom__hole_1__from_left = 19.07;
+mic1_bottom__hole_1__from_left = 19.14;
 //mic1_bottom__hole_2__from_left = ;
-mic1_bottom__hole_3__from_left = 25.03;
+mic1_bottom__hole_3__from_left = 25.18;
 
 // next to speaker grill
-mic2_bottom__hole_1__from_left = 46.33;
+mic2_bottom__hole_1__from_left = 46.34;
 // (port of speaker ports)
-mic2_bottom__hole_6__from_left = 59.06;
+mic2_bottom__hole_5__from_left = 56.89;
 
-screw_bottom_1__from_left = 29.29;
-screw_bottom_2__from_left = 42.08;
-
-
-//
-lightning_connector__height       = 3.01;
-lightning_connector__from_right   = 35.68; // distance to center point
+lightning_connector__height       = 2.30;
+lightning_connector__from_right   = 35.76; // distance to center point
 lightning_connector__from_left = (iphone_13_pro__width - lightning_connector__from_right);
-lightning_connector_end1__from_left = 31.30;
-lightning_connector_end2__from_left = 40.06;
+lightning_connector_end1__from_left = 31.74;
+lightning_connector_end2__from_left = 39.79;
 lightning_connector__width        = (lightning_connector_end2__from_left - lightning_connector_end1__from_left);
 
 lightning_connector_keepout__radius  = 3.4;
@@ -285,7 +289,7 @@ module iphone_13_pro (width, length, depth,
   for (i=steps(mic1_bottom__hole_1__from_left, 3, mic1_bottom__hole_3__from_left)) {
     echo (i);
     color("Black")
-      translate([i, 0, iphone_13_pro__z_mid]) {
+      translate([i, 0, bottom__z_mid]) {
       rotate([0, 90, 90])
         linear_extrude(1+e)
         circle(d=grill_hole__diameter);
@@ -293,10 +297,10 @@ module iphone_13_pro (width, length, depth,
   }
 
   // mic2 holes
-  for (i=steps(mic2_bottom__hole_1__from_left, 6, mic2_bottom__hole_6__from_left)) {
+  for (i=steps(mic2_bottom__hole_1__from_left, 5, mic2_bottom__hole_5__from_left)) {
     echo (i);
     color("Black")
-      translate([i, 0, iphone_13_pro__z_mid]) {
+      translate([i, 0, bottom__z_mid]) {
       rotate([0, 90, 90])
         linear_extrude(1+e)
         circle(d=grill_hole__diameter);
@@ -306,7 +310,7 @@ module iphone_13_pro (width, length, depth,
   // bottom screw holes
   for (i=[screw_bottom_1__from_left, screw_bottom_2__from_left]) {
     color("Black")
-      translate([i, 0, iphone_13_pro__z_mid]) {
+      translate([i, 0, bottom__z_mid]) {
       rotate([-90, 0, 0])
         linear_extrude(1+e)
         circle(d=screw_bottom__diameter);
@@ -314,10 +318,10 @@ module iphone_13_pro (width, length, depth,
   }
 
   // lightning
-  corner_r1 = 1.5;
-  corner_r2 = 1.5;
+  corner_r1 = 1.1;
+  corner_r2 = 1.1;
   color("Black")
-    translate([lightning_connector__from_left, 0, iphone_13_pro__z_mid]) {
+    translate([lightning_connector__from_left, 0, bottom__z_mid]) {
     rotate([-90, 0, 0])
       linear_extrude(height = 1+e, center = false, convexity = 10)
       complexRoundSquare([lightning_connector__width,
@@ -330,11 +334,11 @@ module iphone_13_pro (width, length, depth,
   }
 
   // lightning keepout
-  if (show_lightning_keepout) {
+  if (!show_lightning_keepout) {
     corner_r1_keepout = lightning_connector_keepout__radius;
     corner_r2_keepout = lightning_connector_keepout__radius;
     color("Red")
-      translate([lightning_connector__from_left, 0, iphone_13_pro__z_mid]) {
+      translate([lightning_connector__from_left, 0, bottom__z_mid]) {
       rotate([90, 0, 0])
         %linear_extrude(height = lightning_connector_keepout__outward, center = false, convexity = 10)
         complexRoundSquare([lightning_connector_keepout__width,
@@ -357,8 +361,6 @@ module iphone_13_pro (width, length, depth,
   translate([0, iphone_13_pro__height, iphone_13_pro__depth])
     rotate([0, 0, 0])
     front_sensor_bar();
-
-
 }
 
 face_profile_set = [[0.07, 15.89], [0.92, 11.42], [3.31, 7.04], [7.04, 3.31], [11.43, 0.92], [15.89, 0.07] ];
@@ -372,20 +374,12 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
   // Try to parameterize the curves
   corner_r1 = face_corner_radius ;
   corner_r2 = face_corner_radius ;
+  active_corner_r1 = active_display__corner_r ;
+  active_corner_r2 = active_corner_r1;
 
-  edge_curvature_radius = edge_radius;
-  edge_offset = edge_curvature_radius;
+  active_display_inset = active_display__inset_from_exterior;
 
-  corner_sphere_r = face_corner_radius - (corner_radius - edge_radius)/8;
-
-  round_rect_offset_factor = 0.40 * face_corner_radius;
-  display_round_rect_offset_factor = 0.45 * face_corner_radius;
   display_inset_depth = 0.8;
-
-  length_edge_extr_height = length - 2*face_corner_radius;
-  width_edge_extr_height  = width  - 2*face_corner_radius ;
-  corner_sphere_chop_height = 5;
-
 
   // generate the basic solid outline
   {
@@ -408,200 +402,25 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
         }
       }
     }
-    notch__centered_from_left_active = notch__from_left_active + display_round_rect_offset_factor/2 - 0.2;
-    notch__centered_from_top_active = length - 2*display_round_rect_offset_factor - e;
+    notch__centered_from_left_active = notch__from_left_active ;
+    notch__centered_from_top_active = active_display__height;
 
     // display main rectangular region
-    translate([display_round_rect_offset_factor,
-               display_round_rect_offset_factor,
-               depth - display_inset_depth]) {
-      color ("#103080", alpha = 0.70)
-        linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
-        difference() {
-        complexRoundSquare([ width  - 2*display_round_rect_offset_factor,
-                             length - 2*display_round_rect_offset_factor ],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           center=false);
-
-        translate([notch__centered_from_left_active,
-                   notch__centered_from_top_active])
-          complexRoundSquare([ notch__width, notch__height ],
-                             [notch__R, notch__R],
-                             [notch__R, notch__R],
-                             [notch__R, notch__R],
-                             [notch__R, notch__R],
-                             center=true);
-
-        // tiny circle for bendout on left
-        translate([notch__centered_from_left_active - (1/2)*notch__width - notch__r,
-                   notch__centered_from_top_active - notch__r])
-          difference() {
-          square(notch__r);
-          circle(r = notch__r);
-        }
-
-        // tiny circle for bendout on right
-        translate([notch__centered_from_left_active + (1/2)*notch__width + notch__r,
-                   notch__centered_from_top_active - notch__r])
-          mirror([1,0,0]) {
-          difference() {
-            square(notch__r);
-            circle(r = notch__r);
-          }
-        }
-
-      }
-
-    }
-  }
-
-
-}
-
-module shell2(width, length, depth, corner_radius, edge_radius, shell_color = "None")
-{
-  face_corner_radius = corner_radius;
-
-  // Try to parameterize the curves
-  corner_r1 = face_corner_radius - 2;
-  corner_r2 = face_corner_radius - 2 ;
-
-  edge_curvature_radius = edge_radius;
-  edge_offset = edge_curvature_radius;
-
-  corner_sphere_r = face_corner_radius - (corner_radius - edge_radius)/8;
-
-
-  round_rect_offset_factor = 0.40 * face_corner_radius;
-  display_round_rect_offset_factor = 0.45 * face_corner_radius;
-  display_inset_depth = 0.8;
-
-  length_edge_extr_height = length - 2*face_corner_radius;
-  width_edge_extr_height  = width  - 2*face_corner_radius ;
-  corner_sphere_chop_height = 5;
-
-
-  // generate the basic solid outline
-  {
-    color(shell_color, alpha = 0.82)
-    difference() {
-
-      // most of body
-      //hull($fn = 25)
-        // DEBUG
-      % union($fn = 25)
+    translate([active_display_inset, active_display_inset,
+               depth - display_inset_depth])
       {
-
-        // main rectangular region
-        translate([round_rect_offset_factor,
-                   round_rect_offset_factor,
-                   0])
-        {
-          linear_extrude(height = depth, center = false, convexity = 10)
-            complexRoundSquare([ width - 2*round_rect_offset_factor,
-                                 length - 2*round_rect_offset_factor ],
-                               [corner_r1, corner_r2],
-                               [corner_r1, corner_r2],
-                               [corner_r1, corner_r2],
-                               [corner_r1, corner_r2],
-                               center=false);
-        }
-
-
-        /* // lower left corner */
-        /* translate([face_corner_radius, face_corner_radius, depth/2]) */
-        /* { */
-        /*   intersection() { */
-        /*     sphere(r = corner_sphere_r, $fn = 50); */
-        /*     cube(size = [20, 20, corner_sphere_chop_height], center = true); */
-        /*   } */
-        /* } */
-
-        /* // left length side */
-        /* translate([edge_curvature_radius, face_corner_radius, depth/2]) { */
-
-        /*   rotate([-90,0,0]) */
-        /*     linear_extrude(height = length_edge_extr_height, center = false) */
-        /*     projection(cut = true) */
-        /*     sphere(r = edge_curvature_radius, $fn = 50) ; */
-        /* } */
-
-        /* // bottom width side */
-        /* translate([face_corner_radius, edge_curvature_radius, depth/2]) { */
-        /*   rotate([0,90,0]) */
-        /*     linear_extrude(height = width_edge_extr_height, center = false) */
-        /*     projection(cut = true) */
-        /*     sphere(r = edge_curvature_radius, $fn = 50) ; */
-        /* } */
-
-        /* // upper left corner */
-        /* translate([face_corner_radius, length - face_corner_radius, depth/2]) */
-        /* { */
-        /*   intersection() { */
-        /*     sphere(r = corner_sphere_r, $fn = 50); */
-        /*     cube(size = [20, 20, corner_sphere_chop_height], center = true); */
-        /*   } */
-        /* } */
-
-        /* // upper right corner */
-        /* translate([width - face_corner_radius, length - face_corner_radius, depth/2]) */
-        /* { */
-        /*   intersection() { */
-        /*     sphere(r = corner_sphere_r, $fn = 50); */
-        /*     cube(size = [20, 20, corner_sphere_chop_height], center = true); */
-        /*   } */
-        /* } */
-
-        /* // right length side */
-        /* translate([width - edge_curvature_radius, length- face_corner_radius, depth/2]) { */
-        /*   rotate([90,0,0]) */
-        /*     linear_extrude(height = length_edge_extr_height, center = false) */
-        /*     projection(cut = true) */
-        /*     sphere(r = edge_curvature_radius, $fn = 50) ; */
-        /* } */
-
-        /* // top width side */
-        /* translate([width - face_corner_radius, length- edge_curvature_radius, depth/2]) { */
-        /*   rotate([0,-90,0]) */
-        /*     linear_extrude(height = width_edge_extr_height, center = false) */
-        /*     projection(cut = true) */
-        /*     sphere(r = edge_curvature_radius, $fn = 50) ; */
-        /* } */
-
-        /* // lower right corner */
-        /* translate([width - face_corner_radius, face_corner_radius, depth/2]) */
-        /* { */
-        /*   intersection() { */
-        /*     sphere(r = corner_sphere_r, $fn = 50); */
-        /*     cube(size = [20, 20, corner_sphere_chop_height], center = true); */
-        /*   } */
-        /* } */
-
-
-      }
-    }
-
-    notch__centered_from_left_active = notch__from_left_active + display_round_rect_offset_factor/2 - 0.2;
-    notch__centered_from_top_active = length - 2*display_round_rect_offset_factor - e;
-
-    // display main rectangular region
-    translate([display_round_rect_offset_factor,
-               display_round_rect_offset_factor,
-               depth - display_inset_depth]) {
       color ("#103080", alpha = 0.70)
         linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
         difference() {
-        complexRoundSquare([ width  - 2*display_round_rect_offset_factor,
-                             length - 2*display_round_rect_offset_factor ],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
-                           [corner_r1, corner_r2],
+        complexRoundSquare([ active_display__width,
+                             active_display__height ],
+                           [active_corner_r1, active_corner_r2],
+                           [active_corner_r1, active_corner_r2],
+                           [active_corner_r1, active_corner_r2],
+                           [active_corner_r1, active_corner_r2],
                            center=false);
 
+        // notch
         translate([notch__centered_from_left_active,
                    notch__centered_from_top_active])
           complexRoundSquare([ notch__width, notch__height ],
@@ -629,13 +448,12 @@ module shell2(width, length, depth, corner_radius, edge_radius, shell_color = "N
           }
         }
 
-
-
       }
+
     }
-
-
   }
+
+
 }
 
 module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_cam_plateau__height) {
@@ -672,18 +490,17 @@ module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_c
 
 
   // plateau
-  rradius_outer = rear_cam_plateau__rradius_outer;
-  rradius_inner = rear_cam_plateau__rradius_inner;
+  pradius_inner = rear_cam_plateau__rradius_inner;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
     color(iphone_13_pro__graphite_turret, alpha = 0.70)
     difference() {
     linear_extrude(height = camera_plateau_height)
       complexRoundSquare([rear_cam_plateau__width_inner,
                           rear_cam_plateau__height_inner],
-                         [rradius_inner, rradius_inner],
-                         [rradius_inner, rradius_inner],
-                         [rradius_inner, rradius_inner],
-                         [rradius_inner, rradius_inner],
+                         [pradius_inner, pradius_inner],
+                         [pradius_inner, pradius_inner],
+                         [pradius_inner, pradius_inner],
+                         [pradius_inner, pradius_inner],
                          center=true);
 
 
@@ -691,10 +508,10 @@ module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_c
       linear_extrude(height = h + 2*e)
       complexRoundSquare([rear_cam_plateau__width_inner,
                           rear_cam_plateau__height_inner],
-                         [rradius_inner, rradius_inner],
-                         [rradius_inner, rradius_inner],
-                         [rradius_inner, rradius_inner],
-                         [rradius_inner, rradius_inner],
+                         [pradius_inner, pradius_inner],
+                         [pradius_inner, pradius_inner],
+                         [pradius_inner, pradius_inner],
+                         [pradius_inner, pradius_inner],
                          center=true);
   }
 
