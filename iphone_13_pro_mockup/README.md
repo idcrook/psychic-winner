@@ -34,3 +34,4 @@ Thingiverse
 -----------
 
 -	[iPhone 13 Pro mockup mechanical dummy model](https://www.thingiverse.com/thing:TBD/)
+    - remix/adaptation from [iPhone 11 Pro mockup mechanical dummy model](https://www.thingiverse.com/thing:3865803/)

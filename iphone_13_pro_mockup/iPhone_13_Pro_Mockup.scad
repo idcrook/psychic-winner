@@ -96,7 +96,6 @@ truedepth_sensor_bar__height   = 5.58;
 truedepth_sensor_bar__width    = 25.36;
 truedepth_sensor_bar__from_top = 5.59;
 truedepth_sensor_bar__from_left = 35.76;
-//truedepth_sensor_bar__curve_radius = truedepth_sensor_bar__height/2;
 truedepth_sensor_bar__curve_radius = 2.85;
 
 //
@@ -105,11 +104,6 @@ speaker_top__width        = 11.12;
 speaker_top__from_top     = 1.05;
 speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
-
-/* mic_top__height       = 1.38; // diameter */
-/* mic_top__from_top     = 6.08; */
-/* mic_top__from_left    = (iphone_13_pro__width / 2); */
-/* mic_top__radius       = mic_top__height/2; */
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;
@@ -125,8 +119,6 @@ rear_cam3_center__from_left = 30.08;
 rear_flash_center__from_left = 30.08;
 rear_mic_center__from_left  = rear_cam3_center__from_left + 6;
 rear_sensor_center__from_left = 30.08;
-
-// rear_cam_center__diameter = 15.80 - (2*1);  // guess
 
 rear_flash_center__diameter = 6;  // guess
 rear_mic_center__diameter = 1.15;
@@ -334,7 +326,7 @@ module iphone_13_pro (width, length, depth,
   }
 
   // lightning keepout
-  if (!show_lightning_keepout) {
+  if (show_lightning_keepout) {
     corner_r1_keepout = lightning_connector_keepout__radius;
     corner_r2_keepout = lightning_connector_keepout__radius;
     color("Red")
@@ -369,7 +361,6 @@ edge_profile_b_set = [[0.21, 2.63], [0.21, 3.07], [0.34, 3.47], [0.69, 3.71], [1
 module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Blue")
 {
   face_corner_radius = corner_radius;
-  //face_corner_radius = 9;
 
   // Try to parameterize the curves
   corner_r1 = face_corner_radius ;
@@ -583,11 +574,6 @@ module front_sensor_bar () {
                        [0,0],
                        [0,0],
                        center=true);
-
-  /* translate ([mic_top__from_left, -mic_top__from_top, -e]) */
-  /*   color("#101010") */
-  /*   linear_extrude(height = 5*e) */
-  /*   circle(r=mic_top__radius); */
 
 }
 
