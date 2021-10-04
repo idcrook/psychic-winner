@@ -27,7 +27,11 @@
 use <MCAD/2Dshapes.scad>
 
 // very small number
-e = 0.02;
+e = 1/128;
+
+// If true, model is instantiated by this file
+DEVELOPING_iPhone_13_Pro_model = false;
+
 
 /// Gross iPhone 13 Pro dimensions
 iphone_13_pro__height = 146.71;
@@ -577,8 +581,12 @@ module front_sensor_bar () {
 echo ("corner_radius: ", iphone_13_pro__face_corner_radius);
 echo ("edge_radius: ", iphone_13_pro__edge_radius);
 
+
+// $preview requires version 2019.05
 $fn = $preview ? 50 : 100;
 
-iphone_13_pro(iphone_13_pro__width, iphone_13_pro__height, iphone_13_pro__depth,
-              iphone_13_pro__face_corner_radius, iphone_13_pro__edge_radius,
-              show_lightning_keepout = true);
+if (DEVELOPING_iPhone_13_Pro_model)  {
+  iphone_13_pro(iphone_13_pro__width, iphone_13_pro__height, iphone_13_pro__depth,
+                iphone_13_pro__face_corner_radius, iphone_13_pro__edge_radius,
+                show_lightning_keepout = true);
+}
