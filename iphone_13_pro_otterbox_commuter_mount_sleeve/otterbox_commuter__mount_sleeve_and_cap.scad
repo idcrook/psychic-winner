@@ -20,9 +20,11 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-use <mockup/iPhone_13_Pro_Mockup.scad>;
 use <MCAD/2Dshapes.scad>
 use <../libraries/misc/wedge.scad>
+
+// utilizing "include"  imports variables, modules
+include <mockup/iPhone_13_Pro_Mockup.scad>
 
 e = 1/128; // small number
 
@@ -117,7 +119,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   printer_has_shorter_volume_height = true;
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
 
-  CONTROL_RENDER_bottom_front_no_bridge = for_bike_mount ? !true : true;
+  //CONTROL_RENDER_bottom_front_no_bridge = for_bike_mount ? !true : true;
   CONTROL_RENDER_prototype_bottom_lightning_access = for_bike_mount ? !true : true;
   CONTROL_RENDER_prototype_bottom_back_flap =  for_bike_mount ? !true : true;
 
@@ -129,7 +131,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   wantThinner =  true;
   wantThinnerCap = false;
 
-  want_camera_hole_to_be_slot = !true;
+  want_camera_hole_to_be_slot = true;
 
   sleeveSideThickness   =  wantThinner ? 2.85 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.85 : 3.5;
@@ -157,8 +159,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
   sleeveOuter_r = 4.6;
 
-  iphoneDisplay_w = 48.5;
-  iphoneScreenBezel_w = 3.5;
+  // iphoneDisplay_w = 48.5;
+  iphoneDisplay_w = active_display__width;
+  iphoneScreenBezel_w = active_display__inset_from_exterior;
 
   iphoneScreenOpening_w = iphoneScreenBezel_w + iphoneDisplay_w + iphoneScreenBezel_w;
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
@@ -172,25 +175,24 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeve_button__y_scale_factor = 1.4 ;
   sleeve_button__y_translate_adjust = 1.85;
 
-  //volumeButtonsHeightFromBottom = 78.0;
-  volumeButtonsCutoutHeight = 38; // big enough to be continuous with mute switch cutout
-  volumeButtonsHeightFromBottom = translate_y_from_top(51.37) - 5.88;
+  volumeButtonsCutoutHeight = 38 + 6; // big enough to be continuous with mute switch
+  volumeButtonsHeightFromBottom = translate_y_from_top(volume_down_center__from_top) - 5.88;
+
   volumeButtonsCutoutDepth = sleeve_button__cutout_depth;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
-  //muteSwitchHeightFromBottom = 99.5;
   add_mute_flap_cutout = true;
   muteSwitchCutoutHeight = 12.2 + 3.0 + 10; // extend so that switch is
                                             // accessible with cap on
-  muteSwitchHeightFromBottom = translate_y_from_top(24.72) - (1/2)*5.7;
+  muteSwitchHeightFromBottom = translate_y_from_top(ringsilent_switch_cutout_center__from_top) - (1/2)*5.7;
   muteSwitchCutoutDepth = sleeve_button__cutout_depth;
   muteSwitchCutoutRadius = 2;
 
-  //powerButtonHeightFromBottom = 102;
-  shift_up_power_button = 2.5;
-  powerButtonCutoutHeight = (8.77*2) + 10 + 10 + shift_up_power_button;
-  powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77 + shift_up_power_button;
+  shift_up_power_button = 0.0;
+  powerButtonCutoutHeight = (side_button__half_height*2) + 10 + 10 + shift_up_power_button;
+  //powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77 + shift_up_power_button;
+  powerButtonHeightFromBottom = translate_y_from_top(side_button_center__from_top) - side_button__half_height + shift_up_power_button;
   powerButtonCutoutDepth = sleeve_button__cutout_depth;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
@@ -204,33 +206,35 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraHoleAddOffsetForCase_midline = 2.2;
   cameraHoleAddOffsetForCase_sideline = 2.8;
 
-  speakerCutoutHeight = 18;
+  speakerCutoutCenterBonus = 1.0;
+  speakerCutoutHeight = 18 + speakerCutoutCenterBonus;
   speakerCutoutDepth = 5.5;
   speakerCutoutRadius = speakerCutoutDepth/2;
-  // speakerHoleOffcenter = 8.8 ;
-  speakerHoleOffcenter = 8.5 ;
+  speakerHoleOffcenter = 8.0 - speakerCutoutCenterBonus;
 
-  lightningCutoutHeight = 13.85;
-  lightningCutoutDepth = 6.85;
-  lightningCutoutRadius = 3.4;
+  lightningCutoutHeight = lightning_connector_keepout__width;
+  lightningCutoutDepth = lightning_connector_keepout__height;
+  lightningCutoutRadius = lightning_connector_keepout__radius;
   lightningFlapCutoutRadius = 0.74;
   lightningHoleOffcenter = 0;
 
-  headphoneMicCutoutHeight = 15 - 2 - 1;
+  headphoneMicCutoutCenterBonus = 2.5;
+  headphoneMicCutoutHeight = 12 + headphoneMicCutoutCenterBonus;
   headphoneMicCutoutDepth = 6.0;
   headphoneMicCutoutRadius = lightningCutoutDepth/2;
   headphoneMicHoleOffcenter = 20.0;
 
-  //bottomLipHeight = 18.0 - 3;
   bottomLipHeight = 4.0; // matches height of case lip
   bottom_lip_rounded_corners = true;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
-  bottomLipFingerprintDiameter = 14.0;
+  // re-appropriate for extra space for sliding up from bottom edge of phone
+  // on-screen indicator for this is ~21.5 mm wide
+  bottomLipFingerprintDiameter = 14.0 + 7.5;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = CONTROL_RENDER_bottom_front_no_bridge ;
+  fingerprint_sensor_cutout = true; // CONTROL_RENDER_bottom_front_no_bridge ;
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
@@ -238,8 +242,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   // calculate how far we need to translate below to cut out enough
 
-  bottomRearFlapCutoutHeight = 7.0 + 2.5; // measured on case
-  bottomRearFlapCutoutWidth = 17.0; // measured on case
+  bottomRearFlapCutoutHeight = 7.0 + 2.5; // measured on case TODO
+  bottomRearFlapCutoutWidth = 17.0; // measured on case TODO
 
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
@@ -667,9 +671,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
           }
 
-          // previously cutout for fingerprint
-          // re-appropriate for extra space for sliding up from bottom edge of phone
-          // the on-screen indicator for this is ~21.5 mm wide
+          // previously cutout for fingerprint - appropriated for extra space
+          // for sliding up from bottom edge of phone
           if (fingerprint_sensor_cutout) {
             echo ("Width of bottom edge cutout at 'base': ", bottomLipCutout_MinWidth);
             translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
@@ -1069,7 +1072,7 @@ module showTogether() {
 }
 
 
-show_everything =  true;
+show_everything = true;
 
 
 if (show_everything) {
