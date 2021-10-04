@@ -15,7 +15,7 @@ Sources
 
 -	Apple's iPhone 13 Pro product page - [Technical Specifications](https://www.apple.com/iphone-13-pro/specs/)
 
--	Apple's [Accessory Design Guidelines [.pdf]](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf) "29. Device Dimensional Drawings" **44.3 iPhone 13 Pro 1 of 2** *(Release R15, downloaded 2021-Oct-02)*
+-	Apple's [Accessory Design Guidelines [.pdf]](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf) "Device Dimensional Drawings" **44.3 iPhone 13 Pro 1 of 2** *(Release R15, downloaded 2021-Oct-02)*
 
 Gross Dimensions
 ----------------
