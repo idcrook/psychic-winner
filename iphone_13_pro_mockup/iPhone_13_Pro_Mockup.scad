@@ -40,7 +40,8 @@ iphone_13_pro__face_corner_radius = 9.0;
 iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_button = "#70706C";
-iphone_13_pro__graphite_turret = "#5F5E5A";
+iphone_13_pro__graphite_turret = iphone_13_pro__graphite;
+iphone_13_pro__graphite_plateau = "#5F5E5A";
 iphone_13_pro__graphite_lens_bezel = "#ABA9A4";
 
 // "from_top" measurements are to center/midpoint of object
@@ -477,7 +478,7 @@ module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_c
   // plateau
   pradius_inner = rear_cam_plateau__rradius_inner;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
-    color(iphone_13_pro__graphite_turret, alpha = 0.70)
+    color(iphone_13_pro__graphite_plateau, alpha = 0.70)
     difference() {
     linear_extrude(height = camera_plateau_height)
       complexRoundSquare([rear_cam_plateau__width_inner,
