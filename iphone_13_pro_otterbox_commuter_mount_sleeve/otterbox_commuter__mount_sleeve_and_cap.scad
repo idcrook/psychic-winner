@@ -114,6 +114,7 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
   tolerance = 0.5;
+  // bike mount version requires cap but no lightning port access
   for_bike_mount = true;
 
   printer_has_shorter_volume_height = true;
@@ -122,7 +123,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   //CONTROL_RENDER_bottom_front_no_bridge = for_bike_mount ? !true : true;
   CONTROL_RENDER_prototype_bottom_lightning_access = for_bike_mount ? !true : true;
   CONTROL_RENDER_prototype_bottom_back_flap =  for_bike_mount ? !true : true;
-  CONTROL_RENDER_mute_switch_extra_access =  for_bike_mount ? true : !true;
+  CONTROL_RENDER_mute_switch_extra_access =  for_bike_mount ? !true : true;
 
   CONTROL_RENDER_experiment3      = ! true;
   CONTROL_RENDER_experiment4      = ! true;
@@ -525,7 +526,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         echo("powerButtonCapClip_z:", powerButtonCapClip_z);
         echo("muteSwitchCapClip_z:", muteSwitchCapClip_z);
 
-        translate([0, 0, caseHeight])
+        translate([0, -1.5, caseHeight])
           generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth,
                       powerButtonCapClip_z, muteSwitchCapClip_z);
       }
@@ -1051,7 +1052,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = !true;
+  withCap = true;
   withSleeve = true;
 
   show_with_phone_and_case = true;
@@ -1061,7 +1062,7 @@ module showTogether() {
     translate([tw, tl, th ]) iphone_13_pro(iw, il, ih, show_lightning_keepout = true);
 
     //
-    translate([0,0,0]) otterboxCommuterCase();
+    translate([0,0,0]) % otterboxCommuterCase();
   }
 
   // design
