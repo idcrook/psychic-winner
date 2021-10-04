@@ -122,6 +122,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   //CONTROL_RENDER_bottom_front_no_bridge = for_bike_mount ? !true : true;
   CONTROL_RENDER_prototype_bottom_lightning_access = for_bike_mount ? !true : true;
   CONTROL_RENDER_prototype_bottom_back_flap =  for_bike_mount ? !true : true;
+  CONTROL_RENDER_mute_switch_extra_access =  for_bike_mount ? true : !true;
 
   CONTROL_RENDER_experiment3      = ! true;
   CONTROL_RENDER_experiment4      = ! true;
@@ -133,10 +134,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   want_camera_hole_to_be_slot = true;
 
-  sleeveSideThickness   =  wantThinner ? 2.85 : 3.5;
-  sleeveBottomThickness =  wantThinner ? 2.85 : 3.5;
-  sleeveTopThickness    =  wantThinner ? 2.85 : 3.5;
-  sleeveBaseThickness   =  wantThinner ? 2.85 : 3.5;
+  sleeveSideThickness   =  wantThinner ? 2.88 : 3.5;
+  sleeveBottomThickness =  wantThinner ? 2.88 : 3.5;
+  sleeveTopThickness    =  wantThinner ? 2.88 : 3.5;
+  sleeveBaseThickness   =  wantThinner ? 2.88 : 3.5;
 
   sleeveSideThickness__button_cutout = sleeveSideThickness + 0.8 + 2*tolerance;
 
@@ -175,34 +176,33 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeve_button__y_scale_factor = 1.4 ;
   sleeve_button__y_translate_adjust = 1.85;
 
-  volumeButtonsCutoutHeight = 38 + 6; // big enough to be continuous with mute switch
-  volumeButtonsHeightFromBottom = translate_y_from_top(volume_down_center__from_top) - 5.88;
+  volumeButtonsCutoutHeight = volume_up__half_height + volume_down__half_height +
+    ( volume_down_center__from_top - volume_up_center__from_top) + 10 ;  // big enough to be continuous with mute switch
+  volumeButtonsHeightFromBottom = translate_y_from_top(volume_down_center__from_top) - volume_down__half_height;
 
   volumeButtonsCutoutDepth = sleeve_button__cutout_depth;
   volumeButtonsCutoutRadius = 2;
   erase_sleeveInner_l_left  = volumeButtonsHeightFromBottom;
 
-  add_mute_flap_cutout = true;
-  muteSwitchCutoutHeight = 12.2 + 3.0 + 10; // extend so that switch is
-                                            // accessible with cap on
-  muteSwitchHeightFromBottom = translate_y_from_top(ringsilent_switch_cutout_center__from_top) - (1/2)*5.7;
+  add_mute_flap_cutout = CONTROL_RENDER_mute_switch_extra_access;
+  muteSwitchCutoutHeight = 25.2 ; // extend so that switch is accessible with cap on
+  muteSwitchHeightFromBottom = translate_y_from_top(ringsilent_switch_cutout_center__from_top) - ringsilent_switch_cutout__half_height;
   muteSwitchCutoutDepth = sleeve_button__cutout_depth;
   muteSwitchCutoutRadius = 2;
 
   shift_up_power_button = 0.0;
   powerButtonCutoutHeight = (side_button__half_height*2) + 10 + 10 + shift_up_power_button;
-  //powerButtonHeightFromBottom = translate_y_from_top(44.61) - 8.77 + shift_up_power_button;
   powerButtonHeightFromBottom = translate_y_from_top(side_button_center__from_top) - side_button__half_height + shift_up_power_button;
   powerButtonCutoutDepth = sleeve_button__cutout_depth;
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
-
-  cameraHeightFromBottom = translate_y_from_top(32.71) - 2.0;
-  cameraCutoutHeight = 30.59 + 1.3;
-  cameraCutoutDepth = 32.71 + 1.3;
-  cameraCutoutRadius = 7.5 + 2.0;
-  cameraHoleOffcenter = 0.70 * 2;
+  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height_inner/2) ;
+  cameraCutoutHeight = rear_cam_plateau__height_inner + ((rear_cam_plateau__height_outer - rear_cam_plateau__width_inner)/4);
+  cameraCutoutDepth = rear_cam_plateau__width_inner;
+  //cameraCutoutRadius = 9.5 ;
+  cameraCutoutRadius =  rear_cam_plateau__rradius_outer;
+  cameraHoleOffcenter = - 8.0;
   cameraHoleAddOffsetForCase_midline = 2.2;
   cameraHoleAddOffsetForCase_sideline = 2.8;
 
@@ -230,7 +230,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
   // re-appropriate for extra space for sliding up from bottom edge of phone
   // on-screen indicator for this is ~21.5 mm wide
-  bottomLipFingerprintDiameter = 14.0 + 7.5;
+  bottomLipFingerprintDiameter = 21.5;
   bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
   bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
   bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
@@ -439,7 +439,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   center = false);
 
-            // REFACTOR to avoid code duplication (copy-and-pasted from above)
+            // TODO: REFACTOR to avoid code duplication (copy-and-pasted from above)
             if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
               shiftUpAmount = 12 + 7 - 4;
