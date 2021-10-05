@@ -20,18 +20,15 @@
 
 */
 
-
 // * All measurements in millimeters * //
 
+// If true, model is instantiated by this file
+DEVELOPING_iPhone_13_Pro_model = !false;
 
 use <MCAD/2Dshapes.scad>
 
 // very small number
 e = 1/128;
-
-// If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = !false;
-
 
 /// Gross iPhone 13 Pro dimensions
 iphone_13_pro__height = 146.71;
@@ -40,7 +37,7 @@ iphone_13_pro__depth  =   7.65;
 iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
-iphone_13_pro__face_corner_radius = 17.0; // matches closely to blueprint profile
+iphone_13_pro__face_corner_radius = 17.0; // close to profile from blueprint
 iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_button = "#70706C";
@@ -221,7 +218,7 @@ function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 
 
 module iphone_13_pro (width, length, depth,
-                      corner_radius = 7, edge_radius = 3.925, show_lightning_keepout = true)
+                      corner_radius = 7, edge_radius = 0.7, show_lightning_keepout = true)
 {
   shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_13_pro__graphite);
 
@@ -358,18 +355,80 @@ module iphone_13_pro (width, length, depth,
 face_profile_set = [[0.07, 15.89], [0.92, 11.42], [3.31, 7.04], [7.04, 3.31], [11.43, 0.92], [15.89, 0.07] ];
 face_profile_polygon = concat(face_profile_set, [[16.0, 0.0], [0,0], [0.0, 16.0]]);
 edge_profile_b_set = [[0.21, 2.63], [0.21, 3.07], [0.34, 3.47], [0.69, 3.71], [1.12, 3.75]];
+edge_profile_b_polygon = concat([[1.15, iphone_13_pro__depth/2 + e], [0, iphone_13_pro__depth/2 + e], [0, 0]], edge_profile_b_set);
 
 module face_profile_corner (size = 1.0) {
   scale([size, size]) {
     polygon(face_profile_polygon);
   }
+}
 
+module edge_profile_corner (size = 1.0) {
+  scale([size, size]) {
+    polygon(edge_profile_b_polygon);
+  }
 }
 
 
 module test_face_profile() {
   translate([0,0,5]) {
     % face_profile_corner();
+  }
+}
+
+
+module test_edge_profile() {
+  z_off_midline = edge_profile_b_polygon[0][1];
+
+  * union () {
+    long_edge_profile    ();
+  }
+
+  % union () {
+    short_edge_profile    ();
+  }
+
+
+}
+
+
+module long_edge_profile() {
+  z_off_midline = edge_profile_b_polygon[0][1];
+
+  union () {
+      translate([0,0,z_off_midline])
+      {
+        rotate([-90,0,0])
+          linear_extrude(height=iphone_13_pro__height)
+          edge_profile_corner();
+      }
+    translate([0,iphone_13_pro__height,z_off_midline])
+      {
+        rotate([90,0,0])
+          linear_extrude(height=iphone_13_pro__height)
+          edge_profile_corner();
+      }
+  }
+}
+
+module short_edge_profile() {
+  z_off_midline = edge_profile_b_polygon[0][1];
+
+  translate([iphone_13_pro__width,0,0])
+    rotate([0,0,90])
+    union () {
+      translate([0,0,z_off_midline])
+      {
+        rotate([-90,0,0])
+          linear_extrude(height=iphone_13_pro__width)
+          edge_profile_corner();
+      }
+    translate([0,iphone_13_pro__width,z_off_midline])
+      {
+        rotate([90,0,0])
+          linear_extrude(height=iphone_13_pro__width)
+          edge_profile_corner();
+      }
   }
 }
 
@@ -389,6 +448,7 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
   display_inset_depth = 0.8;
 
   // test_face_profile(); // guide for face corner profile
+  test_edge_profile(); // guide for housing rounded corner profile
 
   // generate the basic solid outline
   {
@@ -410,6 +470,20 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
                                center=false);
         }
       }
+      // subtract here
+
+      // left side
+      translate([-e, 0, 0]) long_edge_profile();
+
+      // right side
+      translate([iphone_13_pro__width + e, 0, 0]) mirror([1,0,0])  long_edge_profile();
+
+      // bottom side
+      translate([0, -e, 0]) short_edge_profile();
+
+      // top side
+      translate([0, iphone_13_pro__height + e, 0]) mirror([0,1,0])  short_edge_profile();
+
     }
     notch__centered_from_left_active = notch__from_left_active ;
     notch__centered_from_top_active = active_display__height;
@@ -595,11 +669,8 @@ module front_sensor_bar () {
 
 }
 
-
-
 echo ("corner_radius: ", iphone_13_pro__face_corner_radius);
 echo ("edge_radius: ", iphone_13_pro__edge_radius);
-
 
 // $preview requires version 2019.05
 $fn = $preview ? 50 : 100;
