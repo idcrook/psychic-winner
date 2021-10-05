@@ -30,7 +30,7 @@ use <MCAD/2Dshapes.scad>
 e = 1/128;
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = false;
+DEVELOPING_iPhone_13_Pro_model = !false;
 
 
 /// Gross iPhone 13 Pro dimensions
@@ -40,7 +40,7 @@ iphone_13_pro__depth  =   7.65;
 iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
-iphone_13_pro__face_corner_radius = 9.0;
+iphone_13_pro__face_corner_radius = 17.0; // matches closely to blueprint profile
 iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_button = "#70706C";
@@ -161,7 +161,7 @@ rear_logo_keepout__diameter = 57.50;
 active_display__width     =  64.58;
 active_display__height    = 139.77;
 active_display__inset_from_exterior = 3.47;
-active_display__corner_r  = 6.5; // guess
+active_display__corner_r  = iphone_13_pro__face_corner_radius - 3.47 + 1; // guess
 
 display_glass__width     =  69.42;
 display_glass__height    = 144.61;
@@ -354,8 +354,25 @@ module iphone_13_pro (width, length, depth,
     front_sensor_bar();
 }
 
+// Note: Requires version 2015.03 (for use of concat())
 face_profile_set = [[0.07, 15.89], [0.92, 11.42], [3.31, 7.04], [7.04, 3.31], [11.43, 0.92], [15.89, 0.07] ];
+face_profile_polygon = concat(face_profile_set, [[16.0, 0.0], [0,0], [0.0, 16.0]]);
 edge_profile_b_set = [[0.21, 2.63], [0.21, 3.07], [0.34, 3.47], [0.69, 3.71], [1.12, 3.75]];
+
+module face_profile_corner (size = 1.0) {
+  scale([size, size]) {
+    polygon(face_profile_polygon);
+  }
+
+}
+
+
+module test_face_profile() {
+  translate([0,0,5]) {
+    % face_profile_corner();
+  }
+}
+
 
 module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Blue")
 {
@@ -370,6 +387,8 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
   active_display_inset = active_display__inset_from_exterior;
 
   display_inset_depth = 0.8;
+
+  // test_face_profile(); // guide for face corner profile
 
   // generate the basic solid outline
   {
