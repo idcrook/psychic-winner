@@ -127,8 +127,8 @@ rear_cam_turret__width_inner = (39.28 - 4.27);
 rear_cam_turret__height_outer = (43.62 - 1.15);
 rear_cam_turret__width_outer = (42.39 - 1.15);
 
-rear_cam_turret__rradius_inner = 6.5;
-rear_cam_turret__rradius_outer = 8.5;
+rear_cam_turret__rradius_inner = 10.2;
+rear_cam_turret__rradius_outer = 14.5;
 
 rear_cam_turret_center__from_top = (rear_cam1_center__from_top + rear_cam2_center__from_top)/2;
 rear_cam_turret_center__from_left = (rear_cam1_center__from_left + rear_cam3_center__from_left)/2;
@@ -143,8 +143,8 @@ rear_cam_plateau_center__from_top = (rear_cam_plateau__height_outer/2) + 1.15;
 rear_cam_plateau_center__from_left = (rear_cam_plateau__width_outer/2) + 1.15;
 rear_cam_plateau_keepout__height_above = 1.21;
 
-rear_cam_plateau__rradius_inner = 6.5;
-rear_cam_plateau__rradius_outer = 8.5;
+rear_cam_plateau__rradius_inner = rear_cam_turret__rradius_inner;
+rear_cam_plateau__rradius_outer = rear_cam_turret__rradius_outer;
 rear_cam_plateau__height = 1.68;
 
 rear_cam_camera_glass__height = 3.60;
@@ -369,28 +369,17 @@ module edge_profile_corner (size = 1.0) {
   }
 }
 
-
 module test_face_profile() {
   translate([0,0,5]) {
     % face_profile_corner();
   }
 }
 
-
 module test_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
-
-  * union () {
-    long_edge_profile    ();
-  }
-
-  % union () {
-    short_edge_profile    ();
-  }
-
-
+  * union () { long_edge_profile    (); }
+  % union () { short_edge_profile    (); }
 }
-
 
 module long_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
@@ -448,7 +437,8 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
   display_inset_depth = 0.8;
 
   // test_face_profile(); // guide for face corner profile
-  test_edge_profile(); // guide for housing rounded corner profile
+  // test_edge_profile(); // housing rounded corners profile
+  // test_edge_corner_profile(); // housing rounded corners profile
 
   // generate the basic solid outline
   {
