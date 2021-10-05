@@ -38,7 +38,6 @@ iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
 iphone_13_pro__face_corner_radius = 17.0; // close to profile from blueprint
-iphone_13_pro__edge_radius = (iphone_13_pro__depth - 0.25) / 2 ;
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_button = "#70706C";
 iphone_13_pro__graphite_turret = iphone_13_pro__graphite;
@@ -113,8 +112,12 @@ rear_cam1_center__from_left = 13.43;
 rear_cam2_center__from_left = 13.43;
 rear_cam3_center__from_left = 30.08;
 rear_flash_center__from_left = 30.08;
-rear_mic_center__from_left  = rear_cam3_center__from_left + 6;
+rear_mic_center__from_left  = rear_cam3_center__from_left + 6; // guess
 rear_sensor_center__from_left = 30.08;
+
+rear_cam1__shroud_radius = 15.53/2;
+rear_cam2__shroud_radius = 15.53/2;
+rear_cam3__shroud_radius = 15.8/2;
 
 rear_flash_center__diameter = 6;  // guess
 rear_mic_center__diameter = 1.15;
@@ -149,7 +152,7 @@ rear_cam_plateau__height = 1.68;
 
 rear_cam_camera_glass__height = 3.60;
 rear_cam_camera_glass_rim__height = 2.90;  // guess
-rear_cam_camera_glass_rim__outset = 1.15;  // guess
+rear_cam_camera_glass_rim__outset = 1.05;  // guess
 
 // the logo locates the center of the inductive charger coil
 rear_logo_center__from_top = 73.35;
@@ -218,9 +221,9 @@ function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 
 
 module iphone_13_pro (width, length, depth,
-                      corner_radius = 7, edge_radius = 0.7, show_lightning_keepout = true)
+                      corner_radius = 7, show_lightning_keepout = true)
 {
-  shell(width, length, depth, corner_radius, edge_radius, shell_color = iphone_13_pro__graphite);
+  shell(width, length, depth, corner_radius, shell_color = iphone_13_pro__graphite);
 
   // ring/silent switch
   color(iphone_13_pro__graphite_button)
@@ -381,6 +384,11 @@ module test_edge_profile() {
   % union () { short_edge_profile    (); }
 }
 
+module test_edge_corner_profile() {
+  z_off_midline = edge_profile_b_polygon[0][1];
+  % union () { edge_corner_profile    (); }
+}
+
 module long_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
 
@@ -399,6 +407,31 @@ module long_edge_profile() {
       }
   }
 }
+
+module edge_corner_profile() {
+  z_off_midline = edge_profile_b_polygon[0][1];
+  extra_angle_degrees = 0;
+  rotate_angle = 90 + 2*extra_angle_degrees;
+
+  union () {
+      {
+        translate([iphone_13_pro__face_corner_radius, iphone_13_pro__face_corner_radius, z_off_midline])
+          rotate([0,0,-extra_angle_degrees])
+          rotate_extrude(angle = rotate_angle)
+          translate([-iphone_13_pro__face_corner_radius, 0])
+          edge_profile_corner();
+      }
+      {
+        translate([iphone_13_pro__face_corner_radius, iphone_13_pro__face_corner_radius, z_off_midline])
+          rotate([0,0,-extra_angle_degrees])
+          rotate_extrude(angle = rotate_angle)
+          translate([-iphone_13_pro__face_corner_radius, 0])
+          rotate([180,0,0])
+          edge_profile_corner();
+      }
+  }
+}
+
 
 module short_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
@@ -422,7 +455,7 @@ module short_edge_profile() {
 }
 
 
-module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Blue")
+module shell(width, length, depth, corner_radius, shell_color = "Blue")
 {
   face_corner_radius = corner_radius;
 
@@ -459,21 +492,26 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
                                [corner_r1, corner_r2],
                                center=false);
         }
-      }
-      // subtract here
+      } // subtract starting here
 
       // left side
       translate([-e, 0, 0]) long_edge_profile();
-
       // right side
       translate([iphone_13_pro__width + e, 0, 0]) mirror([1,0,0])  long_edge_profile();
 
       // bottom side
       translate([0, -e, 0]) short_edge_profile();
-
       // top side
       translate([0, iphone_13_pro__height + e, 0]) mirror([0,1,0])  short_edge_profile();
 
+      // bottom left corner
+      translate([-4*e, -4*e, 0]) edge_corner_profile();
+      // bottom right corner
+      translate([iphone_13_pro__width + 4*e, -4*e, 0]) mirror([1,0,0]) edge_corner_profile();
+      // top left corner
+      translate([-4*e, iphone_13_pro__height + 4*e, 0]) mirror([0,1,0]) edge_corner_profile();
+      // top right corner
+      translate([iphone_13_pro__width + 4*e, iphone_13_pro__height + 4*e, 0]) mirror([1,1,0]) edge_corner_profile();
     }
     notch__centered_from_left_active = notch__from_left_active ;
     notch__centered_from_top_active = active_display__height;
@@ -529,7 +567,7 @@ module shell(width, length, depth, corner_radius, edge_radius, shell_color = "Bl
 
 }
 
-module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_cam_plateau__height) {
+module rear_camera (camera_plateau_height = rear_cam_plateau__height) {
 
   //h = rear_cam_turret_keepout__height_above ;
   h = 0.1;
@@ -592,13 +630,13 @@ module rear_camera (camera_lens_radius = 15.80/2, camera_plateau_height = rear_c
 
   // interior features
   translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0])
-    rear_camera_lens(r = camera_lens_radius);
+    rear_camera_lens(r = rear_cam1__shroud_radius);
 
   translate ([rear_cam2_center__from_left, -rear_cam2_center__from_top, 0])
-    rear_camera_lens(r = camera_lens_radius);
+    rear_camera_lens(r = rear_cam2__shroud_radius);
 
   translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0])
-    rear_camera_lens(r = camera_lens_radius);
+    rear_camera_lens(r = rear_cam3__shroud_radius);
 
   translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height])
     color(alpha=0.30)
@@ -660,13 +698,12 @@ module front_sensor_bar () {
 }
 
 echo ("corner_radius: ", iphone_13_pro__face_corner_radius);
-echo ("edge_radius: ", iphone_13_pro__edge_radius);
 
 // $preview requires version 2019.05
 $fn = $preview ? 50 : 100;
 
 if (DEVELOPING_iPhone_13_Pro_model)  {
   iphone_13_pro(iphone_13_pro__width, iphone_13_pro__height, iphone_13_pro__depth,
-                iphone_13_pro__face_corner_radius, iphone_13_pro__edge_radius,
+                iphone_13_pro__face_corner_radius,
                 show_lightning_keepout = true);
 }
