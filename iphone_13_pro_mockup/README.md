@@ -9,7 +9,6 @@ TODO
 	-	add glass materials on face and rear
 -	Details
 	-	rear camera plateau should be smoothed with a gradient
-	-	rounded corners on buttons
 	-	ringonoff should be made into a switch
 
 Sources

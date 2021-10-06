@@ -19,9 +19,11 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = false;
+DEVELOPING_iPhone_13_Pro_model = !false;
 
 use <MCAD/2Dshapes.scad>
+// from dotSCAD
+use <rounded_square.scad>
 
 // very small number
 e = 1/128;
@@ -234,9 +236,8 @@ module iphone_13_pro (width, length, depth,
                volume_up__z_mid]) {
     rotate([90,0,90])
       linear_extrude(volume_up__bump+e)
-      square([volume_up__height, volume_up__depth],center=true);
+      rounded_square(size = [volume_up__height, volume_up__depth], corner_r = volume_up__depth/2, center = true);
   }
-
   // volume down button
   color(iphone_13_pro__graphite_button)
     translate([-volume_down__bump,
@@ -244,9 +245,8 @@ module iphone_13_pro (width, length, depth,
                volume_down__z_mid]) {
     rotate([90,0,90])
       linear_extrude(volume_down__bump+e)
-      square([volume_down__height, volume_down__depth],center=true);
+      rounded_square(size=[volume_down__height, volume_down__depth], corner_r=volume_down__depth/2, center=true);
   }
-
   // sim slot
   color(iphone_13_pro__graphite_button)
     translate([-sim_slot__bump,
@@ -254,7 +254,7 @@ module iphone_13_pro (width, length, depth,
                iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(sim_slot__bump+e)
-      square([sim_slot__height, sim_slot__depth],center=true);
+      rounded_square(size=[sim_slot__height, sim_slot__depth], corner_r=sim_slot__depth/2, center=true);
   }
 
   // side button
@@ -264,7 +264,7 @@ module iphone_13_pro (width, length, depth,
                iphone_13_pro__z_mid]) {
     rotate([90,0,90])
       linear_extrude(side_button__bump+e)
-      square([side_button__height, side_button__depth],center=true);
+      rounded_square([side_button__height, side_button__depth], corner_r=side_button__depth/2, center=true);
   }
 
   // mic1 holes
