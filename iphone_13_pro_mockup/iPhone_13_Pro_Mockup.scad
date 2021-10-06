@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = !false;
+DEVELOPING_iPhone_13_Pro_model = false;
 
 use <MCAD/2Dshapes.scad>
 
