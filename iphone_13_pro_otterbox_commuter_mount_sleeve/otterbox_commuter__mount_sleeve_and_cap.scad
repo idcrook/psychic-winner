@@ -39,7 +39,6 @@ l = 153.2 + 0.25;  // measured?
 w = 79.2 - 1.3 + 1.0;   //
 h = 14.1 + 1.3;   // measured + padding
 
-
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § 44.3 iPhone 13 Pro 1 of 2
 // Release R15, downloaded 2021-Oct-02
@@ -47,9 +46,9 @@ h = 14.1 + 1.3;   // measured + padding
 //  - Width:   71.54 mm
 //  - Depth:    7.65 mm
 
-il = 146.71;
-iw =  71.54;
-ih =   7.65;
+il = iphone_13_pro__height;
+iw = iphone_13_pro__width ;
+ih = iphone_13_pro__depth ;
 tol = 0.2;
 
 dw = w - iw;
@@ -61,9 +60,10 @@ tl = (1/2) * dl  ;
 th = (1/2) * dh  ;
 
 // display glass cutout
-cut_w = 64.58 + 5.0;
-cut_l = 139.77 + 4.8;
-cut_r = 6.5;
+cut_w = active_display__width + 5.0;
+cut_l = active_display__height + 4.8;
+cut_r = 15.0;
+out_r = cut_r + 3.3;
 
 // display
 dcw = (w - cut_w) / 2;
@@ -71,19 +71,16 @@ dcl = (l - cut_l) / 2;
 
 function translate_y_from_top (from_top)  = il - from_top;
 
-
 //
 module otterboxCommuterCase () {
-
   difference() {
     // case outer dimensions
-    color("DarkGray", alpha = 0.650) shell(w, l, h, 10, 3);
-    //shell(w, l, h, 10, 3);
+    color("#202020", alpha = 0.75) shell(w, l, h, out_r, 3);
 
-    // carve out iphone and some tolerance
-    translate([tw - tol, tl - tol, th]) {
-      shell(iw + 2*tol, il + 2*tol, ih + 2*tol, 9.5 + 2*tol, 3);
-    }
+    /* // carve out iphone and some tolerance */
+    /* translate([tw - tol, tl - tol, th]) { */
+    /*   shell(iw + 2*tol, il + 2*tol, ih + 2*tol, 9 + 2*tol, 3); */
+    /* } */
 
     // cut out above phone too (rounded rect with dimensions 73.3 x 153.8)
     translate ([dcw,dcl,th+ih-tol])
@@ -108,7 +105,6 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
                         [0.0, 0.0],
                         [0.0, 0.0],
                         center = false);
-
 }
 
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
@@ -198,14 +194,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
-  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height_inner/2) ;
-  cameraCutoutHeight = rear_cam_plateau__height_inner + ((rear_cam_plateau__height_outer - rear_cam_plateau__width_inner)/4);
-  cameraCutoutDepth = rear_cam_plateau__width_inner;
+  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height_inner/2) - 0.0  ;
+  cameraCutoutHeight = rear_cam_plateau__height_inner + ((rear_cam_plateau__height_outer - rear_cam_plateau__width_inner)/2) ;
+  cameraCutoutDepth = rear_cam_plateau__width_inner + 2;
   //cameraCutoutRadius = 9.5 ;
   cameraCutoutRadius =  rear_cam_plateau__rradius_outer;
-  cameraHoleOffcenter = - 8.0;
-  cameraHoleAddOffsetForCase_midline = 2.2;
-  cameraHoleAddOffsetForCase_sideline = 2.8;
+  cameraHoleOffcenter = - 7.0;
+  cameraHoleAddOffsetForCase_midline = 2.5;
+  cameraHoleAddOffsetForCase_sideline = 1.5;
 
   speakerCutoutCenterBonus = 1.0;
   speakerCutoutHeight = 18 + speakerCutoutCenterBonus;
@@ -443,7 +439,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // TODO: REFACTOR to avoid code duplication (copy-and-pasted from above)
             if (want_camera_hole_to_be_slot) {
               // shift up camera cutout past top to make it a slot
-              shiftUpAmount = 12 + 7 - 4;
+              shiftUpAmount = 12 - 4;
               translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline ,
                          (1/2) * sleeveInner_h - 3*tolerance - e,
                          cameraHeightFromBottom + shiftUpAmount])
@@ -1052,15 +1048,14 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = true;
+  withCap = !true;
   withSleeve = true;
 
   show_with_phone_and_case = true;
 
   if (show_with_phone_and_case) {
     // iPhone 11 Pro
-    translate([tw, tl, th ]) iphone_13_pro(iw, il, ih, show_lightning_keepout = true);
-
+    translate([tw, tl, th ])  iphone_13_pro(iw, il, ih, show_lightning_keepout = true);
     //
     translate([0,0,0]) % otterboxCommuterCase();
   }
@@ -1068,13 +1063,9 @@ module showTogether() {
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
   translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-
-
 }
 
-
 show_everything = true;
-
 
 if (show_everything) {
   showTogether();
@@ -1090,8 +1081,6 @@ if (show_everything) {
   withCap    =  printCap;
   //withCap    =  true;
 
-
-
   if (! printCap) {
     translate([0,0,0])
       sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, withSleeve);
@@ -1103,6 +1092,4 @@ if (show_everything) {
   }
 
   // *test_sleeveMountInsert(tweakMountSurface, 0);
-
-
 }
