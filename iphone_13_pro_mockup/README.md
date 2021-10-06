@@ -34,11 +34,13 @@ Measurements:
 Drawings and renders
 --------------------
 
-![top view](img/iphone_13_pro_rough_top_view.png)
+![top view](img/iphone_13_pro_top_view.png)
 
-![front view](img/iphone_13_pro_rough_front_view.png)
+![bottom view](img/iphone_13_pro_bottom_view.png)
 
-![rear view](img/iphone_13_pro_rough_rear_view.png)
+![front view](img/iphone_13_pro_front_view.png)
+
+![rear view](img/iphone_13_pro_rear_view.png)
 
 Thingiverse
 -----------

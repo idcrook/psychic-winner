@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = !false;
+DEVELOPING_iPhone_13_Pro_model = false;
 
 use <MCAD/2Dshapes.scad>
 // from dotSCAD
@@ -35,7 +35,7 @@ iphone_13_pro__depth  =   7.65;
 iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
-iphone_13_pro__face_corner_radius = 17.0; // close to profile from blueprint
+iphone_13_pro__face_corner_radius = 16.7; // close to profile from blueprint
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_button = "#70706C";
 iphone_13_pro__graphite_turret = iphone_13_pro__graphite;
@@ -319,7 +319,7 @@ module iphone_13_pro (width, length, depth,
   if (show_lightning_keepout) {
     corner_r1_keepout = lightning_connector_keepout__radius;
     corner_r2_keepout = lightning_connector_keepout__radius;
-    color("Red")
+    color("Red", alpha=0.2)
       translate([lightning_connector__from_left, 0, bottom__z_mid]) {
       rotate([90, 0, 0])
         %linear_extrude(height = lightning_connector_keepout__outward, center = false, convexity = 10)
@@ -362,7 +362,7 @@ module edge_profile_corner (size = 1.0) {
 }
 
 module test_face_profile() {
-  translate([0,0,5]) {
+  translate([0,0,3]) {
     % face_profile_corner();
   }
 }
