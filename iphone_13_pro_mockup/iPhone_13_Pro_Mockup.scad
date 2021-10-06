@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = false;
+DEVELOPING_iPhone_13_Pro_model = !false;
 
 use <MCAD/2Dshapes.scad>
 // from dotSCAD
@@ -382,7 +382,7 @@ module long_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
 
   union () {
-      translate([0,0,z_off_midline])
+      translate([0,0,z_off_midline-0.05])
       {
         rotate([-90,0,0])
           linear_extrude(height=iphone_13_pro__height)
@@ -411,7 +411,7 @@ module edge_corner_profile() {
           edge_profile_corner();
       }
       {
-        translate([iphone_13_pro__face_corner_radius, iphone_13_pro__face_corner_radius, z_off_midline])
+        translate([iphone_13_pro__face_corner_radius, iphone_13_pro__face_corner_radius, z_off_midline-0.05])
           rotate([0,0,-extra_angle_degrees])
           rotate_extrude(angle = rotate_angle)
           translate([-iphone_13_pro__face_corner_radius, 0])
@@ -427,7 +427,7 @@ module short_edge_profile() {
   translate([iphone_13_pro__width,0,0])
     rotate([0,0,90])
     union () {
-      translate([0,0,z_off_midline])
+      translate([0,0,z_off_midline-0.05])
       {
         rotate([-90,0,0])
           linear_extrude(height=iphone_13_pro__width)
