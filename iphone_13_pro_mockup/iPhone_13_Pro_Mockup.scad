@@ -16,14 +16,14 @@
 
   - OpenSCAD generation relies on the MCAD library (https://github.com/openscad/MCAD)
 
-  TODO:
+  TODO: See README.md
 
 */
 
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = false;
+DEVELOPING_iPhone_13_Pro_model = !false;
 
 use <MCAD/2Dshapes.scad>
 
@@ -96,7 +96,7 @@ truedepth_sensor_bar__curve_radius = 2.85;
 //
 speaker_top__height       = 0.85;
 speaker_top__width        = 11.12;
-speaker_top__from_top     = 1.05;
+speaker_top__from_top     = 1.75 - (speaker_top__height/2);
 speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
 
