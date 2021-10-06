@@ -8,16 +8,12 @@
 
   Thingiverse: http://www.thingiverse.com/thing:4980345/
 
-  GitHub:
-  https://github.com/idcrook/psychic-winner/tree/main/iphone_13_pro_mockup
-
+  GitHub: https://github.com/idcrook/psychic-winner/tree/main/iphone_13_pro_mockup
 
   NOTES:
 
-  - OpenSCAD generation relies on the MCAD library (https://github.com/openscad/MCAD)
-
-  TODO: See README.md
-
+  - OpenSCAD generation relies on MCAD library (https://github.com/openscad/MCAD)
+  - See README.md for other notes.
 */
 
 // * All measurements in millimeters * //
@@ -209,12 +205,8 @@ lightning_connector_keepout__width   = 13.65;
 lightning_connector_keepout__height  = 6.85;
 lightning_connector_keepout__outward = 14.0;
 
-
-model_quality = 25;
-
 function translate_y_from_top (from_top)  = iphone_13_pro__height - from_top;
 function translate_back_x_from_left (from_left)  = iphone_13_pro__width - from_left;
-
 
 /// creates for() range to give desired no of steps to cover range
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
@@ -274,7 +266,6 @@ module iphone_13_pro (width, length, depth,
       linear_extrude(side_button__bump+e)
       square([side_button__height, side_button__depth],center=true);
   }
-
 
   // mic1 holes
   for (i=steps(mic1_bottom__hole_1__from_left, 3, mic1_bottom__hole_3__from_left)) {
@@ -342,12 +333,10 @@ module iphone_13_pro (width, length, depth,
     }
   }
 
-
   // rear camera module
   translate([iphone_13_pro__width, iphone_13_pro__height, 0])
     rotate([0, 180, 0])
     rear_camera();
-
   // front sensor bar module
   translate([0, iphone_13_pro__height, iphone_13_pro__depth])
     rotate([0, 0, 0])
@@ -431,7 +420,6 @@ module edge_corner_profile() {
       }
   }
 }
-
 
 module short_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
@@ -563,8 +551,6 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue")
 
     }
   }
-
-
 }
 
 module rear_camera (camera_plateau_height = rear_cam_plateau__height) {
@@ -625,8 +611,6 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__height) {
                          [pradius_inner, pradius_inner],
                          center=true);
   }
-
-
 
   // interior features
   translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0])
