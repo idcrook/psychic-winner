@@ -1,15 +1,12 @@
 Mechanical dummy model mockup for iPhone 13 Pro
 ===============================================
 
-TODO
-----
+Possible tweaks
+---------------
 
--	Materials/Colors
-	-	add stainless steel housing around perimeter
-	-	add glass materials on face and rear
 -	Details
 	-	rear camera plateau should be smoothed with a gradient
-	-	ringonoff should be made into a switch
+	-	ringer on/off is a switch
 
 Sources
 -------

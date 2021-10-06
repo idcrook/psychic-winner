@@ -37,6 +37,7 @@ iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 // estimate
 iphone_13_pro__face_corner_radius = 16.7; // close to profile from blueprint
 iphone_13_pro__graphite = "#50504C";
+iphone_13_pro__graphite_stainless_steel = "Silver";
 iphone_13_pro__graphite_button = "#70706C";
 iphone_13_pro__graphite_turret = iphone_13_pro__graphite;
 iphone_13_pro__graphite_plateau = "#5F5E5A";
@@ -159,7 +160,7 @@ rear_logo_keepout__diameter = 57.50;
 active_display__width     =  64.58;
 active_display__height    = 139.77;
 active_display__inset_from_exterior = 3.47;
-active_display__corner_r  = iphone_13_pro__face_corner_radius - 3.47 + 1; // guess
+active_display__corner_r  = iphone_13_pro__face_corner_radius - active_display__inset_from_exterior;
 
 display_glass__width     =  69.42;
 display_glass__height    = 144.61;
@@ -167,6 +168,7 @@ display_glass_over__width = (1/2)*(display_glass__width - active_display__width)
 display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
 
 housing_spline_inlay_to_start_of_flat_area__width = 1.15;
+stainless_housing__inset = housing_spline_inlay_to_start_of_flat_area__width;
 
 notch__width = 26.79;
 notch_cutout__height =  5.58;
@@ -217,7 +219,18 @@ function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 module iphone_13_pro (width, length, depth,
                       corner_radius = 7, show_lightning_keepout = true)
 {
-  shell(width, length, depth, corner_radius, shell_color = iphone_13_pro__graphite);
+  w_to_ss = width - 2*stainless_housing__inset;
+  l_to_ss = length - 2*stainless_housing__inset;
+
+  // stainless steel housing goes all around with uniform inset
+  translate([0,0,e])
+    shell(width, length, depth-2*e,
+          corner_radius, shell_color = iphone_13_pro__graphite_stainless_steel, color_alpha = 0.95);
+
+  // replace the stainless shell at a uniform inset
+  translate([stainless_housing__inset, stainless_housing__inset, 0])
+    shell(w_to_ss, l_to_ss, depth, corner_radius - stainless_housing__inset, shell_color = iphone_13_pro__graphite,
+          color_alpha = 0.85, full_size_pass = false);
 
   // ring/silent switch
   color(iphone_13_pro__graphite_button)
@@ -427,7 +440,7 @@ module short_edge_profile() {
   translate([iphone_13_pro__width,0,0])
     rotate([0,0,90])
     union () {
-      translate([0,0,z_off_midline-0.05])
+    translate([0,0,z_off_midline-0.05])
       {
         rotate([-90,0,0])
           linear_extrude(height=iphone_13_pro__width)
@@ -442,20 +455,16 @@ module short_edge_profile() {
   }
 }
 
-
-module shell(width, length, depth, corner_radius, shell_color = "Blue")
+module shell(width, length, depth, corner_radius, shell_color = "Blue", color_alpha = 0.82, full_size_pass=true)
 {
-  face_corner_radius = corner_radius;
-
-  // Try to parameterize the curves
-  corner_r1 = face_corner_radius ;
-  corner_r2 = face_corner_radius ;
+  corner_r1 = corner_radius ;
+  corner_r2 = corner_radius ;
   active_corner_r1 = active_display__corner_r ;
   active_corner_r2 = active_corner_r1;
 
   active_display_inset = active_display__inset_from_exterior;
 
-  display_inset_depth = 0.8;
+  display_inset_depth = 0.4;
 
   // test_face_profile(); // guide for face corner profile
   // test_edge_profile(); // housing rounded corners profile
@@ -463,8 +472,8 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue")
 
   // generate the basic solid outline
   {
-    color(shell_color, alpha = 0.82)
-    difference() {
+    color(shell_color, alpha = color_alpha)
+      difference() {
 
       // most of body
       union($fn = 25)
@@ -482,72 +491,75 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue")
         }
       } // subtract starting here
 
-      // left side
-      translate([-e, 0, 0]) long_edge_profile();
-      // right side
-      translate([iphone_13_pro__width + e, 0, 0]) mirror([1,0,0])  long_edge_profile();
+      if (full_size_pass) {
+        // left side
+        translate([-e, 0, 0]) long_edge_profile();
+        // right side
+        translate([iphone_13_pro__width + e, 0, 0]) mirror([1,0,0])  long_edge_profile();
 
-      // bottom side
-      translate([0, -e, 0]) short_edge_profile();
-      // top side
-      translate([0, iphone_13_pro__height + e, 0]) mirror([0,1,0])  short_edge_profile();
+        // bottom side
+        translate([0, -e, 0]) short_edge_profile();
+        // top side
+        translate([0, iphone_13_pro__height + e, 0]) mirror([0,1,0])  short_edge_profile();
 
-      // bottom left corner
-      translate([-4*e, -4*e, 0]) edge_corner_profile();
-      // bottom right corner
-      translate([iphone_13_pro__width + 4*e, -4*e, 0]) mirror([1,0,0]) edge_corner_profile();
-      // top left corner
-      translate([-4*e, iphone_13_pro__height + 4*e, 0]) mirror([0,1,0]) edge_corner_profile();
-      // top right corner
-      translate([iphone_13_pro__width + 4*e, iphone_13_pro__height + 4*e, 0]) mirror([1,1,0]) edge_corner_profile();
+        // bottom left corner
+        translate([-4*e, -4*e, 0]) edge_corner_profile();
+        // bottom right corner
+        translate([iphone_13_pro__width + 4*e, -4*e, 0]) mirror([1,0,0]) edge_corner_profile();
+        // top left corner
+        translate([-4*e, iphone_13_pro__height + 4*e, 0]) mirror([0,1,0]) edge_corner_profile();
+        // top right corner
+        translate([iphone_13_pro__width + 4*e, iphone_13_pro__height + 4*e, 0]) mirror([1,1,0]) edge_corner_profile();
+      }
     }
     notch__centered_from_left_active = notch__from_left_active ;
     notch__centered_from_top_active = active_display__height;
 
-    // display main rectangular region
-    translate([active_display_inset, active_display_inset,
-               depth - display_inset_depth])
-      {
-      color ("#103080", alpha = 0.70)
-        linear_extrude(height = display_inset_depth + e, center = false, convexity = 10)
-        difference() {
-        complexRoundSquare([ active_display__width,
-                             active_display__height ],
-                           [active_corner_r1, active_corner_r2],
-                           [active_corner_r1, active_corner_r2],
-                           [active_corner_r1, active_corner_r2],
-                           [active_corner_r1, active_corner_r2],
-                           center=false);
+    // display active region
+    if (full_size_pass) {
+      translate([active_display_inset, active_display_inset,
+                 depth - display_inset_depth])
+        {
+          color ("#103080", alpha = 0.70)
+            linear_extrude(height = display_inset_depth + 2*e, center = false, convexity = 10)
+            difference() {
+            complexRoundSquare([ active_display__width,
+                                 active_display__height ],
+                               [active_corner_r1, active_corner_r2],
+                               [active_corner_r1, active_corner_r2],
+                               [active_corner_r1, active_corner_r2],
+                               [active_corner_r1, active_corner_r2],
+                               center=false);
 
-        // notch
-        translate([notch__centered_from_left_active,
-                   notch__centered_from_top_active])
-          complexRoundSquare([ notch__width, notch__height ],
-                             [notch__R, notch__R],
-                             [notch__R, notch__R],
-                             [notch__R, notch__R],
-                             [notch__R, notch__R],
-                             center=true);
+            // notch
+            translate([notch__centered_from_left_active,
+                       notch__centered_from_top_active])
+              complexRoundSquare([ notch__width, notch__height ],
+                                 [notch__R, notch__R],
+                                 [notch__R, notch__R],
+                                 [notch__R, notch__R],
+                                 [notch__R, notch__R],
+                                 center=true);
 
-        // tiny circle for bendout on left
-        translate([notch__centered_from_left_active - (1/2)*notch__width - notch__r,
-                   notch__centered_from_top_active - notch__r])
-          difference() {
-          square(notch__r);
-          circle(r = notch__r);
-        }
+            // tiny circle for bendout on left
+            translate([notch__centered_from_left_active - (1/2)*notch__width - notch__r,
+                       notch__centered_from_top_active - notch__r])
+              difference() {
+              square(notch__r);
+              circle(r = notch__r);
+            }
 
-        // tiny circle for bendout on right
-        translate([notch__centered_from_left_active + (1/2)*notch__width + notch__r,
-                   notch__centered_from_top_active - notch__r])
-          mirror([1,0,0]) {
-          difference() {
-            square(notch__r);
-            circle(r = notch__r);
+            // tiny circle for bendout on right
+            translate([notch__centered_from_left_active + (1/2)*notch__width + notch__r,
+                       notch__centered_from_top_active - notch__r])
+              mirror([1,0,0]) {
+              difference() {
+                square(notch__r);
+                circle(r = notch__r);
+              }
+            }
           }
         }
-
-      }
 
     }
   }
