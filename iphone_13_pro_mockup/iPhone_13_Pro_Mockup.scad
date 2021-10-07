@@ -105,7 +105,7 @@ speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
 
 extend_cones_far = true;
-default_keepout_cone_height = extend_cones_far ? 10 : 3.7;
+default_keepout_cone_height = extend_cones_far ? 11.5 : 3.7;
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;
@@ -140,9 +140,9 @@ rear_flash__keepout_cone_angle = 112;
 rear_flash__keepout_cone_angle2 = 157;
 rear_sensor__keepout_cone_angle = 77;
 
-rear_cam1__keepout_cone_to_cover_glass = 2.96;
-rear_cam2__keepout_cone_to_cover_glass = 7.27;
-rear_cam3__keepout_cone_to_cover_glass = 6.89;
+rear_cam1__keepout_cone_to_front_cover_glass = 2.96;
+rear_cam2__keepout_cone_to_front_cover_glass = 7.27;
+rear_cam3__keepout_cone_to_front_cover_glass = 6.89;
 
 // "turret" is the region rising freo back glass to camera plateau
 rear_cam_turret__height_inner = (40.51 - rear_cam_plateau__inset);
@@ -229,12 +229,12 @@ lightning_connector_keepout__outward = 14.0;
 
 function translate_y_from_top (from_top)  = iphone_13_pro__height - from_top;
 function translate_back_x_from_left (from_left)  = iphone_13_pro__width - from_left;
-function translate_back_camera_depth (from_front)  = (iphone_13_pro__depth - from_front) + rear_cam_plateau__z_height;
+function translate_back_camera_depth (from_front)  = (iphone_13_pro__depth - from_front) ;
 
 // place these function calls _after_ function is fully defined (including closure variables)
-rear_cam1__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam1__keepout_cone_to_cover_glass);
-rear_cam2__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam2__keepout_cone_to_cover_glass);
-rear_cam3__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam3__keepout_cone_to_cover_glass);
+rear_cam1__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam1__keepout_cone_to_front_cover_glass);
+rear_cam2__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam2__keepout_cone_to_front_cover_glass);
+rear_cam3__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam3__keepout_cone_to_front_cover_glass);
 
 /// creates for() range to give desired no of steps to cover range
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
@@ -603,10 +603,11 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue", color_al
 module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_keepouts = false) {
 
   sim_turret_h = 0.1 ;
+  feature_h = 0.02;
+
   // turrent
   rr_outer = rear_cam_turret__rradius_outer;
   rr_inner = rear_cam_turret__rradius_inner;
-
   %translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
     color(iphone_13_pro__graphite_turret, alpha = 0.70)
     difference()
@@ -632,21 +633,19 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
       rounded_square(size=[rear_cam_plateau__width, rear_cam_plateau__height], corner_r = pradius_inner, center=true);
   }
 
-  // interior features
+  // interior features // these start at back glass and "grow" outward
   translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam1__shroud_radius);
     if (show_keepouts) { translate([0,0, -rear_cam1__keepout_cone_depth])
         keepout_cone(angle=rear_cam1__keepout_cone_angle, height = default_keepout_cone_height + rear_cam1__keepout_cone_depth);
     }
   }
-
   translate ([rear_cam2_center__from_left, -rear_cam2_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam2__shroud_radius);
     if (show_keepouts) { translate([0,0, -rear_cam2__keepout_cone_depth])
         keepout_cone(angle=rear_cam2__keepout_cone_angle,  height = default_keepout_cone_height + rear_cam2__keepout_cone_depth);
     }
   }
-
   translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam3__shroud_radius);
     if (show_keepouts) { translate([0,0, -rear_cam3__keepout_cone_depth])
@@ -654,32 +653,33 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
     }
   }
 
+  // flash
   translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height])
     color(alpha=0.30)
-    linear_extrude(height = sim_turret_h/4)
+    linear_extrude(height = feature_h)
     circle(d = rear_flash_center__diameter);
 
+  // mic
   translate ([rear_mic_center__from_left, -rear_mic_center__from_top, camera_plateau_height])
     color("DarkGray")
-    linear_extrude(height = sim_turret_h/4)
+    linear_extrude(height = feature_h)
     circle(d = rear_mic_center__diameter);
 
+  // LIDAR
   translate ([rear_sensor_center__from_left, -rear_sensor_center__from_top, camera_plateau_height]) {
     color("Black")
-      linear_extrude(height = sim_turret_h/4)
+      linear_extrude(height = feature_h)
       circle(d = rear_sensor_center__diameter);
 
     if (show_keepouts) {
-      let (delta_h = (camera_plateau_height))
       color("Red", alpha=0.2)
-        translate ([0,0,-delta_h])
         %hull() {
         translate([0, rear_sensor_center_keepout__height/4, 0])
           keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2,
-                       height = default_keepout_cone_height - (camera_plateau_height - delta_h), use_as_hull = true);
+                       height = default_keepout_cone_height - (camera_plateau_height), use_as_hull = true);
         translate([0, -rear_sensor_center_keepout__height/4, 0])
           keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2,
-                       height = default_keepout_cone_height - (camera_plateau_height - delta_h), use_as_hull = true);
+                       height = default_keepout_cone_height - (camera_plateau_height), use_as_hull = true);
       }
     }
   }
