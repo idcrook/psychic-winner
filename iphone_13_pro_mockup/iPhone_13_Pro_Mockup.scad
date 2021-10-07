@@ -27,7 +27,6 @@ use <rounded_square.scad>
 
 // very small number
 e = 1/128;
-default_keepout_cone_height = 14;
 
 /// Gross iPhone 13 Pro dimensions
 iphone_13_pro__height = 146.71;
@@ -99,6 +98,9 @@ speaker_top__width        = 11.12;
 speaker_top__from_top     = 1.75 - (speaker_top__height/2);
 speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
+
+extend_cones_far = true;
+default_keepout_cone_height = extend_cones_far ? 14 : 3.7;
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;
@@ -699,9 +701,7 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__height, show_keepo
           translate([0, -rear_sensor_center_keepout__height/4, 0])
           keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2, use_as_hull = true);
         }
-
     }
-
   }
 
 
@@ -714,7 +714,7 @@ module rear_camera_lens(r, h = rear_cam_camera_glass__height,
     linear_extrude(height=h_rim)
     circle(r=r);
 
-  color("Black", alpha=0.86)
+  color("Black", alpha=0.80)
     linear_extrude(height=h)
     circle(r=r - inset_rim);
 
