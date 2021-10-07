@@ -200,8 +200,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   //cameraCutoutRadius = 9.5 ;
   cameraCutoutRadius =  rear_cam_plateau__rradius_outer;
   cameraHoleOffcenter = - 7.0;
-  cameraHoleAddOffsetForCase_midline = 2.5;
-  cameraHoleAddOffsetForCase_sideline = 1.5;
+  cameraHoleAddOffsetForCase_midline = 4.2;
+  cameraHoleAddOffsetForCase_sideline = 0.8;
 
   speakerCutoutCenterBonus = 1.0;
   speakerCutoutHeight = 18 + speakerCutoutCenterBonus;
@@ -1055,7 +1055,7 @@ module showTogether() {
 
   if (show_with_phone_and_case) {
     // iPhone 11 Pro
-    translate([tw, tl, th ])  iphone_13_pro(iw, il, ih, show_lightning_keepout = true);
+    translate([tw, tl, th ])  iphone_13_pro(iw, il, ih, show_keepouts = true);
     //
     translate([0,0,0]) % otterboxCommuterCase();
   }

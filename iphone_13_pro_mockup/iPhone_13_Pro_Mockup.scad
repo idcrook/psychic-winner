@@ -27,6 +27,7 @@ use <rounded_square.scad>
 
 // very small number
 e = 1/128;
+default_keepout_cone_height = 14;
 
 /// Gross iPhone 13 Pro dimensions
 iphone_13_pro__height = 146.71;
@@ -35,7 +36,7 @@ iphone_13_pro__depth  =   7.65;
 iphone_13_pro__z_mid  =   iphone_13_pro__depth / 2;
 
 // estimate
-iphone_13_pro__face_corner_radius = 16.7; // close to profile from blueprint
+iphone_13_pro__face_corner_radius = 16.88; // very close to matching profile from blueprint
 iphone_13_pro__graphite = "#50504C";
 iphone_13_pro__graphite_stainless_steel = "Silver";
 iphone_13_pro__graphite_button = "#70706C";
@@ -122,7 +123,23 @@ rear_flash_center__diameter = 6;  // guess
 rear_mic_center__diameter = 1.15;
 rear_sensor_center_keepout__height = 7.06;
 rear_sensor_center_keepout__width = 4.06;
-rear_sensor_center__diameter = rear_sensor_center_keepout__height;
+rear_sensor_center__diameter = rear_sensor_center_keepout__height+0.5;
+
+// angles in degress
+rear_cam1__keepout_cone_angle = 37;
+rear_cam2__keepout_cone_angle = 85;
+rear_cam3__keepout_cone_angle = 123;
+/* rear_flash__keepout_cone_angle = 112; */
+/* rear_flash__keepout_cone_angle2 = 157; */
+rear_sensor__keepout_cone_angle = 77;
+
+rear_cam1__keepout_cone_to_cover_glass = 2.96;
+rear_cam2__keepout_cone_to_cover_glass = 7.27;
+rear_cam3__keepout_cone_to_cover_glass = 6.89;
+
+rear_cam1__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam1__keepout_cone_to_cover_glass);
+rear_cam2__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam2__keepout_cone_to_cover_glass);
+rear_cam3__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam3__keepout_cone_to_cover_glass);
 
 rear_cam_turret__height_inner = (40.51 - 4.27);
 rear_cam_turret__width_inner = (39.28 - 4.27);
@@ -211,14 +228,17 @@ lightning_connector_keepout__outward = 14.0;
 
 function translate_y_from_top (from_top)  = iphone_13_pro__height - from_top;
 function translate_back_x_from_left (from_left)  = iphone_13_pro__width - from_left;
+function translate_back_camera_depth (from_front)  = (iphone_13_pro__depth - from_front);
 
 /// creates for() range to give desired no of steps to cover range
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 
 
 module iphone_13_pro (width, length, depth,
-                      corner_radius = 7, show_lightning_keepout = true)
+                      corner_radius = 7, show_keepouts = true)
 {
+  show_lightning_keepout = show_keepouts;
+
   w_to_ss = width - 2*stainless_housing__inset;
   l_to_ss = length - 2*stainless_housing__inset;
 
@@ -349,13 +369,14 @@ module iphone_13_pro (width, length, depth,
   // rear camera module
   translate([iphone_13_pro__width, iphone_13_pro__height, 0])
     rotate([0, 180, 0])
-    rear_camera();
+    rear_camera(show_keepouts = show_keepouts);
   // front sensor bar module
   translate([0, iphone_13_pro__height, iphone_13_pro__depth])
     rotate([0, 0, 0])
-    front_sensor_bar();
+    front_sensor_bar(show_keepouts = show_keepouts);
 }
 
+// Profiles for edges and facing corners
 // Note: Requires version 2015.03 (for use of concat())
 face_profile_set = [[0.07, 15.89], [0.92, 11.42], [3.31, 7.04], [7.04, 3.31], [11.43, 0.92], [15.89, 0.07] ];
 face_profile_polygon = concat(face_profile_set, [[16.0, 0.0], [0,0], [0.0, 16.0]]);
@@ -375,17 +396,15 @@ module edge_profile_corner (size = 1.0) {
 }
 
 module test_face_profile() {
-  translate([0,0,3]) {
+  translate([0,0,iphone_13_pro__depth/2]) {
     % face_profile_corner();
   }
 }
-
 module test_edge_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
   * union () { long_edge_profile    (); }
   % union () { short_edge_profile    (); }
 }
-
 module test_edge_corner_profile() {
   z_off_midline = edge_profile_b_polygon[0][1];
   % union () { edge_corner_profile    (); }
@@ -455,6 +474,13 @@ module short_edge_profile() {
   }
 }
 
+module test_keepout_cone() {
+  translate([0,0,3]) { keepout_cone(angle=90);  }
+  translate([0,0,0]) { keepout_cone(angle=90, solid = !true); }
+  translate([-20,-20, 5]) { keepout_cone(angle=77, starting_r = 4.06/2, height = 10);  }
+}
+
+
 module shell(width, length, depth, corner_radius, shell_color = "Blue", color_alpha = 0.82, full_size_pass=true)
 {
   corner_r1 = corner_radius ;
@@ -466,9 +492,12 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue", color_al
 
   display_inset_depth = 0.4;
 
-  // test_face_profile(); // guide for face corner profile
-  // test_edge_profile(); // housing rounded corners profile
-  // test_edge_corner_profile(); // housing rounded corners profile
+  if (full_size_pass) {
+    // test_face_profile(); // guide for face corner profile
+    // test_edge_profile(); // housing rounded corners profile
+    // test_edge_corner_profile(); // housing rounded corners profile
+    // test_keepout_cone();
+  }
 
   // generate the basic solid outline
   {
@@ -565,7 +594,7 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue", color_al
   }
 }
 
-module rear_camera (camera_plateau_height = rear_cam_plateau__height) {
+module rear_camera (camera_plateau_height = rear_cam_plateau__height, show_keepouts = false) {
 
   //h = rear_cam_turret_keepout__height_above ;
   h = 0.1;
@@ -625,14 +654,26 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__height) {
   }
 
   // interior features
-  translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0])
+  translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam1__shroud_radius);
+    if (show_keepouts) { translate([0,0, -rear_cam1__keepout_cone_depth])
+        keepout_cone(angle=rear_cam1__keepout_cone_angle, height = default_keepout_cone_height + rear_cam1__keepout_cone_depth);
+    }
+  }
 
-  translate ([rear_cam2_center__from_left, -rear_cam2_center__from_top, 0])
+  translate ([rear_cam2_center__from_left, -rear_cam2_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam2__shroud_radius);
+    if (show_keepouts) { translate([0,0, -rear_cam2__keepout_cone_depth])
+        keepout_cone(angle=rear_cam2__keepout_cone_angle,  height = default_keepout_cone_height + rear_cam2__keepout_cone_depth);
+    }
+  }
 
-  translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0])
+  translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam3__shroud_radius);
+    if (show_keepouts) { translate([0,0, -rear_cam3__keepout_cone_depth])
+        keepout_cone(angle=rear_cam3__keepout_cone_angle,  height = default_keepout_cone_height + rear_cam3__keepout_cone_depth);
+    }
+  }
 
   translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height])
     color(alpha=0.30)
@@ -644,10 +685,24 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__height) {
     linear_extrude(height = h/4)
     circle(d = rear_mic_center__diameter);
 
-  translate ([rear_sensor_center__from_left, -rear_sensor_center__from_top, camera_plateau_height])
+  translate ([rear_sensor_center__from_left, -rear_sensor_center__from_top, camera_plateau_height]) {
     color("Black")
-    linear_extrude(height = h/4)
-    circle(d = rear_sensor_center__diameter);
+      linear_extrude(height = h/4)
+      circle(d = rear_sensor_center__diameter);
+
+    if (show_keepouts) {
+      color("Red", alpha=0.2)
+      %hull()
+        union() {
+          translate([0, rear_sensor_center_keepout__height/4, 0])
+          keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2, use_as_hull = true);
+          translate([0, -rear_sensor_center_keepout__height/4, 0])
+          keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2, use_as_hull = true);
+        }
+
+    }
+
+  }
 
 
 }
@@ -665,7 +720,7 @@ module rear_camera_lens(r, h = rear_cam_camera_glass__height,
 
 }
 
-module front_sensor_bar () {
+module front_sensor_bar (show_keepouts = false) {
 
   corner_radius = truedepth_sensor_bar__curve_radius;
 
@@ -693,6 +748,32 @@ module front_sensor_bar () {
 
 }
 
+
+module keepout_cone (angle, starting_r = 0, height = default_keepout_cone_height, solid = true,
+                     use_as_hull = false)
+{
+  // compute the slope of a cross-section line
+  m = tan(90 - (angle/2));
+
+  // compute what the x position (cone radius) will be at height of cone
+  ending_r = height/m;
+
+  if (!use_as_hull) {
+    % difference() {
+      color("Red", alpha=0.2)
+        cylinder(h = height, r1 = starting_r, r2 = ending_r);
+      if (!solid) {
+        translate([0, 0, 1])
+          cylinder(h = height, r1 = starting_r, r2 = ending_r);
+      }
+    }
+  } else {
+    // hull computation requires actual objects
+    cylinder(h = height, r1 = starting_r, r2 = ending_r);
+  }
+}
+
+
 echo ("corner_radius: ", iphone_13_pro__face_corner_radius);
 
 // $preview requires version 2019.05
@@ -701,5 +782,5 @@ $fn = $preview ? 50 : 100;
 if (DEVELOPING_iPhone_13_Pro_model)  {
   iphone_13_pro(iphone_13_pro__width, iphone_13_pro__height, iphone_13_pro__depth,
                 iphone_13_pro__face_corner_radius,
-                show_lightning_keepout = true);
+                show_keepouts = true);
 }
