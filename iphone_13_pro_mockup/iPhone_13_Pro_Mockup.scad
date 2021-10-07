@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_model = !false;
+DEVELOPING_iPhone_13_Pro_model = false;
 
 use <MCAD/2Dshapes.scad>
 // from dotSCAD
@@ -105,7 +105,7 @@ speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
 
 extend_cones_far = false;
-default_keepout_cone_height = extend_cones_far ? 13.5 : 4.8 + 1.9;
+default_keepout_cone_height = extend_cones_far ? 13.5 : 4.8 + 2.5 + 0.67;
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;

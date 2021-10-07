@@ -194,13 +194,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
-  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height/2) - 0.0  ;
+  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height/2) - 1.0  ;
   cameraCutoutHeight = rear_cam_plateau__height + ((rear_cam_plateau__height - rear_cam_plateau__width)/2) ;
   cameraCutoutDepth = rear_cam_plateau__width + 2;
   //cameraCutoutRadius = 9.5 ;
   cameraCutoutRadius =  rear_cam_plateau__rradius;
   cameraHoleOffcenter = - 7.0;
-  cameraHoleAddOffsetForCase_midline = 4.2;
+  cameraHoleAddOffsetForCase_midline = 4.2 + 0.5;
   cameraHoleAddOffsetForCase_sideline = 0.8;
 
   speakerCutoutCenterBonus = 1.0;
