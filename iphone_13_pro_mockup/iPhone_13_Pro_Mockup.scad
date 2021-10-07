@@ -105,7 +105,7 @@ speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
 
 extend_cones_far = true;
-default_keepout_cone_height = extend_cones_far ? 11.5 : 3.7;
+default_keepout_cone_height = extend_cones_far ? 13.5 : 4.8;
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;
@@ -126,7 +126,7 @@ rear_cam1__shroud_radius = 15.33/2;
 rear_cam2__shroud_radius = 15.53/2;
 rear_cam3__shroud_radius = 15.8/2;
 
-rear_flash_center__diameter = 6;  // guess
+rear_flash_center__diameter = 6.0;  // guess
 rear_mic_center__diameter = 1.15;
 rear_sensor_center_keepout__height = 7.06;
 rear_sensor_center_keepout__width = 4.06;
@@ -136,13 +136,16 @@ rear_sensor_center__diameter = rear_sensor_center_keepout__height+0.5;
 rear_cam1__keepout_cone_angle = 37;
 rear_cam2__keepout_cone_angle = 85;
 rear_cam3__keepout_cone_angle = 123;
-rear_flash__keepout_cone_angle = 112;
-rear_flash__keepout_cone_angle2 = 157;
+rear_flash__keepout_inner_cone_angle = 112;
+//rear_flash__keepout_inner_cone_angle = 96;
+rear_flash__keepout_outer_cone_angle = 157;
 rear_sensor__keepout_cone_angle = 77;
 
 rear_cam1__keepout_cone_to_front_cover_glass = 2.96;
 rear_cam2__keepout_cone_to_front_cover_glass = 7.27;
 rear_cam3__keepout_cone_to_front_cover_glass = 6.89;
+rear_flash__keepout_outer_cone_to_front_cover_glass = 11.27;
+rear_flash__keepout_inner_cone_start_diameter = 6.00;
 
 // "turret" is the region rising freo back glass to camera plateau
 rear_cam_turret__height_inner = (40.51 - rear_cam_plateau__inset);
@@ -187,7 +190,6 @@ display_glass__height    = 144.61;
 display_glass_over__width = (1/2)*(display_glass__width - active_display__width);    // ~2.5 mm
 display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
 
-
 notch__width = 26.79;
 notch_cutout__height =  5.58;
 notch__height =  notch_cutout__height * 2;
@@ -231,10 +233,11 @@ function translate_y_from_top (from_top)  = iphone_13_pro__height - from_top;
 function translate_back_x_from_left (from_left)  = iphone_13_pro__width - from_left;
 function translate_back_camera_depth (from_front)  = (iphone_13_pro__depth - from_front) ;
 
-// place these function calls _after_ function is fully defined (including closure variables)
+// place these function calls _after_ function is fully defined (including any closure variables)
 rear_cam1__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam1__keepout_cone_to_front_cover_glass);
 rear_cam2__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam2__keepout_cone_to_front_cover_glass);
 rear_cam3__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam3__keepout_cone_to_front_cover_glass);
+rear_flash__keepout_cone_depth = translate_back_camera_depth(from_front = rear_flash__keepout_outer_cone_to_front_cover_glass);
 
 /// creates for() range to give desired no of steps to cover range
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
@@ -654,10 +657,22 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
   }
 
   // flash
-  translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height])
+  translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height]) {
     color(alpha=0.30)
     linear_extrude(height = feature_h)
     circle(d = rear_flash_center__diameter);
+    // there are two cones listed
+    if (show_keepouts) {
+      translate([0,0, -rear_flash__keepout_cone_depth - camera_plateau_height])
+        keepout_cone(angle=rear_flash__keepout_outer_cone_angle,  starting_r = 11.76/2,
+                     height = default_keepout_cone_height + rear_flash__keepout_cone_depth,
+                     color_value = "#FEFE80", color_alpha = 0.03);
+      translate([0,0, 0])
+        keepout_cone(angle=rear_flash__keepout_inner_cone_angle,  starting_r = rear_flash__keepout_inner_cone_start_diameter/2,
+                     height = default_keepout_cone_height - camera_plateau_height,
+                     color_value = "#FEFE80", color_alpha = 0.05);
+    }
+  }
 
   // mic
   translate ([rear_mic_center__from_left, -rear_mic_center__from_top, camera_plateau_height])
@@ -725,17 +740,17 @@ module front_sensor_bar (show_keepouts = false) {
 
 
 module keepout_cone (angle, starting_r = 0, height = default_keepout_cone_height, solid = true,
-                     use_as_hull = false)
+                     use_as_hull = false, color_value = "Red", color_alpha = 0.2)
 {
   // compute the slope of a cross-section line
   m = tan(90 - (angle/2));
 
   // compute what the x position (cone radius) will be at height of cone
-  ending_r = height/m;
+  ending_r = height/m + starting_r;
 
   if (!use_as_hull) {
     % difference() {
-      color("Red", alpha=0.2)
+      color(color_value, alpha=color_alpha)
         cylinder(h = height, r1 = starting_r, r2 = ending_r);
       if (!solid) {
         translate([0, 0, 1])
