@@ -104,8 +104,8 @@ speaker_top__from_top     = 1.75 - (speaker_top__height/2);
 speaker_top__from_left    = 35.76;
 speaker_top__curve_radius = 0.69;
 
-extend_cones_far = true;
-default_keepout_cone_height = extend_cones_far ? 13.5 : 4.8;
+extend_cones_far = false;
+default_keepout_cone_height = extend_cones_far ? 13.5 : 4.8 + 1.9;
 
 // rear facing cameras
 rear_cam1_center__from_top = 13.43;
