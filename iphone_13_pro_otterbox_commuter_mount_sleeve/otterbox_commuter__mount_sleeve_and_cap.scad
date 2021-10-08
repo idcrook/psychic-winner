@@ -243,7 +243,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   speakerCutoutRadius = speakerCutoutDepth/2;
   speakerHoleOffcenter = 8.0 - speakerCutoutCenterBonus;
 
-  lightningCutoutHeight = lightning_connector_keepout__width;
+  lightningCutoutHeight = lightning_connector_keepout__width + 3;
   lightningCutoutDepth = lightning_connector_keepout__height;
   lightningCutoutRadius = lightning_connector_keepout__radius;
   lightningFlapCutoutRadius = 0.74;
@@ -273,8 +273,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   // calculate how far we need to translate below to cut out enough
 
-  bottomRearFlapCutoutHeight = 7.0 + 2.5; // measured on case TODO
-  bottomRearFlapCutoutWidth = 17.0; // measured on case TODO
+  bottomRearFlapCutoutHeight = 6.0 + 3.0; // measured on case, add fudge
+  bottomRearFlapCutoutWidth = 12 + 2*2.54; // measured on case, add fudge
 
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
@@ -596,7 +596,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
               union () {
               // main stretch strip on bottom
-              complexRoundSquare( [lightningCutoutHeight + 3.5*tolerance, lightningCutoutDepth + 8.0 + tolerance],
+              complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth + 8.0 + tolerance],
                                   [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                   [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                   [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
@@ -604,7 +604,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                   center = true);
               // extend up so flap has a place to go when inserting lightning connector
               translate([0, extend_out_flap_space, 0])
-                complexRoundSquare( [lightningCutoutHeight + tolerance, lightningCutoutDepth + 7.6 + 3*tolerance],
+                complexRoundSquare( [lightningCutoutHeight , lightningCutoutDepth + 7.6 + 3*tolerance],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
