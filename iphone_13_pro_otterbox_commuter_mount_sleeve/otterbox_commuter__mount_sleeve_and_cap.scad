@@ -1093,14 +1093,15 @@ module showTogether() {
 
   if (show_with_phone_and_case) {
     // iPhone 11 Pro
-    translate([tw, tl, (3/2)*th ])  iphone_13_pro(iw, il, ih, show_keepouts = true);
-    //
+    translate([tw, tl, (3/2)*th ]) // 3/2 since case back is thicker than front inset
+      iphone_13_pro(iw, il, ih, show_keepouts = true);
+    // case model
     translate([0,0,0]) otterboxCommuterCase();
   }
 
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-  *translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
 show_everything = true;
