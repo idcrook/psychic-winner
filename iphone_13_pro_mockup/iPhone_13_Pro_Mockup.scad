@@ -608,7 +608,7 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
   sim_turret_h = 0.1 ;
   feature_h = 0.02;
 
-  // turrent
+  // turret
   rr_outer = rear_cam_turret__rradius_outer;
   rr_inner = rear_cam_turret__rradius_inner;
   %translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])

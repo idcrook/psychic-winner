@@ -61,16 +61,21 @@ tw = (1/2) * dw  ;
 tl = (1/2) * dl  ;
 th = (1/2) * dh  ;
 
-// display glass cutout
-cut_w = active_display__width + 5.0 + 2.5;
-cut_l = active_display__height + 4.8 + 2.5;
-cut_r = 7.4;
+// front case cutout
+cut_w = active_display__width  + 2*active_display__inset_from_exterior;
+cut_l = active_display__height + 2*active_display__inset_from_exterior;
+cut_r = 6.95;
 
 case_out_r = cut_r + 6;
 
 // display
 dcw = (w - cut_w) / 2;
 dcl = (l - cut_l) / 2;
+
+// rear cam
+case_rcam_w = 37.5;
+case_rcam_l = 38.8;
+case_rcam_r = 10;
 
 function translate_y_from_top (from_top)  = il - from_top;
 
@@ -81,15 +86,30 @@ module otterboxCommuterCase () {
     color("#2a8", alpha = 0.90)
       shell(w, l, h, case_out_r);
 
-    // cut out iphone shape and extend up
     translate ([dcw, dcl, th+0-tol])
-      linear_extrude(height = 15, center = false, convexity = 10)
-      complexRoundSquare([cut_w, cut_l],
-                         [cut_r, cut_r],
-                         [cut_r, cut_r],
-                         [cut_r, cut_r],
-                         [cut_r, cut_r],
-                         center = false);
+      {
+        // cut out iphone shape and extend up
+        linear_extrude(height = 15, center = false, convexity = 10)
+          complexRoundSquare([cut_w, cut_l],
+                             [cut_r, cut_r],
+                             [cut_r, cut_r],
+                             [cut_r, cut_r],
+                             [cut_r, cut_r],
+                             center = false);
+        // cut out rear camera hole
+        translate([iphone_13_pro__width, iphone_13_pro__height, 0])
+          translate([-tw, -case_rcam_l-tl, 0])
+          rotate([0, 180, 0])
+          linear_extrude(height = 15, center = false, convexity = 10)
+          complexRoundSquare([case_rcam_w, case_rcam_l],
+                             [case_rcam_r, case_rcam_r],
+                             [case_rcam_r, case_rcam_r],
+                             [case_rcam_r, case_rcam_r],
+                             [case_rcam_r, case_rcam_r],
+                             center = false);
+
+
+      }
   }
 }
 
@@ -1054,7 +1074,7 @@ module showTogether() {
 
   if (show_with_phone_and_case) {
     // iPhone 11 Pro
-    translate([tw, tl, th ])  iphone_13_pro(iw, il, ih, show_keepouts = true);
+    translate([tw, tl, (3/2)*th ])  iphone_13_pro(iw, il, ih, show_keepouts = true);
     //
     translate([0,0,0]) otterboxCommuterCase();
   }
