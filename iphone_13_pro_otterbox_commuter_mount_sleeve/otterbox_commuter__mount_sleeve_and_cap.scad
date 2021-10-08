@@ -237,23 +237,25 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraHoleAddOffsetForCase_midline = 8.5 + 2.5; // add additonal safety margin for UW lens
   cameraHoleAddOffsetForCase_sideline = 0.0;
 
-  speakerCutoutCenterBonus = 1.0;
+  speakerCutoutCenterBonus = 2.0;
   speakerCutoutHeight = 18 + speakerCutoutCenterBonus;
-  speakerCutoutDepth = 5.5;
+  speakerCutoutDepth = 6.6;
+  speakerCutout_zDelta = (icase_h_ratio-1/1)*th;
   speakerCutoutRadius = speakerCutoutDepth/2;
   speakerHoleOffcenter = 8.0 - speakerCutoutCenterBonus;
 
-  lightningCutoutHeight = lightning_connector_keepout__width + 3;
+  leftMicCutoutCenterBonus = 2.0;
+  leftMicCutoutHeight = 12 + leftMicCutoutCenterBonus;
+  leftMicCutoutDepth = speakerCutoutDepth;
+  leftMicCutout_zDelta = (icase_h_ratio-1/1)*th;
+  leftMicCutoutRadius = leftMicCutoutDepth/2;
+  leftMicHoleOffcenter = 20.0;
+
+  lightningCutoutHeight = lightning_connector_keepout__width + 3.35;
   lightningCutoutDepth = lightning_connector_keepout__height;
   lightningCutoutRadius = lightning_connector_keepout__radius;
   lightningFlapCutoutRadius = 0.74;
   lightningHoleOffcenter = 0;
-
-  headphoneMicCutoutCenterBonus = 2.5;
-  headphoneMicCutoutHeight = 12 + headphoneMicCutoutCenterBonus;
-  headphoneMicCutoutDepth = 6.0;
-  headphoneMicCutoutRadius = lightningCutoutDepth/2;
-  headphoneMicHoleOffcenter = 20.0;
 
   bottomLipHeight = 4.0; // matches height of case lip
   bottom_lip_rounded_corners = true;
@@ -274,7 +276,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   // calculate how far we need to translate below to cut out enough
 
   bottomRearFlapCutoutHeight = 6.0 + 3.0; // measured on case, add fudge
-  bottomRearFlapCutoutWidth = 12 + 2*2.54; // measured on case, add fudge
+  bottomRearFlapCutoutWidth = lightning_connector_keepout__width + 3.35; // measured on case, add fudge
 
   bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
@@ -562,7 +564,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       }
 
 
-      // flat/bottom part of base
+      // flat/bottom part of base of sleeve
       if (with_sleeve) {
         difference() {
           translate([0,0, -base_l])
@@ -574,71 +576,68 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                [sleeveOuter_r, sleeveOuter_r],
                                [sleeveOuter_r, sleeveOuter_r],
                                center = true);
-
-          // handle speaker hole, lightning, headphone , lightning flap
-
-          // speaker hole
-          rotate([180,0,0])
-            translate([-tolerance + speakerHoleOffcenter, -(1/2) * speakerCutoutDepth, -e])
-            linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-            complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth + 4*e],
-                                [speakerCutoutRadius/2, speakerCutoutRadius/2],
-                                [speakerCutoutRadius, speakerCutoutRadius],
-                                [speakerCutoutRadius, speakerCutoutRadius],
-                                [speakerCutoutRadius/2, speakerCutoutRadius/2],
-                                center = false);
-
-          // lightning hole
-          extend_out_flap_space = true ? 7 : 2;
-          if (CONTROL_RENDER_prototype_bottom_lightning_access) {
+          // handle speaker and mic, lightning, lightning access
+          union () {
+            // speaker + mic holes
             rotate([180,0,0])
-              translate([-tolerance/2, 0, -e])
+
+              translate([-tolerance + speakerHoleOffcenter, -(1/2)*speakerCutoutDepth + speakerCutout_zDelta, -e])
               linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-              union () {
-              // main stretch strip on bottom
-              complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth + 8.0 + tolerance],
-                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                  [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                  center = true);
-              // extend up so flap has a place to go when inserting lightning connector
-              translate([0, extend_out_flap_space, 0])
-                complexRoundSquare( [lightningCutoutHeight , lightningCutoutDepth + 7.6 + 3*tolerance],
+              complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth + 4*e],
+                                  [0,0],
+                                  [speakerCutoutRadius, speakerCutoutRadius],
+                                  [speakerCutoutRadius, speakerCutoutRadius],
+                                  [0,0],
+                                  center = false);
+            // Mic holes
+            rotate([180,0,0]) {
+              translate([-tolerance - leftMicHoleOffcenter , -(1/2)*leftMicCutoutDepth + leftMicCutout_zDelta, -e])
+                linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+                complexRoundSquare( [leftMicCutoutHeight, leftMicCutoutDepth],
+                                    [leftMicCutoutRadius, leftMicCutoutRadius],
+                                    [0,0],
+                                    [0,0],
+                                    [leftMicCutoutRadius, leftMicCutoutRadius],
+                                    center = false);
+            }
+
+            // lightning access and case flap handling
+            extend_out_flap_space = true ? 7 : 2;
+            if (CONTROL_RENDER_prototype_bottom_lightning_access) {
+              rotate([180,0,0])
+                translate([-tolerance/2, 0, -e])
+                linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
+                union () {
+                // main stretch strip on bottom
+                complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth + 8.0 + tolerance],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                     center = true);
-
-              // extra cutout on base to align with back flap cutout
-              if (CONTROL_RENDER_prototype_bottom_back_flap) {
-                translate([0, -(1/2)*(sleeveInner_h + sleeveBottomThickness), 0])
-                  complexRoundSquare( [bottomRearFlapCutoutWidth, sleeveBottomThickness + 3.0 + 3*tolerance],
-                                      [0.5, 0.5],
-                                      [0.5, 0.5],
-                                      [3.5, 2.5],
-                                      [3.5, 2.5],
+                // extend up so flap has a place to go when inserting lightning connector
+                translate([0, extend_out_flap_space, 0])
+                  complexRoundSquare( [lightningCutoutHeight , lightningCutoutDepth + 7.6 + 3*tolerance],
+                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
+                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
                                       center = true);
-
+                // cutout at rear of base, aligns with back flap cutout
+                if (CONTROL_RENDER_prototype_bottom_back_flap) {
+                  translate([0, -(1/2)*(sleeveInner_h + sleeveBottomThickness), 0])
+                    complexRoundSquare( [bottomRearFlapCutoutWidth, sleeveBottomThickness + 3.0 + 3*tolerance],
+                                        [0.5, 0.5],
+                                        [0.5, 0.5],
+                                        [3.5, 2.5],
+                                        [3.5, 2.5],
+                                        center = true);
+                }
               }
             }
 
           }
-
-          // Mic holes
-          rotate([180,0,0]) {
-            translate([-headphoneMicHoleOffcenter, -(1/2) * headphoneMicCutoutDepth, -e])
-              linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
-              complexRoundSquare( [headphoneMicCutoutHeight, headphoneMicCutoutDepth],
-                                  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                                  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                                  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                                  [headphoneMicCutoutRadius, headphoneMicCutoutRadius],
-                                  center = false);
-
-          }
-        } // difference
+        }
 
       }
 
