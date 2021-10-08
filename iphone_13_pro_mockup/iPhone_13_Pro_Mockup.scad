@@ -490,8 +490,8 @@ module test_keepout_cone() {
 }
 
 
-module shell(width, length, depth, corner_radius, shell_color = "Blue", color_alpha = 0.82, full_size_pass=true)
-{
+module shell(width, length, depth, corner_radius, shell_color = "Blue",
+             color_alpha = 0.82, full_size_pass=true) {
   corner_r1 = corner_radius ;
   corner_r2 = corner_radius ;
   active_corner_r1 = active_display__corner_r ;

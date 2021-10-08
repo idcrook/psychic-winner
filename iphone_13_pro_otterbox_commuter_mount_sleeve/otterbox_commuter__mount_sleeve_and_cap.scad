@@ -34,10 +34,12 @@ e = 1/128; // small number
 //  - Width   79.2 mm
 //  - Depth   14.1 mm
 
-l = 153.2 + 0.25;  // measured?
-// including widest at buttons /// w = 79.2;
-w = 79.2 - 1.3 + 1.0;   //
-h = 14.1 + 1.3;   // measured + padding
+l = 153.2 ;  // measured?
+w = 79.2 ; // including widest at buttons
+h = 14.1 ;
+l_use = l - 0.25; // measured
+w_use = w - 1.2 ; // measured
+h_use = h + (2*0.65);    // + padding
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § 44.3 iPhone 13 Pro 1 of 2
@@ -60,10 +62,11 @@ tl = (1/2) * dl  ;
 th = (1/2) * dh  ;
 
 // display glass cutout
-cut_w = active_display__width + 5.0;
-cut_l = active_display__height + 4.8;
-cut_r = 15.0;
-out_r = cut_r + 3.3;
+cut_w = active_display__width + 5.0 + 2.5;
+cut_l = active_display__height + 4.8 + 2.5;
+cut_r = 7.4;
+
+case_out_r = cut_r + 6;
 
 // display
 dcw = (w - cut_w) / 2;
@@ -71,20 +74,16 @@ dcl = (l - cut_l) / 2;
 
 function translate_y_from_top (from_top)  = il - from_top;
 
-//
+// this is a
 module otterboxCommuterCase () {
   difference() {
     // case outer dimensions
-    color("#202020", alpha = 0.75) shell(w, l, h, out_r, 3);
+    color("#2a8", alpha = 0.90)
+      shell(w, l, h, case_out_r);
 
-    /* // carve out iphone and some tolerance */
-    /* translate([tw - tol, tl - tol, th]) { */
-    /*   shell(iw + 2*tol, il + 2*tol, ih + 2*tol, 9 + 2*tol, 3); */
-    /* } */
-
-    // cut out above phone too (rounded rect with dimensions 73.3 x 153.8)
-    translate ([dcw,dcl,th+ih-tol])
-      linear_extrude(height = 10, center = false, convexity = 10)
+    // cut out iphone shape and extend up
+    translate ([dcw, dcl, th+0-tol])
+      linear_extrude(height = 15, center = false, convexity = 10)
       complexRoundSquare([cut_w, cut_l],
                          [cut_r, cut_r],
                          [cut_r, cut_r],
@@ -111,7 +110,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
   // bike mount version requires cap but no lightning port access
-  for_bike_mount = true;
+  for_bike_mount = !true;
 
   printer_has_shorter_volume_height = true;
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
@@ -1057,12 +1056,12 @@ module showTogether() {
     // iPhone 11 Pro
     translate([tw, tl, th ])  iphone_13_pro(iw, il, ih, show_keepouts = true);
     //
-    translate([0,0,0]) % otterboxCommuterCase();
+    translate([0,0,0]) otterboxCommuterCase();
   }
 
   // design
   //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  *translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
 show_everything = true;
