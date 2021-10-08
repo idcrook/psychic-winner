@@ -58,7 +58,7 @@ case $os_name in
 esac
 
 # exports (also be explicit below)
-export OPENSCADPATH="$LOCAL_LIBRARIES_DIR/dotSCAD/src:$LOCAL_LIBRARIES_DIR:$DEFAULT_LIBRARIES_DIR"
+export OPENSCADPATH="$LOCAL_LIBRARIES_DIR:$DEFAULT_LIBRARIES_DIR"
 
 echo OPENSCADPATH="$OPENSCADPATH"
 # echo app_path=$app_path
