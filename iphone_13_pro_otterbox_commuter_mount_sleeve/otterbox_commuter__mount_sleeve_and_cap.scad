@@ -39,7 +39,7 @@ w = 79.2 ; // including widest at buttons
 h = 14.1 ;
 l_use = l - 0.25; // measured
 w_use = w - 1.2 ; // measured
-h_use = h + (2*0.65);    // + padding
+h_use = h + (1*0.65);    // + padding
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § 44.3 iPhone 13 Pro 1 of 2
@@ -62,20 +62,27 @@ tl = (1/2) * dl  ;
 th = (1/2) * dh  ;
 
 // front case cutout
-cut_w = active_display__width  + 2*active_display__inset_from_exterior;
-cut_l = active_display__height + 2*active_display__inset_from_exterior;
+case_front_lip = 1.0;
+cut_w = active_display__width  + 2*active_display__inset_from_exterior - 2*case_front_lip;
+cut_l = active_display__height + 2*active_display__inset_from_exterior - 2*case_front_lip;
 cut_r = 6.95;
 
 case_out_r = cut_r + 6;
 
-// display
+// case display cutout
 dcw = (w - cut_w) / 2;
 dcl = (l - cut_l) / 2;
 
-// rear cam
+// case rear cam opening
 case_rcam_w = 37.5;
 case_rcam_l = 38.8;
 case_rcam_r = 10;
+
+// case lightning flap
+case_flap_w = 12.5;
+case_flap_l = h_use - 2.8;
+case_flap_r = 0.7;
+case_mid_w = w/2;
 
 function translate_y_from_top (from_top)  = il - from_top;
 
@@ -83,8 +90,8 @@ function translate_y_from_top (from_top)  = il - from_top;
 module otterboxCommuterCase () {
   difference() {
     // case outer dimensions
-    color("#2a8", alpha = 0.90)
-      shell(w, l, h, case_out_r);
+    shell(w, l, h, case_out_r, shell_color="#2a8", color_alpha=0.90,
+          full_size_pass=false);
 
     translate ([dcw, dcl, th+0-tol])
       {
@@ -107,9 +114,21 @@ module otterboxCommuterCase () {
                              [case_rcam_r, case_rcam_r],
                              [case_rcam_r, case_rcam_r],
                              center = false);
-
-
       }
+
+    // cut out lightning flap
+    translate([case_mid_w - case_flap_w/2, 0, -e]) {
+      translate([0, dcl, 0])
+        rotate([90, 0, 0])
+        linear_extrude(height = 15, center = false, convexity = 10)
+        complexRoundSquare([case_flap_w, case_flap_l],
+                           [0, 0],
+                           [0, 0],
+                           [case_flap_r, case_flap_r],
+                           [case_flap_r, case_flap_r],
+                           center = false);
+
+    }
   }
 }
 
