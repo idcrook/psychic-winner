@@ -53,6 +53,9 @@ iw = iphone_13_pro__width ;
 ih = iphone_13_pro__depth ;
 tol = 0.2;
 
+// number of h half-s where iphone sets in case
+icase_h_ratio = 5.1/4;
+
 dw = w - iw;
 dl = l - il;
 dh = h - ih;
@@ -80,7 +83,7 @@ case_rcam_r = 10;
 
 // case lightning flap
 case_flap_w = 12.5;
-case_flap_l = h_use - 2.8;
+case_flap_l = h - 2.8;
 case_flap_r = 0.7;
 case_mid_w = w/2;
 
@@ -1093,15 +1096,14 @@ module showTogether() {
 
   if (show_with_phone_and_case) {
     // iPhone 11 Pro
-    translate([tw, tl, (3/2)*th ]) // 3/2 since case back is thicker than front inset
+    translate([tw, tl, (icase_h_ratio)*th ]) // use this ratio since case back is thicker than front inset
       iphone_13_pro(iw, il, ih, show_keepouts = true);
     // case model
     translate([0,0,0]) otterboxCommuterCase();
   }
 
-  // design
-  //translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
-  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  // sleeve mount design
+  *translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
 show_everything = true;
