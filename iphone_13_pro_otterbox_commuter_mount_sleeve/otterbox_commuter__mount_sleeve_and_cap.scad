@@ -16,14 +16,17 @@
 //
 //   2021-Oct-04 : Initial Case dimensions
 //
+//   2021-Oct-08 : Adjustments with case in hand
+//
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 
 use <MCAD/2Dshapes.scad>
 use <../libraries/misc/wedge.scad>
+use <../libraries/dotSCAD/src/rounded_square.scad>
 
-// utilizing "include"  imports variables, modules
+// imports variables, modules with "include"
 include <mockup/iPhone_13_Pro_Mockup.scad>
 
 e = 1/128; // small number
@@ -100,23 +103,13 @@ module otterboxCommuterCase () {
       {
         // cut out iphone shape and extend up
         linear_extrude(height = 15, center = false, convexity = 10)
-          complexRoundSquare([cut_w, cut_l],
-                             [cut_r, cut_r],
-                             [cut_r, cut_r],
-                             [cut_r, cut_r],
-                             [cut_r, cut_r],
-                             center = false);
+          rounded_square(size=[cut_w, cut_l], corner_r = cut_r, center=false);
         // cut out rear camera hole
         translate([iphone_13_pro__width, iphone_13_pro__height, 0])
-          translate([-tw, -case_rcam_l-tl, 0])
+          translate([-(17/16)*tw, -case_rcam_l-(5/4)*tl, 0])
           rotate([0, 180, 0])
           linear_extrude(height = 15, center = false, convexity = 10)
-          complexRoundSquare([case_rcam_w, case_rcam_l],
-                             [case_rcam_r, case_rcam_r],
-                             [case_rcam_r, case_rcam_r],
-                             [case_rcam_r, case_rcam_r],
-                             [case_rcam_r, case_rcam_r],
-                             center = false);
+          rounded_square(size=[case_rcam_w, case_rcam_l], corner_r = case_rcam_r, center=false);
       }
 
     // cut out lightning flap
@@ -238,11 +231,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height/2) - 1.0  ;
   cameraCutoutHeight = rear_cam_plateau__height + ((rear_cam_plateau__height - rear_cam_plateau__width)/2) ;
   cameraCutoutDepth = rear_cam_plateau__width + 2;
-  //cameraCutoutRadius = 9.5 ;
   cameraCutoutRadius =  rear_cam_plateau__rradius;
-  cameraHoleOffcenter = - 7.0;
-  cameraHoleAddOffsetForCase_midline = 4.2 + 0.5;
-  cameraHoleAddOffsetForCase_sideline = 0.8;
+  cameraCutoutRadius_diag =  2;
+  cameraHoleOffcenter = - 1.0;
+  cameraHoleAddOffsetForCase_midline = 8.5 + 2.5; // add additonal safety margin for UW lens
+  cameraHoleAddOffsetForCase_sideline = 0.0;
 
   speakerCutoutCenterBonus = 1.0;
   speakerCutoutHeight = 18 + speakerCutoutCenterBonus;
@@ -472,7 +465,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               linear_extrude(height = sleeveBottomThickness + 3*tolerance +2*e, center = false, convexity = 10)
               complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline, cameraCutoutDepth + extend_camera_opening],
                                   [cameraCutoutRadius, cameraCutoutRadius],
-                                  [cameraCutoutRadius, cameraCutoutRadius],
+                                  [cameraCutoutRadius_diag, cameraCutoutRadius_diag],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   [cameraCutoutRadius, cameraCutoutRadius],
                                   center = false);
@@ -1103,7 +1096,7 @@ module showTogether() {
   }
 
   // sleeve mount design
-  *translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
 show_everything = true;

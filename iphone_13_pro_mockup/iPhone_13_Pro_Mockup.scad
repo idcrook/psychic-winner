@@ -22,8 +22,8 @@
 DEVELOPING_iPhone_13_Pro_model = false;
 
 use <MCAD/2Dshapes.scad>
-// from dotSCAD
-use <rounded_square.scad>
+
+use <../libraries/dotSCAD/src/rounded_square.scad>
 
 // very small number
 e = 1/128;
