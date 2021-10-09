@@ -190,6 +190,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
   sleeveOuter_r = 4.6;
+  sleeve_base_taper_scale = 1/0.94;
+  sleeve_base_start_w = sleeveOuter_w / sleeve_base_taper_scale;
+  sleeve_base_start_h = sleeveOuter_h / sleeve_base_taper_scale;
 
   // iphoneDisplay_w = 48.5;
   iphoneDisplay_w = active_display__width;
@@ -257,7 +260,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   lightningFlapCutoutRadius = 0.74;
   lightningHoleOffcenter = 0;
 
-  bottomLipHeight = 4.0; // matches height of case lip
+  bottomLipHeight = 4.54; // matches height of case lip
   bottom_lip_rounded_corners = true;
 
   // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
@@ -271,7 +274,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   // calculate the width of cutout at junction with base
   bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
-  bottomLipCutout_MinWidth = 2 * bottomLipCutout_r2 * tan((1/2) *bottomLipCutoutArcDegrees);
+  bottomLipCutout_MinWidth = 2 * bottomLipCutout_r2 * tan((1/2) * bottomLipCutoutArcDegrees);
 
   // calculate how far we need to translate below to cut out enough
 
@@ -349,11 +352,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                      center = false);
               }
             }
-
           }
 
           // need a difference here to be able to "punch out" button and camera access holes
-
           difference () {
             // main extrude - 2D view for length of case
             linear_extrude(height = sleeveInner_l, center = false, convexity = 10)
@@ -364,7 +365,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [sleeveOuter_r, sleeveOuter_r],
                                  [sleeveOuter_r, sleeveOuter_r],
                                  center = true);
-
 
               // cut out size of iphone in case
               complexRoundSquare([sleeveInner_w - trim__width,
@@ -568,9 +568,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       if (with_sleeve) {
         difference() {
           translate([0,0, -base_l])
-            linear_extrude(height = base_l, center = false, convexity = 10)
+            linear_extrude(height = base_l , center = false, convexity = 10,
+                           scale = sleeve_base_taper_scale)
             // 2D view for base of sleeve
-            complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
+            complexRoundSquare([sleeve_base_start_w, sleeve_base_start_h],
                                [sleeveOuter_r, sleeveOuter_r],
                                [sleeveOuter_r, sleeveOuter_r],
                                [sleeveOuter_r, sleeveOuter_r],
@@ -642,11 +643,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       }
 
       //
-      bottom_lip_increase_curve = 0.66;
-      bottom_lip_rounded_corners__radius = 4.94 + bottom_lip_increase_curve;
-      extraBottomLipHeight = bottom_lip_rounded_corners ? bottom_lip_rounded_corners__radius : 0;
-      bottomLipDisplayOpeningWidth = 68.4 + 2*1.5; // added width for conforming to otterbox shape
-      bottomLipDisplayOpeningHeight = 2 * bottom_lip_rounded_corners__radius;
+      bottom_lip_rounded_corners__radius = 10.0 ;
+      extraBottomLipHeight = bottom_lip_rounded_corners ? 10 : 0;
+      bottomLipDisplayOpeningWidth = w - 11.2 + 2*3.0; // added width
+      bottomLipDisplayOpeningHeight = 22;
 
       // Bottom lip, including front band and back band
       if (with_sleeve) {
@@ -654,12 +654,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           // 2D view for height of lip
           linear_extrude(height = bottomLipHeight + extraBottomLipHeight, center = false, convexity = 10)
             difference () {
-            complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
-                               [sleeveOuter_r, sleeveOuter_r],
-                               [sleeveOuter_r, sleeveOuter_r],
-                               [sleeveOuter_r, sleeveOuter_r],
-                               [sleeveOuter_r, sleeveOuter_r],
-                               center = true);
+            rounded_square(size=[sleeveOuter_w, sleeveOuter_h], corner_r = sleeveOuter_r, center=true);
 
             // by bottom screen edge, front bottom lip, cut out size of iphone
             scale ([1,1,1])
@@ -701,20 +696,20 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  center = true);
           }
 
-          // previously cutout for fingerprint - appropriated for extra space
-          // for sliding up from bottom edge of phone
+          // previously cutout for fingerprint -
+          // appropriated for extra space for sliding up from bottom edge
           if (fingerprint_sensor_cutout) {
-            echo ("Width of bottom edge cutout at 'base': ", bottomLipCutout_MinWidth);
+            echo ("Width of bottom edge cutout angle at 'base': ", bottomLipCutout_MinWidth);
             translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
               rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
               wedge (h = 10 + 5, r = bottomLipCutoutArcRadius + 5, d = bottomLipCutoutArcDegrees, fn = 100);
           }
 
 
-          extra_space_screen_bottom = 1.35 - bottom_lip_increase_curve;
+          extra_overlap_screen_bottom = 1;
           // rounded bottom corners for finger access to screen area
           if (bottom_lip_rounded_corners) {
-            translate([0, 0, bottomLipHeight + extraBottomLipHeight + extra_space_screen_bottom ])
+           translate([0, 0, bottomLipHeight + bottomLipDisplayOpeningHeight/2 + extra_overlap_screen_bottom])
               rotate([90, 0, 0])
               linear_extrude(height = 10 + 5, center = false, convexity = 10)
               complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight],
