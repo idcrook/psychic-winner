@@ -1,4 +1,6 @@
 test_*.stl
+proto_*.stl
+proto_*.3mf
 *.pdf
 /Archive
 
