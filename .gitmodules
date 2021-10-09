@@ -28,3 +28,6 @@
 [submodule "libraries/list-comprehension-demos"]
 	path = libraries/list-comprehension-demos
 	url = https://github.com/idcrook/list-comprehension-demos.git
+[submodule "libraries/BOSL2"]
+	path = libraries/BOSL2
+	url = https://github.com/idcrook/BOSL2.git
