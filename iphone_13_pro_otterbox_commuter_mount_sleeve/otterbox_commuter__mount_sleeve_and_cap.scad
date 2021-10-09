@@ -261,27 +261,21 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   lightningHoleOffcenter = 0;
 
   bottomLipHeight = 4.54; // matches height of case lip
+  extra_overlap_screen_bottom = 0.5;
   bottom_lip_rounded_corners = true;
 
-  // Use some trig: http://mathworld.wolfram.com/CircularSegment.html
+  fingerprint_sensor_cutout = true; // CONTROL_RENDER_bottom_front_no_bridge ;
   // re-appropriate for extra space for sliding up from bottom edge of phone
   // on-screen indicator for this is ~21.5 mm wide
-  bottomLipFingerprintDiameter = 21.5;
-  bottomLipCutoutMaxWidth = 1.6 * bottomLipFingerprintDiameter;
-  bottomLipCutoutArcRadius = 2.*bottomLipCutoutMaxWidth;  // pick a multiple
-  bottomLipCutoutArcDegrees = 2*asin(bottomLipCutoutMaxWidth/(2*bottomLipCutoutArcRadius));  // figure out how many degrees of arc this is
-  fingerprint_sensor_cutout = true; // CONTROL_RENDER_bottom_front_no_bridge ;
-
-  // calculate the width of cutout at junction with base
-  bottomLipCutout_r2 = bottomLipCutoutArcRadius - bottomLipHeight;
-  bottomLipCutout_MinWidth = 2 * bottomLipCutout_r2 * tan((1/2) * bottomLipCutoutArcDegrees);
+  bottomLipOnScreenIndicator_w = 22.5;
+  bottomLipCutout_MinWidth = bottomLipOnScreenIndicator_w;
+  bottomLipCutout_Width = bottomLipCutout_MinWidth + 2*4.0;
+  bottomLipCutout_h = bottomLipHeight + extra_overlap_screen_bottom;
+  bottomLipCutout_scale = 1 + (bottomLipCutout_Width/bottomLipCutout_MinWidth - 1);
 
   // calculate how far we need to translate below to cut out enough
-
   bottomRearFlapCutoutHeight = 6.0 + 3.0; // measured on case, add fudge
   bottomRearFlapCutoutWidth = lightning_connector_keepout__width + 3.35; // measured on case, add fudge
-
-  bottomLipCutout_h = bottomLipCutoutArcRadius * cos((1/2)*bottomLipCutoutArcDegrees);
 
   needed_overlap = 2.0;
 
@@ -694,15 +688,17 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           }
 
           // previously cutout for fingerprint -
-          // appropriated for extra space for sliding up from bottom edge
+          // appropriated for space for sliding up from bottom edge of display
           if (fingerprint_sensor_cutout) {
-            echo ("Width of bottom edge cutout angle at 'base': ", bottomLipCutout_MinWidth);
-            translate([0, 0, bottomLipHeight-bottomLipCutout_h+e])
-              rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
-              wedge (h = 10 + 5, r = bottomLipCutoutArcRadius + 5, d = bottomLipCutoutArcDegrees, fn = 100);
+            echo ("Width of face bottom lip cutout: ", bottomLipCutout_MinWidth);
+            translate([-e, -(sleeveOuter_h/2)-e, 0])
+              linear_extrude(height = bottomLipCutout_h + 2*e, center = false, convexity = 10, scale=bottomLipCutout_scale) {
+              mirror([1,0,0])
+              square([bottomLipCutout_MinWidth/2, sleeveSideThickness + 2*e], center=false);
+              square([bottomLipCutout_MinWidth/2, sleeveSideThickness + 2*e], center=false);
+            }
           }
 
-          extra_overlap_screen_bottom = 0.5;
           // rounded bottom corners for finger access to screen area
           if (bottom_lip_rounded_corners) {
            translate([0, 0, bottomLipHeight + bottomLipDisplayOpeningHeight/2 + extra_overlap_screen_bottom])
@@ -715,7 +711,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
                                  center = true);
           }
-
         } // difference
 
       }
