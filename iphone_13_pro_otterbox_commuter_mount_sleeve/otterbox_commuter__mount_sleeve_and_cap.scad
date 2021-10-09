@@ -646,7 +646,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       }
 
       //
-      bottom_lip_rounded_corners__radius = 10.0 ;
+      bottom_lip_rounded_corners__radius = 7.5 ;
       extraBottomLipHeight = bottom_lip_rounded_corners ? 10 : 0;
       bottomLipDisplayOpeningWidth = w - 11.2 + 2*3.0; // added width
       bottomLipDisplayOpeningHeight = 22;
@@ -702,7 +702,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               wedge (h = 10 + 5, r = bottomLipCutoutArcRadius + 5, d = bottomLipCutoutArcDegrees, fn = 100);
           }
 
-          extra_overlap_screen_bottom = 1;
+          extra_overlap_screen_bottom = 0.5;
           // rounded bottom corners for finger access to screen area
           if (bottom_lip_rounded_corners) {
            translate([0, 0, bottomLipHeight + bottomLipDisplayOpeningHeight/2 + extra_overlap_screen_bottom])
