@@ -404,11 +404,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             } // difference
 
             if (CONTROL_RENDER_prototype_bottom_back_flap) {
-              translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
-                         (1/2)*(sleeveInner_h) - tolerance - e, -e])
+             translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance) -e,
+                         (1/2)*(sleeveInner_h) - tolerance - e,
+                          -e])
                 lightningBackFlapOpening(flap_opening_height = bottomRearFlapCutoutHeight,
                                          flap_opening_width = bottomRearFlapCutoutWidth,
-                                         thickness = sleeveBottomThickness + 1*tolerance);
+                                         thickness = sleeveBottomThickness + 1*tolerance + 2*e);
             }
 
             // power button cutout
@@ -669,19 +670,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
           }
 
-
           if (CONTROL_RENDER_prototype_bottom_back_flap) {
             translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
                        (1/2)*(sleeveInner_h) - tolerance - e, -e])
-
               lightningBackFlapOpening(flap_opening_height = bottomRearFlapCutoutHeight,
                                        flap_opening_width = bottomRearFlapCutoutWidth,
-                                       thickness = sleeveBottomThickness + 1*tolerance);
-
+                                       thickness = sleeveBottomThickness + 1*tolerance + 2*e);
           }
-
-
-
 
           if (CONTROL_RENDER_cutoff_top) {
             cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
@@ -706,7 +701,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               rotate([90, 360-(90-bottomLipCutoutArcDegrees/2), 0])
               wedge (h = 10 + 5, r = bottomLipCutoutArcRadius + 5, d = bottomLipCutoutArcDegrees, fn = 100);
           }
-
 
           extra_overlap_screen_bottom = 1;
           // rounded bottom corners for finger access to screen area
