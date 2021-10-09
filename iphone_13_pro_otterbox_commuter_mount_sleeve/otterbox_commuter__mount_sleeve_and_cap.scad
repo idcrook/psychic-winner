@@ -158,7 +158,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment3      = ! true;
   CONTROL_RENDER_experiment4      = ! true;
   CONTROL_RENDER_experiment5      = ! true;
-  CONTROL_RENDER_prototype_bottom = !true;
+  CONTROL_RENDER_prototype_bottom = true;
 
   wantThinner =  true;
   wantThinnerCap = false;
@@ -1094,7 +1094,7 @@ module showTogether() {
   translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = true;
+show_everything = !true;
 
 if (show_everything) {
   showTogether();
