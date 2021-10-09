@@ -145,7 +145,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
   // bike mount version requires cap but no lightning port access
-  for_bike_mount = !true;
+  for_bike_mount = true;
 
   printer_has_shorter_volume_height = true;
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
@@ -158,7 +158,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_experiment3      = ! true;
   CONTROL_RENDER_experiment4      = ! true;
   CONTROL_RENDER_experiment5      = ! true;
-  CONTROL_RENDER_prototype_bottom = true;
+  CONTROL_RENDER_prototype_bottom = ! true;
 
   wantThinner =  true;
   wantThinnerCap = false;
@@ -633,10 +633,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                 }
               }
             }
-
           }
         }
-
       }
 
       //
@@ -1067,7 +1065,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = !true;
+  withCap = true;
   withSleeve = true;
 
   show_with_phone_and_case = true;
