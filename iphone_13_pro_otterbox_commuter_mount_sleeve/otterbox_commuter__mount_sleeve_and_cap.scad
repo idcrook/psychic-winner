@@ -566,6 +566,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
       // flat/bottom part of base of sleeve
       if (with_sleeve) {
+        translate([0,0,e]) // to ensure overlap with main extrude (may not be needed?)
         difference() {
           translate([0,0, -base_l])
             linear_extrude(height = base_l , center = false, convexity = 10,
