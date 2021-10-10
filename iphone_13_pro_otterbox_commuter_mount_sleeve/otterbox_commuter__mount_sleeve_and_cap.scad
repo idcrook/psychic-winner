@@ -946,7 +946,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
   insertPartialHeight = 28;
   insertSlantedHeight = insertFullHeight - insertPartialHeight;
-  insertSlantAngle = 60;
+  insertSlantAngle = 65;
   insertSlantAngle2 = 68;
 
   tolerance = 0.5;
@@ -956,7 +956,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
   r1 = shouldTweak ? 0 : 0;
   // empirically determined value when shouldTweak == false
   start_of_leading_edge = (1/2) * insertSlantedHeight * sin (insertSlantAngle);
-  z_cover_leading_edge = 6.05;
+  z_cover_leading_edge = start_of_leading_edge;
   y_rot2_leading_edge = - 180 + insertSlantAngle2;
 
   rotateAngle = 15;
@@ -965,44 +965,38 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
   echo("insertChopThickness_y:", insertChopThickness_y);
 
   difference() {
-    intersection () {
-      linear_extrude(height = insertFullHeight, center = false, convexity = 10)
-        difference() {
-        complexRoundSquare([insertTailWidth, insertThickness],
-                           [0,0], [0,0], [0,0], [0,0],
+    linear_extrude(height = insertFullHeight, center = false, convexity = 10)
+      difference() {
+      complexRoundSquare([insertTailWidth, insertThickness],
+                         [0,0], [0,0], [0,0], [0,0],
+                         center = false);
+
+      // vertical side nearest attach surface
+      translate([-e, -e, 0])
+        complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
+                           [0,0], [0,0], [r1,r1], [0,0],
                            center = false);
 
-        // vertical side nearest attach surface
-        translate([-e, -e, 0])
-          complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
-                              [0,0], [0,0], [r1,r1], [0,0],
-                             center = false);
+      // other vertical side nearest attach surface
+      translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
+        complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
+                           [0,0], [0,0], [0,0], [r1,r1],
+                           center = false);
 
-        // other vertical side nearest attach surface
+      // this carves a small slant on the side rails
+      if (shouldTweak) {
+        translate([insertChopThickness_x, insertChopThickness_y*(1),0])
+          rotate([0,0,180-rotateAngle])
+          complexRoundSquare([insertChopThickness_x+1, insertChopThickness_y],
+                             [0,0], [0,0], [0,0], [0,0],
+                             center = false);
         translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
-          complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
-                              [0,0], [0,0], [0,0], [r1,r1],
+          translate([0, insertChopThickness_y*(1),0])
+          rotate([0,0,270+rotateAngle])
+          complexRoundSquare([insertChopThickness_x, insertChopThickness_y+1],
+                             [0,0], [0,0], [0,0], [0,0],
                              center = false);
-
-        // this carves a small slant on the side rails
-        if (shouldTweak) {
-          translate([insertChopThickness_x, insertChopThickness_y*(1),0])
-            rotate([0,0,180-rotateAngle])
-            complexRoundSquare([insertChopThickness_x+1, insertChopThickness_y],
-                               [0,0], [0,0], [0,0], [0,0],
-                               center = false);
-          translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
-            translate([0, insertChopThickness_y*(1),0])
-            rotate([0,0,270+rotateAngle])
-            complexRoundSquare([insertChopThickness_x, insertChopThickness_y+1],
-                               [0,0], [0,0], [0,0], [0,0],
-                               center = false);
-        }
       }
-
-      // carve bottom side insert wedge
-      rotate([insertSlantAngle,0,0])
-        cube([insertTailWidth,insertFullHeight, insertFullHeight/2]);
     }
 
     // leading edges of upper wings of slot
@@ -1011,28 +1005,26 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
                start_of_leading_edge - e])
       rotate([0, y_rot2_leading_edge, 0])
       cube(10);
-
     translate([insertTailWidth - insertChopThickness_x,
-                insertChopThickness_y - 2*e ,
-                start_of_leading_edge - e])
-       rotate([0, 90 - insertSlantAngle2 ,0])
+               insertChopThickness_y - 2*e ,
+               start_of_leading_edge - e])
+      rotate([0, 90 - insertSlantAngle2 ,0])
       cube(10);
-
     translate([0, - 2*e , 0])
-       mirror([0,0,0])
-       rotate([0,0,0])
-       cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
-
+      mirror([0,0,0])
+      rotate([0,0,0])
+      cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
     translate([insertTailWidth, - 2*e , 0])
-       mirror([1,0,0])
-       rotate([0,0,0])
-       cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
+      mirror([1,0,0])
+      rotate([0,0,0])
+      cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
 
-
+    // carve leading edge main slope/angle
+    translate([-2*e, -1*e, -1*e])
+      rotate([-(90-insertSlantAngle),0,0])
+      cube([insertTailWidth, insertFullHeight/2, insertFullHeight/2]);
   }
-
 }
-
 
 module test_sleeveMountInsert (fit_better, translate_x) {
   mountInsertWidth = 22;
