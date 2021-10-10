@@ -86,7 +86,7 @@ sim_slot__bump        =  0.03;  // flush actually
 side_button__half_height =  9.05;
 side_button__height      =  side_button__half_height * 2;
 side_button__depth       =  3.06;
-side_button_center__from_top = 44.61;
+side_button_center__from_top = 52.53;
 side_button__from_top    = side_button_center__from_top;
 side_button__bump        =  0.45;
 
