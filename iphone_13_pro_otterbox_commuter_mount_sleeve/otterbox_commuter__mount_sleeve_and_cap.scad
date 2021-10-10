@@ -955,7 +955,9 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
   insertChopThickness_y = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
   r1 = shouldTweak ? 0 : 0;
   // empirically determined value when shouldTweak == false
+  start_of_leading_edge = (1/2) * insertSlantedHeight * sin (insertSlantAngle);
   z_cover_leading_edge = 6.05;
+  y_rot2_leading_edge = - 180 + insertSlantAngle2;
 
   rotateAngle = 15;
 
@@ -1000,21 +1002,21 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
       // carve bottom side insert wedge
       rotate([insertSlantAngle,0,0])
-        cube(insertFullHeight*[1/2,1,1/2]);
+        cube([insertTailWidth,insertFullHeight, insertFullHeight/2]);
     }
 
     // leading edges of upper wings of slot
     translate([insertChopThickness_x,
-                insertChopThickness_y - 2*e ,
-               (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
-      rotate([360-(90-insertSlantAngle2),0,90])
-      cube(7+3);
+               insertChopThickness_y - 2*e ,
+               start_of_leading_edge - e])
+      rotate([0, y_rot2_leading_edge, 0])
+      cube(10);
+
     translate([insertTailWidth - insertChopThickness_x,
                 insertChopThickness_y - 2*e ,
-               (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
-       mirror([1,0,0])
-       rotate([360-(90-insertSlantAngle2),0,90])
-       cube(7+3);
+                start_of_leading_edge - e])
+       rotate([0, 90 - insertSlantAngle2 ,0])
+      cube(10);
 
     translate([0, - 2*e , 0])
        mirror([0,0,0])
@@ -1092,7 +1094,7 @@ module showTogether() {
   translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = true;
+show_everything = !true;
 
 if (show_everything) {
   showTogether();
