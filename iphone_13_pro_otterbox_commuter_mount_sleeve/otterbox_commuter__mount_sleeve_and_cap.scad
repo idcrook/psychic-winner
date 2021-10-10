@@ -944,7 +944,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
   insertChopThickness = thickness;
   insertFullHeight = height;
 
-  insertPartialHeight = 28;
+  insertPartialHeight = 25;
   insertSlantedHeight = insertFullHeight - insertPartialHeight;
   insertSlantAngle = 65;
   insertSlantAngle2 = 68;
