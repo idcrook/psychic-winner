@@ -723,9 +723,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           difference() {
           sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, tweak_mount_surface);
 
-          // chop off top 1.5 mm of insert (as it seems to not fully insert into slot)
-          translate([-e, -e, mountInsertHeight - 1.5])
-            cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
+          if (true) {
+            // chop off top 1.5 mm of insert (as it seems to not fully insert into slot)
+            translate([-e, -e, mountInsertHeight - 1.5])
+              cube([mountInsertWidth + 2*e, mountInsertThickness*2 + 2*e, 6]);
+          }
         }
       }
     }
@@ -942,15 +944,18 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
   insertChopThickness = thickness;
   insertFullHeight = height;
 
-  insertPartialHeight = 30;
+  insertPartialHeight = 28;
   insertSlantedHeight = insertFullHeight - insertPartialHeight;
   insertSlantAngle = 60;
-  insertSlantAngle2 = 70;
+  insertSlantAngle2 = 68;
 
   tolerance = 0.5;
 
   insertChopThickness_x = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
   insertChopThickness_y = shouldTweak ? insertChopThickness + tolerance : insertChopThickness;
+  r1 = shouldTweak ? 0 : 0;
+  // empirically determined value when shouldTweak == false
+  z_cover_leading_edge = 6.05;
 
   rotateAngle = 15;
 
@@ -968,24 +973,22 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
         // vertical side nearest attach surface
         translate([-e, -e, 0])
           complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
-                             [0,0], [0,0], [0,0], [0,0],
+                              [0,0], [0,0], [r1,r1], [0,0],
                              center = false);
 
         // other vertical side nearest attach surface
         translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
           complexRoundSquare([insertChopThickness_x, insertChopThickness_y],
-                             [0,0], [0,0], [0,0], [0,0],
+                              [0,0], [0,0], [0,0], [r1,r1],
                              center = false);
 
         // this carves a small slant on the side rails
         if (shouldTweak) {
-
           translate([insertChopThickness_x, insertChopThickness_y*(1),0])
             rotate([0,0,180-rotateAngle])
             complexRoundSquare([insertChopThickness_x+1, insertChopThickness_y],
                                [0,0], [0,0], [0,0], [0,0],
                                center = false);
-
           translate([insertTailWidth - insertChopThickness_x + e, -e, 0])
             translate([0, insertChopThickness_y*(1),0])
             rotate([0,0,270+rotateAngle])
@@ -997,20 +1000,33 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
       // carve bottom side insert wedge
       rotate([insertSlantAngle,0,0])
-        cube(insertFullHeight);
+        cube(insertFullHeight*[1/2,1,1/2]);
     }
 
-    translate([insertChopThickness,
-               insertChopThickness - 2*e,
+    // leading edges of upper wings of slot
+    translate([insertChopThickness_x,
+                insertChopThickness_y - 2*e ,
                (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
       rotate([360-(90-insertSlantAngle2),0,90])
       cube(7+3);
-
-    translate([insertTailWidth - insertChopThickness,
-               insertChopThickness - 2*e,
+    translate([insertTailWidth - insertChopThickness_x,
+                insertChopThickness_y - 2*e ,
                (1/2) * insertSlantedHeight * sin (insertSlantAngle) - e])
-      rotate([0, (90 - insertSlantAngle2) ,0])
-      cube(7+3);
+       mirror([1,0,0])
+       rotate([360-(90-insertSlantAngle2),0,90])
+       cube(7+3);
+
+    translate([0, - 2*e , 0])
+       mirror([0,0,0])
+       rotate([0,0,0])
+       cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
+
+    translate([insertTailWidth, - 2*e , 0])
+       mirror([1,0,0])
+       rotate([0,0,0])
+       cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
+
+
   }
 
 }
@@ -1059,7 +1075,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = true;
+  withCap = !true;
   withSleeve = true;
 
   show_with_phone_and_case = true;
