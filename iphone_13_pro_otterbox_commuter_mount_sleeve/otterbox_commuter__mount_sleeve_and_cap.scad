@@ -54,7 +54,7 @@ h_use = h + (1*0.65);    // + padding
 il = iphone_13_pro__height;
 iw = iphone_13_pro__width ;
 ih = iphone_13_pro__depth ;
-tol = 0.2;
+tol = 0.3;
 
 // number of h half-s where iphone sets in case
 icase_h_ratio = 5.1/4;
@@ -258,7 +258,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   lightningHoleOffcenter = 0;
 
   bottomLipHeight = 4.54; // matches height of case lip
-  extra_overlap_screen_bottom = 0.5;
+  extra_overlap_screen_bottom = 0.0;
   bottom_lip_rounded_corners = true;
 
   fingerprint_sensor_cutout = true; // CONTROL_RENDER_bottom_front_no_bridge ;
@@ -632,9 +632,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       }
 
       //
-      bottom_lip_rounded_corners__radius = 7.5 ;
-      extraBottomLipHeight = bottom_lip_rounded_corners ? 10 : 0;
-      bottomLipDisplayOpeningWidth = w - 11.2 + 2*3.0; // added width
+      bottom_lip_rounded_corners__radius = 7.5 + 5 ;
+      extraBottomLipHeight = bottom_lip_rounded_corners ? 22 : 0;
+      bottomLipDisplayOpeningWidth = w - 11.0 + 2*2.5; // added width
       bottomLipDisplayOpeningHeight = 22;
 
       // Bottom lip, including front band and back band
@@ -667,7 +667,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           if (CONTROL_RENDER_cutoff_top) {
             cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
             extrHeight = CONTROL_RENDER_experiment3 ? 200 : cutoff_top_length + e ;
-
             echo("cutHeight:", cutHeight);
             translate([0,0, cutHeight])
               linear_extrude(height = extrHeight, center = false, convexity = 10)
@@ -690,24 +689,20 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               square([bottomLipCutout_MinWidth/2, sleeveSideThickness + 2*e], center=false);
             }
           }
-
           // rounded bottom corners for finger access to screen area
           if (bottom_lip_rounded_corners) {
            translate([0, 0, bottomLipHeight + bottomLipDisplayOpeningHeight/2 + extra_overlap_screen_bottom])
               rotate([90, 0, 0])
               linear_extrude(height = 10 + 5, center = false, convexity = 10)
-              complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight],
-                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
-                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius],
+              complexRoundSquare([bottomLipDisplayOpeningWidth, bottomLipDisplayOpeningHeight + 2*e],
+                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius + 6],
+                                 [bottom_lip_rounded_corners__radius, bottom_lip_rounded_corners__radius + 6],
+                                 [0,0],
+                                 [0,0],
                                  center = true);
           }
         } // difference
-
       }
-
-
       // mounting wedge on back
       if (with_sleeve) {
         // add mounting wedge
@@ -1070,6 +1065,7 @@ module showTogether() {
   tweakMountSurface = true;
   withCap = true;
   withSleeve = true;
+  tolerance = 0.3;
 
   show_with_phone_and_case = true;
 
@@ -1082,7 +1078,7 @@ module showTogether() {
   }
 
   // sleeve mount design
-  translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
 show_everything = true;
