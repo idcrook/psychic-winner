@@ -1,12 +1,25 @@
 Mechanical dummy model mockup for iPhone 13 Pro
 ===============================================
 
-Possible tweaks
----------------
+Summary
+-------
 
--	Details
-	-	rear camera plateau should be smoothed with a gradient
-	-	ringer on/off is a switch
+Mechanical dummy model mockup for iPhone 13 Pro, in OpenSCAD with source code. Very useful for test "fitting" during modeling of cases, mounts etc. Not intended for printing, but it probably could be.
+
+UPDATES
+-------
+
+**2021-Oct-09** :
+
+-	uploaded version with updated rear cameras, including **keepout cones** for lenses and sensor
+-	now also has **stainless steel edge profile** based on engineering drawings.
+
+### Possible tweaks
+
+Details
+
+-	rear camera plateau should be smoothed with a gradient
+-	ringer on/off is a switch
 
 Sources
 -------
