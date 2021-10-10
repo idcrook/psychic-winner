@@ -9,6 +9,10 @@ Mechanical dummy model mockup for iPhone 13 Pro, in OpenSCAD with source code. V
 UPDATES
 -------
 
+**2021-Oct-10** :
+
+-	fix side button position
+
 **2021-Oct-09** :
 
 -	uploaded version with updated rear cameras, including **keepout cones** for lenses and sensor
