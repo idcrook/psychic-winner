@@ -204,7 +204,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   sleeve_button__cutout_depth = 7.7 + 1.8;
   sleeve_button__y_scale_factor = 1.4 ;
-  sleeve_button__y_translate_adjust = 1.85;
+  // controls how far additionally from midline openings are placed
+  sleeve_button__y_translate_adjust = 1.85 + 0.60;
 
   volumeButtonsCutoutHeight = volume_up__half_height + volume_down__half_height +
     ( volume_down_center__from_top - volume_up_center__from_top) + 10 ;  // big enough to be continuous with mute switch
@@ -398,7 +399,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             }
 
             // power button cutout
-            translate([+1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (powerButtonCutoutDepth) - sleeve_button__y_translate_adjust, powerButtonHeightFromBottom])
+            translate([+1 * ((1/2) * sleeveOuter_w + e),
+                       -(1/2) * (powerButtonCutoutDepth) - sleeve_button__y_translate_adjust,
+                       powerButtonHeightFromBottom])
               rotate([0, 180 + 90, 0])
               scale([1,sleeve_button__y_scale_factor,1])
               linear_extrude(height = sleeveSideThickness__button_cutout + 2*e, center = false, scale = 0.9, convexity = 10)
@@ -545,7 +548,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
         echo("powerButtonCapClip_z:", powerButtonCapClip_z);
         echo("muteSwitchCapClip_z:", muteSwitchCapClip_z);
 
-        translate([0, -1.5, caseHeight])
+        translate([0, -sleeve_button__y_translate_adjust, caseHeight])
           generateCap(capArmThickness, capCapThickness, capDepth, capCaseWidth,
                       powerButtonCapClip_z, muteSwitchCapClip_z);
       }
@@ -1073,7 +1076,7 @@ module showTogether() {
   translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = !true;
+show_everything = true;
 
 if (show_everything) {
   showTogether();
