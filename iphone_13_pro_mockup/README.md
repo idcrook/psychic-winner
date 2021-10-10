@@ -33,9 +33,9 @@ Drawings and renders
 
 ![top view](img/iphone_13_pro_top_view.png)
 
-![render view](img/iphone_13_pro_bottom_view_render.png)
-
 ![bottom view](img/iphone_13_pro_bottom_view.png)
+
+![render view](img/iphone_13_pro_render_view.png)
 
 ![front view](img/iphone_13_pro_front_view.png)
 
