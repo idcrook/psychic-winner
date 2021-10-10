@@ -143,7 +143,7 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
 
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
-  tolerance = 0.5;
+  tolerance = 0.3;
   // bike mount version requires cap but no lightning port access
   for_bike_mount = true;
 
@@ -277,7 +277,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   needed_overlap = 2.0;
 
   // trim based on experiments
-  sleeveInner_trim__width  = (2/2)*tolerance ;  // 2*tolerance of 2*0.5 was added
+  sleeveInner_trim__width  = (2/2)*tolerance ;  // 2*tolerance of 2*0.3 was added
   trim__height = (3/4)*tolerance;              // (3/2)*tolerance was added
   sleeveInner_trim__r_flatten = 2.8; //
   sleeveInner_trim__r_flatten_rear = sleeveInner_trim__r_flatten ; //
@@ -1086,7 +1086,7 @@ module showTogether() {
   translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = !true;
+show_everything = true;
 
 if (show_everything) {
   showTogether();
