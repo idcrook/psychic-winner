@@ -174,13 +174,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   base_l = sleeveBaseThickness;
 
-  //cutoff_top_length = !true ? 10 : 18;
   cutoff_top_length = true ? 10 : 32;
   trim_front_bars = (cutoff_top_length > 15) ? true : false;
-  //trim_front_bars = false;
 
-  sleeveInner_w =  tolerance + w + tolerance;
-  sleeveInner_h =  tolerance + h + ( tolerance / 2 );
+  sleeveInner_w =  tolerance + w + 0;
+  sleeveInner_h =  tolerance + h + 0;
   sleeveInner_r = 3.1;
   sleeveInner_rear_r = sleeveInner_r + 1.0;
 
@@ -194,15 +192,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeve_base_start_w = sleeveOuter_w / sleeve_base_taper_scale;
   sleeve_base_start_h = sleeveOuter_h / sleeve_base_taper_scale;
 
-  // iphoneDisplay_w = 48.5;
   iphoneDisplay_w = active_display__width;
-  iphoneScreenBezel_w = active_display__inset_from_exterior;
+  iphoneDisplay_w_to_housing = active_display__inset_from_exterior - housing_spline_inlay_to_start_of_flat_area__width;
 
-  iphoneScreenOpening_w = iphoneScreenBezel_w + iphoneDisplay_w + iphoneScreenBezel_w;
+  iphoneScreenOpening_w = iphoneDisplay_w + 2*iphoneDisplay_w_to_housing ;
   caseNonViewable = (1/2) * (sleeveOuter_w - iphoneScreenOpening_w );
 
   //
-  //trim_for_lulzbot_mini_height = printer_has_shorter_volume_height ? 1 : 0;
   trim_for_lulzbot_mini_height = 0;
   sleeveInner_l = l - trim_for_lulzbot_mini_height ;
 
@@ -291,7 +287,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
     union() {
       if (with_sleeve) {
         union () {
-
           // fill in groove for part of sleeve below buttons
           difference() {
             union () {
@@ -370,7 +365,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [sleeveInner_rear_r, sleeveInner_r + sleeveInner_trim__r_flatten_rear ],
                                  [sleeveInner_rear_r, sleeveInner_r + sleeveInner_trim__r_flatten_rear],
                                  center = true);
-
               // include groove for buttons (covered back in above)
               translate([0,-(1/4)*3.0])
               complexRoundSquare([buttonsIncludedInner_w,  buttonsIncludedInner_h],
@@ -379,23 +373,20 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                  [buttonsIncludedInner_r,  buttonsIncludedInner_r],
                                  center = true);
-
-              bevel_angle = 46.5;
-
               // cut for screen and add bevel
+              bevel_angle = 46.5 - 1.5;
+              // main front opening
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
                 square([iphoneScreenOpening_w, sleeveInner_h],  center = false);
-
               // front left side
               translate ([-(1/2)*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
                 rotate((360 - bevel_angle) * [0, 0, 1])
-                square([caseNonViewable, sleeveInner_h],  center = false);
-
+                square([sleeveInner_h, sleeveInner_h],  center = false);
               // front right side
               translate ([1/2*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
                 rotate((90 + bevel_angle) * [0, 0, 1])
-                square([caseNonViewable, sleeveInner_h],  center = false);
-            } // difference
+                square([sleeveInner_h, sleeveInner_h],  center = false);
+            }
 
             if (CONTROL_RENDER_prototype_bottom_back_flap) {
              translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance) -e,
