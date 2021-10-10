@@ -170,7 +170,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveTopThickness    =  wantThinner ? 2.88 : 3.5;
   sleeveBaseThickness   =  wantThinner ? 2.88 : 3.5;
 
-  sleeveSideThickness__button_cutout = sleeveSideThickness + 0.8 + 2*tolerance;
+  sleeveSideThickness__button_cutout = sleeveSideThickness + 0.8 + 1*tolerance;
 
   base_l = sleeveBaseThickness;
 
@@ -184,7 +184,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
   buttonsIncludedInner_h =            +  4.0 + tolerance;
-  buttonsIncludedInner_r =  1.5*tolerance ;
+  buttonsIncludedInner_r =  2*tolerance ;
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
   sleeveOuter_h =  sleeveBottomThickness + sleeveInner_h + sleeveTopThickness;
   sleeveOuter_r = wantThinner ? 4.6 + 1.2 : 4.6 + 2.5;
@@ -380,11 +380,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               translate ([-iphoneScreenOpening_w/2, -sleeveInner_h ])
                 square([iphoneScreenOpening_w, sleeveInner_h],  center = false);
               // front left side
-              translate ([-(1/2)*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
+              translate ([-(1/2)*(sleeveInner_w + 1*tolerance), -(sleeveInner_h + tolerance)  + sleeveTopThickness/2])
                 rotate((360 - bevel_angle) * [0, 0, 1])
                 square([sleeveInner_h, sleeveInner_h],  center = false);
               // front right side
-              translate ([1/2*(sleeveInner_w + 2*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
+              translate ([1/2*(sleeveInner_w + 1*tolerance), -(sleeveInner_h + tolerance) + sleeveTopThickness/2])
                 rotate((90 + bevel_angle) * [0, 0, 1])
                 square([sleeveInner_h, sleeveInner_h],  center = false);
             }
@@ -998,31 +998,30 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
                              center = false);
       }
     }
-
     // leading edges of upper wings of slot
-    translate([insertChopThickness_x,
-               insertChopThickness_y - 2*e ,
+    translate([insertChopThickness_x + e ,
+               insertChopThickness_y - e ,
                start_of_leading_edge - e])
       rotate([0, y_rot2_leading_edge, 0])
       cube(10);
-    translate([insertTailWidth - insertChopThickness_x,
-               insertChopThickness_y - 2*e ,
+    translate([insertTailWidth - insertChopThickness_x - e,
+               insertChopThickness_y - e ,
                start_of_leading_edge - e])
       rotate([0, 90 - insertSlantAngle2 ,0])
       cube(10);
-    translate([0, - 2*e , 0])
+    translate([-e, -e, 0])
       mirror([0,0,0])
       rotate([0,0,0])
-      cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
-    translate([insertTailWidth, - 2*e , 0])
+      cube([insertChopThickness_x + 2*e,insertChopThickness_y+3, z_cover_leading_edge]);
+    translate([insertTailWidth + e, -e , 0])
       mirror([1,0,0])
       rotate([0,0,0])
-      cube([insertChopThickness_x,insertChopThickness_y+3, z_cover_leading_edge]);
+      cube([insertChopThickness_x + 2*e,insertChopThickness_y+3, z_cover_leading_edge]);
 
     // carve leading edge main slope/angle
-    translate([-2*e, -1*e, -1*e])
+    translate([-1*e, -1*e, -1*e])
       rotate([-(90-insertSlantAngle),0,0])
-      cube([insertTailWidth, insertFullHeight/2, insertFullHeight/2]);
+      cube([insertTailWidth+2*e, insertFullHeight/2+2*e, insertFullHeight/2+2*e]);
   }
 }
 
@@ -1069,7 +1068,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = !true;
+  withCap = true;
   withSleeve = true;
 
   show_with_phone_and_case = true;
