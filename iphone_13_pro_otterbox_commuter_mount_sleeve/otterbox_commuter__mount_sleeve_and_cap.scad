@@ -144,14 +144,14 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   tolerance = 0.3;
 
   // bike mount version requires cap (but no lightning port access)
-  for_bike_mount = true;
+  for_bike_mount = !true;
 
   printer_has_shorter_volume_height = true;
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
 
   CONTROL_RENDER_mute_switch_extra_access = !for_bike_mount ? true : false;
   CONTROL_RENDER_bottom_lightning_access  = !for_bike_mount ? true : false;
-  CONTROL_RENDER_bottom_back_flap         = !for_bike_mount ? true : false;
+  CONTROL_RENDER_bottom_back_flap         = CONTROL_RENDER_bottom_lightning_access;
 
   CONTROL_RENDER_experiment3      = false;
   CONTROL_RENDER_experiment4      = false;
@@ -169,7 +169,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveBaseThickness   =  wantThinner ? 2.88 : 3.5;
 
   sleeveSideThickness__button_cutout = sleeveSideThickness + (1/2)*tolerance + 2.5; // +2.5 to cover internal extra curvature
-  sleeveSideThickness__button_cutout_ratio = 0.88;
+  sleeveSideThickness__button_cutout_ratio = 0.85;
 
   base_l = sleeveBaseThickness;
 
@@ -350,12 +350,9 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             // need a difference here to be able to "punch out" button and camera access holes
             linear_extrude(height = sleeveInner_l, center = false, convexity = 10)
               difference () {
-              complexRoundSquare([sleeveOuter_w, sleeveOuter_h],
-                                 [sleeveOuter_r, sleeveOuter_r],
-                                 [sleeveOuter_r, sleeveOuter_r],
-                                 [sleeveOuter_r, sleeveOuter_r],
-                                 [sleeveOuter_r, sleeveOuter_r],
-                                 center = true);
+              // main outline/profile
+              rounded_square(size = [sleeveOuter_w, sleeveOuter_h],
+                             corner_r = sleeveOuter_r, center=true);
 
               // cut out size of iphone in case
               complexRoundSquare([sleeveInner_w - sleeveInner_trim__width,
@@ -544,7 +541,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                       powerButtonCapClip_z, muteSwitchCapClip_z);
       }
 
-
       // flat/bottom part of base of sleeve
       if (with_sleeve) {
         translate([0,0,e]) // to ensure overlap with main extrude (may not be needed?)
@@ -563,7 +559,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           union () {
             // speaker + mic holes
             rotate([180,0,0])
-
               translate([-tolerance + speakerHoleOffcenter, -(1/2)*speakerCutoutDepth + speakerCutout_zDelta, -e])
               linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
               complexRoundSquare( [speakerCutoutHeight, speakerCutoutDepth + 4*e],
@@ -583,38 +578,25 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                     [leftMicCutoutRadius, leftMicCutoutRadius],
                                     center = false);
             }
-
             // lightning access and case flap handling
-            extend_out_flap_space = true ? 7 : 2;
+            extend_out_flap_space = true ? 5 : 0;
             if (CONTROL_RENDER_bottom_lightning_access) {
               rotate([180,0,0])
-                translate([-tolerance/2, 0, -e])
+                translate([-tolerance/2, 0, -1*e])
                 linear_extrude(height = base_l + 2*e, center = false, convexity = 10)
                 union () {
                 // main stretch strip on bottom
-                complexRoundSquare( [lightningCutoutHeight, lightningCutoutDepth + 8.0 + tolerance],
-                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                    [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                    center = true);
+                rounded_square(size = [lightningCutoutHeight, lightningCutoutDepth + 8.0 + tolerance],
+                               corner_r = lightningFlapCutoutRadius, center=true);
                 // extend up so flap has a place to go when inserting lightning connector
                 translate([0, extend_out_flap_space, 0])
-                  complexRoundSquare( [lightningCutoutHeight , lightningCutoutDepth + 7.6 + 3*tolerance],
-                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                      [lightningFlapCutoutRadius, lightningFlapCutoutRadius],
-                                      center = true);
+                rounded_square(size = [lightningCutoutHeight, lightningCutoutDepth + 7.6 + 3*tolerance],
+                               corner_r = lightningFlapCutoutRadius, center=true);
                 // cutout at rear of base, aligns with back flap cutout
                 if (CONTROL_RENDER_bottom_back_flap) {
                   translate([0, -(1/2)*(sleeveInner_h + sleeveBottomThickness), 0])
-                    complexRoundSquare( [bottomRearFlapCutoutWidth, sleeveBottomThickness + 3.0 + 3*tolerance],
-                                        [0.5, 0.5],
-                                        [0.5, 0.5],
-                                        [3.5, 2.5],
-                                        [3.5, 2.5],
-                                        center = true);
+                    rounded_square(size = [bottomRearFlapCutoutWidth, sleeveBottomThickness + 3.0 + 3*tolerance],
+                                   corner_r = 0.5, center=true);
                 }
               }
             }
@@ -644,7 +626,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [sleeveInner_rear_r, sleeveInner_r + sleeveInner_trim__r_flatten_rear],
                                  [sleeveInner_rear_r, sleeveInner_r + sleeveInner_trim__r_flatten_rear],
                                  center = true);
-
           }
 
           if (CONTROL_RENDER_bottom_back_flap) {
@@ -716,22 +697,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
           }
         }
       }
-    }
-
-
-    if ((CONTROL_RENDER_cutoff_top && CONTROL_RENDER_experiment4) || CONTROL_RENDER_experiment5) {
-      keepHeight = 45 + 10;
-      cutHeight  = l + cutoff_top_length ;
-      extrHeight = keepHeight ;
-
-      translate([0,0, cutHeight - keepHeight])
-        linear_extrude(height = extrHeight, center = false, convexity = 10)
-        complexRoundSquare([sleeveOuter_w+10+e, sleeveOuter_h+10+e],
-                           [0,0],
-                           [0,0],
-                           [0,0],
-                           [0,0],
-                           center = true);
     }
 
     // intersection of a bounding volume
