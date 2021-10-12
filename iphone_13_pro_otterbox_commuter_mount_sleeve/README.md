@@ -21,12 +21,6 @@ Case dimensions from [Amazon product page Q&A](https://www.amazon.com/OtterBox-C
 
 *The Commuter Series Case for iPhone 13 Pro measures 6.03 x 3.12 x 0.56 in | 15.32 x 7.92 x 1.41 cm.*
 
-Measured:
-
--	l = TBD; // measured
--	w = ; // near bottom corners
--	h = ; // measured
-
 Views and Renders
 -----------------
 

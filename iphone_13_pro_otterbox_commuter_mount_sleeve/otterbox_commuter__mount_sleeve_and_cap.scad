@@ -179,8 +179,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   base_l = sleeveBaseThickness;
 
-  cutoff_top_length = true ? 10 : 32;
-  trim_front_bars = (cutoff_top_length > 15) ? true : false;
+  cutoff_top_length = true ? 10 : 35;
+  trim_front_bars = (cutoff_top_length > 30) ? true : false;
 
   sleeveInner_w =  tolerance + w + 0;
   sleeveInner_h =  tolerance + h + 0;
@@ -442,23 +442,23 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
             if (CONTROL_RENDER_cutoff_top) { // chop off some amount of sleeve top
               cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
-              extrHeight = CONTROL_RENDER_experiment3 ? 200 :  cutoff_top_length + e  ;
+              extrHeight = CONTROL_RENDER_experiment3 ? 200 :  cutoff_top_length + 2*e  ;
 
               echo("cutHeight:", cutHeight);
               translate([0,0, cutHeight])
                 linear_extrude(height = extrHeight, center = false, convexity = 10)
-                complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                complexRoundSquare([sleeveOuter_w + 2*e, sleeveOuter_h + 2*e],
                                    [0,0], [0,0], [0,0], [0,0],
                                    center = true);
               if (trim_front_bars) {
                 translate([-(1/2)*sleeveOuter_w, - (1/2)*sleeveOuter_h, volumeButtonsHeightFromBottom])
                   linear_extrude(height = extrHeight + 10, center = false, convexity = 10)
-                  complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                  complexRoundSquare([sleeveOuter_w + 2*e, sleeveOuter_h + 2*e],
                                      [0,0], [0,0], [0,0], [0,0],
                                      center = true);
                 translate([(1/2)*sleeveOuter_w, - (1/2)*sleeveOuter_h, powerButtonHeightFromBottom])
                   linear_extrude(height = extrHeight + 10, center = false, convexity = 10)
-                  complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
+                  complexRoundSquare([sleeveOuter_w + 2*e, sleeveOuter_h + 2*e],
                                      [0,0], [0,0], [0,0], [0,0],
                                      center = true);
               }
