@@ -76,6 +76,7 @@ thingiverse
 
 This model:
 
--	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Commuter](https://www.thingiverse.com/thing:TBD) - This model
+-	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Commuter](https://www.thingiverse.com/thing:5019596) - This model
 
--	[iPhone 13 Pro mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:4980345)
+	-	[iPhone 13 Pro mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:4980345)
+	-	[Modular mount system Sleeve for iPhone 11 Pro with case by dpc - Thingiverse](https://www.thingiverse.com/thing:3865844)

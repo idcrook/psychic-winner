@@ -12,11 +12,17 @@
 //
 //   Remix this sleeve to fit an Otterbox Commuter Series for iPhone 13 Pro
 //
+// Thingiverse
+//
+//   -	https://www.thingiverse.com/thing:5019596
+//
 // Revisions/Notes:
 //
 //   2021-Oct-04 : Initial Case dimensions
 //
 //   2021-Oct-08 : Adjustments with case in hand
+//
+//   2021-Oct-12 : Initial publish to thingiverse
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
