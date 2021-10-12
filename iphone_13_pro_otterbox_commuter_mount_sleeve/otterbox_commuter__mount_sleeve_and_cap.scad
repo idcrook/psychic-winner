@@ -150,7 +150,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   tolerance = 0.3;
 
   // bike mount version requires cap (but no lightning port access)
-  for_bike_mount = !true;
+  for_bike_mount = true;
 
   printer_has_shorter_volume_height = true;
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;

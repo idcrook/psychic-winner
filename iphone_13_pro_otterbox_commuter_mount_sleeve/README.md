@@ -24,6 +24,8 @@ Case dimensions from [Amazon product page Q&A](https://www.amazon.com/OtterBox-C
 Views and Renders
 -----------------
 
+![back diagonal view with iphone in situ](img/sleeve_back_diag_view__obx_commuter_iphone13pro.png)
+
 ![diagonal view](img/sleeve_diag_view__obx_commuter.png)
 
 ![front view](img/sleeve_front__obx_commuter.png)
