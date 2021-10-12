@@ -1,14 +1,17 @@
 Sleeve for iPhone 13 Pro With Cases
 ===================================
 
-Part of a family of interchangeable mounts, adapted to iPhone 13 Pro cases
+Summary
+-------
 
-thingiverse
------------
+Part of a family of interchangeable mounts, adapted to iPhone 13 Pro case(s)
 
--	[iPhone 13 Pro mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:4980345)
--	Printable models:
-	-	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Commuter](https://www.thingiverse.com/thing:TBD) - This model
+UPDATES
+-------
+
+**2021-Oct-12** :
+
+-	Initial revision
 
 iPhone 13 Pro Otterbox Commuter Series Case
 -------------------------------------------
@@ -23,6 +26,10 @@ Case dimensions from [Amazon product page Q&A](https://www.amazon.com/OtterBox-C
 
 Views and Renders
 -----------------
+
+![back view of case model with iphone](img/back_view__obx_commuter.png)
+
+![diagonal view of case model with iphone](img/diag_view__obx_commuter.png)
 
 ![back diagonal view with iphone in situ](img/sleeve_back_diag_view__obx_commuter_iphone13pro.png)
 
@@ -44,6 +51,12 @@ Views and Renders
 
 ![print back view](img/print_back__obx_commuter.jpg)
 
+##### Installed in car
+
+![print front in car view](img/print_front_in_car__obx_commuter.jpg)
+
+![print back in car_view](img/print_back_in_car__obx_commuter.jpg)
+
 #### iPhone 13 Pro
 
 https://www.apple.com/iphone-13-pro/specs/
@@ -57,3 +70,12 @@ Size and Weight:
 ![dimensional drawing](../iphone_13_pro_mockup/img/dimensions_iphone_13_pro__screenshot.png)
 
 -	Weight: 7.19 ounces (204 grams)
+
+thingiverse
+-----------
+
+This model:
+
+-	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Commuter](https://www.thingiverse.com/thing:TBD) - This model
+
+-	[iPhone 13 Pro mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:4980345)
