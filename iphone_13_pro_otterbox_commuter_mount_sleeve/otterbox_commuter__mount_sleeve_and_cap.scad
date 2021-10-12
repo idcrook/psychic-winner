@@ -407,12 +407,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             extend_camera_opening = want_camera_hole_to_be_slot ? 0 : 3 ;
 
             // normal one
+            extra_for_interior_corner = 3*tolerance;
             translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline ,
-                       (1/2) * sleeveInner_h - 3*tolerance - e,
+                       (1/2) * sleeveInner_h - (extra_for_interior_corner + e),
                        cameraHeightFromBottom])
               rotate([90, 0, 0])
               mirror([0,0,1])
-              linear_extrude(height = sleeveBottomThickness + 3*tolerance +2*e, center = false, convexity = 10)
+              linear_extrude(height = sleeveBottomThickness + extra_for_interior_corner + 2*e, center = false, convexity = 10)
               complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline,
                                    cameraCutoutDepth + extend_camera_opening],
                                   [cameraCutoutRadius, cameraCutoutRadius],
@@ -426,11 +427,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               // shift up camera cutout past top to make it a slot
               shiftUpAmount = +4;
               translate([cameraHoleOffcenter - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline ,
-                         (1/2) * sleeveInner_h - 3*tolerance - e,
+                         (1/2) * sleeveInner_h - (extra_for_interior_corner + e),
                          cameraHeightFromBottom + shiftUpAmount])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
-                linear_extrude(height = sleeveBottomThickness + 3*tolerance +2*e, center = false, convexity = 10)
+                linear_extrude(height = sleeveBottomThickness + extra_for_interior_corner +2*e, center = false, convexity = 10)
                 complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline,
                                      cameraCutoutDepth + shiftUpAmount + 10],
                                     [cameraCutoutRadius, cameraCutoutRadius],
