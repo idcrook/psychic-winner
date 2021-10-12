@@ -613,12 +613,12 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
       // Bottom lip, including front band and back band
       if (with_sleeve) {
         difference() {
-          // 2D view for height of lip
+          // main 2D view/outline for height of lip
           linear_extrude(height = bottomLipHeight + extraBottomLipHeight, center = false, convexity = 10)
             difference () {
             rounded_square(size=[sleeveOuter_w, sleeveOuter_h], corner_r = sleeveOuter_r, center=true);
 
-            // by bottom screen edge, front bottom lip, cut out size of iphone
+            // by bottom screen edge, front bottom lip, cut out size of iphone - should also match main extrude
             scale ([1,1,1])
               complexRoundSquare([sleeveInner_w, sleeveInner_h],
                                  [sleeveInner_r, sleeveInner_r],
@@ -627,7 +627,6 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [sleeveInner_rear_r, sleeveInner_r + sleeveInner_trim__r_flatten_rear],
                                  center = true);
           }
-
           if (CONTROL_RENDER_bottom_back_flap) {
             translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
                        (1/2)*(sleeveInner_h) - tolerance - e, -e])
@@ -635,33 +634,19 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                        flap_opening_width = bottomRearFlapCutoutWidth,
                                        thickness = sleeveBottomThickness + 1*tolerance + 2*e);
           }
-
-          if (CONTROL_RENDER_cutoff_top) {
-            cutHeight  = CONTROL_RENDER_experiment3 ? 5 : l - cutoff_top_length ;
-            extrHeight = CONTROL_RENDER_experiment3 ? 200 : cutoff_top_length + e ;
-            echo("cutHeight:", cutHeight);
-            translate([0,0, cutHeight])
-              linear_extrude(height = extrHeight, center = false, convexity = 10)
-              complexRoundSquare([sleeveOuter_w+e, sleeveOuter_h+e],
-                                 [0,0],
-                                 [0,0],
-                                 [0,0],
-                                 [0,0],
-                                 center = true);
-          }
-
-          // previously cutout for fingerprint -
-          // appropriated for space for sliding up from bottom edge of display
+          // previously cutout for fingerprint - appropriated for space for
+          // sliding up from bottom edge of display for home indicator
           if (home_indicator_cutout) {
             echo ("Width of face bottom lip cutout: ", bottomLipCutout_MinWidth);
-            translate([-e, -(sleeveOuter_h/2)-e, 0])
-              linear_extrude(height = bottomLipCutout_h + 2*e, center = false, convexity = 10, scale=bottomLipCutout_scale) {
+            translate([-e, -(sleeveOuter_h/2)-e, -e])
+              linear_extrude(height = bottomLipCutout_h + extraBottomLipHeight + 2*e, center = false,
+                             convexity = 10, scale=bottomLipCutout_scale) {
               mirror([1,0,0])
                 square([bottomLipCutout_MinWidth/2, sleeveSideThickness + 2*e], center=false);
               square([bottomLipCutout_MinWidth/2, sleeveSideThickness + 2*e], center=false);
             }
           }
-          // rounded bottom corners for finger access to screen area
+          // rounded bottom corners for finger access to screen area corners / follows case curve
           if (bottom_lip_rounded_corners) {
             translate([0, 0, bottomLipHeight + bottomLipDisplayOpeningHeight/2 + extra_overlap_screen_bottom])
               rotate([90, 0, 0])
@@ -673,7 +658,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  [0,0],
                                  center = true);
           }
-        } // difference
+        } // end difference
       }
       // mounting wedge on back
       if (with_sleeve) {
