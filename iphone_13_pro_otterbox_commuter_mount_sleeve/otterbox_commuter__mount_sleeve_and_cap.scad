@@ -98,7 +98,6 @@ module otterboxCommuterCase () {
     // case outer dimensions
     shell(w, l, h, case_out_r, shell_color="#2a8", color_alpha=0.90,
           full_size_pass=false);
-
     translate ([dcw, dcl, th+0-tol])
       {
         // cut out iphone shape and extend up
@@ -111,7 +110,6 @@ module otterboxCommuterCase () {
           linear_extrude(height = 15, center = false, convexity = 10)
           rounded_square(size=[case_rcam_w, case_rcam_l], corner_r = case_rcam_r, center=false);
       }
-
     // cut out lightning flap
     translate([case_mid_w - case_flap_w/2, 0, -e]) {
       translate([0, dcl, 0])
@@ -123,7 +121,6 @@ module otterboxCommuterCase () {
                            [case_flap_r, case_flap_r],
                            [case_flap_r, case_flap_r],
                            center = false);
-
     }
   }
 }
@@ -301,48 +298,30 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             union () {
               erase_sleeveInner_left = erase_sleeveInner_l_left;
               erase_sleeveInner_right = erase_sleeveInner_l_right;
-
               // left side groove fill-in
               linear_extrude(height = erase_sleeveInner_left, center = false, convexity = 10)
-                translate([-(1/2)*buttonsIncludedInner_w, -(1/2)*buttonsIncludedInner_h, 0])
-                translate([0,-(1/4)*3.0])
+                translate([-1/2*(buttonsIncludedInner_w+e), -1/2*buttonsIncludedInner_h, 0])
                 difference () {
-                complexRoundSquare([(1/2)*(buttonsIncludedInner_w) + e,
-                                    buttonsIncludedInner_h + e],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   center = false);
-
-                translate([ (1/2)*(buttonsIncludedInner_w - sleeveInner_w + tolerance),
-                            -(1/2)*(ih + sleeveBottomThickness + tolerance), 0])
-                  sleeveInnerProfileHalf(w=sleeveInner_w, trim_w=sleeveInner_trim__width, extra_w=needed_overlap,
-                                         h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
-                                         trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear);
+                translate([0,-(1/4)*3.0])
+                  rounded_square(size=[1/2*buttonsIncludedInner_w + e, buttonsIncludedInner_h + e],
+                                 corner_r = buttonsIncludedInner_r, center=false);
               }
-
+              // right side groove fill-in
               linear_extrude(height = erase_sleeveInner_right, center = false, convexity = 10)
-                translate([0, -(1/2)*buttonsIncludedInner_h, 0])
-                translate([0,-(1/4)*3.0])
+                translate([0, -1/2*buttonsIncludedInner_h, 0])
                 difference () {
-                complexRoundSquare([buttonsIncludedInner_w/2+e, buttonsIncludedInner_h+e],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   center = false);
-
-                // cut out size of iphone in case (plus tolerance)
-                translate([-needed_overlap,
-                           -(1/2)*(ih + sleeveBottomThickness + tolerance), 0])
-                  sleeveInnerProfileHalf(w=sleeveInner_w, trim_w=sleeveInner_trim__width, extra_w=needed_overlap,
-                                         h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
-                                         trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear);
+                translate([0,-(1/4)*3.0])
+                  rounded_square(size=[1/2*buttonsIncludedInner_w + e, buttonsIncludedInner_h + e],
+                                 corner_r = buttonsIncludedInner_r, center=false);
               }
             }
+            translate([0,0,-e])
+              linear_extrude(height = sleeveInner_l+2*e, center = false, convexity = 10)
+              sleeveInnerProfileHalf(w=2*sleeveInner_w, trim_w=2*sleeveInner_trim__width,
+                                     h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
+                                     trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
+                                     center=true);
           }
-
           // MAIN EXTRUDE - 2D view for length of case
           difference () {
             // need a difference here to be able to "punch out" button and camera access holes
@@ -355,15 +334,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                      h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
                                      trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
                                      center=true);
-
-              // include groove for buttons (covered back in above)
+              // include groove for buttons along whole extrude (filled in above for bottom portions)
               translate([0,-(1/4)*3.0])
-                complexRoundSquare([buttonsIncludedInner_w,  buttonsIncludedInner_h],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   [buttonsIncludedInner_r,  buttonsIncludedInner_r],
-                                   center = true);
+                rounded_square(size=[buttonsIncludedInner_w,  buttonsIncludedInner_h],
+                               corner_r = buttonsIncludedInner_r, center=true);
               // cut for screen and add bevel
               bevel_angle = 46.5 - 1.5;
               // main front opening
@@ -419,7 +393,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             mute_switch__y_scale_factor = add_mute_flap_cutout ? 1.16*sleeve_button__y_scale_factor : 1.0*sleeve_button__y_scale_factor;
             translate([-1 * ((1/2) * sleeveOuter_w + e),
                        -(1/2) * (muteSwitchCutoutDepth) - sleeve_button__y_translate_adjust - (0/2)*mute_switch_expand_for_flap,
-                        muteSwitchHeightFromBottom - mute_switch_shift_down_z])
+                       muteSwitchHeightFromBottom - mute_switch_shift_down_z])
               mirror([1,0,0])
               rotate([0, 180 + 90, 0])
               scale([1,mute_switch__y_scale_factor,1])
@@ -580,8 +554,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                corner_r = lightningFlapCutoutRadius, center=true);
                 // extend up so flap has a place to go when inserting lightning connector
                 translate([0, extend_out_flap_space, 0])
-                rounded_square(size = [lightningCutoutHeight, lightningCutoutDepth + 7.6 + 3*tolerance],
-                               corner_r = lightningFlapCutoutRadius, center=true);
+                  rounded_square(size = [lightningCutoutHeight, lightningCutoutDepth + 7.6 + 3*tolerance],
+                                 corner_r = lightningFlapCutoutRadius, center=true);
                 // cutout at rear of base, aligns with back flap cutout
                 if (CONTROL_RENDER_bottom_back_flap) {
                   translate([0, -(1/2)*(sleeveInner_h + sleeveBottomThickness), 0])
@@ -892,7 +866,7 @@ module sleeveMountInsert (width, thickness, height, shouldTweak) {
                            center = false);
 
       // other vertical side nearest attach surface
-     translate([insertTailWidth - insertChopThickness_x - e, -e, 0])
+      translate([insertTailWidth - insertChopThickness_x - e, -e, 0])
         complexRoundSquare([insertChopThickness_x + e, insertChopThickness_y + e],
                            [0,0], [0,0], [0,0], [r1,r1],
                            center = false);
@@ -1005,7 +979,7 @@ show_everything = !true;
 
 if (show_everything) {
   showTogether();
-} else {
+ } else {
   // $preview requires version 2019.05
   fn = $preview ? 30 : 100;
 
@@ -1028,4 +1002,4 @@ if (show_everything) {
   }
 
   // *test_sleeveMountInsert(tweakMountSurface, 0);
-}
+ }
