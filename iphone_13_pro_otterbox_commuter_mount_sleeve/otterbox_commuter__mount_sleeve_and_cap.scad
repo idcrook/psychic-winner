@@ -142,8 +142,8 @@ module lightningBackFlapOpening (flap_opening_height = 7, flap_opening_width = 1
                         center = false);
 }
 
-module sleeveInnerProfileHalf(w, trim_w, extra_w=0, h, r, r_rear, trim_r, trim_r_rear, center=false) {
-  complexRoundSquare([ (1/2)*(w - trim_w) + extra_w, h],
+module sleeveInnerProfile(w, trim_w, extra_w=0, h, r, r_rear, trim_r, trim_r_rear, center=false) {
+  complexRoundSquare([ (2/2)*(w - trim_w) + extra_w, h],
                      [r, r + trim_r],
                      [r, r + trim_r],
                      [r_rear, r + trim_r_rear],
@@ -323,10 +323,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             }
             translate([0,0,-e])
               linear_extrude(height = sleeveInner_l+2*e, center = false, convexity = 10)
-              sleeveInnerProfileHalf(w=2*sleeveInner_w, trim_w=2*sleeveInner_trim__width,
-                                     h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
-                                     trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
-                                     center=true);
+              sleeveInnerProfile(w=sleeveInner_w, trim_w=sleeveInner_trim__width,
+                                 h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
+                                 trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
+                                 center=true);
           }
           // MAIN EXTRUDE - 2D view for length of case
           difference () {
@@ -336,10 +336,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
               // main outline/profile
               rounded_square(size = [sleeveOuter_w, sleeveOuter_h], corner_r = sleeveOuter_r, center=true);
 
-              sleeveInnerProfileHalf(w=2*sleeveInner_w, trim_w=2*sleeveInner_trim__width,
-                                     h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
-                                     trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
-                                     center=true);
+              sleeveInnerProfile(w=sleeveInner_w, trim_w=sleeveInner_trim__width,
+                                 h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
+                                 trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
+                                 center=true);
               // include groove for buttons along whole extrude (filled in above for bottom portions)
               translate([0,-(1/4)*3.0])
                 rounded_square(size=[buttonsIncludedInner_w,  buttonsIncludedInner_h],
@@ -590,10 +590,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
             rounded_square(size=[sleeveOuter_w, sleeveOuter_h], corner_r = sleeveOuter_r, center=true);
 
             // by bottom screen edge, front bottom lip, cut out size of iphone - should also match main extrude
-            sleeveInnerProfileHalf(w=2*sleeveInner_w, trim_w=2*sleeveInner_trim__width,
-                                   h=sleeveInner_h+2*e, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
-                                   trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
-                                   center=true);
+            sleeveInnerProfile(w=sleeveInner_w, trim_w=sleeveInner_trim__width,
+                               h=sleeveInner_h+2*e, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
+                               trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
+                               center=true);
           }
           if (CONTROL_RENDER_bottom_back_flap) {
             translate([-(1/2)*(bottomRearFlapCutoutWidth + 1*tolerance)-e ,
