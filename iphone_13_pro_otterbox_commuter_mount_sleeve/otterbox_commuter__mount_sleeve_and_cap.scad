@@ -978,7 +978,7 @@ module showTogether() {
   translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = !true;
+show_everything = true;
 
 if (show_everything) {
   showTogether();
@@ -990,11 +990,11 @@ if (show_everything) {
 
   withSleeve =  true;
 
-  printCap   =  true;
+  printCap   =  !true;
   withCap    =  printCap;
   //withCap    =  true;
 
-  if (! printCap) {
+  if (!printCap) {
     translate([0,0,0])
       sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, withSleeve);
   } else {
