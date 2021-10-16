@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_13_Pro_Max_model = !false;
+DEVELOPING_iPhone_13_Pro_Max_model = false;
 
 use <MCAD/2Dshapes.scad>
 
@@ -94,14 +94,14 @@ side_button__bump        =  0.45;
 truedepth_sensor_bar__height   = 5.58;
 truedepth_sensor_bar__width    = 25.36;
 truedepth_sensor_bar__from_top = 5.59;
-truedepth_sensor_bar__from_left = 35.76;
-truedepth_sensor_bar__curve_radius = 2.85;
+truedepth_sensor_bar__from_left = 39.04;
+truedepth_sensor_bar__curve_radius = 2.84;
 
 //
 speaker_top__height       = 0.85;
 speaker_top__width        = 11.12;
 speaker_top__from_top     = 1.75 - (speaker_top__height/2);
-speaker_top__from_left    = 35.76;
+speaker_top__from_left    = 39.04;
 speaker_top__curve_radius = 0.69;
 
 extend_cones_far = false;
