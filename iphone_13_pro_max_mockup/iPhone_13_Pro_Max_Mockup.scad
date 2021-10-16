@@ -112,21 +112,21 @@ rear_cam1_center__from_top = 13.43;
 rear_cam2_center__from_top = 31.35;
 rear_cam3_center__from_top = 22.39;
 rear_flash_center__from_top = 9.42;
-rear_mic_center__from_top  = rear_cam2_center__from_top + 0.6;
+rear_mic_center__from_top  = 32.21;
 rear_sensor_center__from_top = 35.35;
 
 rear_cam1_center__from_left = 13.43;
 rear_cam2_center__from_left = 13.43;
 rear_cam3_center__from_left = 30.08;
 rear_flash_center__from_left = 30.08;
-rear_mic_center__from_left  = rear_cam3_center__from_left + 6; // guess
+rear_mic_center__from_left  = 35.76;
 rear_sensor_center__from_left = 30.08;
 
-rear_cam1__shroud_radius = 15.33/2;
+rear_cam1__shroud_radius = 15.53/2;
 rear_cam2__shroud_radius = 15.53/2;
-rear_cam3__shroud_radius = 15.8/2;
+rear_cam3__shroud_radius = 15.53/2;
 
-rear_flash_center__diameter = 6.0;  // guess
+rear_flash_center__diameter = 6.28;
 rear_mic_center__diameter = 1.15;
 rear_sensor_center_keepout__height = 7.06;
 rear_sensor_center_keepout__width = 4.06;
