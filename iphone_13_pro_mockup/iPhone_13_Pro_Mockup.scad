@@ -62,7 +62,7 @@ volume_up__z_mid           = 3.82;
 volume_down__half_height     =  volume_up__half_height;
 volume_down__height          =  volume_down__half_height * 2;
 volume_down__depth           =  3.06;
-volume_down_center__from_top = 59.93;
+volume_down_center__from_top = 59.53;
 volume_down__from_top        = volume_down_center__from_top;
 volume_down__bump            = 0.45;
 volume_down__z_mid           = 3.82;
@@ -201,6 +201,7 @@ notch__r =  0.95;
 bottom__z_mid  = 3.75;
 
 grill_hole__diameter = 1.53;
+grill_hole__r = grill_hole__diameter/2;
 screw_bottom__diameter = 1.50;
 
 // from_left -> hole centers
@@ -208,14 +209,13 @@ screw_bottom_1__from_left = 29.37;
 screw_bottom_2__from_left = 42.16;
 
 // other side of lightning port from speaker
-mic1_bottom__hole_1__from_left = 19.14;
-//mic1_bottom__hole_2__from_left = ;
-mic1_bottom__hole_3__from_left = 25.18;
+mic1_bottom__hole_1__from_left = 19.14 + grill_hole__r;
+mic1_bottom__hole_3__from_left = 25.18 - grill_hole__r;
 
 // next to speaker grill
-mic2_bottom__hole_1__from_left = 46.34;
+mic2_bottom__hole_1__from_left = 46.34 + grill_hole__r;
 // (port of speaker ports)
-mic2_bottom__hole_5__from_left = 56.89;
+mic2_bottom__hole_5__from_left = 56.89 - grill_hole__r;
 
 lightning_connector__height       = 2.30;
 lightning_connector__from_right   = 35.76; // distance to center point
