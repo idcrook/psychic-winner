@@ -502,7 +502,7 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue",
   display_inset_depth = 0.4;
 
   if (full_size_pass) {
-    test_face_profile(); // guide for face corner profile  iphone_13_pro_max__face_corner_radius
+    // test_face_profile(); // guide for face corner profile  iphone_13_pro_max__face_corner_radius
     // test_edge_profile(); // housing rounded corners profile
     // test_edge_corner_profile(); // housing rounded corners profile
     // test_keepout_cone();
