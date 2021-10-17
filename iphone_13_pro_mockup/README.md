@@ -9,6 +9,10 @@ Mechanical dummy model mockup for iPhone 13 Pro, in OpenSCAD with source code. V
 UPDATES
 -------
 
+**2021-Oct-17** :
+
+-	fixes for bottom speaker/mic grills and rear mic position
+
 **2021-Oct-10** :
 
 -	fix side button position
