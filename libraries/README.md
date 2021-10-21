@@ -4,7 +4,7 @@
 ## Directory structure
 
 
-```shell tree --dirsfirst -L 2 -d
+```text tree --dirsfirst -L 2 -d
 .
 ├── BOLTS
 │   ├── backends
@@ -19,10 +19,6 @@
 │   ├── pythonpackage
 │   ├── solidworks
 │   └── translations
-├── BOSL
-│   ├── examples
-│   ├── scripts
-│   └── tests
 ├── BOSL2
 │   ├── examples
 │   ├── images
@@ -74,63 +70,111 @@
 
 ```
 
-## BOLTS
+# BOLTS
 
-https://github.com/boltsparts/BOLTS
+<https://github.com/boltsparts/BOLTS>
 
 BOLTS is an Open Library for Technical Specifications.
 
+```text cd BOLTS/openscad && tree --dirsfirst -L 2 -d
+. openscad
+├── batteries
+├── bearings
+├── extrusions
+├── hex
+├── hex_socket
+├── nut
+├── pipes
+├── vacuum
+└── washer
 ```
-├── openscad
-    ├── batteries
-    ├── bearings
-    ├── extrusions
-    ├── hex
-    ├── hex_socket
-    ├── nut
-    ├── pipes
-    └── washer
-```
 
-## BOSL
+# BOSL2
 
+<https://github.com/revarbat/BOSL2/wiki>
 
-https://github.com/revarbat/BOSL/wiki
+**The Belfry OpenScad Library, v2**
 
-The Belfry OpenScad Library - A library of tools, shapes, and helpers to make OpenScad easier to use.
+A library for OpenSCAD, filled with useful tools, shapes, masks, math and manipulators, designed to make OpenSCAD easier to use.
 
-This library is a set of useful tools, shapes and manipulators that I developed while working on various projects, including large ones like the Snappy-Reprap printed 3D printer.
+- **NOTE:** BOSL2 IS BETA CODE. THE CODE IS STILL BEING REORGANIZED.
+- **NOTE2:** CODE WRITTEN FOR BOSLv1 PROBABLY WON'T WORK WITH BOSL2!
 
+[**BOSL2 Docs**](https://github.com/revarbat/BOSL2/wiki)
 
-### Commonly Used
-  - [`transforms.scad`](transforms.scad): The most commonly used transformations, manipulations, and shortcuts are in this file.
-  - [`shapes.scad`](shapes.scad): Common useful shapes and structured objects.
-  - [`masks.scad`](masks.scad): Shapes that are useful for masking with `difference()` and `intersect()`.
-  - [`threading.scad`](threading.scad): Modules to make triangular and trapezoidal threaded rods and nuts.
-  - [`paths.scad`](paths.scad): Functions and modules to work with arbitrary 3D paths.
-  - [`beziers.scad`](beziers.scad): Functions and modules to work with bezier curves.
+### Basics (Imported via std.scad)
 
-### Standard Parts
-  - [`involute_gears.scad`](involute_gears.scad): Modules and functions to make involute gears and racks.
-  - [`joiners.scad`](joiners.scad): Modules to make joiner shapes for connecting separately printed objects.
-  - [`sliders.scad`](sliders.scad): Modules for creating simple sliders and rails.
-  - [`metric_screws.scad`](metric_screws.scad): Functions and modules to make metric screws, nuts, and screwholes.
-  - [`linear_bearings.scad`](linear_bearings.scad): Modules to make mounts for LMxUU style linear bearings.
-  - [`nema_steppers.scad`](nema_steppers.scad): Modules to make mounting holes for NEMA motors.
-  - [`phillips_drive.scad`](phillips_drive.scad): Modules to create Phillips screwdriver tips.
-  - [`torx_drive.scad`](torx_drive.scad): Functions and Modules to create Torx bit drive holes.
-  - [`wiring.scad`](wiring.scad): Modules to render routed bundles of wires.
+- [transforms.scad](https://github.com/revarbat/BOSL2/wiki/transforms.scad): Commonly used transformations shortcuts.
+- [distributors.scad](https://github.com/revarbat/BOSL2/wiki/distributors.scad): Modules and Functions to distribute items.
+- [mutators.scad](https://github.com/revarbat/BOSL2/wiki/mutators.scad): Modules and Functions to mutate items.
+- [attachments.scad](https://github.com/revarbat/BOSL2/wiki/attachments.scad): Modules and functions to enable attachments.
+- [shapes2d.scad](https://github.com/revarbat/BOSL2/wiki/shapes2d.scad): Common useful 2D shapes.
+- [shapes3d.scad](https://github.com/revarbat/BOSL2/wiki/shapes3d.scad): Common useful 3D shapes.
+- [drawing.scad](https://github.com/revarbat/BOSL2/wiki/drawing.scad): Functions and modules to create and draw 2D and 3D paths.
+- [masks.scad](https://github.com/revarbat/BOSL2/wiki/masks.scad): Shapes that are useful for masking with `difference()` and `intersect()`.
 
-### Miscellaneous
-  - [`constants.scad`](constants.scad): Useful constants for vectors, edges, etc.
-  - [`math.scad`](math.scad): Useful helper functions.
-  - [`convex_hull.scad`](convex_hull.scad): Functions to create 2D and 3D convex hulls.
-  - [`quaternions.scad`](quaternions.scad): Functions to work with quaternion rotations.
-  - [`triangulation.scad`](triangulation.scad): Functions to triangulate `polyhedron()` faces that have more than 3 vertices.
-  - [`debug.scad`](debug.scad): Modules to help debug creation of beziers, `polygons()`s and `polyhedron()`s
+### [](https://github.com/revarbat/BOSL2/wiki#math-imported-via-stdscad)Math (Imported via std.scad)
+
+- [math.scad](https://github.com/revarbat/BOSL2/wiki/math.scad): Useful math helper functions.
+- [vectors.scad](https://github.com/revarbat/BOSL2/wiki/vectors.scad): Functions for vector math.
+- [arrays.scad](https://github.com/revarbat/BOSL2/wiki/arrays.scad): Functions to manipulate lists and arrays.
+- [quaternions.scad](https://github.com/revarbat/BOSL2/wiki/quaternions.scad): Functions to work with quaternion rotations.
+- [coords.scad](https://github.com/revarbat/BOSL2/wiki/coords.scad): Functions for coordinate system conversions and transformations.
+
+### [](https://github.com/revarbat/BOSL2/wiki#geometry-imported-via-stdscad)Geometry (Imported via std.scad)
+
+- [edges.scad](https://github.com/revarbat/BOSL2/wiki/edges.scad): Constants and functions to specify edges and corners.
+- [geometry.scad](https://github.com/revarbat/BOSL2/wiki/geometry.scad): Functions to find line intersections, circles from 3 points, etc.
+- [hull.scad](https://github.com/revarbat/BOSL2/wiki/hull.scad): Functions to create 2D and 3D convex hulls.
+- [paths.scad](https://github.com/revarbat/BOSL2/wiki/paths.scad): Functions and modules to work with arbitrary 3D paths.
+- [regions.scad](https://github.com/revarbat/BOSL2/wiki/regions.scad): Perform offsets and boolean geometry on 2D paths and regions.
+- [vnf.scad](https://github.com/revarbat/BOSL2/wiki/vnf.scad): Vertices 'n' Faces structure to make creating `polyhedron()`s easier.
+
+### [](https://github.com/revarbat/BOSL2/wiki#common-imported-via-stdscad)Common (Imported via std.scad)
+
+- [utility.scad](https://github.com/revarbat/BOSL2/wiki/utility.scad): Useful helpers for argument processing.
+- [strings.scad](https://github.com/revarbat/BOSL2/wiki/strings.scad): String manipulation functions.
+- [constants.scad](https://github.com/revarbat/BOSL2/wiki/constants.scad): Useful constants for vectors, edges, etc.
+- [version.scad](https://github.com/revarbat/BOSL2/wiki/version.scad): Ways to parse and compare semantic versions.
+
+### [](https://github.com/revarbat/BOSL2/wiki#processes)Processes
+
+- [beziers.scad](https://github.com/revarbat/BOSL2/wiki/beziers.scad): Functions and modules to work with bezier curves.
+- [threading.scad](https://github.com/revarbat/BOSL2/wiki/threading.scad): Modules to make triangular and trapezoidal threaded rods and nuts.
+- [rounding.scad](https://github.com/revarbat/BOSL2/wiki/rounding.scad): Functions to help rounding corners in a path.
+- [knurling.scad](https://github.com/revarbat/BOSL2/wiki/knurling.scad): Masks and shapes to help with knurling.
+- [partitions.scad](https://github.com/revarbat/BOSL2/wiki/partitions.scad): Modules to help partition large objects into smaller assembled parts.
+- [rounding.scad](https://github.com/revarbat/BOSL2/wiki/rounding.scad): Functions and modules to create rounded paths and boxes.
+- [skin.scad](https://github.com/revarbat/BOSL2/wiki/skin.scad): Functions to skin surfaces between 2D cross-section paths.
+- [turtle3d.scad](https://github.com/revarbat/BOSL2/wiki/turtle3d.scad): Functions to aid in constructing 3D paths or transform sets.
+
+### [](https://github.com/revarbat/BOSL2/wiki#data-structures)Data Structures
+
+- [structs.scad](https://github.com/revarbat/BOSL2/wiki/structs.scad): Structure/Dictionary creation and manipulation functions.
+- [fnliterals.scad](https://github.com/revarbat/BOSL2/wiki/fnliterals.scad): Function Literal algorithms and helpers.
+
+### [](https://github.com/revarbat/BOSL2/wiki#miscellaneous-parts)Miscellaneous Parts
+
+- [polyhedra.scad](https://github.com/revarbat/BOSL2/wiki/polyhedra.scad): Modules to create various regular and stellated polyhedra.
+- [walls.scad](https://github.com/revarbat/BOSL2/wiki/walls.scad): Modules to create walls and structural elements for 3D printing.
+- [cubetruss.scad](https://github.com/revarbat/BOSL2/wiki/cubetruss.scad): Modules to create modular open-framed trusses and joiners.
+- [gears.scad](https://github.com/revarbat/BOSL2/wiki/gears.scad): Modules and functions to make gears, racks, worms, and worm gears.
+- [joiners.scad](https://github.com/revarbat/BOSL2/wiki/joiners.scad): Modules to make joiner shapes for connecting separately printed objects.
+- [sliders.scad](https://github.com/revarbat/BOSL2/wiki/sliders.scad): Modules for creating simple sliders and rails.
+- [screws.scad](https://github.com/revarbat/BOSL2/wiki/screws.scad): Functions and modules to make metric and UTS screws and nuts.
+- [metric_screws.scad](https://github.com/revarbat/BOSL2/wiki/metric_screws.scad): Functions and modules to make metric screws, nuts, and screwholes.
+- [linear_bearings.scad](https://github.com/revarbat/BOSL2/wiki/linear_bearings.scad): Modules to make mounts for LMxUU style linear bearings.
+- [modular_hose.scad](https://github.com/revarbat/BOSL2/wiki/modular_hose.scad): Modules for making modular flexible hose parts.
+- [nema_steppers.scad](https://github.com/revarbat/BOSL2/wiki/nema_steppers.scad): Modules to make mounting holes for NEMA motors.
+- [screw_drive.scad](https://github.com/revarbat/BOSL2/wiki/screw_drive.scad): Functions and Modules to create Phillips/Torx/etc driver holes.
+- [wiring.scad](https://github.com/revarbat/BOSL2/wiki/wiring.scad): Modules to render routed bundles of wires.
+- [hingesnaps.scad](https://github.com/revarbat/BOSL2/wiki/hingesnaps.scad): Modules to make foldable, snap-locking parts.
+- [bottlecaps.scad](https://github.com/revarbat/BOSL2/wiki/bottlecaps.scad): Modules to make standard beverage bottle caps and necks.
 
 ## Terminology
+
 For purposes of these library files, the following terms apply:
+
 - **Left**: Towards X-
 - **Right**: Towards X+
 - **Front**/**Forward**: Towards Y-
@@ -138,36 +182,32 @@ For purposes of these library files, the following terms apply:
 - **Bottom**/**Down**/**Below**: Towards Z-
 - **Top**/**Up**/**Above**: Towards Z+
 
-- **Axis-Negative**: Towards the negative end of the axis the object is oriented on.  IE: X-, Y-, or Z-.
-- **Axis-Positive**: Towards the positive end of the axis the object is oriented on.  IE: X+, Y+, or Z+.
+## [](https://github.com/revarbat/BOSL2/wiki#common-arguments)Common Arguments:
 
-## Common Arguments:
-
-Args    | What it is
-------- | ----------------------------------------
-fillet  | Radius of rounding for interior or exterior edges.
-chamfer | Size of chamfers/bevels for interior or exterior edges.
-orient  | Axis a part should be oriented along.  Given as an XYZ triplet of rotation angles.  It is recommended that you use the `ORIENT_` constants from `constants.scad`.  Default is usually `ORIENT_Z` for vertical orientation.
-align   | Side of the origin that the part should be on.  Given as a vector away from the origin.  It is recommended that you use the `V_` constants from `constants.scad`.  Default is usually `V_ZERO` for centered.
+| Args | What it is |
+| --- | --- |
+| rounding | Radius of rounding for interior or exterior edges. |
+| chamfer | Size of chamfers/bevels for interior or exterior edges. |
+| anchor | Side/Edge/Corner of the part that is aligned with the origin. Given as a vector away from the center of the part. Default is usually `CENTER` [0,0,0]. |
+| spin | Number of degrees that the part should be rotated by around the Z axis. If given as a vector of 3 rotation values, rotates around each axis in order. Default is usually `0`. |
+| orient | Vector that points in the direction that the top of the part should be tilted towards. Default is usually `UP` for vertical orientation. |
 
 
+# Chamfers-for-OpenSCAD
 
-
-## Chamfers-for-OpenSCAD
-
-https://github.com/SebiTimeWaster/Chamfers-for-OpenSCAD
+<https://github.com/SebiTimeWaster/Chamfers-for-OpenSCAD>
 
 Chamfered primitives for OpenSCAD
 
 A library to create primitives with 45° chamfers in OpenSCAD.
 
-## MCAD
+# MCAD
 
-MCAD is a library of useful functions for the OpenSCAD 3D modeling software.
+MCAD is a library of useful functions for the OpenSCAD 3D modeling software. Comes bundled with OpenSCAD application.
 
-https://reprap.org/wiki/MCAD
+<https://github.com/openscad/MCAD>
 
-https://github.com/openscad/MCAD
+<https://reprap.org/wiki/MCAD>
 
 Currently Provided Tools:
 
@@ -235,16 +275,17 @@ External utils that generate and process openscad code:
 * openscad_utils.py: code for scraping function names etc.
 
 
-## NopSCADlib
+# NopSCADlib
 
-
-https://github.com/nophead/NopSCADlib
+<https://github.com/nophead/NopSCADlib>
 
 An ever expanding library of parts modelled in OpenSCAD useful for 3D printers and enclosures for electronics, etc.
 
 It contains lots of vitamins (the RepRap term for non-printed parts), some general purpose printed parts and some utilities. There are also Python scripts to generate Bills of Materials (BOMs), STL files for all the printed parts, DXF files for CNC routed parts in a project and a manual containing assembly instructions and exploded views by scraping markdown embedded in OpenSCAD comments, [see scripts](https://github.com/idcrook/NopSCADlib/blob/e6a26bc7b13ff8fc73f3c17d65e49205e8af4caa/scripts/readme.md). A simple example project can be found [here](https://github.com/idcrook/NopSCADlib/blob/e6a26bc7b13ff8fc73f3c17d65e49205e8af4caa/examples/MainsBreakOutBox/readme.md).
 
-## agentscad
+# agentscad
+
+<https://github.com/GillesBouissac/agentscad>
 
 My utilities for OpenSCAD
 
@@ -252,75 +293,12 @@ My utilities for OpenSCAD
 
 [Follow these instructions to use the library](https://github.com/GillesBouissac/agentscad/wiki/Prerequisites)
 
-#### Canvas and Lithophanes
 
-![Canvas panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-canvas.png)
+# dotSCAD
 
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Canvas">Tutorial for canvas here</a>
-</p>
+<https://github.com/JustinSDK/dotSCAD>
 
-#### Snap Joint
-
-![Snap Joint panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-snap-joint.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Snap-Joint">Tutorial for Snap Joint here</a>
-</p>
-
-#### Screws, Bolts and Nuts shapes and passages
-
-![MX bolt panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-screw.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Screws shapes">Tutorial for screws here</a>
-</p>
-
-#### Threaded Screws, Bolts and Nuts (3D Printable)
-
-![MX threaded panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-thread.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Screws threaded">Tutorial for threaded bolts</a>
-</p>
-
-#### Hirth Joint
-
-![Hirth Joint panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-hirth-joint.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Hirth-Joint">Tutorial for Hirth Joint here</a>
-</p>
-
-#### Metric screw knobs
-
-![Screw Knobs panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-mx-knob.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Screw-Knobs">Tutorial for screw knobs here</a>
-</p>
-
-#### Beveling library
-
-![Beveling panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-bevel.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Cut-and-Bevel">Tutorial for beveling here</a>
-</p>
-
-#### Glue shapes library
-
-![Glue panel](https://raw.githubusercontent.com/wiki/GillesBouissac/agentscad/img/panel-glue.png)
-
-<p align="center">
-<a href="https://github.com/GillesBouissac/agentscad/wiki/Glue-shapes">Tutorial for glue shapes here</a>
-</p>
-
-## dotSCAD
-
-https://github.com/JustinSDK/dotSCAD
-
-https://openhome.cc/eGossip/OpenSCAD/
+<https://openhome.cc/eGossip/OpenSCAD/>
 
 Reduce the burden of mathematics when playing OpenSCAD.
 
@@ -619,26 +597,26 @@ Surface
 - [noise/nz_cell](https://openhome.cc/eGossip/OpenSCAD/lib2x-nz_cell.html)
 
 
-## kitwallace__openscad
+# kitwallace__openscad
 
-https://github.com/KitWallace/openscad
+<https://github.com/KitWallace/openscad>
 
 OpenSCAD scripts
 
-## list-comprehension-demos
+# list-comprehension-demos
 
 https://github.com/openscad/list-comprehension-demos
 
 This repository contains some demos made possible by the addition of list comprehension to OpenSCAD. In particular it contains a user-space sweep() module which can be used to sweep a 2D shape along a 3D path.
 
 
-## misc
+# misc
 
 - `fillet.scad`
 
-## scad-utils
+# scad-utils
 
-https://github.com/openscad/scad-utils
+<https://github.com/openscad/scad-utils>
 
 Utility libraries for OpenSCAD
 
