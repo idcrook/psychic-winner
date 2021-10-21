@@ -21,7 +21,7 @@
 //use <models/plastic_cup_2oz.scad>
 include <models/plastic_cup_2oz.scad>
 
-use <../libraries/misc/2dWedge.scad>
+use <../libraries/local-misc/2dWedge.scad>
 // 2dWedge(radius, startAngle, endAngle, stepsOverride)
 
 e = 1/128; // small number

@@ -23,7 +23,7 @@
 
 use <mockup/iPhone_11_Pro_Mockup.scad>;
 use <MCAD/2Dshapes.scad>
-use <../libraries/misc/wedge.scad>
+use <../libraries/local-misc/wedge.scad>
 
 e = 1/128; // small number
 

@@ -25,7 +25,7 @@
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
 use <MCAD/2Dshapes.scad>
-use <../libraries/misc/wedge.scad>
+use <../libraries/local-misc/wedge.scad>
 
   e = 0.02; // small number
 

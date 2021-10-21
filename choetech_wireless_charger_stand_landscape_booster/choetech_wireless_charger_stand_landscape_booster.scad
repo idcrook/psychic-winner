@@ -24,7 +24,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-include <../libraries/misc/fillet.scad>
+include <../libraries/local-misc/fillet.scad>
 
 
 e = 1/128; // small number

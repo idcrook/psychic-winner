@@ -29,7 +29,7 @@
 
 
 use <MCAD/2Dshapes.scad>
-use <../libraries/misc/wedge.scad>
+use <../libraries/local-misc/wedge.scad>
 use <../libraries/dotSCAD/src/rounded_square.scad>
 
 // imports variables, modules with "include"

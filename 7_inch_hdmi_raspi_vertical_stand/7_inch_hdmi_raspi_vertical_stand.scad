@@ -46,7 +46,7 @@
 
 use <MCAD/2Dshapes.scad>
 
-include <../libraries/misc/fillet.scad>
+include <../libraries/local-misc/fillet.scad>
 
 include <../libraries/Chamfers-for-OpenSCAD/Chamfer.scad>
 
