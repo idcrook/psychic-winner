@@ -1,33 +1,3 @@
-[submodule "MCAD"]
-	path = libraries/MCAD
-	url = https://github.com/openscad/MCAD.git
-[submodule "libraries/scad-utils"]
-	path = libraries/scad-utils
-	url = https://github.com/idcrook/scad-utils.git
-[submodule "libraries/dotSCAD"]
-	path = libraries/dotSCAD
-	url = https://github.com/idcrook/dotSCAD.git
-[submodule "libraries/NopSCADlib"]
-	path = libraries/NopSCADlib
-	url = https://github.com/idcrook/NopSCADlib.git
-[submodule "libraries/BOLTS"]
-	path = libraries/BOLTS
-	url = https://github.com/idcrook/BOLTS.git
-[submodule "libraries/BOSL"]
-	path = libraries/BOSL
-	url = https://github.com/idcrook/BOSL.git
-[submodule "libraries/Chamfers-for-OpenSCAD"]
-	path = libraries/Chamfers-for-OpenSCAD
-	url = https://github.com/idcrook/Chamfers-for-OpenSCAD.git
-[submodule "libraries/kitwallace__openscad"]
-	path = libraries/kitwallace__openscad
-	url = https://github.com/KitWallace/openscad.git
-[submodule "libraries/agentscad"]
-	path = libraries/agentscad
-	url = https://github.com/idcrook/agentscad.git
-[submodule "libraries/list-comprehension-demos"]
-	path = libraries/list-comprehension-demos
-	url = https://github.com/idcrook/list-comprehension-demos.git
-[submodule "libraries/BOSL2"]
-	path = libraries/BOSL2
-	url = https://github.com/idcrook/BOSL2.git
+[submodule "libraries"]
+	path = libraries
+	url = https://github.com/idcrook/scad-libraries.git
