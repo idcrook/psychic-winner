@@ -16,13 +16,19 @@
 │   ├── icons
 │   ├── misc
 │   ├── openscad
-│   ├── output
+│   ├── pythonpackage
 │   ├── solidworks
 │   └── translations
 ├── BOSL
 │   ├── examples
 │   ├── scripts
 │   └── tests
+├── BOSL2
+│   ├── examples
+│   ├── images
+│   ├── scripts
+│   ├── tests
+│   └── tutorials
 ├── Chamfers-for-OpenSCAD
 │   └── Demo
 ├── MCAD
@@ -37,6 +43,7 @@
 │   ├── utils
 │   └── vitamins
 ├── agentscad
+│   ├── polyhedron
 │   ├── test
 │   ├── things
 │   └── thread
@@ -47,18 +54,24 @@
 │   ├── src
 │   └── test
 ├── kitwallace__openscad
+│   ├── circuits
+│   ├── cityscape
 │   ├── fractals
 │   ├── kinematics
 │   ├── knightstour
 │   ├── knots
 │   ├── lib
+│   ├── miller
 │   ├── pentagonal-tiles
 │   ├── polygons
+│   ├── skewdie
+│   ├── spiral
 │   └── tiling
 ├── list-comprehension-demos
 │   └── screenshots
 ├── misc
 └── scad-utils
+
 ```
 
 ## BOLTS
