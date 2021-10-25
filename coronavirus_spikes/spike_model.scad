@@ -32,9 +32,9 @@ include <display_originals.scad>
 e = 1/128;
 
 printer_z_size = (157.99) * mm;
-full_print_z_size = (3/5)*printer_z_size;
+full_print_z_size = (2/3)*printer_z_size;
 
-module stem (length = (2/3)*full_print_z_size, max_width = 0.8 * inch, generate_coupler = false) {
+module stem (length = (2/3)*full_print_z_size, max_width = 1.0 * inch, generate_coupler = false) {
 
   half_l = length/2;
   width_taper = (3/4);
@@ -54,7 +54,7 @@ module prolate_spheroid (radius = (1/4)*inch, factor = 2.3) {
     sphere(r = radius, $fn = 14);
 }
 
-module tip (height = (1/3)*full_print_z_size, width = 1.5*inch, coupler_w = 1.0*inch,
+module tip (height = (1/3)*full_print_z_size, width = 2.3*inch, coupler_w = 1.0*inch,
             generate_coupler = false) {
 
   spheroid_r = (1/2) * width/4;
