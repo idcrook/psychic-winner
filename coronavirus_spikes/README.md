@@ -1,8 +1,12 @@
 # Coronavirus Spikes
 
-Models and tweaks toward a costume prop.
+Model of a coronavirus spike for use as a costume prop.
 
-### files
+[spike model 3D preview](img/spike_model.png)
+
+[STL for spike model](spike_model.stl)
+
+### Related files
 
 -	`files/Spike.stl`
 
