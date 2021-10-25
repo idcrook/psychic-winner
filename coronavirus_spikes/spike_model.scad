@@ -62,7 +62,7 @@ module stem (length = (4/5)*printer_z_size, max_width = 0.8 * inch) {
 module prolate_spheroid (radius = (1/4)*inch, factor = 2.3) {
 
   scale([1,1,factor])
-    sphere(r = radius);
+    sphere(r = radius, $fn = 12);
 
 }
 
@@ -79,8 +79,8 @@ module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inc
   //pts = fibonacci_lattice(n, radius);
 
   // generate points in 3D on a torus knot
-  pts_scale = (1/8)*width;
-  z_scale = 2.1;
+  pts_scale = (1/9)*width;
+  z_scale = 1.6;
   echo ("// tip  height:", height, " width:", width);
   p = 3; q = 7;
   phi_step = 0.1;
@@ -102,8 +102,8 @@ module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inc
     for (i = [0 : len(pts)-1]) {
       translate([pts[i].x, pts[i].y, z_scale*pts[i].z])
         // skew ellipsoid a random direction
-        rotate([random_vect[i]*90, random_vect[i+1]*90, 0])
-        prolate_spheroid(radius=spheroid_r, factor=1.80);
+        rotate([random_vect[i*2]*90, random_vect[i*2+1]*90, 0])
+        prolate_spheroid(radius=spheroid_r, factor=1.90);
     }
 
   }
@@ -126,7 +126,7 @@ module spike_model (stem_length = (3/4)*printer_z_size,
 
 
 // $preview requires version 2019.05
-$fn = $preview ? 20 : 50;
+$fn = $preview ? 20 : 20;
 
 show_reference = false;
 
@@ -136,7 +136,7 @@ if (DEVELOPING_spike_model)  {
   spike_model(stem_length = (3/4)*printer_z_size,
               stem_width = (2/3) * inch,
               tip_height = (1/4)*printer_z_size,
-              tip_width = 1.8 * inch);
+              tip_width = 2.3 * inch);
 
   if (show_reference) {
     translate([-35, 0])
