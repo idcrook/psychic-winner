@@ -83,7 +83,7 @@ module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inc
   z_scale = 2.1;
   echo ("// tip  height:", height, " width:", width);
   p = 3; q = 7;
-  phi_step = 0.07;
+  phi_step = 0.1;
   pts = pts_scale * torus_knot(p, q, phi_step);
 
   // generate 500 random numbers in range (-1 .. 1)
@@ -126,7 +126,7 @@ module spike_model (stem_length = (3/4)*printer_z_size,
 
 
 // $preview requires version 2019.05
-$fn = $preview ? 50 : 100;
+$fn = $preview ? 20 : 50;
 
 show_reference = false;
 
