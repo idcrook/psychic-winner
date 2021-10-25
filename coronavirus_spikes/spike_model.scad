@@ -23,8 +23,6 @@ DEVELOPING_spike_model = true;
 include <MCAD/units.scad>
 use <MCAD/2Dshapes.scad>
 
-use <../libraries/dotSCAD/src/bauer_spiral.scad>
-use <../libraries/dotSCAD/src/fibonacci_lattice.scad>
 use <../libraries/dotSCAD/src/torus_knot.scad>
 
 include <display_originals.scad>
@@ -35,13 +33,12 @@ e = 1/128;
 
 printer_z_size = (158.0 - 2.0) * mm;
 
-
-module stem (length = (4/5)*printer_z_size, max_width = 0.8 * inch) {
+module stem (length = (4/5)*printer_z_size, max_width = 0.8 * inch, generate_coupler = false) {
 
   half_l = length/2;
   width_taper = (3/4);
 
-  // mirrored halves
+  // mirrored halves, form stem
   translate([0,0,0])
     mirror([0,0,0])
     cylinder(h = half_l, d1 = max_width, d2 = max_width*width_taper);
@@ -49,63 +46,60 @@ module stem (length = (4/5)*printer_z_size, max_width = 0.8 * inch) {
   translate([0,0, length-e])
     mirror([0,0,1])
     cylinder(h = half_l, d1 = max_width, d2 = max_width*width_taper);
-
-  /* cyl_w = (4/5)*max_width; */
-  /* translate([0,0,0]) */
-  /*   hull() { */
-  /*   cylinder(h = half_l/10, d = max_width); */
-  /*   cylinder(h = half_l, d1 = cyl_w, d2 = cyl_w*width_taper); */
-  /* } */
-
 }
 
 module prolate_spheroid (radius = (1/4)*inch, factor = 2.3) {
-
   scale([1,1,factor])
-    sphere(r = radius, $fn = 12);
-
+    sphere(r = radius, $fn = 15);
 }
 
-module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inch) {
+module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inch,
+            generate_coupler = false) {
 
   spheroid_r = (1/2) * width/4.5;
 
   coupler_flare_d = min(1.66*coupler_w, width);
 
-  // generate points on a sphere
-  //n = 18;
-  //radius = width/3;
-  //pts = bauer_spiral(n, radius);
-  //pts = fibonacci_lattice(n, radius);
-
-  // generate points in 3D on a torus knot
-  pts_scale = (1/9)*width;
+  // generate points along a torus knot
+  // https://openhome.cc/eGossip/OpenSCAD/lib3x-torus_knot.html
+  pts_scale = (1/8)*width;
   z_scale = 1.6;
   echo ("// tip  height:", height, " width:", width);
-  p = 3; q = 7;
-  phi_step = 0.1;
+  p = 5; q = 7;
+  phi_step = 0.11;
   pts = pts_scale * torus_knot(p, q, phi_step);
 
   // generate 500 random numbers in range (-1 .. 1)
-  seed = 42;
+  seed = 44.71828;
   N = 500;
-  random_vect = rands(-1,1, N, seed);
+  random_vect = rands(-1, 1, N, seed);
 
-  // guide for bounding box of tip; most features should be within
-  %linear_extrude(height = height)
-     square(1.0*width, center = true);
+  angle1 = 15;
+  rot0_x = -19.5;  // starting offset of rotation
+  rot0_y = -45;  // starting offset of rotation
+  rot1_x = (90-angle1);  // random rotations +/- this angle
+  rot1_y = (90-angle1);  // random rotations +/- this angle
 
-  translate([0,0,height/2])
+  intersection () {
     union () {
-    cylinder(h = height/2, d1 = coupler_flare_d, d2 = coupler_w);
-    //for (p = pts) {
-    for (i = [0 : len(pts)-1]) {
-      translate([pts[i].x, pts[i].y, z_scale*pts[i].z])
-        // skew ellipsoid a random direction
-        rotate([random_vect[i*2]*90, random_vect[i*2+1]*90, 0])
-        prolate_spheroid(radius=spheroid_r, factor=1.90);
+      // guide for bounding box of tip; most features should be within
+      %linear_extrude(height = height)
+        square(1.0*width, center = true);
+      // prunes outcrops along top and bottom surfaces
+      linear_extrude(height = height)
+        square(1.2*width, center = true);
     }
 
+    translate([0,0,height/2])
+      union () {
+      cylinder(h = height/2, d1 = coupler_flare_d, d2 = coupler_w);
+      for (i = [0 : len(pts)-1]) {
+        translate([pts[i].x, pts[i].y, z_scale*pts[i].z])
+          // rotate ellipsoid in random orientation
+          rotate([rot0_x +  rot1_x*random_vect[i*2], rot0_y + rot1_y*random_vect[i*2+1], 0])
+          prolate_spheroid(radius=spheroid_r, factor=1.6);
+      }
+    }
   }
 }
 
@@ -126,7 +120,7 @@ module spike_model (stem_length = (3/4)*printer_z_size,
 
 
 // $preview requires version 2019.05
-$fn = $preview ? 20 : 20;
+$fn = $preview ? 20 : 50;
 
 show_reference = false;
 
@@ -134,7 +128,7 @@ if (DEVELOPING_spike_model)  {
 
   // spike_model();
   spike_model(stem_length = (3/4)*printer_z_size,
-              stem_width = (2/3) * inch,
+              stem_width = (3/4) * inch,
               tip_height = (1/4)*printer_z_size,
               tip_width = 2.3 * inch);
 
