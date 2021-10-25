@@ -31,9 +31,10 @@ include <display_originals.scad>
 // very small number
 e = 1/128;
 
-printer_z_size = (158.0 - 2.0) * mm;
+printer_z_size = (157.99) * mm;
+full_print_z_size = (3/5)*printer_z_size;
 
-module stem (length = (4/5)*printer_z_size, max_width = 0.8 * inch, generate_coupler = false) {
+module stem (length = (2/3)*full_print_z_size, max_width = 0.8 * inch, generate_coupler = false) {
 
   half_l = length/2;
   width_taper = (3/4);
@@ -50,20 +51,20 @@ module stem (length = (4/5)*printer_z_size, max_width = 0.8 * inch, generate_cou
 
 module prolate_spheroid (radius = (1/4)*inch, factor = 2.3) {
   scale([1,1,factor])
-    sphere(r = radius, $fn = 15);
+    sphere(r = radius, $fn = 14);
 }
 
-module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inch,
+module tip (height = (1/3)*full_print_z_size, width = 1.5*inch, coupler_w = 1.0*inch,
             generate_coupler = false) {
 
-  spheroid_r = (1/2) * width/4.5;
+  spheroid_r = (1/2) * width/4;
 
   coupler_flare_d = min(1.66*coupler_w, width);
 
   // generate points along a torus knot
   // https://openhome.cc/eGossip/OpenSCAD/lib3x-torus_knot.html
   pts_scale = (1/8)*width;
-  z_scale = 1.6;
+  z_scale = 1.60;
   echo ("// tip  height:", height, " width:", width);
   p = 5; q = 7;
   phi_step = 0.11;
@@ -85,8 +86,8 @@ module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inc
       // guide for bounding box of tip; most features should be within
       %linear_extrude(height = height)
         square(1.0*width, center = true);
-      // prunes outcrops along top and bottom surfaces
-      linear_extrude(height = height)
+      // prunes outcrops along bottom surface
+      linear_extrude(height = 1.2*height)
         square(1.2*width, center = true);
     }
 
@@ -97,15 +98,15 @@ module tip (height = (1/5)*printer_z_size, width = 1.5*inch, coupler_w = 1.0*inc
         translate([pts[i].x, pts[i].y, z_scale*pts[i].z])
           // rotate ellipsoid in random orientation
           rotate([rot0_x +  rot1_x*random_vect[i*2], rot0_y + rot1_y*random_vect[i*2+1], 0])
-          prolate_spheroid(radius=spheroid_r, factor=1.6);
+          prolate_spheroid(radius=spheroid_r, factor=1.75);
       }
     }
   }
 }
 
-module spike_model (stem_length = (3/4)*printer_z_size,
+module spike_model (stem_length = (2/3)*full_print_z_size,
                     stem_width = (2/3) * inch,
-                    tip_height = (1/4)*printer_z_size,
+                    tip_height = (1/3)*full_print_z_size,
                     tip_width = 1.8 * inch) {
 
   assert(printer_z_size >= (stem_length + tip_height));
@@ -126,10 +127,13 @@ show_reference = false;
 
 if (DEVELOPING_spike_model)  {
 
+  stem_proportion = (3/5);
+  tip_proportion = 1 - stem_proportion;
+
   // spike_model();
-  spike_model(stem_length = (3/4)*printer_z_size,
-              stem_width = (3/4) * inch,
-              tip_height = (1/4)*printer_z_size,
+  spike_model(stem_length = stem_proportion * full_print_z_size,
+              stem_width = (4/4) * inch,
+              tip_height = tip_proportion * full_print_z_size,
               tip_width = 2.3 * inch);
 
   if (show_reference) {
