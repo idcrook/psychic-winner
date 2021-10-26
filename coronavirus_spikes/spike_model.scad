@@ -37,10 +37,11 @@ shorten_height_factor = shorten_height ? 0.48 : 1.0;
 
 joint_height = (10/20)*inch * (1/shorten_height_factor);
 joint_tolerance = 0.5 * mm;
-base_flange_thickness = 1.52*mm * (1/shorten_height_factor);
+base_flange_thickness = 1.20*mm * (1/shorten_height_factor);
 
 module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thickness) {
 
+  leg_thickness = (1/3)*base_thickness;
   R = stem_width/2;
   wing_width = (9/20)*stem_width;
   r = wing_width/2;
@@ -49,21 +50,49 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
   total_width = 2*R + 2*r + 2*t_x;
   echo ("// flange approx width (inches):", total_width/inch);
 
-  linear_extrude(height = base_thickness) {
+  *linear_extrude(height = base_thickness) {
     hull()  {
       circle(R, $fn = 50);
-      translate([cos(120) * t2.x,
-                 sin(120) * t2.y, 0]) circle(r);
+      translate([cos(120) * t2.x, sin(120) * t2.y, 0]) circle(r);
     }
     hull()  {
       circle(R, $fn = 50);
-      translate([cos(-120) * t2.x,
-                 sin(-120) * t2.y, 0]) circle(r);
+      translate([cos(-120) * t2.x, sin(-120) * t2.y, 0]) circle(r);
     }
     hull()  {
       circle(R, $fn = 50);
       translate([(t_x - e), 0, 0]) circle(r);
     }
+  }
+
+  hull()  {
+    linear_extrude(height = base_thickness)
+      circle(R, $fn = 50);
+    linear_extrude(height = leg_thickness)
+      translate([cos(120) * t2.x, sin(120) * t2.y, 0]) circle(r);
+  }
+
+  hull()  {
+    linear_extrude(height = base_thickness)
+      circle(R, $fn = 50);
+    linear_extrude(height = leg_thickness)
+      translate([cos(-120) * t2.x, sin(-120) * t2.y, 0]) circle(r);
+  }
+
+  hull()  {
+    linear_extrude(height = base_thickness)
+      circle(R, $fn = 50);
+    linear_extrude(height = leg_thickness)
+      translate([(t_x - e), 0, 0]) circle(r);
+  }
+
+  // taper in center
+  hull()  {
+    linear_extrude(height = leg_thickness)
+      circle(1.08*R, $fn = 50);
+    translate([0,0,-base_thickness])
+    linear_extrude(height = 2*base_thickness)
+      circle(0.97*R, $fn = 50);
   }
 }
 
@@ -90,7 +119,7 @@ module stem (length = (2/3)*full_print_z_size, max_width = 1.0 * inch, generate_
   joint_h = joint_height;
 
   if (generate_coupler) {
-    translate([0,0, length-e])
+    translate([0,0, length-2*e])
       base_flange(stem_width = max_width, base_thickness = base_thickness);
     translate([0,0, -joint_h+e])
       joint(max_width = max_width, height = joint_h, tenon = true);
@@ -220,8 +249,9 @@ if (DEVELOPING_spike_model)  {
                 two_parts = true);
 
   if (model_base_flange) {
-    translate([75, 0])
-      base_flange(stem_width = (4/4) * inch, base_thickness = base_flange_thickness);
+    scale([1.0, 1.0, shorten_height_factor])
+    translate([105, 0])
+      base_flange(stem_width = (8/9) * inch, base_thickness = base_flange_thickness);
   }
 
   if (show_references) {
