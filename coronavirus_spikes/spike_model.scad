@@ -96,7 +96,7 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
     hull()  {
       translate(t_z_r)
         linear_extrude(height = leg_thickness)
-        circle(1.14*R, $fn = 50);
+        circle(1.10*R, $fn = 50);
       translate([0,0,-base_thickness+e])
         linear_extrude(height = base_thickness + (base_thickness - leg_thickness))
         circle(1.04*R, $fn = 50);
@@ -104,7 +104,7 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
     hull()  {
       translate([0,0,-base_thickness+e])
         linear_extrude(height = base_thickness)
-        circle(1.08*R, $fn = 50);
+        circle(1.06*R, $fn = 50);
       translate([0,0,-2*base_thickness])
         linear_extrude(height = 3*base_thickness)
         circle(1.00*R, $fn = 50);
@@ -112,10 +112,10 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
     hull()  {
       translate([0,0,-2*base_thickness+e])
         linear_extrude(height = base_thickness)
-        circle(1.04*R, $fn = 50);
+        circle(1.02*R, $fn = 50);
       translate([0,0,-3*base_thickness])
         linear_extrude(height = 3*base_thickness)
-        circle(0.94*R, $fn = 50);
+        circle(0.96*R, $fn = 50);
     }
   }
 }
