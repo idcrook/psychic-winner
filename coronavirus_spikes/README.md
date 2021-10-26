@@ -2,6 +2,19 @@
 
 Model of a coronavirus spike for use as a costume prop.
 
+## two parts
+
+![spike model 3D preview - stem](img/spike_model__stem.png)
+
+![spike model 3D preview - tip](img/spike_model__tip.png)
+
+[STL spike model - stem](spike_model.stl)
+
+[STL spike model - tip](spike_model.stl)
+
+
+## monolithic
+
 ![spike model 3D preview](img/spike_model.png)
 
 [STL for spike model](spike_model.stl)
