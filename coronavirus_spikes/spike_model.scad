@@ -42,6 +42,8 @@ base_flange_thickness = 1.20*mm * (1/shorten_height_factor);
 module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thickness) {
 
   leg_thickness = (1/3)*base_thickness;
+  t_z_r = [0,0,base_thickness - leg_thickness];
+
   R = stem_width/2;
   wing_width = (9/20)*stem_width;
   r = wing_width/2;
@@ -68,6 +70,7 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
   hull()  {
     linear_extrude(height = base_thickness)
       circle(R, $fn = 50);
+    translate(t_z_r)
     linear_extrude(height = leg_thickness)
       translate([cos(120) * t2.x, sin(120) * t2.y, 0]) circle(r);
   }
@@ -75,6 +78,7 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
   hull()  {
     linear_extrude(height = base_thickness)
       circle(R, $fn = 50);
+    translate(t_z_r)
     linear_extrude(height = leg_thickness)
       translate([cos(-120) * t2.x, sin(-120) * t2.y, 0]) circle(r);
   }
@@ -82,17 +86,37 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
   hull()  {
     linear_extrude(height = base_thickness)
       circle(R, $fn = 50);
+    translate(t_z_r)
     linear_extrude(height = leg_thickness)
       translate([(t_x - e), 0, 0]) circle(r);
   }
 
-  // taper in center
-  hull()  {
-    linear_extrude(height = leg_thickness)
-      circle(1.08*R, $fn = 50);
-    translate([0,0,-base_thickness])
-    linear_extrude(height = 2*base_thickness)
-      circle(0.97*R, $fn = 50);
+  // stepped taper in center
+  union() {
+    hull()  {
+      translate(t_z_r)
+        linear_extrude(height = leg_thickness)
+        circle(1.14*R, $fn = 50);
+      translate([0,0,-base_thickness+e])
+        linear_extrude(height = base_thickness + (base_thickness - leg_thickness))
+        circle(1.04*R, $fn = 50);
+    }
+    hull()  {
+      translate([0,0,-base_thickness+e])
+        linear_extrude(height = base_thickness)
+        circle(1.08*R, $fn = 50);
+      translate([0,0,-2*base_thickness])
+        linear_extrude(height = 3*base_thickness)
+        circle(1.00*R, $fn = 50);
+    }
+    hull()  {
+      translate([0,0,-2*base_thickness+e])
+        linear_extrude(height = base_thickness)
+        circle(1.04*R, $fn = 50);
+      translate([0,0,-3*base_thickness])
+        linear_extrude(height = 3*base_thickness)
+        circle(0.94*R, $fn = 50);
+    }
   }
 }
 
