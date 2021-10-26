@@ -32,10 +32,12 @@ e = 1/128;
 
 printer_z_size = (157.99) * mm;
 full_print_z_size = (2/3)*printer_z_size;
+shorten_height = true;
+shorten_height_factor = shorten_height ? 0.48 : 1.0;
 
-joint_height = (3/5)*inch;
+joint_height = (10/20)*inch * (1/shorten_height_factor);
 joint_tolerance = 0.5 * mm;
-base_flange_thickness = 1.52*mm;
+base_flange_thickness = 1.52*mm * (1/shorten_height_factor);
 
 module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thickness) {
 
@@ -43,10 +45,9 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
   wing_width = (9/20)*stem_width;
   r = wing_width/2;
   t_x = (R + (9/4)*r);
-  total_width = 2*R + 2*r + 2*t_x;
-  echo ("// flange total width:", total_width/inch);
-
   t2 = [(t_x - e), (t_x - e), 0];
+  total_width = 2*R + 2*r + 2*t_x;
+  echo ("// flange approx width (inches):", total_width/inch);
 
   linear_extrude(height = base_thickness) {
     hull()  {
@@ -64,7 +65,6 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
       translate([(t_x - e), 0, 0]) circle(r);
     }
   }
-
 }
 
 // tenon == false is "negative" shape for volume difference
@@ -74,7 +74,7 @@ module joint (max_width = 1.0*inch, height = joint_height, tenon = true) {
   diagonal = (1/2) * max_width;
   side_length = diagonal / sqrt(2);
   side   = tenon ? side_length : side_length + 2*tolerance;
-  extr_h = tenon ? height : height + 2*tolerance;
+  extr_h = tenon ? height : height + 2*tolerance*(1/shorten_height_factor);
 
   linear_extrude (height = extr_h) {
     square(side, center = true);
@@ -87,20 +87,19 @@ module stem (length = (2/3)*full_print_z_size, max_width = 1.0 * inch, generate_
   half_l = length/2;
   width_taper = (3/4);
 
-  joint_height = (3/5)*inch;
+  joint_h = joint_height;
 
   if (generate_coupler) {
     translate([0,0, length-e])
       base_flange(stem_width = max_width, base_thickness = base_thickness);
-    translate([0,0, -joint_height+e])
-      joint(max_width = max_width, height = joint_height, tenon = true);
+    translate([0,0, -joint_h+e])
+      joint(max_width = max_width, height = joint_h, tenon = true);
   }
 
   // mirrored halves, form stem
   translate([0,0,0])
     mirror([0,0,0])
     cylinder(h = half_l, d1 = max_width, d2 = max_width*width_taper);
-
   translate([0,0, length-e])
     mirror([0,0,1])
     cylinder(h = half_l, d1 = max_width, d2 = max_width*width_taper);
@@ -115,7 +114,6 @@ module tip (height = (1/3)*full_print_z_size, width = 2.3*inch, coupler_w = 1.0*
             generate_coupler = false) {
 
   spheroid_r = (1/2) * width/4;
-
   coupler_flare_d = min(1.66*coupler_w, width);
 
   // generate points along a torus knot
@@ -165,10 +163,9 @@ module tip (height = (1/3)*full_print_z_size, width = 2.3*inch, coupler_w = 1.0*
       // empty out the mortise piece
       translate([0,0,height - (joint_height + 2*joint_tolerance) + e])
         joint(max_width = coupler_w, height = joint_height, tenon = false);
-      // delete any outcrops that made it through
+      // delete any outcrops that made it through so they don't interfere
       translate([0,0,height])
          cylinder(h = 1*inch, d = coupler_w + 2*joint_tolerance);
-
     }
   }
 }
@@ -177,8 +174,9 @@ module spike_model (stem_length = (2/3)*full_print_z_size,
                     stem_width = (2/3) * inch,
                     tip_height = (1/3)*full_print_z_size,
                     tip_width = 1.8 * inch, two_parts = true) {
-
-  assert(printer_z_size >= (stem_length + tip_height));
+  if (!two_parts) {
+    assert(printer_z_size >= (stem_length + tip_height));
+  }
 
   print_stem = two_parts ? true : false;
   print_tip = !print_stem;
@@ -214,11 +212,12 @@ if (DEVELOPING_spike_model)  {
   tip_proportion = 1 - stem_proportion;
 
   // spike_model();
-  spike_model(stem_length = stem_proportion * full_print_z_size,
-              stem_width = (8/9) * inch,
-              tip_height = tip_proportion * full_print_z_size,
-              tip_width = 2.3 * inch,
-              two_parts = true);
+  scale([1.0, 1.0, shorten_height_factor])
+    spike_model(stem_length = stem_proportion * full_print_z_size,
+                stem_width = (8/9) * inch,
+                tip_height = tip_proportion * full_print_z_size,
+                tip_width = 2.3 * inch,
+                two_parts = true);
 
   if (model_base_flange) {
     translate([75, 0])
