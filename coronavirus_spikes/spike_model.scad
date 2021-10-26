@@ -26,7 +26,6 @@ use <MCAD/2Dshapes.scad>
 use <../libraries/dotSCAD/src/torus_knot.scad>
 
 include <display_originals.scad>
-//   test_1_corona_time_2();
 
 // very small number
 e = 1/128;
@@ -41,20 +40,31 @@ base_flange_thickness = 1.52*mm;
 module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thickness) {
 
   R = stem_width/2;
-  wing_width = (4/9)*stem_width;
+  wing_width = (9/20)*stem_width;
   r = wing_width/2;
-  t_x = (R + (6/4)*r);
+  t_x = (R + (9/4)*r);
   total_width = 2*R + 2*r + 2*t_x;
   echo ("// flange total width:", total_width/inch);
 
-  hull()
+  t2 = [(t_x - e), (t_x - e), 0];
+
   linear_extrude(height = base_thickness) {
-    union () {
+    hull()  {
       circle(R, $fn = 50);
-      translate([t_x - e, 0, 0]) circle(r);
-      translate([-(t_x - e), 0, 0]) circle(r);
+      translate([cos(120) * t2.x,
+                 sin(120) * t2.y, 0]) circle(r);
+    }
+    hull()  {
+      circle(R, $fn = 50);
+      translate([cos(-120) * t2.x,
+                 sin(-120) * t2.y, 0]) circle(r);
+    }
+    hull()  {
+      circle(R, $fn = 50);
+      translate([(t_x - e), 0, 0]) circle(r);
     }
   }
+
 }
 
 // tenon == false is "negative" shape for volume difference
