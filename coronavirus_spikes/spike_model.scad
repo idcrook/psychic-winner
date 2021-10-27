@@ -32,7 +32,7 @@ e = 1/128;
 
 printer_z_size = (157.99) * mm;
 full_print_z_size = (2/3)*printer_z_size;
-shorten_height = true;
+shorten_height = !true;
 shorten_height_factor = shorten_height ? 0.48 : 1.0;
 
 joint_height = (10/20)*inch * (1/shorten_height_factor);
@@ -179,7 +179,7 @@ module tip (height = (1/3)*full_print_z_size, width = 2.3*inch, coupler_w = 1.0*
   pts = pts_scale * torus_knot(p, q, phi_step);
 
   // generate 500 random numbers in range (-1 .. 1)
-  seed = 44.71828;
+  seed = 41.1828;
   N = 500;
   random_vect = rands(-1, 1, N, seed);
 
@@ -231,7 +231,7 @@ module spike_model (stem_length = (2/3)*full_print_z_size,
     assert(printer_z_size >= (stem_length + tip_height));
   }
 
-  print_stem = two_parts ? true : false;
+  print_stem = two_parts ? !true : false;
   print_tip = !print_stem;
 
   tip_coupler_width = stem_width;
