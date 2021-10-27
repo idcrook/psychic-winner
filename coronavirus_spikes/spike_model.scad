@@ -32,7 +32,7 @@ e = 1/128;
 
 printer_z_size = (157.99) * mm;
 full_print_z_size = (2/3)*printer_z_size;
-shorten_height = !true;
+shorten_height = true;
 shorten_height_factor = shorten_height ? 0.48 : 1.0;
 
 joint_height = (10/20)*inch * (1/shorten_height_factor);
@@ -93,7 +93,7 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
 
   // stepped taper in center
   union() {
-    hull()  {
+    *hull()  {
       translate(t_z_r)
         linear_extrude(height = leg_thickness)
         circle(1.10*R, $fn = 50);
@@ -109,7 +109,7 @@ module base_flange (stem_width = (4/4) * inch, base_thickness = base_flange_thic
         linear_extrude(height = 3*base_thickness)
         circle(1.00*R, $fn = 50);
     }
-    hull()  {
+    *hull()  {
       translate([0,0,-2*base_thickness+e])
         linear_extrude(height = base_thickness)
         circle(1.02*R, $fn = 50);
@@ -231,7 +231,7 @@ module spike_model (stem_length = (2/3)*full_print_z_size,
     assert(printer_z_size >= (stem_length + tip_height));
   }
 
-  print_stem = two_parts ? !true : false;
+  print_stem = two_parts ? true : false;
   print_tip = !print_stem;
 
   tip_coupler_width = stem_width;
