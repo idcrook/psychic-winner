@@ -681,7 +681,12 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capDepth = cap_depth;
   capCornerSupportThickness = 2.5; //
   capCornerSupportWidth = 9.0;  //
-  capCornerSupportHeight = 5.0;  //
+  capCornerSupportHeight = 5.0;
+  capCornerSupportHeight_overlap = cap_thickness - 0.5;  //
+  caseOverlap = 10.0;
+  overlapSleeveCornerSupportRear = true;
+  capCornerSupportHeight_power_z = capCornerSupportHeight_overlap + (overlapSleeveCornerSupportRear ? mute_switch_z : caseOverlap);
+  capCornerSupportHeight_mute_z = capCornerSupportHeight_overlap + (overlapSleeveCornerSupportRear ? mute_switch_z : caseOverlap) ;
 
   with_split_top_of_sleeve = !false ? true : false;
   with_tab_corner_support =  true ? true : false;
@@ -702,7 +707,6 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   //capSideDistance = (capCaseWidth + capArmThickness)/2 + sleeve_button__y_translate_adjust;
   capSideDistance = (capCaseWidth + capArmThickness)/2;
 
-  caseOverlap = 10.0;
 
   // main bar across tab
   linear_extrude(height = capCapThickness + e, center = false, convexity = 10)
@@ -737,10 +741,10 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
 
   // power button side - corner reinforcement
   if (with_tab_corner_support) {
-    translate([capSideDistance, ((1/2)*capDepth) - e, - (1/2)*capCornerSupportHeight])
+    translate([capSideDistance, ((1/2)*capDepth) - e, - (capCornerSupportHeight_power_z - capCornerSupportHeight_overlap)])
       mirror([1,0,0])
 
-      linear_extrude(height = capCornerSupportHeight, center = false, convexity = 10)
+      linear_extrude(height = capCornerSupportHeight_power_z, center = false, convexity = 10)
       complexRoundSquare([capCornerSupportWidth, capCornerSupportThickness],
                          [0,0],
                          [0,0],
@@ -771,9 +775,9 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
                    muteSwitchCap_tabHeight, muteSwitchCap_tabWidth, tabInsertDepth, direction = false);
   // mute switch side - corner reinforcement
   if (with_tab_corner_support) {
-    translate([-(capSideDistance - 0), (1/2)*capDepth  - e, - (1/2)*capCornerSupportHeight])
+    translate([-(capSideDistance - 0), (1/2)*capDepth  - e, - (capCornerSupportHeight_mute_z - capCornerSupportHeight_overlap)])
       mirror([0,0,0])
-      linear_extrude(height = capCornerSupportHeight, center = false, convexity = 10)
+      linear_extrude(height = capCornerSupportHeight_mute_z, center = false, convexity = 10)
       complexRoundSquare([capCornerSupportWidth, capCornerSupportThickness],
                          [0,0],
                          [0,0],
