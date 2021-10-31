@@ -35,6 +35,7 @@ Intended to find the collection of local libraries (macOS, Linux)
  -    [bone dog tag](#dir-dt-bone-dog-tag)
  -    [bone dog tag dualside](#dir-dt-bone-dog-tag-dualside)
  -    [choetech wireless charger stand landscape booster](#dir-dt-choetech-wireless-charger-stand-landscape-booster)
+ -    [coronavirus spikes](#dir-dt-coronavirus-spikes)
  -    [fireaxe blade](#dir-dt-fireaxe-blade)
  -    [hanging shower caddy mount](#dir-dt-hanging-shower-caddy-mount)
  -    [iphone 11 pro mockup](#dir-dt-iphone-11-pro-mockup)
@@ -169,6 +170,17 @@ bone dog tag dualside
 choetech wireless charger stand landscape booster
 
 ![choetech wireless charger stand landscape booster](choetech_wireless_charger_stand_landscape_booster/img/3dprinted_object_in_action.jpg "choetech wireless charger stand landscape booster")
+
+</dd>
+
+<dt id="dir-dt-coronavirus-spikes" >
+
+[coronavirus_spikes](coronavirus_spikes/#readme)
+
+</dt><dd>
+coronavirus spikes
+
+![coronavirus spikes](coronavirus_spikes/img/spike_model.png "coronavirus spikes")
 
 </dd>
 
