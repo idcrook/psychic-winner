@@ -190,7 +190,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   sleeveInner_w =  tolerance + w + 0;
   sleeveInner_h =  tolerance + h + 0;
-  sleeveInner_r = 3.1;
+  sleeveInner_r = 3.1 - 1;
   sleeveInner_rear_r = sleeveInner_r + 1.0;
 
   buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
@@ -290,8 +290,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   // trim based on experiments
   sleeveInner_trim__width  = (2/2)*tolerance ;  // 2*tolerance (2*0.3) was added
   trim__height = (3/4)*tolerance;              // (3/2)*tolerance was added
-  sleeveInner_trim__r_flatten = 2.8; //
-  sleeveInner_trim__r_flatten_rear = sleeveInner_trim__r_flatten ; //
+  sleeveInner_trim__r_flatten = 2.8 - 1.2; //
+  sleeveInner_trim__r_flatten_rear = sleeveInner_trim__r_flatten + 1.2 ; //
 
   echo ("sleeve height from bed (unchopped) = ", sleeveInner_l + sleeveBottomThickness);
 
@@ -340,7 +340,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                  h=sleeveInner_h, r=sleeveInner_r, r_rear=sleeveInner_rear_r,
                                  trim_r=sleeveInner_trim__r_flatten, trim_r_rear=sleeveInner_trim__r_flatten_rear,
                                  center=true);
-              // include groove for buttons along whole extrude (filled in above for bottom portions)
+              // include groove for buttons along whole extrude - filled in above for bottom portions (below buttons)
               translate([0,-(1/4)*3.0])
                 rounded_square(size=[buttonsIncludedInner_w,  buttonsIncludedInner_h],
                                corner_r = buttonsIncludedInner_r, center=true);
@@ -978,7 +978,7 @@ module showTogether() {
   translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = true;
+show_everything = !true;
 
 if (show_everything) {
   showTogether();
