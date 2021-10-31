@@ -166,9 +166,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   CONTROL_RENDER_bottom_back_flap         = CONTROL_RENDER_bottom_lightning_access;
 
   CONTROL_RENDER_experiment3      = false;
-  CONTROL_RENDER_experiment4      = false;
   CONTROL_RENDER_experiment5      = false;
-  CONTROL_RENDER_prototype_bottom = false;
+  CONTROL_RENDER_prototype_bottom = !false;
 
   wantThinner =  true;
   wantThinnerCap = false;
@@ -654,7 +653,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
     // intersection of a bounding volume
     if (CONTROL_RENDER_prototype_bottom) {
       keepHeight = 55;
-      cutHeight  = 25;
+      cutHeight  = 30;
       extrHeight = keepHeight ;
 
       // only keep the bottom section here
