@@ -167,7 +167,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   CONTROL_RENDER_experiment3      = false;
   CONTROL_RENDER_experiment5      = false;
-  CONTROL_RENDER_prototype_bottom = !false;
+  CONTROL_RENDER_prototype_bottom = false;
 
   wantThinner =  true;
   wantThinnerCap = false;
@@ -189,8 +189,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   sleeveInner_w =  tolerance + w + 0;
   sleeveInner_h =  tolerance + h + 0;
-  sleeveInner_r = 3.1 - 1;
-  sleeveInner_rear_r = sleeveInner_r + 1.0;
+  sleeveInner_r = 3.1 - 0.6;
+  sleeveInner_rear_r = sleeveInner_r + 1.2;
 
   buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
   buttonsIncludedInner_h =            +  4.0 + tolerance;
