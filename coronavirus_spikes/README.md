@@ -2,30 +2,45 @@
 
 Model of a coronavirus spike for use as a costume prop.
 
+The mortise-and-tenon joint is meant to be compatible among all forms that have it.
+
 ## two parts - shortened
 
-![shortened spike model 3D preview](img/spike_model__shortened.png)
+The stem in this reduced Z-dimension form is preferred.
 
 ![shortened spike model 3D preview - stem](img/spike_model__stem__shortened.png)
 
-![shortened spike model 3D preview - tip](img/spike_model__tip__shortened.png)
-
 [STL shortened spike model - stem](spike_model__stem__shortened.stl)
 
-[STL shortened spike model - tip](spike_model__tip__shortened.stl)
+## two parts - tip
 
-## two parts
-
-![spike model 3D preview - stem](img/spike_model__stem.png)
+Tip design without shortened Z-dimension.
 
 ![spike model 3D preview - tip](img/spike_model__tip.png)
-
-[STL shortened spike model - stem](spike_model__stem.stl)
 
 [STL shortened spike model - tip](spike_model__tip.stl)
 
 
-## monolithic
+### two parts - shortened - not recommended
+
+The tips are closer to pancakes when only Z-dimension is reduced
+
+[STL shortened spike model - tip](spike_model__tip__shortened.stl)
+
+![shortened spike model 3D preview - tip](img/spike_model__tip__shortened.png)
+
+![shortened spike model 3D preview](img/spike_model__shortened.png)
+
+
+### two parts - stem - not recommended
+
+Stem design before the Z-dimension was shortened. Not recommended unless longer stems are preferred.
+
+![spike model 3D preview - stem](img/spike_model__stem.png)
+
+[STL shortened spike model - stem](spike_model__stem.stl)
+
+### monolithic - not recommended
 
 ![spike model 3D preview](img/spike_model.png)
 
