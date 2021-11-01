@@ -993,7 +993,7 @@ if (show_everything) {
 
   withSleeve =  true;
 
-  printCap   =  !true;
+  printCap   =  true;
   withCap    =  printCap;
   //withCap    =  true;
 
