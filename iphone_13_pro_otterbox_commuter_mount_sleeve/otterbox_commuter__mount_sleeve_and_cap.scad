@@ -682,36 +682,34 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCornerSupportThickness = 2.5; //
   capCornerSupportWidth = 9.0;  //
   capCornerSupportHeight = 5.0;
-  capCornerSupportHeight_overlap = cap_thickness - 0.5;  //
-  caseOverlap = 10.0;
-  overlapSleeveCornerSupportRear = true;
-  capCornerSupportHeight_power_z = capCornerSupportHeight_overlap + (overlapSleeveCornerSupportRear ? mute_switch_z : caseOverlap);
-  capCornerSupportHeight_mute_z = capCornerSupportHeight_overlap + (overlapSleeveCornerSupportRear ? mute_switch_z : caseOverlap) ;
+  capCornerSupportHeight_overlap = cap_thickness - 0.6;  //
+  caseOverlap = 10.0 + -1.0;
+  overlapSleeveCornerSupportRear = false;
+  capCornerSupportHeight_power_z = capCornerSupportHeight_overlap + (overlapSleeveCornerSupportRear ? mute_switch_z : caseOverlap - 0.76);
+  capCornerSupportHeight_mute_z = capCornerSupportHeight_overlap + (overlapSleeveCornerSupportRear ? mute_switch_z : caseOverlap - 0.76) ;
 
-  with_split_top_of_sleeve = !false ? true : false;
-  with_tab_corner_support =  true ? true : false;
+  with_split_top_of_sleeve = true;
+  with_tab_corner_support =  true;
 
-  fudge =  true ? true : false;
-  powerButtonCapClip_z = fudge ? power_button_z + 1 : power_button_z;
-  muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 : mute_switch_z;
+  fudge =  true;
+  powerButtonCapClip_z = fudge ? power_button_z + 1.5 : power_button_z;
+  muteSwitchCapClip_z  = fudge ? mute_switch_z  + 2.0 : mute_switch_z;
 
-  tabInsertDepth = 2.5 + 1 + 0.2 + 1; //
+  tabInsertDepth = 4.6;
 
   sleeve_button__y_translate_adjust = 1.85;
 
   powerButtonCap_tabHeight = 15.2;
-  powerButtonCap_tabWidth = 10 - tolerance;
+  powerButtonCap_tabWidth = 10 - 1*tolerance;
   muteSwitchCap_tabHeight = 15.2;
-  muteSwitchCap_tabWidth = 10 - tolerance;
+  muteSwitchCap_tabWidth = 10 - 1*tolerance;
 
-  //capSideDistance = (capCaseWidth + capArmThickness)/2 + sleeve_button__y_translate_adjust;
-  capSideDistance = (capCaseWidth + capArmThickness)/2;
-
+  capSideDistance = (capCaseWidth + capArmThickness + tolerance)/2;
 
   // main bar across tab
   linear_extrude(height = capCapThickness + e, center = false, convexity = 10)
     // 2D view for cap (base of cap)
-    complexRoundSquare([capCaseWidth + 2*capArmThickness, capDepth],
+    complexRoundSquare([capCaseWidth + 2*capArmThickness + tolerance, capDepth],
                        [0,0], [0,0], [0,0], [0,0],
                        center = true);
 
