@@ -1,7 +1,5 @@
 /*
 
-
-
   Modeled by David Crook - https://github.com/idcrook
 
   2021-Oct-25
@@ -20,6 +18,15 @@
 // If true, model is instantiated by this file
 DEVELOPING_spike_model = true;
 
+// If true, print base. Change this to false to print tip for two parts.
+PRINT_STEM = true;
+
+// Set to false to generate monolithic model
+PRINT_IN_TWO_PARTS = true;
+
+// Shorten the base when true. This is recommended.
+shorten_height = true;
+
 include <MCAD/units.scad>
 use <MCAD/2Dshapes.scad>
 
@@ -32,7 +39,6 @@ e = 1/128;
 
 printer_z_size = (157.99) * mm;
 full_print_z_size = (2/3)*printer_z_size;
-shorten_height = true;
 shorten_height_factor = shorten_height ? 0.48 : 1.0;
 
 joint_height = (10/20)*inch * (1/shorten_height_factor);
@@ -270,13 +276,13 @@ module spike_model (stem_length = (2/3)*full_print_z_size,
     assert(printer_z_size >= (stem_length + tip_height));
   }
 
-  print_stem = two_parts ? true : false;
-  print_tip = !print_stem;
+  print_stem_only = PRINT_STEM;
+  print_tip = !PRINT_STEM;
 
   tip_coupler_width = stem_width;
 
   if (two_parts) {
-    if (print_stem) {
+    if (print_stem_only) {
       translate([70,0,stem_length + base_flange_thickness])
         rotate([0, 180, 0])
         stem (length = stem_length, max_width = stem_width, generate_coupler = true);
@@ -310,7 +316,7 @@ if (DEVELOPING_spike_model)  {
                 stem_width = (8/9) * inch,
                 tip_height = tip_proportion * full_print_z_size,
                 tip_width = 2.3 * inch,
-                two_parts = true);
+                two_parts = PRINT_IN_TWO_PARTS);
 
   if (model_base_flange) {
     scale([1.0, 1.0, shorten_height_factor])
