@@ -54,9 +54,19 @@ include <../libraries/Chamfers-for-OpenSCAD/Chamfer.scad>
 //use <mockup/HDMI_7inch_touchscreen__dummy.scad>
 include <mockup/HDMI_7inch_touchscreen__dummy.scad>
 
-
-
 e = 1/128; // small number
+
+show_everything = true ;
+print_mode = false;
+
+print_front = true;
+print_rear = false;
+print_foot = false;
+
+show_monitor_assembly = !(print_front || print_rear || print_foot || print_mode) ;
+print_something = (print_front || print_rear || print_foot || print_mode) ? true : false;
+
+module __Customizer_Limit__ () {} 
 
 case_side_edge_extra = 1.0;
 case_top_bottom_edge_extra = 0.5;
@@ -571,13 +581,6 @@ module showTogether() {
 }
 
 
-show_everything = true ;
-
-show_monitor_assembly = !true ;
-print_foot = !true ;
-print_front = !true ;
-print_rear = !print_front ;
-
 if (show_everything) {
     showTogether();
 } else {
@@ -591,13 +594,15 @@ if (show_everything) {
             translate([0,0,0])
             rotate([0,0,0])
             monitorAndPiAssembly();
+    } else {
+
+        if (print_something) {
+            if (print_foot) { stand_foot(); }
+            if (print_front && !print_rear) { rotate([0,180,0]) caseFrontPanel(); }
+            if (print_rear && !print_foot) {  rotate([0,180,0]) caseBackPanel(); }
+            if (! (print_front || print_rear)) { stand_foot(); }
     }
-
-
-    if (print_foot) { stand_foot(); }
-    if (print_front) { rotate([0,180,0]) caseFrontPanel(); }
-    if (print_rear) {  rotate([0,180,0]) caseBackPanel(); }
-
+}
 
 
 }
