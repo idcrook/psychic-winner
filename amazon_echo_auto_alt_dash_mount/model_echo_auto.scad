@@ -21,7 +21,7 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 e = 1/128; // small number
 
