@@ -28,13 +28,12 @@
 // contains dimensional model of Echo Auto
 use <model_echo_auto.scad>
 
-/* use <MCAD/2Dshapes.scad> */  // openscad's version is not updated
-use <2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 // https://github.com/OskarLinde/scad-utils
 use <../libraries/scad-utils/morphology.scad>
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 
 auto_length = 85.0;

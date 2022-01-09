@@ -23,7 +23,7 @@
 
 use <MCAD/2Dshapes.scad>
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 
 // Measurements, as positioned on dash mount (expressed in millimeters)
