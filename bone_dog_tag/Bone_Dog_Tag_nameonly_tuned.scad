@@ -3,17 +3,21 @@
 bone_height = 3.4;
 
 pet_name="LUDO";
-// phone_number="123-555-1212";
+/// phone_number="123-555-1212";
+
 font_face="San Franscisco:style=Bold";
-//font_face="Consolas";
+/// font_face="Consolas";
+
 font_thickness=3.5;
-delta = 0.01;
+delta = 1/128;
 
 tag_attachment_outer_diameter = 9;
 tag_attachment_inner_diameter = 3.4;
 tag_attachment_width = (tag_attachment_outer_diameter - tag_attachment_inner_diameter);
 tag_attachment_height = bone_height*95/100;
 tag_attachment_flare_width = 8;
+
+module __Customizer_Limit__ () {}
 
 $fa=1;
 $fs=1;
