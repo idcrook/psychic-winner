@@ -27,8 +27,8 @@ PRINT_IN_TWO_PARTS = true;
 // Shorten the base when true. This is recommended.
 shorten_height = true;
 
-include <MCAD/units.scad>
-use <MCAD/2Dshapes.scad>
+include <../libraries/MCAD/units.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 use <../libraries/dotSCAD/src/torus_knot.scad>
 
