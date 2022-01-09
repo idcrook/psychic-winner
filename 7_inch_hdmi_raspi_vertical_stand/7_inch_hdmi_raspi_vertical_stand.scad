@@ -44,14 +44,13 @@
 ///////////////////////////////////////////////////////////////////////////////
 
 
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 include <../libraries/local-misc/fillet.scad>
 
 include <../libraries/Chamfers-for-OpenSCAD/Chamfer.scad>
 
 /* LCD monitor model */
-//use <mockup/HDMI_7inch_touchscreen__dummy.scad>
 include <mockup/HDMI_7inch_touchscreen__dummy.scad>
 
 e = 1/128; // small number
@@ -66,7 +65,7 @@ print_foot = false;
 show_monitor_assembly = !(print_front || print_rear || print_foot || print_mode) ;
 print_something = (print_front || print_rear || print_foot || print_mode) ? true : false;
 
-module __Customizer_Limit__ () {} 
+module __Customizer_Limit__ () {}
 
 case_side_edge_extra = 1.0;
 case_top_bottom_edge_extra = 0.5;
