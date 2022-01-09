@@ -44,7 +44,7 @@
 //
 
 include <mockup/elp_usbfhd01m_l28_dummy.scad>
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 e = 1/128; // small number
 
@@ -60,6 +60,7 @@ SHOW_CAMERA = RENDER_FOR_PRINT ? false : true;
 CASE_TONGUE_HORIZONTAL_MOUNT = !true;
 CASE_TONGUE_VERTICAL_MOUNT   = true;
 
+module __Customizer_Limit__ () {}
 
 // capture variables from included model
 camera_pcb_thickness = pcb_thickness;

@@ -27,7 +27,7 @@
 // downloaded 2019-Sep-03
 //import("Base.STL");
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 cutout_diameter = 5.5;  // cylinder "cutout" diameter
 
