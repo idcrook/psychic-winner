@@ -8,8 +8,8 @@
 
 // resized dimensions to fit spools with a inner diameter of ~38mm
 
-spool_inner_r=37.5/2;
-length=90+5;
+spool_inner_r=18.75; // 37.5/2
+length=95; // 90 + 5
 
 holder_w = 10;
 holder_h = holder_w;
@@ -20,7 +20,7 @@ flange_largest_r = spool_inner_r + 7.5;
 flange_width = 5;
 
 // small number
-e=.02;
+e=1/128;
 
 cut_plane_r = spool_inner_r + flange_largest_r + (flange_largest_r - spool_inner_r);
 

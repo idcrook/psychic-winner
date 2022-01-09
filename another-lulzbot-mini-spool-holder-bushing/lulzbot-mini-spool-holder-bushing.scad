@@ -9,7 +9,7 @@
 
 // resized dimensions to fit spools with a inner diameter of ~38mm
 
-spool_inner_r=37.5/2;
+spool_inner_r= 18.75; // (1/2) * 37.5
 length=90;
 
 holder_w = 10;
@@ -18,7 +18,7 @@ holder_h = holder_w;
 cut_offset = (1/8)*spool_inner_r;
 
 // small number
-e=.02;
+e=1/128;
 
 
 rotate(a=[0,90,0]) 
