@@ -19,8 +19,8 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-use <MCAD/servos.scad>
-//use <../libraries/MCAD/servos.scad>
+// use <MCAD/servos.scad> // 'towerprosg90' missing in system MCAD
+use <../libraries/MCAD/servos.scad>
 
 e = 1/128; // small number
 
