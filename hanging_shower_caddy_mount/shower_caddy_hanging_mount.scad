@@ -25,7 +25,7 @@
 use <../libraries/scad-utils/morphology.scad>
 
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 
 // Measurements
