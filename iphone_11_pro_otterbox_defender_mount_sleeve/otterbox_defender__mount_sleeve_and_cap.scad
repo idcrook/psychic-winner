@@ -22,7 +22,7 @@
 
 
 use <mockup/iPhone_11_Pro_Mockup.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
 e = 1/128; // small number
@@ -33,10 +33,9 @@ e = 1/128; // small number
 //  - Width   84.84 mm
 //  - Depth   14.99 mm
 
-l = 155.70 + 0.25;  // 155.95 measured
-// including widest at buttons /// w = 84.84;
-w = 83.5 + 0.04 + 0.46;   // 83.5 near bottom corners + was too tight a fit
-h = 15.75 + 0.2 + 0.35;   // measured + padding
+l = 155.95;  //
+w = 84.0;   // 83.5 near bottom corners + was too tight a fit
+h = 16.30;   // measured + padding
 
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
