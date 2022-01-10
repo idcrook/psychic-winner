@@ -41,7 +41,7 @@ plug_screw_head_countersink_radius = 0.4;
 plug_screw_head_height = 1.3;
 plug_cap_height = plug_screw_head_height + 0.1;
 
-epsilon = 0.02;
+epsilon = 1/128; 
 
 module slot_solid ( slot_width = slot_width, solid_x = slot_chord_div2, solid_y = slot_inner_radius_chord, z_height = slot_height)  {
    echo(slot_width, solid_x, solid_y, z_height);
