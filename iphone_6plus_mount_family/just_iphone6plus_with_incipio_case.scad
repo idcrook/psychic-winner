@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////
 // Initial Revision:
-//   27-Mar-2016 
+//   27-Mar-2016
 //
 // Author:
 //
@@ -26,24 +26,24 @@
 //   - after many iterations, experiments and tweaks, have an iPhone mount and
 //     sleeve for my bicycle.  plan to work on a mount system for my car/truck
 //     next
-//   
+//
 //   v2:
 //
 //   - cupholder mount system for my truck
-//   
+//
 //   - tweaks for cap
 //
 ////////////////////////////////////////////////////////////////////////
 
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-  e = 0.02; // small number
+  e = 1/128; // small number
 
   w = 81.5;
-  l = 161.9;  // 
+  l = 161.9;  //
   h = 10.5;   // at corners; elsewhere as low as 10.1 mm
 
   iw = 77.8;
@@ -65,7 +65,7 @@ use <../libraries/local-misc/wedge.scad>
 
   dcw = (w - cut_w) / 2;
   dcl = (l - cut_l) / 2;
-    
+
 
 
 // http://www.amazon.com/IPhone-Incipio-Impact-Resistant-Translucent/dp/B00MUQ9V1Q
@@ -81,9 +81,9 @@ module incipioNgpCase () {
     translate([tw - tol, tl - tol, th]) {
       shell(iw + 2*tol, il + 2*tol, ih + 2*tol, 9.5 + 2*tol);
     }
-    
+
     // cut out above phone too (rounded rect with dimensions 73.3 x 153.8)
-    translate ([dcw,dcl,th+ih-tol]) 
+    translate ([dcw,dcl,th+ih-tol])
       linear_extrude(height = 10, center = false, convexity = 10)
       complexRoundSquare([cut_w, cut_l],
                            [cut_r, cut_r],
@@ -104,7 +104,7 @@ module incipioNgpCase () {
 
 module showTogether() {
 
- 
+
   // iphone 6 Plus
   translate([tw, tl, th ]) iphone(77.8, 158.1, 7.1, 9.5);
 
@@ -114,13 +114,13 @@ module showTogether() {
 //  // design
 //  %translate([w/2,0,h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h, false, withCap);
 
-  
+
 }
 
 
 
 module show_iPhone_6_plus_Portrait_Cradle() {
-    
+
    // % scale([1,1,1] * 25.4) import( "/Users/dpc/Downloads/3dprint/models/Downloads/iPhone_6_6+_CD_Tray_Mount/files/iPhone_6+_Portrait_Cradle.stl");
 
      // color ("red") scale([1,1,1]) import("/Users/dpc/Downloads/3dprint/models/Downloads/Universal_Car_CD_Slot_-_Smartphone_Holder/files/CD_Slot_Phone_V02_resized_plus_weld.stl");
@@ -130,7 +130,7 @@ module show_iPhone_6_plus_Portrait_Cradle() {
     //translate([0,0,0]) rotate([90,0,0]) incipioNgpCase();
     //import("/Users/dpc/Downloads/3dprint/models/Downloads/iPhone_Plus_and_watch_dock.STL");
 
-    translate ([81, 5, 5]) 
+    translate ([81, 5, 5])
         rotate([90,-90,0])  showTogether();
 }
 
@@ -138,6 +138,3 @@ module show_iPhone_6_plus_Portrait_Cradle() {
 
 
 show_iPhone_6_plus_Portrait_Cradle() ;
-    
-
-
