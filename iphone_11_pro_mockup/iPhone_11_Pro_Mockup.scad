@@ -23,10 +23,10 @@
 // * All measurements in millimeters * //
 
 
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 // very small number
-e = 0.02;
+e = 1/128;
 
 /// Gross iPhone 11 Pro dimensions
 iphone_11_pro__height = 144.0;
