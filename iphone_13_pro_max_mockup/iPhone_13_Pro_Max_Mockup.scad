@@ -21,7 +21,7 @@
 // If true, model is instantiated by this file
 DEVELOPING_iPhone_13_Pro_Max_model = false;
 
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 
 use <../libraries/dotSCAD/src/rounded_square.scad>
 
