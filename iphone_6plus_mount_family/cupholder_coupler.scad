@@ -19,10 +19,10 @@
 ////////////////////////////////////////////////////////////////////////
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 w = 81.5;
 l = 161.9;  //
@@ -297,7 +297,7 @@ module test_generate_coupler2() {
 	generateLidBracketCoupler2() ;
 
       translate([-(1.0)*enlargePunchScale*11, -(3*0.30)*enlargePunchScale, -20])
-	scale([enlargePunchScale, enlargePunchScale, 1], center = false)
+	scale([enlargePunchScale, enlargePunchScale, 1])
 	test_sleeveMountInsert (false, 0.0);
 
     }
