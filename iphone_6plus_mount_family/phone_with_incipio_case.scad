@@ -37,10 +37,10 @@
 
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-  e = 0.02; // small number
+  e = 1/128; // small number
 
   w = 81.5;
   l = 161.9;  //
@@ -99,17 +99,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
 
   tolerance = 0.5;
 
-  CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
-
-  CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
-
-  CONTROL_RENDER_experiment4 = true;
-  CONTROL_RENDER_experiment4 = false;
+  CONTROL_RENDER_cutoff_top = !true;
+  CONTROL_RENDER_experiment3 = !true;
+  CONTROL_RENDER_experiment4 = !true;
 
   CONTROL_RENDER_experiment5 = true;
-  // CONTROL_RENDER_experiment5 = false;
 
   wantThinner = true;
   //wantThinner = false;
@@ -299,7 +293,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
 
           // volume buttons cutout
           translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
-            mirror()
+            mirror([1,0,0])
             rotate([0, 180 + 90, 0])
             linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
             complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
@@ -323,8 +317,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap) {
           // mute switch cutout
           /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
           translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
-            mirror()
-            rotate([0, 180 + 90, 0], center = true)
+            mirror([1,0,0])
+            rotate([0, 180 + 90, 0])
             linear_extrude(height = sleeveSideThickness + 2*e, center = false,  scale = 0.9, convexity = 10)
             complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth ],
                                 [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -868,8 +862,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   }
   //  5. catch, to "lock" carrier into the mount
   //
-  printable = true;
-  printable = false;
+  printable = !true;
   align = 3;
   spread = 5;
   if (printable) {
@@ -1578,18 +1571,11 @@ module showTogether() {
 
 }
 
-test1 = true;
-test1 = false;
+test1 = !true;
 
-
-CONTROL_OUTPUT_bicycleMount = true;
-CONTROL_OUTPUT_bicycleMount = false;
-
-CONTROL_OUTPUT_Cupholder = true;
-CONTROL_OUTPUT_Cupholder = false;
-
-CONTROL_OUTPUT_Cupholder2 = true;
-CONTROL_OUTPUT_Cupholder2 = false;
+CONTROL_OUTPUT_bicycleMount = !true;
+CONTROL_OUTPUT_Cupholder = !true;
+CONTROL_OUTPUT_Cupholder2 = !true;
 
 
 
