@@ -21,13 +21,17 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-use <MCAD/2Dshapes.scad>
-use <MCAD/shapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
+use <../libraries/MCAD/shapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-  e = 0.02; // small number
+e = 1/128; // small number
 
+length_at_handle_base = 57.7;
+length_at_handle_top = 58.8;
 
+width_at_handle_base = 22.9;
+width_at_handle_top = 19.7;
 
 module roughAxeHandle (length, width, height, gap_width ) {
 
@@ -73,20 +77,11 @@ module axeHandle (length, width1, taper_scale, height, gap_width, include_split 
 
 }
 
-test1 = true;
-test1 = false;
+test1 = !true;
 
-test2 = true;
-test2 = false;
+test2 = !true;
 
 test3 = true;
-//test3 = false;
-
-length_at_handle_base = 57.7;
-length_at_handle_top = 58.8;
-
-width_at_handle_base = 22.9;
-width_at_handle_top = 19.7;
 
 handle_scale_vector = [1 - (length_at_handle_base-length_at_handle_top)/length_at_handle_base,
 		       1 - (width_at_handle_base-width_at_handle_top)/width_at_handle_base,
