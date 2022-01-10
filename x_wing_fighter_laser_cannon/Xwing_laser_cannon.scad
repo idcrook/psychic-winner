@@ -49,7 +49,7 @@ module xwing_shooter () {
     h2 = 18.5;
     
     // small number
-    e=.02;
+    e=1/128;
     
     // import("files/xwing_sliced.stl");
     
