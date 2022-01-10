@@ -20,10 +20,10 @@
 
 
 use <mockup/iPhone_11_Pro_Mockup.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 
 // -	[FORM by Monoprice iPhone 11 Pro 5.8 Rugged Slim Case, Clear](https://www.monoprice.com/product?c_id=309&cp_id=30901&cs_id=3090101&p_id=39619)

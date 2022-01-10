@@ -20,10 +20,10 @@
 
 
 use <mockup/iPhone_11_Pro_Mockup.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-e = 0.02; // small number
+e = 1/128; // small number
 
 
 // [OtterBox Lumen Series Case for iPhone 11 Pro](https://www.apple.com/shop/product/HNL62ZM/A/otterbox-lumen-series-case-for-iphone-11-pro)
