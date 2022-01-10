@@ -24,11 +24,13 @@
 //
 //   2021-Oct-12 : Initial publish to thingiverse
 //
+//   2022-Jan-10 : TODO: Update print controls for parts
+//
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 use <../libraries/dotSCAD/src/rounded_square.scad>
 
