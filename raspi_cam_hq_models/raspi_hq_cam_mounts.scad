@@ -14,7 +14,7 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 // module complexRoundSquare()
 
 /* Pi HQ camera model - include allows variables in that files scope */
