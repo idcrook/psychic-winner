@@ -24,10 +24,10 @@
 
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-  e = 0.02; // small number
+  e = 1/128; // small number
 
 
 // Measurements with case attached
@@ -131,23 +131,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   //     (with_cap == with_sleeve == true)
 
 
-  CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
-
-  CONTROL_RENDER_prototype_bottom = true;
-  CONTROL_RENDER_prototype_bottom = false;
-
-  CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
-
-  CONTROL_RENDER_experiment4 = true;
-  CONTROL_RENDER_experiment4 = false;
-
+  CONTROL_RENDER_cutoff_top = !true;
+  CONTROL_RENDER_prototype_bottom = !true;
+  CONTROL_RENDER_experiment3 = !true;
+  CONTROL_RENDER_experiment4 = !true;
   CONTROL_RENDER_experiment5 = true;
-  //CONTROL_RENDER_experiment5 = false;
 
-  wantThinner = true;
-  wantThinner = false;
+  wantThinner = !true;
 
   sleeveSideThickness   =  wantThinner ? 3.0 : 3.5;
   sleeveBottomThickness =  wantThinner ? 3.0 : 3.5;
@@ -352,7 +342,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	    // volume buttons cutout
 	    translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
-	      mirror()
+	      mirror([1,0,0])
 	      rotate([0, 180 + 90, 0])
 	      linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
 	      complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
@@ -376,8 +366,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 	    // mute switch cutout
 	    /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
 	    translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
-	      mirror()
-	      rotate([0, 180 + 90, 0], center = true)
+	      mirror([1,0,0])
+	      rotate([0, 180 + 90, 0])
 	      linear_extrude(height = sleeveSideThickness + 2*e, center = false,  scale = 0.9, convexity = 10)
 	      complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth ],
 				  [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -647,11 +637,9 @@ module generateCap(cap_arm_thickness, cap_thickness, cap_depth, cap_case_width,
   capCapThickness = cap_thickness;
   capArmThickness = cap_arm_thickness;
   capDepth = cap_depth;
-  with_split_top_of_sleeve = false;
-  with_split_top_of_sleeve = true;
+  with_split_top_of_sleeve = !false;
 
   fudge = true;
-  //fudge = false;
   powerButtonCapClip_z = fudge ? power_button_z + 1 : power_button_z;
   muteSwitchCapClip_z  = fudge ? mute_switch_z  + 1 : mute_switch_z;
 
@@ -871,9 +859,7 @@ module showCaseTogether() {
 
 }
 
-test1 = true;
-test1 = false;
-
+test1 = !true;
 
 
 if (test1) {
@@ -881,14 +867,10 @@ if (test1) {
 } else {
   $fn = 100;
 
-  tweakMountSurface = false;
   tweakMountSurface = true;
-
-  withCap = true;
   withCap = false;
 
   printCap = true;
-  //printCap = false;
 
   if (! printCap) {
     translate([0,0,3]) sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, true);
