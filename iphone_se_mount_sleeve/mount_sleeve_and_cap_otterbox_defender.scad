@@ -23,10 +23,10 @@
 
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-  e = 0.02; // small number
+  e = 1/128; // small number
 
 // https://www.radtech.com/products/otterbox-defender-case-iphone-5
 // Dimensions: 135.12x69.9x16.18mm / 5.32x2.75x0.64in
@@ -95,23 +95,13 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   tolerance = 0.5;
 
-  CONTROL_RENDER_cutoff_top = true;
-  CONTROL_RENDER_cutoff_top = false;
-
-  CONTROL_RENDER_prototype_bottom = true;
-  CONTROL_RENDER_prototype_bottom = false;
-
-  CONTROL_RENDER_experiment3 = true;
-  CONTROL_RENDER_experiment3 = false;
-
-  CONTROL_RENDER_experiment4 = true;
-  CONTROL_RENDER_experiment4 = false;
-
-  CONTROL_RENDER_experiment5 = true;
-  CONTROL_RENDER_experiment5 = false;
+  CONTROL_RENDER_cutoff_top = !true;
+  CONTROL_RENDER_prototype_bottom = !true;
+  CONTROL_RENDER_experiment3 = !true;
+  CONTROL_RENDER_experiment4 = !true;
+  CONTROL_RENDER_experiment5 = !true;
 
   wantThinner = true;
-  //wantThinner = false;
 
   sleeveSideThickness   =  wantThinner ? 3.0 : 3.5;
   sleeveBottomThickness =  wantThinner ? 3.0 : 3.5;
@@ -306,7 +296,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
 	    // volume buttons cutout
 	    translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (volumeButtonsCutoutDepth), volumeButtonsHeightFromBottom])
-	      mirror()
+	      mirror([1,0,0])
 	      rotate([0, 180 + 90, 0])
 	      linear_extrude(height = sleeveSideThickness + 2*e, center = false, scale = 0.9, convexity = 10)
 	      complexRoundSquare( [volumeButtonsCutoutHeight, volumeButtonsCutoutDepth],
@@ -330,8 +320,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 	    // mute switch cutout
 	    /// echo(muteSwitchCutoutHeight, muteSwitchCutoutDepth, muteSwitchHeightFromBottom);
 	    translate([-1 * ((1/2) * sleeveOuter_w + e), -(1/2) * (muteSwitchCutoutDepth), muteSwitchHeightFromBottom])
-	      mirror()
-	      rotate([0, 180 + 90, 0], center = true)
+	      mirror([1,0,0])
+	      rotate([0, 180 + 90, 0])
 	      linear_extrude(height = sleeveSideThickness + 2*e, center = false,  scale = 0.9, convexity = 10)
 	      complexRoundSquare( [muteSwitchCutoutHeight, muteSwitchCutoutDepth ],
 				  [muteSwitchCutoutRadius, muteSwitchCutoutRadius],
@@ -841,9 +831,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 
 module showTogether() {
 
-  withCap = true;
   withCap = false;
-
 
   // Otterbox Defender case (SE)
   translate([0,0,0]) otterboxDefenderSECase();
@@ -858,23 +846,17 @@ module showTogether() {
 
 }
 
-test1 = true;
 test1 = false;
-
-
 
 if (test1) {
   showTogether();
 } else {
   $fn = 100;
 
-  tweakMountSurface = false;
   tweakMountSurface = true;
 
-  withCap = true;
   withCap = false;
 
-  printCap = true;
   printCap = false;
 
   if (! printCap) {
