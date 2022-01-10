@@ -23,10 +23,10 @@
 
 
 use <files/iPhone_6_and_6_Plus_Mockups.scad>;
-use <MCAD/2Dshapes.scad>
+use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-  e = 0.02; // small number
+  e = 1/128; // small number
 
   w = 81.5;
   l = 161.9;  //
@@ -316,7 +316,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
     }
 
     //  3. mount insert piece for inserting phone carrier
-    scale([enlargePunchScale, enlargePunchScale, 1], center = false)
+    scale([enlargePunchScale, enlargePunchScale, 1])
       translate([-50 + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) ,
                  (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e])
       test_sleeveMountInsert(fitBetter, 50);
@@ -362,8 +362,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   }
   //  5. catch, to "lock" carrier into the mount
   //
-  printable = true;
-  printable = false;
+  printable = !true;
   align = 3;
   spread = 5;
   if (printable) {
