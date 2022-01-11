@@ -39,10 +39,16 @@ include <mockup/iPhone_13_Pro_Mockup.scad>
 
 e = 1/128; // small number
 
+// displays mockupo of phone + case + sleeve + cap
 show_everything = !true;
 
+// print sleeve setup (unset to print cap)
 printSleeve = true;
 printCap   =  !printSleeve;
+
+// bike mount version requires cap (but no lightning port access)
+for_bike_mount = !true;
+
 
 // - [Protective iPhone 13 Pro Case | OtterBox Commuter Series Case](https://www.otterbox.com/en-us/iphone-13-pro/commuter-series-antimicrobial-case/commuter-iphp21.html)
 //  6.03 x 3.12 x 0.56 in | 15.32 x 7.92 x 1.41 cm.
@@ -164,9 +170,6 @@ module sleeveInnerProfile(w, trim_w, extra_w=0, h, r, r_rear, trim_r, trim_r_rea
 module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_sleeve) {
 
   tolerance = 0.3;
-
-  // bike mount version requires cap (but no lightning port access)
-  for_bike_mount = true;
 
   printer_has_shorter_volume_height = true;
   CONTROL_RENDER_cutoff_top       = true && printer_has_shorter_volume_height;
