@@ -24,7 +24,7 @@
 //
 //   2021-Oct-12 : Initial publish to thingiverse
 //
-//   2022-Jan-10 : TODO: Update print controls for parts
+//   2022-Jan-11 : DONE: Update print controls for parts
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
