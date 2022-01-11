@@ -34,10 +34,15 @@ use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 use <../libraries/dotSCAD/src/rounded_square.scad>
 
-// imports variables, modules with "include"
+// with "include", imports variable, module definitions to this file
 include <mockup/iPhone_13_Pro_Mockup.scad>
 
 e = 1/128; // small number
+
+show_everything = !true;
+
+printSleeve = true;
+printCap   =  !printSleeve;
 
 // - [Protective iPhone 13 Pro Case | OtterBox Commuter Series Case](https://www.otterbox.com/en-us/iphone-13-pro/commuter-series-antimicrobial-case/commuter-iphp21.html)
 //  6.03 x 3.12 x 0.56 in | 15.32 x 7.92 x 1.41 cm.
@@ -48,9 +53,10 @@ e = 1/128; // small number
 l = 153.2 ;  // measured?
 w = 79.2 ; // including widest at buttons
 h = 14.1 ;
-l_use = l - 0.25; // measured
-w_use = w - 1.2 ; // measured
-h_use = h + (1*0.65);    // + padding
+
+l_use = 152.95; // l - 0.25; // measured
+w_use = 78.0;   // w - 1.2 ; // measured
+h_use = 14.75;  // h + (1*0.65);    // + padding
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § 44.3 iPhone 13 Pro 1 of 2
@@ -63,6 +69,8 @@ il = iphone_13_pro__height;
 iw = iphone_13_pro__width ;
 ih = iphone_13_pro__depth ;
 tol = 0.3;
+
+module __Customizer_Limit__ () {}
 
 // number of h half-s where iphone sets in case
 icase_h_ratio = 5.1/4;
@@ -964,7 +972,7 @@ module showTogether() {
   tweakMountSurface = true;
   withCap = true;
   withSleeve = true;
-  tolerance = 0.3;
+  tolerance = tol;
 
   show_with_phone_and_case = true;
 
@@ -981,8 +989,6 @@ module showTogether() {
   translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
 }
 
-show_everything = !true;
-
 if (show_everything) {
   showTogether();
  } else {
@@ -991,20 +997,15 @@ if (show_everything) {
 
   tweakMountSurface =  true;
 
-  withSleeve =  true;
-
-  printCap   =  true;
-  withCap    =  printCap;
-  //withCap    =  true;
 
   if (!printCap) {
     translate([0,0,0])
-      sleeveForEncasediPhone(w, l, h, tweakMountSurface, withCap, withSleeve);
-  } else {
+      sleeveForEncasediPhone(w, l, h, tweakMountSurface, false, true);
+  } else { // print sleeve
     scale ([1.0,1.0,1.0])
       translate([0,0,3+l+0.5])
       rotate([180,0,0])
-      sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, ! withSleeve);
+      sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
   }
 
   // *test_sleeveMountInsert(tweakMountSurface, 0);
