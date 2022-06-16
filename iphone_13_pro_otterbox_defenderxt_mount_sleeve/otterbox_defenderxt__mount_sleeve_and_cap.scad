@@ -52,14 +52,13 @@ for_bike_mount = true;
 
 // - [Protective iPhone 13 Pro Case Delivers Everyday Professional-grade Protection](https://www.otterbox.com/en-us/protective-iphone-13-pro-case-with-magsafe-black/77-85572.html)
 // DedenderXT: 6.20 in x 3.21 in x 0.56 in / 157.50 mm x 81.50 mm x 14.30 mm
-//  Commuter: 6.03 x 3.12 x 0.56 in | 15.32 x 7.92 x 1.41 cm.
 
-l = 153.2 +4.3 ;  // 157.5
-w = 79.2 +2.3 ;   //  81.5
-h = 14.1 +0.2 ;   //  14.3
+l = 157.5;
+w =  81.5;
+h =  14.3;
 
 l_use = l - 0.25;     // l - 0.25;     // 157.25
-w_use = w - 1.20;     // w - 1.20;     //  80.30
+w_use = w + 2.20;     // w + 2.20;     //  83.70
 h_use = h + (1*0.65); // h + (1*0.65); //  14.95
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
@@ -79,9 +78,9 @@ module __Customizer_Limit__ () {}
 // number of h half-s where iphone sets in case
 icase_h_ratio = 5.1/4;
 
-dw = w - iw;
-dl = l - il;
-dh = h - ih;
+dw = w_use - iw;
+dl = l_use - il;
+dh = h_use - ih;
 
 tw = (1/2) * dw  ;
 tl = (1/2) * dl  ;
@@ -96,8 +95,8 @@ cut_r = 6.95;
 case_out_r = cut_r + 6;
 
 // case display cutout
-dcw = (w - cut_w) / 2;
-dcl = (l - cut_l) / 2;
+dcw = (w_use - cut_w) / 2;
+dcl = (l_use - cut_l) / 2;
 
 // case rear cam opening
 case_rcam_w = 37.5;
@@ -106,7 +105,7 @@ case_rcam_r = 10;
 
 // case lightning flap
 case_flap_w = 12.5;
-case_flap_l = h - 2.8;
+case_flap_l = h_use - 2.8;
 case_flap_r = 0.7;
 case_mid_w = w/2;
 
@@ -178,7 +177,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   CONTROL_RENDER_experiment3      = false;
   CONTROL_RENDER_experiment5      = false;
-  CONTROL_RENDER_prototype_bottom = false;
+  CONTROL_RENDER_prototype_bottom = !false;
 
   wantThinner =  true;
   wantThinnerCap = false;
@@ -987,7 +986,8 @@ module showTogether() {
   }
 
   // sleeve mount design
-  translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0])
+    sleeveForEncasediPhone(w_use, l_use, h_use,  tweakMountSurface, withCap, withSleeve );
 }
 
 if (show_everything) {
@@ -1001,12 +1001,12 @@ if (show_everything) {
 
   if (!printCap) {
     translate([0,0,0])
-      sleeveForEncasediPhone(w, l, h, tweakMountSurface, false, true);
+      sleeveForEncasediPhone(w_use, l_use, h_use,  tweakMountSurface, false, true);
   } else { // print sleeve
     scale ([1.0,1.0,1.0])
       translate([0,0,3+l+0.5])
       rotate([180,0,0])
-      sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+      sleeveForEncasediPhone(w_use, l_use, h_use,  tweakMountSurface, true, false);
   }
 
   // *test_sleeveMountInsert(tweakMountSurface, 0);
