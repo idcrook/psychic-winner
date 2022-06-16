@@ -59,7 +59,7 @@ h =  14.3;
 
 l_use = l - 0.25;     // l - 0.25;     // 157.25
 w_use = w + 2.20;     // w + 2.20;     //  83.70
-h_use = h + (1*0.65); // h + (1*0.65); //  14.95
+h_use = h + 0.00;     // h + 0.00;     //  14.30
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § 44.3 iPhone 13 Pro 1 of 2
@@ -197,10 +197,10 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cutoff_top_length = true ? 10 : 35;
   trim_front_bars = (cutoff_top_length > 30) ? true : false;
 
-  sleeveInner_w =  tolerance + w + 0;
-  sleeveInner_h =  tolerance + h + 0;
-  sleeveInner_r = 3.1 - 0.6;
-  sleeveInner_rear_r = sleeveInner_r + 1.2;
+  sleeveInner_w =  tolerance + w + 3.2;
+  sleeveInner_h =  tolerance + h + 0.0;
+  sleeveInner_r = 3.1 - 2.4;
+  sleeveInner_rear_r = sleeveInner_r + 1.8;
 
   buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
   buttonsIncludedInner_h =            +  4.0 + tolerance;
