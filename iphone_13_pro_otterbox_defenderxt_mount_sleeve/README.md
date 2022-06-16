@@ -11,13 +11,12 @@ UPDATES
 
 **2022-Jun-16**
 
--	Initial revision
+-	Initial revision, based on [iphone_13_pro_otterbox_commuter_mount_sleeve](../iphone_13_pro_otterbox_commuter_mount_sleeve#readme)
 
 iPhone 13 Pro Otterbox Defender XT Series Case
--------------------------------------------
+----------------------------------------------
 
 ![empty case](img/rugged_case_itself.png)
-
 
 -	[Protective iPhone 13 Pro Case Delivers Everyday Professional-grade Protection](https://www.otterbox.com/en-us/protective-iphone-13-pro-case-with-magsafe-black/77-85572.html)
 
@@ -27,10 +26,7 @@ Dimensions:
 
 Commuter size deltas `+4.3 mm x +2.3 mm x +0.2 mm`
 
-
 Amazon: [OTTERBOX DEFENDER SERIES XT SCREENLESS EDITION Case for iPhone 13 Pro (ONLY) - BLACK](https://www.amazon.com/dp/B09D5HKR8W)
-
-
 
 Views and Renders
 -----------------
@@ -40,7 +36,6 @@ Views and Renders
 ![diagonal view of case model with iphone](img/diag_view__obx_defenderxt.png)
 
 ![back diagonal view with iphone in situ](img/sleeve_back_diag_view__obx_defenderxt_iphone13pro.png)
-
 
 <!--
 
@@ -89,7 +84,8 @@ thingiverse
 
 This model:
 
--	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Commuter](https://www.thingiverse.com/thing:5019596) - This model
 
+ -	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Defender XT](https://www.thingiverse.com/thing:5019596) - This model TBD
+    -	[Modular mount system Sleeve for iPhone 13 Pro with case - Otterbox Commuter](https://www.thingiverse.com/thing:5019596)
 	-	[iPhone 13 Pro mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:4980345)
 	-	[Modular mount system Sleeve for iPhone 11 Pro with case by dpc - Thingiverse](https://www.thingiverse.com/thing:3865844)
