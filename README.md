@@ -44,6 +44,7 @@ Intended to find the collection of local libraries (macOS, Linux)
  -    [iphone 13 pro max mockup](#dir-dt-iphone-13-pro-max-mockup)
  -    [iphone 13 pro mockup](#dir-dt-iphone-13-pro-mockup)
  -    [iphone 13 pro otterbox commuter mount sleeve](#dir-dt-iphone-13-pro-otterbox-commuter-mount-sleeve)
+ -    [iphone 13 pro otterbox defenderxt mount sleeve](#dir-dt-iphone-13-pro-otterbox-defenderxt-mount-sleeve)
  -    [iphone 6plus bicycle mount](#dir-dt-iphone-6plus-bicycle-mount)
  -    [iphone 6plus mount family](#dir-dt-iphone-6plus-mount-family)
  -    [iphone 8plus otterbox statement case mount sleeve](#dir-dt-iphone-8plus-otterbox-statement-case-mount-sleeve)
@@ -269,6 +270,17 @@ iphone 13 pro mockup
 iphone 13 pro otterbox commuter mount sleeve
 
 ![iphone 13 pro otterbox commuter mount sleeve](iphone_13_pro_otterbox_commuter_mount_sleeve/img/sleeve_diag_view__obx_commuter.png "iphone 13 pro otterbox commuter mount")
+
+</dd>
+
+<dt id="dir-dt-iphone-13-pro-otterbox-defenderxt-mount-sleeve" >
+
+[iphone_13_pro_otterbox_defenderxt_mount_sleeve](iphone_13_pro_otterbox_defenderxt_mount_sleeve/#readme)
+
+</dt><dd>
+iphone 13 pro otterbox defenderxt mount sleeve
+
+<!-- ![iphone 13 pro otterbox defenderxt mount sleeve](iphone_13_pro_otterbox_defenderxt_mount_sleeve/img/IMAGE.png "iphone 13 pro otterbox defenderxt mount sleeve") -->
 
 </dd>
 

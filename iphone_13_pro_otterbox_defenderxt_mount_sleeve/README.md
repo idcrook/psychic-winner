@@ -35,11 +35,14 @@ Amazon: [OTTERBOX DEFENDER SERIES XT SCREENLESS EDITION Case for iPhone 13 Pro (
 Views and Renders
 -----------------
 
-![back view of case model with iphone](img/back_view__obx_commuter.png)
+![back view of case model with iphone](img/back_view__obx_defenderxt.png)
 
-![diagonal view of case model with iphone](img/diag_view__obx_commuter.png)
+![diagonal view of case model with iphone](img/diag_view__obx_defenderxt.png)
 
-![back diagonal view with iphone in situ](img/sleeve_back_diag_view__obx_commuter_iphone13pro.png)
+![back diagonal view with iphone in situ](img/sleeve_back_diag_view__obx_defenderxt_iphone13pro.png)
+
+
+<!--
 
 ![diagonal view](img/sleeve_diag_view__obx_commuter.png)
 
@@ -64,6 +67,8 @@ Views and Renders
 ![print front in car view](img/print_front_in_car__obx_commuter.jpg)
 
 ![print back in car_view](img/print_back_in_car__obx_commuter.jpg)
+
+-->
 
 #### iPhone 13 Pro
 
