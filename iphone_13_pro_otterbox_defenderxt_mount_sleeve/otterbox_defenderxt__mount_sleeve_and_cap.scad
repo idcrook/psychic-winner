@@ -47,7 +47,7 @@ printSleeve = true;
 printCap   =  !printSleeve;
 
 // bike mount version requires cap (but no lightning port access)
-for_bike_mount = true;
+for_bike_mount = !true;
 
 
 // - [Protective iPhone 13 Pro Case Delivers Everyday Professional-grade Protection](https://www.otterbox.com/en-us/protective-iphone-13-pro-case-with-magsafe-black/77-85572.html)
@@ -177,7 +177,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   CONTROL_RENDER_experiment3      = false;
   CONTROL_RENDER_experiment5      = false;
-  CONTROL_RENDER_prototype_bottom = !false;
+  CONTROL_RENDER_prototype_bottom = false;
 
   wantThinner =  true;
   wantThinnerCap = false;
