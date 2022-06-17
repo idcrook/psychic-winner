@@ -58,8 +58,8 @@ w =  81.5;
 h =  14.3;
 
 l_use = l - 0.25;     // l - 0.25;     // 157.25
-w_use = w + 0.00;     // w + 1.20;     //  82.70
-h_use = h - 1.40;     // h - 2.00;     //  12.30
+w_use = w + 1.00;     // w + 1.00;     //  82.50
+h_use = h - 0.80;     // h - 0.80;     //  13.50
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § 44.3 iPhone 13 Pro 1 of 2
