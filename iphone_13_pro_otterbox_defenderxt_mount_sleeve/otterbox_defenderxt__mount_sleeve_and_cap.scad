@@ -934,13 +934,6 @@ module test_sleeveMountInsert (fit_better, translate_x) {
 
   fitBetter = fit_better;
 
-  tolerance = 0.5;
-  wantThinner = true ;
-  sleeveBottomThickness =  wantThinner ? 2.8 : 3.5;
-
-
-  mountInsert_yTranslation = (1/2)*(tolerance + h) + sleeveBottomThickness;
-
   translate([translate_x, 0, 0])
     sleeveMountInsert(mountInsertWidth, mountInsertThickness, mountInsertHeight, fitBetter);
 }
