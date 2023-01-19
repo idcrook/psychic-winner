@@ -167,8 +167,10 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
 
   enlargePunchScale = 1.08;
 
+  height_adjust = 3.2;
+
   // http://mathworld.wolfram.com/CircularSegment.html
-  heightOfArcedPortion = 5.8 + 1.0;  // for particular bicycle's handlebar column
+  heightOfArcedPortion = 5.8 + 1.0 + height_adjust;  // for particular bicycle's handlebar column
   chordLength = block_x;
 
   // R = (1/2) (a^2/4h + h)
@@ -179,7 +181,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
 
   thicknessOfBandSupport = 3.5 + 1.5;
   //bandCutoutDistanceFromBlock = 10.7 + elevate_above_frame;
-  bandCutoutDistanceFromBlock = block_y / 2;
+  bandCutoutDistanceFromBlock = block_y / 2 - height_adjust;
 
   bandCutoutStartOfNegative = (3/10)*block_z;
   bandCutoutStopOfNegative = (7/10)*block_z;
@@ -241,12 +243,10 @@ module test_sleeveMountInsert (fit_better = true, translate_x = 0) {
 
 
 CONTROL_OUTPUT_bicycleMount = true;
-// CONTROL_OUTPUT_bicycleMount = false;
-
 
 $fn = 100;
 
-tweakMountSurface = false;
+tweakMountSurface = true;
 
 if (CONTROL_OUTPUT_bicycleMount) {
   // translate([-90,0,39])
