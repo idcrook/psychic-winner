@@ -26,10 +26,10 @@ use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
 // tilt angle wrt frame. Should be zero or small positive angle;
-tilt_angle = 15;
+tilt_angle = 10;
 
 // additional height above bike frame from default
-elevate_above_frame = 3.0;
+elevate_above_frame = 4.0;
 
 // how much to overlap (or not) in groove with bottom of tongue on slot insert
 mount_insert_shift = 0.0;
