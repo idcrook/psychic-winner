@@ -32,39 +32,15 @@ tilt_angle = 0;
 elevate_above_frame = 6.0;
 
 // how much to overlap (or not) in groove with bottom of tongue on slot insert
-mount_insert_shift = 0.5;
+mount_insert_shift = 0.0;
 
 // curvature for particular bicycle's handlebar column
-height_Of_Arced_Portion = 6.8;
+height_Of_Arced_Portion = 8.8;
 
 module __Customizer_Limit__ () {}
 
 
 e = 1/128; // small number
-
-w = 81.5;
-l = 161.9;  //
-h = 10.5;   // at corners; elsewhere as low as 10.1 mm
-
-iw = 77.8;
-il = 158.1;
-ih = 7.1;
-tol = 0.2;
-
-dw = w - iw;
-dl = l - il;
-dh = h - ih;
-
-tw = (1/2) * dw  ;
-tl = (1/2) * dl  ;
-th = (1/2) * dh  ;
-
-cut_w = 73.3;
-cut_l = 153.8;
-cut_r = 9.5;
-
-dcw = (w - cut_w) / 2;
-dcl = (l - cut_l) / 2;
 
 tolerance = 0.5;
 
@@ -169,7 +145,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   //
   //  4. clip latch to "lock" iphone carrier into the mount unless released
   //
-  block_x = 33.2 + 0.0 ;        // width of mount
+  block_x = 30.8 + 0.0 ;        // width of mount
   block_y = 24.0 + elevate_above_frame ; // height of mount above bike frame
   block_z = 39.0 + 0.0 ; // length of mount along frame
 
