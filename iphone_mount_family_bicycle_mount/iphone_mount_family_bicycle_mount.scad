@@ -1,6 +1,4 @@
 ////////////////////////////////////////////////////////////////////////
-// Initial Revision:
-//   27-Mar-2016
 //
 // Author:
 //
@@ -17,7 +15,6 @@
 //
 //   - use external function for insertion slot (sleeve mount insert)
 //
-//
 ////////////////////////////////////////////////////////////////////////
 
 
@@ -25,25 +22,26 @@ use <files/iPhone_6_and_6_Plus_Mockups.scad>;
 use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
-// tilt angle wrt frame. Should be zero or small positive angle;
-tilt_angle = 10;
+// Width across for mount (should not be wider than handlebar column)
+Width_Of_Mount = 30.8;
 
-// additional height above bike frame from default
+// Curvature for particular bicycle's handlebar column
+Height_Of_Arced_Portion = 10.0;
+
+// Tilt angle wrt frame. Should be small (0-15) positive angle, expressed in degrees
+tilt_angle = 0;
+
+// Additional height above bike frame from default
 elevate_above_frame = 4.0;
 
-// how much to overlap (or not) in groove with bottom of tongue on slot insert
+// How much to overlap bottom of tongue on slot insert (shouldn't need to change)
 mount_insert_shift = 0.0;
 
-// curvature for particular bicycle's handlebar column
-height_Of_Arced_Portion = 10.0;
-
 module __Customizer_Limit__ () {}
-
 
 e = 1/128; // small number
 
 tolerance = 0.5;
-
 
 module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
@@ -145,7 +143,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   //
   //  4. clip latch to "lock" iphone carrier into the mount unless released
   //
-  block_x = 30.8 + 0.0 ;        // width of mount
+  block_x = Width_Of_Mount;        // width of mount
   block_y = 24.0 + elevate_above_frame ; // height of mount above bike frame
   block_z = 39.0 + 0.0 ; // length of mount along frame
 
@@ -157,7 +155,7 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   enlargePunchScale = 1.08;
 
   // http://mathworld.wolfram.com/CircularSegment.html
-  heightOfArcedPortion = height_Of_Arced_Portion ;  // for particular bicycle's handlebar column
+  heightOfArcedPortion = Height_Of_Arced_Portion ;  // for particular bicycle's handlebar column
 
   chordLength = block_x;
 
