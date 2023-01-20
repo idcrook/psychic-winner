@@ -25,6 +25,21 @@ use <files/iPhone_6_and_6_Plus_Mockups.scad>;
 use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
+// tilt angle wrt frame. Should be zero or small positive angle;
+tilt_angle = 0;
+
+// additional height above bike frame from default
+elevate_above_frame = 6.0;
+
+// how much to overlap (or not) in groove with bottom of tongue on slot insert
+mount_insert_shift = 0.5;
+
+// curvature for particular bicycle's handlebar column
+height_Of_Arced_Portion = 6.8;
+
+module __Customizer_Limit__ () {}
+
+
 e = 1/128; // small number
 
 w = 81.5;
@@ -154,8 +169,6 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   //
   //  4. clip latch to "lock" iphone carrier into the mount unless released
   //
-  elevate_above_frame = 6.0;
-
   block_x = 33.2 + 0.0 ;        // width of mount
   block_y = 24.0 + elevate_above_frame ; // height of mount above bike frame
   block_z = 39.0 + 0.0 ; // length of mount along frame
@@ -170,7 +183,8 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   height_adjust = 3.2;
 
   // http://mathworld.wolfram.com/CircularSegment.html
-  heightOfArcedPortion = 5.8 + 1.0 + height_adjust;  // for particular bicycle's handlebar column
+  heightOfArcedPortion = height_Of_Arced_Portion + height_adjust;  // for particular bicycle's handlebar column
+
   chordLength = block_x;
 
   // R = (1/2) (a^2/4h + h)
@@ -187,15 +201,25 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   bandCutoutStopOfNegative = (7/10)*block_z;
 
   difference() {
-    linear_extrude(height = block_z, center = false, convexity = 10)
-      difference () {
-      complexRoundSquare([block_x, block_y],
-                         [0,0], [0,0], [0,0], [0,0],
-                         center = false);
+    union() {
+      linear_extrude(height = block_z, center = false, convexity = 10)
+        difference () {
+        complexRoundSquare([block_x, block_y],
+                           [0,0], [0,0], [0,0], [0,0],
+                           center = false);
 
-      //  1. curvature for bike frame (cutout a circle segment)
-      translate([block_x/2, block_y + circleCenterDistanceFromCut,0])
-        circle(r= radiusOfCurvature);
+        //  1. curvature for bike frame (cutout a circle segment)
+        translate([block_x/2, block_y + circleCenterDistanceFromCut,0])
+          circle(r= radiusOfCurvature);
+      }
+      //        translate([0, e + mountInsert_h * sin(tilt_angle), 0])
+        translate([0, e, 0])
+        rotate([tilt_angle, 0, 0])
+        linear_extrude(height = block_z , center = false, convexity = 10)
+        complexRoundSquare([block_x, mountInsert_h],
+                           [0,0], [0,0], [0,0], [0,0],
+                           center = false);
+
     }
 
     //  2. through hole around this curvature for a metal screw-band
@@ -209,10 +233,16 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
         circle(r= radiusOfCurvature + thicknessOfBandSupport);
     }
 
+
     //  3. mount insert piece for inserting phone carrier
+    translate_y = (mountInsert_h - enlargePunchScale*mountInsert_h);
+
     scale([enlargePunchScale, enlargePunchScale, 1])
       translate([-mountInsert_position + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) - tolerance ,
-                 (mountInsert_h - enlargePunchScale*mountInsert_h), block_z - mount_insert_h + e])
+                 translate_y , block_z - mount_insert_h + mount_insert_shift + e])
+      //translate([0, mountInsert_h*sin(tilt_angle) , 0])
+      translate([0, -e, 0])
+      rotate([tilt_angle, 0, 0])
       test_sleeveMountInsert(fitBetter, mountInsert_position);
   }
 }
