@@ -26,16 +26,16 @@ use <../libraries/MCAD/2Dshapes.scad>
 use <../libraries/local-misc/wedge.scad>
 
 // tilt angle wrt frame. Should be zero or small positive angle;
-tilt_angle = 0;
+tilt_angle = 15;
 
 // additional height above bike frame from default
-elevate_above_frame = 6.0;
+elevate_above_frame = 3.0;
 
 // how much to overlap (or not) in groove with bottom of tongue on slot insert
 mount_insert_shift = 0.0;
 
 // curvature for particular bicycle's handlebar column
-height_Of_Arced_Portion = 8.8;
+height_Of_Arced_Portion = 10.0;
 
 module __Customizer_Limit__ () {}
 
@@ -156,10 +156,8 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
 
   enlargePunchScale = 1.08;
 
-  height_adjust = 3.2;
-
   // http://mathworld.wolfram.com/CircularSegment.html
-  heightOfArcedPortion = height_Of_Arced_Portion + height_adjust;  // for particular bicycle's handlebar column
+  heightOfArcedPortion = height_Of_Arced_Portion ;  // for particular bicycle's handlebar column
 
   chordLength = block_x;
 
@@ -169,12 +167,13 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
   // r = R - h
   circleCenterDistanceFromCut = radiusOfCurvature - heightOfArcedPortion;
 
-  thicknessOfBandSupport = 3.5 + 1.5;
-  //bandCutoutDistanceFromBlock = 10.7 + elevate_above_frame;
-  bandCutoutDistanceFromBlock = block_y / 2 - height_adjust;
+  thicknessOfBandSupport = 4.5;
+  bandCutoutDistanceFromBlock = block_y / 2 - (3/5) * thicknessOfBandSupport;
 
   bandCutoutStartOfNegative = (3/10)*block_z;
   bandCutoutStopOfNegative = (7/10)*block_z;
+
+  //angle_height_adjust = block_z * sin(tilt_angle) * 0;
 
   difference() {
     union() {
@@ -188,11 +187,10 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
         translate([block_x/2, block_y + circleCenterDistanceFromCut,0])
           circle(r= radiusOfCurvature);
       }
-      //        translate([0, e + mountInsert_h * sin(tilt_angle), 0])
-        translate([0, e, 0])
+      translate([0, e, 0])
         rotate([tilt_angle, 0, 0])
         linear_extrude(height = block_z , center = false, convexity = 10)
-        complexRoundSquare([block_x, mountInsert_h],
+        complexRoundSquare([block_x, mountInsert_h + 3 * block_z * (1 - cos(tilt_angle))],
                            [0,0], [0,0], [0,0], [0,0],
                            center = false);
 
@@ -216,7 +214,6 @@ module bicycleMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitB
     scale([enlargePunchScale, enlargePunchScale, 1])
       translate([-mountInsert_position + (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) - tolerance ,
                  translate_y , block_z - mount_insert_h + mount_insert_shift + e])
-      //translate([0, mountInsert_h*sin(tilt_angle) , 0])
       translate([0, -e, 0])
       rotate([tilt_angle, 0, 0])
       test_sleeveMountInsert(fitBetter, mountInsert_position);
