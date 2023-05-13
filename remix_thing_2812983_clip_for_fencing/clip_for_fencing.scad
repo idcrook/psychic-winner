@@ -28,22 +28,32 @@ circle_center_cut = 3;
 cut_size = circle_center_cut + dia;
 print_height =  7.5+2*e;
 
-translate_hook_x = dia/2+0.5;
-hook_width = 3.2;
+translate_hook_x = 3.7 - 0.8;
+translate_hook_y = -11-5;
+hook_width = 3.2 + 0.8;
 
 
 // translate and rotate to achieve goal
 module modify_clip  () {
 
 
-  // add additional material for loopoing around fence wire
-  translate([translate_hook_x, -circle_center_cut-e, -e])
-    cube([hook_width, 5, print_height]);
+  difference () {
+    union() {
+      // add additional material for loopoing around fence wire
+      translate([translate_hook_x, translate_hook_y, -e])
+        cube([hook_width, 5+5, print_height]);
 
+      // hard-code some values here; tweak as needed
+      translate([translate_hook_x-4, translate_hook_y, -e])
+        rotate([0,0,-40])  // sets the angle of the "hook" part
+        cube([hook_width-0.5, 5+2, print_height]);
+    }
 
-  translate([translate_hook_x+0.8, -0.5, -e])
-    rotate([0,0,50])
-    cube([hook_width, 5, print_height]);
+      translate([translate_hook_x, translate_hook_y -0.7, -2*e])
+      rotate([0,0,-40])  // sets the angle of the "hook" part
+      cube([hook_width-0.5, 5+2, print_height+2*e]);
+
+  }
 
 
   difference() {
@@ -55,6 +65,13 @@ module modify_clip  () {
       cube([cut_size, cut_size, print_height]);
     }
 
+    // trim remaining center circle piece
+    translate ([0, -circle_center_cut - 3, -e]) {
+      cube([cut_size, cut_size, print_height]);
+    }
+
+
+    // cut away far loop side
     translate ([dia-e, 0, -e]) {
       cube([dia+2*e, dia, print_height]);
     }
@@ -67,6 +84,7 @@ module modify_clip  () {
     translate ([2*dia, -dia-e, -e]) {
       cube([dia, dia+2*e, print_height]);
     }
+
 
   }
 
