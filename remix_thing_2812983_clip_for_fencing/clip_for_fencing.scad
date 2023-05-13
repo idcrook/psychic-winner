@@ -36,23 +36,24 @@ hook_width = 3.2 + 0.8;
 // translate and rotate to achieve goal
 module modify_clip  () {
 
-  // add additional material for looping around fence wire
-  difference () {
-    union() {
-      translate([translate_hook_x, translate_hook_y, 0])
-        cube([hook_width, 5+5, print_height]);
+  // add additional material for hooking fence wire
+  translate ([-7.7,-2,0]) {
+    difference () {
+      union() {
+        translate([translate_hook_x, translate_hook_y, 0])
+          cube([hook_width, 5+5, print_height]);
 
-      // hard-code some values here; tweak as needed
-      translate([translate_hook_x-4, translate_hook_y, 0])
+        // hard-code some values here; tweak as needed
+        translate([translate_hook_x-4, translate_hook_y, 0])
+          rotate([0,0,-40])  // sets the angle of the "hook" part
+          cube([hook_width-0.5, 5+2, print_height]);
+      }
+
+      translate([translate_hook_x, translate_hook_y -0.7, -e])
         rotate([0,0,-40])  // sets the angle of the "hook" part
-        cube([hook_width-0.5, 5+2, print_height]);
+        cube([hook_width-0.5, 5+2, print_height+2*e]);
     }
-
-    translate([translate_hook_x, translate_hook_y -0.7, -e])
-      rotate([0,0,-40])  // sets the angle of the "hook" part
-      cube([hook_width-0.5, 5+2, print_height+2*e]);
   }
-
 
   // modify sacrificial imported model here
   difference() {
