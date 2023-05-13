@@ -1,13 +1,17 @@
-Fencing clip for raised bed
-===============================================================
+Clip for fencing on garden raised bed
+=====================================
 
 Description: Utility clip to pull rabbit fencing alongside a gardening metal raised bed
 
 ![object render](img/object_render.png)
 
-Published on Thingiverse: TBD
+![object render](img/clipped_into_bed_liner.jpg)
 
-Inspired by necessity.
+Inspired by necessity. Here you can see the design progression:
+
+![object render](img/design_iterations.jpg)
+
+Published on Thingiverse: TBD
 
 -	Remix of[S-shaped Cable Clip by d_satow - Thingiverse](https://www.thingiverse.com/thing:2812983)
 
