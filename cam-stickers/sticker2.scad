@@ -22,6 +22,7 @@ e = 1/128;
 as_coaster = true;
 add_padding = false;
 add_fill_concentric = true;
+add_music_notes = true;
 
 b_z = 2.5;
 face_height = 3.0;
@@ -47,6 +48,7 @@ module invert() {
     translate([-1.05, -1.05])
     import("cam-logo2-retina-trace.svg", center = true);
   }
+
 }
 
 module fill_concentric () {
@@ -77,12 +79,21 @@ module fill_concentric () {
   stroke(path8);
 }
 
+module musical_notes () {
+    translate([72.5, 32.2])
+      scale([0.122, 0.122])
+      import("quarter-notes.svg", center = true);
+}
+
 module extruded(h = 5) {
   linear_extrude(height=h)
     union () {
     invert();
     if (add_fill_concentric) {
       fill_concentric();
+    }
+    if (add_music_notes) {
+      musical_notes();
     }
   }
 }
