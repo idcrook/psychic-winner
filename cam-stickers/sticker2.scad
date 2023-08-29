@@ -28,6 +28,11 @@ b_z = 2.5;
 face_height = 3.0;
 face_suspend = 1.0;
 
+base_ring_height = 1.5;
+base_ring_r = 48.8;
+base_ring_w = 3.6;
+base_ring_a = base_ring_r - (1/2)*base_ring_w;
+
 d_x = 107.9 ;
 d_y = 107.9 ;
 // Intended for plating extruded design 1.0 mm above bed/base
@@ -79,6 +84,13 @@ module fill_concentric () {
   stroke(path8);
 }
 
+module base_ring () {
+
+  path0 = arc(cp = center_svg, n=50, start=0, r=base_ring_r, angle=360);
+  stroke(path0, width=base_ring_w);
+
+}
+
 module musical_notes () {
     translate([72.5, 32.2])
       scale([0.122, 0.122])
@@ -99,9 +111,10 @@ module extruded(h = 5) {
 }
 
 
-print_face = true;
+print_face = !true;
 print_base = !print_face;
-base_as_circle = !true;
+print_base_ring = !false; // only applies to circular base
+base_as_circle = true;
 
 if (print_face) {
   echo ("Face extruded height: ", d_z);
@@ -111,14 +124,27 @@ scale([scale_x, scale_y, 1.00])
 if (print_base) {
   if (base_as_circle) {
       translate(center_svg)
-      linear_extrude(height=b_z)
-      circle(d = d_x + 2*pad_x, $fn = 50);
-  } else {
+        difference () {
+        linear_extrude(height=b_z)
+          circle(d = d_x + 2*pad_x, $fn = 50);
+        if (print_base_ring) {
+          translate([0, 0, b_z - 0.6])
+          linear_extrude(height=b_z)
+            circle(r = base_ring_a, $fn = 50);
+        }
+      }
+      if (print_base_ring) {
+        translate([0,0, b_z - e])
+          linear_extrude(height = base_ring_height)
+          base_ring();
+      }
+  } else { // base as square
     translate([-pad_x, -pad_y, 0])
       translate(center_svg)
       linear_extrude(height=b_z)
       roundedSquare(pos=[d_x + 2*pad_x, d_y + 2*pad_y], r=4.5);
   }
+
  }
 
 scale([scale_x, scale_y, 1.00])
