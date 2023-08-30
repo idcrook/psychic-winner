@@ -27,8 +27,10 @@ add_music_notes = true;
 face_thickness = 1.8;
 face_suspend = 0.5;
 
-base_thickness = 0.7; // needs to be more than face_suspend
-base_ring_height = 1.5;
+base_thickness = 0.8; // needs to be more than face_suspend
+assert(base_thickness > face_suspend, "Need the overlap to be less than the base thickness");
+
+base_ring_height = 1.4;
 base_ring_r = 48.8;
 base_ring_w = 3.6;
 base_ring_a = base_ring_r - (1/2)*base_ring_w;
@@ -127,7 +129,7 @@ module extruded(h = 5) {
 show_coasters = !true;
 debug_stacking = false;
 
-print_face = true;
+print_face = !true;
 print_base = !print_face ;
 
 echo ("Face extruded height: ", d_z);
@@ -178,11 +180,13 @@ module coaster () {
 
 }
 
+stack_distance = total_height - base_ring_height + base_thickness;
+
 if (debug_stacking) {
   intersection() {
     coaster();
 
-    translate([0,0,total_height - base_ring_height + base_thickness]) {
+    translate([0,0, stack_distance]) {
       coaster();
     }
  }
@@ -192,9 +196,19 @@ if (show_coasters) {
 
     coaster();
 
-    translate([0,0,total_height - base_ring_height + base_thickness]) {
+    translate([0,0, stack_distance]) {
       coaster();
     }
+
+    translate([0,0, 2 * stack_distance]) {
+      coaster();
+    }
+
+    translate([0,0, 3 * stack_distance]) {
+      coaster();
+    }
+
+
  } else {
 
   scale([scale_x, scale_y, 1.00])
