@@ -37,10 +37,10 @@ base_ring_w = 3.6;
 base_ring_a = base_ring_r - (1/2)*base_ring_w;
 
 center_pivot_height = base_ring_height;
-center_pivot_r = 0.4 * 5;
-center_pivot_r1 = 0.4 * 3;
+center_pivot_r = 0.4 * 6;
+center_pivot_r1 = 0.4 * 4;
 center_pivot_r2 = center_pivot_r;
-center_pivot_rc = 0.4;
+center_pivot_rc = 0.4 * 1.8;
 
 base_outer_r = 54.4;
 //base_outer_r = 53.95;
@@ -139,7 +139,7 @@ module extruded(h = 5) {
 show_coasters = !true;
 debug_stacking = false;
 
-print_face = true;
+print_face = !true;
 print_base = !print_face ;
 
 echo ("Face extruded height: ", d_z);
