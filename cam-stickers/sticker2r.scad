@@ -37,10 +37,10 @@ base_ring_w = 3.6;
 base_ring_a = base_ring_r - (1/2)*base_ring_w;
 
 center_pivot_height = base_ring_height;
-center_pivot_r = 0.4 * 6;
-center_pivot_r1 = 0.4 * 4;
+center_pivot_r = 0.4 * 7;
+center_pivot_r1 = 0.4 * 5;
 center_pivot_r2 = center_pivot_r;
-center_pivot_rc = 0.4 * 1.8;
+center_pivot_rc = 0.4 * 2.2;
 
 base_outer_r = 54.4;
 //base_outer_r = 53.95;
