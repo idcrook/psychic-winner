@@ -27,9 +27,12 @@ add_center_pivot = true;
 
 face_thickness = 1.8;
 face_suspend = 0.5;
+face_R = 52 + 1.4 + 0.5;
+face_recessed = true;
 
 base_thickness = 0.8; // needs to be more than face_suspend
 assert(base_thickness > face_suspend, "Need the overlap to be less than the base thickness");
+
 
 base_ring_height = 1.4;
 base_ring_r = 48.8;
@@ -50,11 +53,13 @@ base_ring_outer_s_r = base_ring_outer_r - 1.7;
 base_ring_inner_s_r = base_ring_inner_r;
 
 
+
 d_x = 107.9 ;
 d_y = 107.9 ;
 // Intended for plating extruded design 0.5 mm into base since openscad cannot
 // generate an STL with both base and face, but slicer can overlap them
 d_z = face_thickness + face_suspend;
+recessed_scale = 0.68;
 
 total_height = face_thickness + base_thickness + base_ring_height;
 
@@ -86,11 +91,19 @@ module fill_concentric () {
                  [9   - 90,   44,              180 - 2*9],
                  [6.5  - 90,   46,             180 - 2*6.5],
                  [ 4   - 90,   48,             180 - 2* 4],
-                 [ 0   - 90,   52 + 1.4 + 0.5, 180 - 2*0]];
+                 [ 0   - 90,   face_R, 180 - 2*0]];
 
-  for (arc =  arc_sizes_r) {
-    path = arc(cp = center_svg, n=36, start=arc[0], r=arc[1], angle=arc[2]);
-    stroke(path, width = arc_width);
+  for (arc_size =  [0:len(arc_sizes_r)-2]) {
+    let (arc = arc_sizes_r[arc_size])  {
+      path = arc(cp = center_svg, n=36, start=arc[0], r=arc[1], angle=arc[2]);
+      stroke(path, width = arc_width);
+    }
+  }
+  if (!face_recessed) {
+    let (arc = arc_sizes_r[len(arc_sizes_r)-1])  {
+      path = arc(cp = center_svg, n=36, start=arc[0], r=arc[1], angle=arc[2]);
+      stroke(path, width = arc_width);
+    }
   }
 
   // left half
@@ -99,14 +112,39 @@ module fill_concentric () {
                  [ 9 - 90 + 180,   44,             180 - 2*9],
                  [6.5 - 90 + 180,  46,             180 - 2*6.5],
                  [ 4 - 90 + 180,   48,             180 - 2* 4],
-                 [ 0 - 90 + 180,   52 + 1.4 + 0.5, 180 - 2*0]];
+                 [ 0 - 90 + 180,   face_R, 180 - 2*0]];
 
-  for (arc =  arc_sizes_l) {
-    path = arc(cp = center_svg, n=36, start=arc[0], r=arc[1], angle=arc[2]);
-    stroke(path, width = arc_width);
+  for (arc_size =  [0:len(arc_sizes_l)-2]) {
+    let (arc = arc_sizes_l[arc_size])  {
+      path = arc(cp = center_svg, n=36, start=arc[0], r=arc[1], angle=arc[2]);
+      stroke(path, width = arc_width);
+    }
+  }
+  if (!face_recessed) {
+    let (arc = arc_sizes_l[len(arc_sizes_l)-1])  {
+      path = arc(cp = center_svg, n=36, start=arc[0], r=arc[1], angle=arc[2]);
+      stroke(path, width = arc_width);
+    }
   }
 
+
 }
+
+
+module outer_ring_face(r = face_R) {
+  arc_width = 0.4*2;
+
+  path = arc(cp = center_svg,  n=36*2, start=0, r=r, angle=361);
+  stroke(path, width = arc_width);
+
+}
+
+// module recessed_cutout(r = face_R) {
+
+//   translate(center_svg) {
+//     cylinder(r=face_R - 2, h = 5);
+//   }
+// }
 
 module base_ring () {
 
@@ -139,7 +177,8 @@ module extruded(h = 5) {
 show_coasters = !true;
 debug_stacking = false;
 
-print_face = !true;
+print_face = true;
+print_face_recessed = print_face;
 print_base = !print_face ;
 
 echo ("Face extruded height: ", d_z);
@@ -185,10 +224,27 @@ module gen_base () {
 }
 
 
-module gen_face () {
-  translate([0,0, 0])
-    extruded(h = d_z);
- }
+module gen_face (recessed_part = true) {
+
+  height = face_recessed ? recessed_scale * d_z : d_z;
+
+  if (face_recessed) {
+    if (recessed_part) {
+      translate([0,0, 0]) {
+        extruded(h = height);
+      }
+    } else {
+      echo ("Face (recessed?) extruded height: ", height);
+      linear_extrude(height = d_z)
+        outer_ring_face(r=face_R);
+    }
+  } else {
+      translate([0,0, 0]) {
+        extruded(h = height);
+      }
+  }
+
+}
 
 
 module coaster () {
@@ -231,7 +287,7 @@ if (show_coasters) {
     }
 
 
- } else {
+ } else {  // Main renders
 
   scale([scale_x, scale_y, 1.00])
     if (print_base) {
@@ -240,7 +296,15 @@ if (show_coasters) {
 
   scale([scale_x, scale_y, 1.00])
     if (print_face) {
-      gen_face();
+      if (face_recessed) {
+        if (print_face_recessed) {
+          gen_face(recessed_part = true);
+        } else {
+          gen_face(recessed_part = false);
+        }
+      } else {
+        gen_face();
+      }
     }
  }
 
