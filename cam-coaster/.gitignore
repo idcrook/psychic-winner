@@ -1,0 +1,5 @@
+*.patch
+*.stl
+!coaster-face.stl
+!coaster-face-ring.stl
+!coaster-base.stl
