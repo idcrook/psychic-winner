@@ -29,24 +29,25 @@ use <../libraries/dotSCAD/src/rounded_square.scad>
 e = 1/128;
 
 /// Gross iPhone 15 Pro Max dimensions
-iphone_15_pro_max__height = 146.71;
-iphone_15_pro_max__width  =  71.54;
-iphone_15_pro_max__depth  =   7.65;
+iphone_15_pro_max__height = 159.9;
+iphone_15_pro_max__width  =  76.7;
+iphone_15_pro_max__depth  =   8.25;
 iphone_15_pro_max__z_mid  =   iphone_15_pro_max__depth / 2;
 
 // estimate
 iphone_15_pro_max__face_corner_radius = 16.88; // very close to matching profile from blueprint
-iphone_15_pro_max__graphite = "#50504C";
-iphone_15_pro_max__graphite_stainless_steel = "Silver";
-iphone_15_pro_max__graphite_button = "#70706C";
-iphone_15_pro_max__graphite_turret = iphone_15_pro_max__graphite;
-iphone_15_pro_max__graphite_plateau = "#5F5E5A";
-iphone_15_pro_max__graphite_lens_bezel = "#ABA9A4";
+
+iphone_15_pro_max__blue_titanium = "#3B3E47";
+iphone_15_pro_max__blue_titanium_titanium = "#23262E";
+iphone_15_pro_max__blue_titanium_button = "#2F3340";
+iphone_15_pro_max__blue_titanium_turret = iphone_15_pro_max__blue_titanium;
+iphone_15_pro_max__blue_titanium_plateau = "#282E3A";
+iphone_15_pro_max__blue_titanium_lens_bezel = "#48506F";
 
 housing_spline_inlay_to_start_of_flat_area__width = 1.15;
-stainless_housing__inset = housing_spline_inlay_to_start_of_flat_area__width;
+titanium_housing__inset = housing_spline_inlay_to_start_of_flat_area__width;
 rear_cam_plateau__inset = 4.27;
-rear_cam_turret__trench_width = rear_cam_plateau__inset - stainless_housing__inset;
+rear_cam_turret__trench_width = rear_cam_plateau__inset - titanium_housing__inset;
 
 // "from_top" measurements are to center/midpoint of object
 
@@ -67,13 +68,13 @@ volume_down__from_top        = volume_down_center__from_top;
 volume_down__bump            = 0.45;
 volume_down__z_mid           = 3.82;
 
-ringsilent_switch_cutout__half_height = 2.90;
-ringsilent_switch_cutout__height   = ringsilent_switch_cutout__half_height * 2;
-ringsilent_switch_cutout__depth    = 2.15;
+action_button__half_height = 2.90;
+action_button__height   = action_button__half_height * 2;
+action_button__depth    = 2.15;
 ringsilent_switch_cutout_center__from_top = 32.22;
-ringsilent_switch_cutout__from_top = ringsilent_switch_cutout_center__from_top;
-ringsilent_switch_cutout__bump     = 0.60;
-ringsilent_switch_cutout__z_mid    = 3.75;
+action_button__from_top = ringsilent_switch_cutout_center__from_top;
+action_button__bump     = 0.60;
+action_button__z_mid    = 3.75;
 
 sim_slot__half_height =  8.02;
 sim_slot__height      =  2 * sim_slot__half_height;
@@ -150,8 +151,8 @@ rear_flash__keepout_inner_cone_start_diameter = 6.00;
 // "turret" is the region rising freo back glass to camera plateau
 rear_cam_turret__height_inner = (40.51 - rear_cam_plateau__inset);
 rear_cam_turret__width_inner = (39.28 - rear_cam_plateau__inset);
-rear_cam_turret__height_outer = (43.62 - stainless_housing__inset);
-rear_cam_turret__width_outer = (42.39 - stainless_housing__inset);
+rear_cam_turret__height_outer = (43.62 - titanium_housing__inset);
+rear_cam_turret__width_outer = (42.39 - titanium_housing__inset);
 
 rear_cam_turret__scale_height_inner_to_outer = 1 + (1/2)*(rear_cam_turret__height_outer/rear_cam_turret__height_inner - 1) ;
 rear_cam_turret__scale_width_inner_to_outer  = 1 + (1/2)*(rear_cam_turret__width_outer/rear_cam_turret__width_inner - 1);
@@ -159,8 +160,8 @@ rear_cam_turret__scale_width_inner_to_outer  = 1 + (1/2)*(rear_cam_turret__width
 rear_cam_turret__rradius_inner = 10.6;
 rear_cam_turret__rradius_outer = 13.7;
 
-rear_cam_turret_center__from_top = rear_cam_turret__height_outer/2 + stainless_housing__inset;
-rear_cam_turret_center__from_left = rear_cam_turret__width_outer/2 + stainless_housing__inset;
+rear_cam_turret_center__from_top = rear_cam_turret__height_outer/2 + titanium_housing__inset;
+rear_cam_turret_center__from_left = rear_cam_turret__width_outer/2 + titanium_housing__inset;
 
 // camera plateau is the bed the lenses and sensors,etc are rising from
 rear_cam_plateau__height = rear_cam_turret__height_inner;
@@ -180,22 +181,22 @@ rear_cam_camera_glass_rim__outset = 1.05;  // guess
 rear_logo_center__from_top = 73.35;
 rear_logo_keepout__diameter = 57.50;
 
-active_display__width     =  64.58;
-active_display__height    = 139.77;
+active_display__width     =  71.21;
+active_display__height    = 154.34;
 active_display__inset_from_exterior = 3.47;
 active_display__corner_r  = iphone_15_pro_max__face_corner_radius - active_display__inset_from_exterior;
 
-display_glass__width     =  69.42;
-display_glass__height    = 144.61;
+display_glass__width     =  75.48;
+display_glass__height    = 158.61;
 display_glass_over__width = (1/2)*(display_glass__width - active_display__width);    // ~2.5 mm
 display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
 
-notch__width = 26.79;
-notch_cutout__height =  5.58;
-notch__height =  notch_cutout__height * 2;
-notch__from_left_active  = active_display__width/2; // center
-notch__R =  3.8;
-notch__r =  0.95;
+dynamic_island__width = 26.79;
+dynamic_island_cutout__height =  5.58;
+dynamic_island__height =  dynamic_island_cutout__height * 2;
+dynamic_island__from_left_active  = active_display__width/2; // center
+dynamic_island__R =  3.8;
+dynamic_island__r =  0.95;
 
 /// Bottom sensors and connectors
 bottom__z_mid  = 3.75;
@@ -208,7 +209,7 @@ screw_bottom__diameter = 1.50;
 screw_bottom_1__from_left = 29.37;
 screw_bottom_2__from_left = 42.16;
 
-// other side of lightning port from speaker
+// other side of USB-C port from speaker
 mic1_bottom__hole_1__from_left = 19.14 + grill_hole__r;
 mic1_bottom__hole_3__from_left = 25.18 - grill_hole__r;
 
@@ -217,17 +218,17 @@ mic2_bottom__hole_1__from_left = 46.34 + grill_hole__r;
 // (port of speaker ports)
 mic2_bottom__hole_5__from_left = 56.89 - grill_hole__r;
 
-lightning_connector__height       = 2.30;
-lightning_connector__from_right   = 35.76; // distance to center point
-lightning_connector__from_left = (iphone_15_pro_max__width - lightning_connector__from_right);
-lightning_connector_end1__from_left = 31.74;
-lightning_connector_end2__from_left = 39.79;
-lightning_connector__width        = (lightning_connector_end2__from_left - lightning_connector_end1__from_left);
+usbc_connector__height       = 2.30;
+usbc_connector__from_right   = 35.76; // distance to center point
+usbc_connector__from_left = (iphone_15_pro_max__width - usbc_connector__from_right);
+usbc_connector_end1__from_left = 31.74;
+usbc_connector_end2__from_left = 39.79;
+usbc_connector__width        = (usbc_connector_end2__from_left - usbc_connector_end1__from_left);
 
-lightning_connector_keepout__radius  = 3.4;
-lightning_connector_keepout__width   = 13.65;
-lightning_connector_keepout__height  = 6.85;
-lightning_connector_keepout__outward = 14.0;
+usbc_connector_keepout__radius  = 3.4;
+usbc_connector_keepout__width   = 13.65;
+usbc_connector_keepout__height  = 6.85;
+usbc_connector_keepout__outward = 14.0;
 
 function translate_y_from_top (from_top)  = iphone_15_pro_max__height - from_top;
 function translate_back_x_from_left (from_left)  = iphone_15_pro_max__width - from_left;
@@ -243,36 +244,36 @@ rear_flash__keepout_cone_depth = translate_back_camera_depth(from_front = rear_f
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
 
 
-module iphone_13_pro (width, length, depth,
+module iphone_15_pro_max (width, length, depth,
                       corner_radius = 7, show_keepouts = true)
 {
-  show_lightning_keepout = show_keepouts;
+  show_usbc_keepout = show_keepouts;
 
-  w_to_ss = width - 2*stainless_housing__inset;
-  l_to_ss = length - 2*stainless_housing__inset;
+  w_to_ss = width - 2*titanium_housing__inset;
+  l_to_ss = length - 2*titanium_housing__inset;
 
-  // stainless steel housing goes all around with uniform inset
+  // Titanium housing goes all around with uniform inset
   translate([0,0,e])
     shell(width, length, depth-2*e,
-          corner_radius, shell_color = iphone_15_pro_max__graphite_stainless_steel, color_alpha = 0.95);
+          corner_radius, shell_color = iphone_15_pro_max__blue_titanium_titanium, color_alpha = 0.95);
 
-  // replace the stainless shell at a uniform inset
-  translate([stainless_housing__inset, stainless_housing__inset, 0])
-    shell(w_to_ss, l_to_ss, depth, corner_radius - stainless_housing__inset, shell_color = iphone_15_pro_max__graphite,
-          color_alpha = 0.85, full_size_pass = false);
+  // replace the titanium shell at a uniform inset
+  translate([titanium_housing__inset, titanium_housing__inset, 0])
+    shell(w_to_ss, l_to_ss, depth, corner_radius - titanium_housing__inset, shell_color = iphone_15_pro_max__blue_titanium,
+          color_alpha = 0.92, full_size_pass = false);
 
-  // ring/silent switch
-  color(iphone_15_pro_max__graphite_button)
-    translate([-ringsilent_switch_cutout__bump,
-               translate_y_from_top(ringsilent_switch_cutout__from_top),
-               ringsilent_switch_cutout__z_mid]) {
+  // Action button
+  color(iphone_15_pro_max__blue_titanium_button)
+    translate([-action_button__bump,
+               translate_y_from_top(action_button__from_top),
+               action_button__z_mid]) {
     rotate([90,0,90])
-      linear_extrude(ringsilent_switch_cutout__bump+e)
-      square([ringsilent_switch_cutout__height, ringsilent_switch_cutout__depth], center=true);
+      linear_extrude(action_button__bump+e)
+      square([action_button__height, action_button__depth], center=true);
   }
 
   // volume up button
-  color(iphone_15_pro_max__graphite_button)
+  color(iphone_15_pro_max__blue_titanium_button)
     translate([-volume_up__bump,
                translate_y_from_top(volume_up__from_top),
                volume_up__z_mid]) {
@@ -281,7 +282,7 @@ module iphone_13_pro (width, length, depth,
       rounded_square(size = [volume_up__height, volume_up__depth], corner_r = volume_up__depth/2, center = true);
   }
   // volume down button
-  color(iphone_15_pro_max__graphite_button)
+  color(iphone_15_pro_max__blue_titanium_button)
     translate([-volume_down__bump,
                translate_y_from_top(volume_down__from_top),
                volume_down__z_mid]) {
@@ -289,18 +290,18 @@ module iphone_13_pro (width, length, depth,
       linear_extrude(volume_down__bump+e)
       rounded_square(size=[volume_down__height, volume_down__depth], corner_r=volume_down__depth/2, center=true);
   }
-  // sim slot
-  color(iphone_15_pro_max__graphite_button)
-    translate([-sim_slot__bump,
-               translate_y_from_top(sim_slot__from_top),
-               iphone_15_pro_max__z_mid]) {
-    rotate([90,0,90])
-      linear_extrude(sim_slot__bump+e)
-      rounded_square(size=[sim_slot__height, sim_slot__depth], corner_r=sim_slot__depth/2, center=true);
-  }
+  // // sim slot
+  // color(iphone_15_pro_max__blue_titanium_button)
+  //   translate([-sim_slot__bump,
+  //              translate_y_from_top(sim_slot__from_top),
+  //              iphone_15_pro_max__z_mid]) {
+  //   rotate([90,0,90])
+  //     linear_extrude(sim_slot__bump+e)
+  //     rounded_square(size=[sim_slot__height, sim_slot__depth], corner_r=sim_slot__depth/2, center=true);
+  // }
 
   // side button
-  color(iphone_15_pro_max__graphite_button)
+  color(iphone_15_pro_max__blue_titanium_button)
     translate([iphone_15_pro_max__width-e,
                translate_y_from_top(side_button__from_top),
                iphone_15_pro_max__z_mid]) {
@@ -341,15 +342,15 @@ module iphone_13_pro (width, length, depth,
     }
   }
 
-  // lightning
+  // USB-C
   corner_r1 = 1.1;
   corner_r2 = 1.1;
   color("Black")
-    translate([lightning_connector__from_left, 0, bottom__z_mid]) {
+    translate([usbc_connector__from_left, 0, bottom__z_mid]) {
     rotate([-90, 0, 0])
       linear_extrude(height = 1+e, center = false, convexity = 10)
-      complexRoundSquare([lightning_connector__width,
-                          lightning_connector__height],
+      complexRoundSquare([usbc_connector__width,
+                          usbc_connector__height],
                          [corner_r1, corner_r2],
                          [corner_r1, corner_r2],
                          [corner_r1, corner_r2],
@@ -357,16 +358,16 @@ module iphone_13_pro (width, length, depth,
                          center=true);
   }
 
-  // lightning keepout
-  if (show_lightning_keepout) {
-    corner_r1_keepout = lightning_connector_keepout__radius;
-    corner_r2_keepout = lightning_connector_keepout__radius;
+  // USB-C keepout
+  if (show_usbc_keepout) {
+    corner_r1_keepout = usbc_connector_keepout__radius;
+    corner_r2_keepout = usbc_connector_keepout__radius;
     color("Red", alpha=0.2)
-      translate([lightning_connector__from_left, 0, bottom__z_mid]) {
+      translate([usbc_connector__from_left, 0, bottom__z_mid]) {
       rotate([90, 0, 0])
-        %linear_extrude(height = lightning_connector_keepout__outward, center = false, convexity = 10)
-        complexRoundSquare([lightning_connector_keepout__width,
-                            lightning_connector_keepout__height],
+        %linear_extrude(height = usbc_connector_keepout__outward, center = false, convexity = 10)
+        complexRoundSquare([usbc_connector_keepout__width,
+                            usbc_connector_keepout__height],
                            [corner_r1_keepout, corner_r2_keepout],
                            [corner_r1_keepout, corner_r2_keepout],
                            [corner_r1_keepout, corner_r2_keepout],
@@ -550,8 +551,8 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue",
         translate([iphone_15_pro_max__width + 4*e, iphone_15_pro_max__height + 4*e, 0]) mirror([1,1,0]) edge_corner_profile();
       }
     }
-    notch__centered_from_left_active = notch__from_left_active ;
-    notch__centered_from_top_active = active_display__height;
+    dynamic_island__centered_from_left_active = dynamic_island__from_left_active ;
+    dynamic_island__centered_from_top_active = active_display__height;
 
     // display active region
     if (full_size_pass) {
@@ -569,31 +570,31 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue",
                                [active_corner_r1, active_corner_r2],
                                center=false);
 
-            // notch
-            translate([notch__centered_from_left_active,
-                       notch__centered_from_top_active])
-              complexRoundSquare([ notch__width, notch__height ],
-                                 [notch__R, notch__R],
-                                 [notch__R, notch__R],
-                                 [notch__R, notch__R],
-                                 [notch__R, notch__R],
+            // dynamic_island
+            translate([dynamic_island__centered_from_left_active,
+                       dynamic_island__centered_from_top_active])
+              complexRoundSquare([ dynamic_island__width, dynamic_island__height ],
+                                 [dynamic_island__R, dynamic_island__R],
+                                 [dynamic_island__R, dynamic_island__R],
+                                 [dynamic_island__R, dynamic_island__R],
+                                 [dynamic_island__R, dynamic_island__R],
                                  center=true);
 
             // tiny circle for bendout on left
-            translate([notch__centered_from_left_active - (1/2)*notch__width - notch__r,
-                       notch__centered_from_top_active - notch__r])
+            translate([dynamic_island__centered_from_left_active - (1/2)*dynamic_island__width - dynamic_island__r,
+                       dynamic_island__centered_from_top_active - dynamic_island__r])
               difference() {
-              square(notch__r);
-              circle(r = notch__r);
+              square(dynamic_island__r);
+              circle(r = dynamic_island__r);
             }
 
             // tiny circle for bendout on right
-            translate([notch__centered_from_left_active + (1/2)*notch__width + notch__r,
-                       notch__centered_from_top_active - notch__r])
+            translate([dynamic_island__centered_from_left_active + (1/2)*dynamic_island__width + dynamic_island__r,
+                       dynamic_island__centered_from_top_active - dynamic_island__r])
               mirror([1,0,0]) {
               difference() {
-                square(notch__r);
-                circle(r = notch__r);
+                square(dynamic_island__r);
+                circle(r = dynamic_island__r);
               }
             }
           }
@@ -612,7 +613,7 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
   rr_outer = rear_cam_turret__rradius_outer;
   rr_inner = rear_cam_turret__rradius_inner;
   %translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
-    color(iphone_15_pro_max__graphite_turret, alpha = 0.70)
+    color(iphone_15_pro_max__blue_titanium_turret, alpha = 0.70)
     difference()
     {
       linear_extrude(height = sim_turret_h)
@@ -630,7 +631,7 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
   // plateau
   pradius_inner = rear_cam_plateau__rradius;
   translate ([rear_cam_turret_center__from_left, -rear_cam_turret_center__from_top, -e])
-    color(iphone_15_pro_max__graphite_plateau, alpha = 0.70)
+    color(iphone_15_pro_max__blue_titanium_plateau, alpha = 0.70)
     difference() {
     linear_extrude(height = camera_plateau_height)
       rounded_square(size=[rear_cam_plateau__width, rear_cam_plateau__height], corner_r = pradius_inner, center=true);
@@ -703,7 +704,7 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
 
 module rear_camera_lens(r, h = rear_cam_camera_glass__height, h_rim = rear_cam_camera_glass_rim__height,
                         inset_rim = rear_cam_camera_glass_rim__outset) {
-  color(iphone_15_pro_max__graphite_lens_bezel, alpha=0.95)
+  color(iphone_15_pro_max__blue_titanium_lens_bezel, alpha=0.95)
     linear_extrude(height=h_rim)
     circle(r=r);
   color("Black", alpha=0.80)
@@ -772,7 +773,7 @@ echo ("turret scale width:", rear_cam_turret__scale_width_inner_to_outer);
 $fn = $preview ? 50 : 100;
 
 if (DEVELOPING_iPhone_15_Pro_Max_model)  {
-  iphone_13_pro(iphone_15_pro_max__width, iphone_15_pro_max__height, iphone_15_pro_max__depth,
+  iphone_15_pro_max(iphone_15_pro_max__width, iphone_15_pro_max__height, iphone_15_pro_max__depth,
                 iphone_15_pro_max__face_corner_radius,
                 show_keepouts = true);
 }
