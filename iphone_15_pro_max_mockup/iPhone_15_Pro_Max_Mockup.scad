@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_15_Pro_Max_model = !false;
+DEVELOPING_iPhone_15_Pro_Max_model = false;
 
 use <../libraries/MCAD/2Dshapes.scad>
 
@@ -71,8 +71,8 @@ volume_down__z_mid           = 3.82;
 action_button__half_height = 2.90;
 action_button__height   = action_button__half_height * 2;
 action_button__depth    = 2.15;
-ringsilent_switch_cutout_center__from_top = 32.22;
-action_button__from_top = ringsilent_switch_cutout_center__from_top;
+action_button__center__from_top = 32.22;
+action_button__from_top = action_button__center__from_top;
 action_button__bump     = 0.60;
 action_button__z_mid    = 3.75;
 
