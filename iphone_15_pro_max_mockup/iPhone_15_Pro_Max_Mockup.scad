@@ -28,6 +28,13 @@ use <../libraries/dotSCAD/src/rounded_square.scad>
 // very small number
 e = 1/128;
 
+// https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
+// "Device Dimensional Drawings" § TBD iPhone 15 Pro Max 1 of 3
+// Release TBD, downloaded TBD
+// -	Height: 6.29 inches (159.9 mm)
+// -	Width: 3.02 inches (76.7 mm)
+// -	Depth: 0.32 inch (8.25 mm)
+
 /// Gross iPhone 15 Pro Max dimensions
 iphone_15_pro_max__height = 159.9;
 iphone_15_pro_max__width  =  76.7;
@@ -219,10 +226,10 @@ mic2_bottom__hole_1__from_left = 46.34 + grill_hole__r;
 mic2_bottom__hole_5__from_left = 56.89 - grill_hole__r;
 
 usbc_connector__height       = 2.30;
-usbc_connector__from_right   = 35.76; // distance to center point
+usbc_connector__from_right   = 38.35; // distance to center point
 usbc_connector__from_left = (iphone_15_pro_max__width - usbc_connector__from_right);
-usbc_connector_end1__from_left = 31.74;
-usbc_connector_end2__from_left = 39.79;
+usbc_connector_end1__from_left = 34.15;
+usbc_connector_end2__from_left = 42.55;
 usbc_connector__width        = (usbc_connector_end2__from_left - usbc_connector_end1__from_left);
 
 usbc_connector_keepout__radius  = 3.4;

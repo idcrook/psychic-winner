@@ -58,8 +58,8 @@ w = 89.38 ; // including widest at buttons
 h = 14.52 ;
 
 l_use = l - 0.25; // l - 0.25; // measured
-w_use = w - 1.2;   // w - 1.2 ; // measured
-h_use = h + (1*0.65);  // h + (1*0.65);    // + padding
+w_use = w - 0.9;   // w - 1.2 ; // measured at holster tabs
+h_use = h - 2.0 + (1*0.65);  // 12.5mm not including camera bump;    // + padding
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § TBD iPhone 15 Pro Max 1 of 3
@@ -104,7 +104,7 @@ case_rcam_l = 38.8;
 case_rcam_r = 10;
 
 // case USB-C flap
-case_flap_w = 12.5;
+case_flap_w = 13.7;
 case_flap_l = h - 2.8;
 case_flap_r = 0.7;
 case_mid_w = w/2;
@@ -115,7 +115,7 @@ function translate_y_from_top (from_top)  = il - from_top;
 module otterboxCommuterCase () {
   difference() {
     // case outer dimensions
-    shell(w, l, h, case_out_r, shell_color="#2a8", color_alpha=0.90,
+    shell(w, l, h, case_out_r, shell_color="#99a", color_alpha=0.90,
           full_size_pass=false);
     translate ([dcw, dcl, th+0-tol])
       {
@@ -177,7 +177,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   CONTROL_RENDER_experiment3      = false;
   CONTROL_RENDER_experiment5      = false;
-  CONTROL_RENDER_prototype_bottom = false;
+  CONTROL_RENDER_prototype_bottom = !false;
 
   wantThinner =  true;
   wantThinnerCap = false;
