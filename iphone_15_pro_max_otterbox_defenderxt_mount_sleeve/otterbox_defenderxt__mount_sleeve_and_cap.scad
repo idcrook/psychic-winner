@@ -49,17 +49,25 @@ for_bike_mount = !true;
 
 // - [Black Clear MagSafe iPhone 15 Pro Max case | Defender Series XT Clear](https://www.otterbox.com/en-us/magsafe-iphone-15-pro-max-case-black/77-93312.html)
 //  6.76 x 3.52 x 0.57 in / 171.65 x 89.38 x 14.52 mm
-//  - Length 171.65 mm
-//  - Width   89.38 mm
-//  - Depth   14.52 mm
 
+//  Height 171.65 mm
 l = 171.65 ;  // measured?
+
+// Width   89.38 mm
 w = 89.38 ; // including widest at buttons
+
+//  Depth   14.52 mm
 h = 14.52 ;
 
-l_use = l - 0.25; // l - 0.25; // measured
-w_use = w - 0.9;   // w - 1.2 ; // measured at holster tabs
-h_use = h - 2.0 + (1*0.65);  // 12.5mm not including camera bump;    // + padding
+
+// Height to use for sleeve // l - 0.25;
+l_use = 171.40;
+
+// Width to use for sleeve  // w - 0.9 // measured at holster tabs
+w_use = 88.48;
+
+// Width to use for sleeve  //  h - 2.0 + 0.65 //  12.5mm not incl. camera bump + padding
+h_use = 13.17;
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § TBD iPhone 15 Pro Max 1 of 3
@@ -986,7 +994,7 @@ module showTogether() {
   }
 
   // sleeve mount design
-  translate([w/2-(1/2)*tolerance, 0, h/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w, l, h,  tweakMountSurface, withCap, withSleeve );
+  translate([w_use/2-(1/2)*tolerance, 0, h_use/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w_use, l, h_use,  tweakMountSurface, withCap, withSleeve );
 }
 
 if (show_everything) {
@@ -1000,12 +1008,12 @@ if (show_everything) {
 
   if (!printCap) {
     translate([0,0,0])
-      sleeveForEncasediPhone(w, l, h, tweakMountSurface, false, true);
+      sleeveForEncasediPhone(w_use, l, h_use, tweakMountSurface, false, true);
   } else { // print sleeve
     scale ([1.0,1.0,1.0])
       translate([0,0,3+l+0.5])
       rotate([180,0,0])
-      sleeveForEncasediPhone(w, l, h, tweakMountSurface, true, false);
+      sleeveForEncasediPhone(w_use, l, h_use, tweakMountSurface, true, false);
   }
 
   // *test_sleeveMountInsert(tweakMountSurface, 0);
