@@ -63,8 +63,8 @@ h = 14.52 ;
 // Height to use for sleeve // l - 0.25;
 l_use = 171.40;
 
-// Width to use for sleeve  // w - 0.9 // measured at holster tabs
-w_use = 88.48;
+// Width to use for sleeve  // (w - 0.9) + 0.65 // measured at holster tabs + padding
+w_use = 89.13;
 
 // Width to use for sleeve  //  h - 2.0 + 0.65 //  12.5mm not incl. camera bump + padding
 h_use = 13.17;
@@ -191,6 +191,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   wantThinnerCap = false;
 
   want_camera_hole_to_be_slot = true;
+  CONTROL_RENDER_chop_side_button_side = CONTROL_RENDER_cutoff_top ;
 
   sleeveSideThickness   =  wantThinner ? 2.88 : 3.5;
   sleeveBottomThickness =  wantThinner ? 2.88 : 3.5;
@@ -211,7 +212,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   sleeveInner_r = 3.1 - 0.6;
   sleeveInner_rear_r = sleeveInner_r + 1.2;
 
-  buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 1.0; // button groove depth
+  buttonsIncludedInner_w =  tolerance + sleeveInner_w + tolerance + 2.2; // button groove depth
   buttonsIncludedInner_h =            +  4.0 + tolerance;
   buttonsIncludedInner_r =  2*tolerance ;
   sleeveOuter_w =  sleeveSideThickness + sleeveInner_w + sleeveSideThickness;
@@ -251,6 +252,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   actionButtonCutoutDepth = sleeve_button__cutout_depth;
   actionButtonCutoutRadius = 2;
 
+  // power button / side button
   shift_up_power_button = 0.0;
   powerButtonCutoutHeight = (side_button__half_height*2) + 10 + 10 + shift_up_power_button;
   powerButtonHeightFromBottom = translate_y_from_top(side_button_center__from_top) - side_button__half_height + shift_up_power_button;
@@ -266,6 +268,11 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   cameraHoleOffcenter = - 1.0;
   cameraHoleAddOffsetForCase_midline = 8.5 + 2.5; // add additonal safety margin for UW lens
   cameraHoleAddOffsetForCase_sideline = 0.0;
+
+  sideButtonChopCameraExtraThickness = 2.0;
+  sideButtonChopCameraPosition = cameraHoleOffcenter + cameraHoleAddOffsetForCase_sideline + cameraCutoutHeight  + cameraHoleAddOffsetForCase_sideline - cameraCutoutRadius_diag - e;
+  sideButtonChopCameraFromButtom = cameraHeightFromBottom ;
+  sideButtonChopSideButtonFromButtom = powerButtonHeightFromBottom;
 
   speakerCutoutCenterBonus = 2.0;
   speakerCutoutHeight = 18 + speakerCutoutCenterBonus;
@@ -455,7 +462,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                          cameraHeightFromBottom + shiftUpAmount])
                 rotate([90, 0, 0])
                 mirror([0,0,1])
-                linear_extrude(height = sleeveBottomThickness + extra_for_interior_corner +2*e, center = false, convexity = 10)
+                linear_extrude(height = sleeveBottomThickness + extra_for_interior_corner + 2*e, center = false, convexity = 10)
                 complexRoundSquare( [cameraCutoutHeight + cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline,
                                      cameraCutoutDepth + shiftUpAmount + 10],
                                     [cameraCutoutRadius, cameraCutoutRadius],
@@ -463,6 +470,34 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
                                     [0,0],
                                     [0,0],
                                     center = false);
+            }
+
+            if (CONTROL_RENDER_chop_side_button_side            ) {
+
+              // back of sleeve from camera area
+              translate([sideButtonChopCameraPosition,
+                          (1/2) * sleeveInner_h - (extra_for_interior_corner + e) - sideButtonChopCameraExtraThickness,
+                          sideButtonChopCameraFromButtom])
+                rotate([90, 0, 0])
+                mirror([0,0,1])
+                linear_extrude(height = sleeveBottomThickness + extra_for_interior_corner + sideButtonChopCameraExtraThickness + 2*e,
+                               center = false, convexity = 10)
+                square([cameraCutoutHeight - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline,
+                        cameraCutoutDepth + extend_camera_opening], center = false);
+
+              // side of sleeve bide side button
+              translate([sideButtonChopCameraPosition,
+                          (1/2) * sleeveInner_h - (extra_for_interior_corner + e) - sideButtonChopCameraExtraThickness + 2*e,
+                          powerButtonHeightFromBottom])
+                rotate([90, 0, 0])
+                mirror([0,0,0])
+                linear_extrude(height = sleeveBottomThickness + extra_for_interior_corner + sideButtonChopCameraExtraThickness + 12 + 2*e,
+                               center = false, convexity = 10)
+                square([cameraCutoutHeight - cameraHoleAddOffsetForCase_midline + cameraHoleAddOffsetForCase_sideline,
+                        cameraCutoutDepth + extend_camera_opening + 25], center = false);
+
+
+
             }
 
             if (CONTROL_RENDER_cutoff_top) { // chop off some amount of sleeve top
