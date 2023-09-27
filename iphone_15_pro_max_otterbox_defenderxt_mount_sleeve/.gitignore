@@ -3,6 +3,6 @@ proto_*.stl
 proto_*.3mf
 *.pdf
 /Archive
-
+!mount_sleeve.stl
 otterbox_defenderxt__mount_sleeve_and_cap.stl
 /otterbox_defenderxt__cap.stl
