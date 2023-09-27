@@ -63,8 +63,8 @@ h = 14.52 ;
 // Height to use for sleeve // l - 0.25;
 l_use = 171.40;
 
-// Width to use for sleeve  // (w - 0.9) + 0.65 // measured at holster tabs + padding
-w_use = 89.13;
+// Width to use for sleeve  // (w - 0.9) + 0.3 // measured at holster tabs + padding
+w_use = 88.78;
 
 // Width to use for sleeve  //  h - 2.0 + 0.65 //  12.5mm not incl. camera bump + padding
 h_use = 13.17;
@@ -260,7 +260,7 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
   powerButtonCutoutRadius = 2;
   erase_sleeveInner_l_right =   powerButtonHeightFromBottom;
 
-  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height/2) - 1.0  ;
+  cameraHeightFromBottom = translate_y_from_top(rear_cam_plateau_center__from_top + rear_cam_plateau__height/2) - 1.0 - 1.6 ;
   cameraCutoutHeight = rear_cam_plateau__height + ((rear_cam_plateau__height - rear_cam_plateau__width)/2) ;
   cameraCutoutDepth = rear_cam_plateau__width + 2;
   cameraCutoutRadius =  rear_cam_plateau__rradius;
