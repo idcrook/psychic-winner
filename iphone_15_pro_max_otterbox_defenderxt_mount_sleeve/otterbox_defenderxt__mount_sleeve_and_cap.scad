@@ -202,7 +202,8 @@ module sleeveForEncasediPhone (w, l, h, tweak_mount_surface, with_cap, with_slee
 
   base_l = sleeveBaseThickness;
 
-  cutoff_top_length = true ? 10 : 35;
+  // this is used to trim for height of print volume
+  cutoff_top_length = true ? 20 : 35;
   trim_front_bars = (cutoff_top_length > 30) ? true : false;
 
   sleeveInner_w =  tolerance + w + 0;
