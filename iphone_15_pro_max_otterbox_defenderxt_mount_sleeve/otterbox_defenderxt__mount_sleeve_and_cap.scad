@@ -66,8 +66,8 @@ l_use = 171.40;
 // Width to use for sleeve  // (w - 0.9) + 0.3 // measured at holster tabs + padding
 w_use = 88.78;
 
-// Width to use for sleeve  //  h - 2.0 + 0.65 //  12.5mm not incl. camera bump + padding
-h_use = 13.17;
+// Width to use for sleeve  //  h - 2.0 + 0.35 //  12.5mm not incl. camera bump + padding
+h_use = 12.87;
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
 // "Device Dimensional Drawings" § TBD iPhone 15 Pro Max 1 of 3
