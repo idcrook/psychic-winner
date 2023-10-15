@@ -19,9 +19,11 @@
 //
 ///////////////////////////////////////////////////////////////////////////////
 
-// on ubuntu: export OPENSCADPATH=/usr/share/openscad/libraries
+// use_fillets = 1;
+
 use <MCAD/2Dshapes.scad>
 include <MCAD/units.scad>
+include <../libraries/local-misc/fillet.scad>
 
 e = 1/128; // small number
 
@@ -55,8 +57,8 @@ button__extension = 0.1;
 usba_l__center_from_left = 10.0;
 
 band_thickness = 8.0;
-face_corner_radius = 7.5;
-side_corner_radius1 = 3.5;
+face_corner_radius = 12.5;
+side_corner_radius1 = 5.0;
 
 
 module button (height = button__height,
@@ -74,9 +76,26 @@ module powerbank_dummy(width = powerbank__width,
                        height = powerbank__height,
                        thickness = powerbank__thickness) {
 
-  cube([width, thickness, height], center = false);
+  gross_size = [width, thickness, height];
+
+  r = side_corner_radius1;
+  face_r = face_corner_radius;
+
+  vertical=[r,r,r,r];
+  top=[face_r,face_r,face_r,face_r];
+  bottom=[face_r,face_r,face_r,face_r];
+
+  // TODO: Add button, LEDs and ports/connectors locations
+
+  cube_fillet(size = gross_size,
+    vertical=vertical, top=top, bottom=bottom,
+    center = false, $fn = 30);
+
 
 }
+
+
+
 
 
 // $preview requires version 2019.05
