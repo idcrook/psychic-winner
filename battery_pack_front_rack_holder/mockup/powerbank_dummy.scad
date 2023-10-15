@@ -93,7 +93,7 @@ module powerbank_dummy(width = powerbank__width,
   top=[face_r,face_r,face_r,face_r];
   bottom=[face_r,face_r,face_r,face_r];
 
-  // TODO: Add button, LEDs and ports/connectors locations
+  // TODO: Add ports/connectors locations?
 
   cube_fillet(size = gross_size,
     vertical=vertical, top=top, bottom=bottom,
