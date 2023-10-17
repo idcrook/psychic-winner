@@ -31,7 +31,7 @@ $fn = $preview ? 30 : 100;
 
 RENDER_FOR_PRINT = true;
 wall_thickness = 3.2;
-wall_gap = 0.75;
+wall_gap = 0.6;
 base_thickness = 4.0;
 
 module __Customizer_Limit__ () {}
