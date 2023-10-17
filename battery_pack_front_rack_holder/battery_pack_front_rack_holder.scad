@@ -30,8 +30,8 @@ e = 1/128; // small number
 $fn = $preview ? 30 : 100;
 
 RENDER_FOR_PRINT = true;
-wall_thickness = 3.5;
-wall_gap = 2.0;
+wall_thickness = 3.2;
+wall_gap = 0.75;
 base_thickness = 4.0;
 
 module __Customizer_Limit__ () {}
@@ -47,6 +47,8 @@ sleeve_outer_thicknees = shell_thickness + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_width = shell_width + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_height = shell_height + 1*base_thickness;
 
+sides_radius = side_corner_radius1 - 1.0;
+bottom_corder_radius = 0.60 * face_corner_radius;
 
 module sleeveMountInsert (width, thickness, height, shouldTweak) {
 
@@ -165,19 +167,19 @@ module sleeve(width = sleeve_outer_width,
                   thickness - 2*wall_thickness,
                   height - base_thickness + 1*e];
 
-  r = 2.5;
-  corner_r = 5.0;
+  r = sides_radius;
+  corner_r = bottom_corder_radius;
   vertical=[r,r,r,r];
   top=[0,0,0,0];
   bottom=[corner_r,corner_r,corner_r,corner_r];
 
   difference() {
-    cube_fillet(size = outer_size, radius = 2.5,
+    cube_fillet(size = outer_size, radius = r,
                 vertical=vertical, top=top, bottom=bottom,
                 center = false, $fn = 30);
 
     translate([wall_thickness, wall_thickness, base_thickness])
-    cube_fillet(size = cutout_size,  radius = 2.5,
+    cube_fillet(size = cutout_size,  radius = r - 1,
                 vertical=vertical, top=top, bottom=bottom,
                 center = false, $fn = 30);
   }
