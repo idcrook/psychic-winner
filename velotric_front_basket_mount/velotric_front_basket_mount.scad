@@ -18,7 +18,6 @@
 ////////////////////////////////////////////////////////////////////////
 
 
-use <files/iPhone_6_and_6_Plus_Mockups.scad>;
 use <../libraries/MCAD/2Dshapes.scad>
 include <../libraries/MCAD/units.scad>
 use <../libraries/local-misc/wedge.scad>
