@@ -24,7 +24,7 @@ use <../libraries/local-misc/wedge.scad>
 
 
 // Width across mount
-Width_Of_Mount = 78.74;
+Width_Of_Mount = 75.5;
 
 // Vertical spacing between crosss bars in basket
 Vertical_Spacing_Hooks = 81.0;
@@ -150,7 +150,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   mountInsert_w = mount_insert_w;
   mountInsert_h = mount_insert_thickness;
 
-  enlargePunchScale = 1.06;
+  enlargePunchScale = 1.04;
 
   surround_w = mount_insert_w + 16;
   surround_h = mount_insert_h + 15.4;
@@ -164,7 +164,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   //  3. mount insert piece for inserting phone carrier
   translate_y = (mountInsert_h - enlargePunchScale*mountInsert_h + 2*e);
-  fudge_x = -0.72;
+  fudge_x = -0.62;
   translate_x = (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) + fudge_x;
   mountInsert_position = (enlargePunchScale - 1) * (translate_x) * 1/2;
   translate_z = block_z - mount_insert_h - mount_insert_shift ;
@@ -203,7 +203,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   // Hooks and plate
   bar_diameter = 10.6;
-  hookWidth = 25.4;
+  hookWidth = 23.4;
   hookThickness = plate_thickness + 0.8;
   overhangPlusExtend = 6.5;
   hookOverhang = 4.0;
@@ -214,9 +214,23 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   plate_start_height = 10;
   bottom_height = t_surround_z - plate_start_height;
 
+  hookOverhang_mid = hookOverhang;
+  hookExtend_mid = 0;
+
+  // Want hooks to be spaced at bar spacing
+  // Calculated spacing between bars minus top hook extra minus mid hook extra
+  mid_hook_z = block_z - Vertical_Spacing_Hooks + overhangPlusExtend + hookExtend_mid + hookOverhang_mid;
+
+  pulltie_inset = 9.6;
+  pulltie_hole_size = 5;
+  mid_pulltie_hole1_x =  pulltie_inset;
+  mid_pulltie_hole1_z =  mid_hook_z + bar_diameter + hookExtend_mid + hookOverhang_mid;
+  mid_pulltie_hole2_x =  pulltie_inset;
+  mid_pulltie_hole2_z =  block_z - Vertical_Spacing_Hooks + hookExtend_mid + hookOverhang_mid;
+
   // hook and plate structure
   //translate([0, block_y - plate_thickness, 0]) {
-  translate([0, 0, 0]) {
+  translate([0, 0 + 0.8, 0]) {
 
     //top hooks
     translate([0, 0, block_z]) {
@@ -231,64 +245,79 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
     }
 
     // mid hooks
-    translate([0, 0, block_z - Vertical_Spacing_Hooks + overhangPlusExtend]) {
+    translate([0, 0, mid_hook_z]) {
 
-      translate([0,0,0])
-        barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang,
+      // Cannot use as-is. the bar curves around the corner
+      *translate([0,0,0])
+        barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang_mid,
                   hook_extend = 0, inner_padding = innerPadding );
 
+      // right
       translate([block_x - hookWidth,0,0])
-        barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang,
+        barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang_mid,
                   hook_extend = 0, inner_padding = innerPadding );
     }
-
-
 
     // extend hooks
     translate([0, 0, 0]) {
 
-      translate([0,0,0])
-        linear_extrude(height = block_z, center = false, convexity = 10)
-        complexRoundSquare([hookWidth, plate_thickness],
-                           [0,0], [0,0], [0,0], [0,0], center = false);
+      difference () {
+        union () {
 
-      translate([block_x - hookWidth,0,0])
-        linear_extrude(height = block_z, center = false, convexity = 10)
-        complexRoundSquare([hookWidth, plate_thickness],
-                           [0,0], [0,0], [0,0], [0,0], center = false);
+          translate([0,0,0])
+            linear_extrude(height = block_z, center = false, convexity = 10)
+            complexRoundSquare([hookWidth, plate_thickness],
+                               [0,0], [0,0], [0,0], [0,0], center = false);
 
+          translate([block_x - hookWidth,0,0])
+            linear_extrude(height = block_z, center = false, convexity = 10)
+            complexRoundSquare([hookWidth, plate_thickness],
+                               [0,0], [0,0], [0,0], [0,0], center = false);
+        }
+
+        // punch out holes for pull-ties
+        translate([mid_pulltie_hole1_x, -e, mid_pulltie_hole1_z]) {
+          linear_extrude(height = pulltie_hole_size + e, center = false, convexity = 10)
+            square([pulltie_hole_size/1.7,  plate_thickness + 2*e]);
+        }
+
+        // punch out holes for pull-ties
+        translate([mid_pulltie_hole2_x, -e, mid_pulltie_hole2_z]) {
+          linear_extrude(height = pulltie_hole_size + e, center = false, convexity = 10)
+            square([pulltie_hole_size/1.7,  plate_thickness + 2*e]);
+        }
+      }
     }
 
     // build plate
     translate([0, 0, plate_start_height]) {
 
-      // left
-      translate([hookWidth-e,0,0])
-        linear_extrude(height = block_z - plate_start_height, center = false, convexity = 10)
-        complexRoundSquare([plate_width_half, plate_thickness],
-                           [0,0], [0,0], [0,0], [0,0], center = false);
+      difference () {
+        union () {
+          // left
+          translate([hookWidth-e,0,0])
+            linear_extrude(height = block_z - plate_start_height, center = false, convexity = 10)
+            complexRoundSquare([plate_width_half, plate_thickness],
+                               [0,0], [0,0], [0,0], [0,0], center = false);
 
-      // right
-      translate([block_x - hookWidth - plate_width_half-e,0,0])
-        linear_extrude(height = block_z - plate_start_height, center = false, convexity = 10)
-        complexRoundSquare([plate_width_half + 2*e, plate_thickness],
-                           [0,0], [0,0], [0,0], [0,0], center = false);
+          // right
+          translate([block_x - hookWidth - plate_width_half-e,0,0])
+            linear_extrude(height = block_z - plate_start_height, center = false, convexity = 10)
+            complexRoundSquare([plate_width_half + 2*e, plate_thickness],
+                               [0,0], [0,0], [0,0], [0,0], center = false);
 
-      // bottom
-      if (include_bottom_plate) {
-
-        //
-        translate([hookWidth + plate_width_half - 1*e,0,0])
-          linear_extrude(height = bottom_height + e, center = false, convexity = 10)
-          complexRoundSquare([surround_w + 2*e, plate_thickness],
-                           [0,0], [0,0], [0,0], [0,0], center = false);
-
+          // bottom
+          if (include_bottom_plate) {
+            //
+            translate([hookWidth + plate_width_half - 1*e,0,0])
+              linear_extrude(height = bottom_height + e, center = false, convexity = 10)
+              complexRoundSquare([surround_w + 2*e, plate_thickness],
+                                 [0,0], [0,0], [0,0], [0,0], center = false);
+          }
+        }
       }
 
     }
-
-
-
   }
 
 }
