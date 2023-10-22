@@ -26,8 +26,8 @@ use <../libraries/local-misc/wedge.scad>
 // Width across mount
 Width_Of_Mount = 78.74;
 
-// FIXME: Vertical spacing between crosss bars in basket
-Vertical_Bar_Spacing = 114.30;
+// Vertical spacing between crosss bars in basket
+Vertical_Spacing_Hooks = 81.0;
 
 // from start of bottom to start of hook structure (top)
 Height_Of_Mount = 124.3;
@@ -136,13 +136,13 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   //
   //  2. hooks for the basket frame cross-bars
   //
-  //  3. zip-tie slots to secure to basket verticle bars
+  //  3. zip-tie slots to secure to basket vertical bars
   //
   //  4. mount insert for sleeve (that holds a powerbank, etc.)
   //
   block_x = Width_Of_Mount;        // width of mount
   block_y = mount_insert_thickness -2*e; // insert depth/thickness
-  plate_thickness = 4.0;
+  plate_thickness = 3.6;
   block_z = Height_Of_Mount ; // length of mount along frame
 
   assert (mount_insert_thickness >= plate_thickness, "Plate too thick; will interfere with mount");
@@ -153,7 +153,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   enlargePunchScale = 1.06;
 
   surround_w = mount_insert_w + 16;
-  surround_h = mount_insert_h + 12.0;
+  surround_h = mount_insert_h + 15.4;
 
   remaining_w = block_x - surround_w;
   remaining_h = block_z - surround_h;
@@ -164,7 +164,8 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   //  3. mount insert piece for inserting phone carrier
   translate_y = (mountInsert_h - enlargePunchScale*mountInsert_h + 2*e);
-  translate_x = (1/2) * (block_x - (mountInsert_w * enlargePunchScale));
+  fudge_x = -0.72;
+  translate_x = (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) + fudge_x;
   mountInsert_position = (enlargePunchScale - 1) * (translate_x) * 1/2;
   translate_z = block_z - mount_insert_h - mount_insert_shift ;
 
@@ -203,18 +204,21 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   // Hooks and plate
   bar_diameter = 10.6;
   hookWidth = 25.4;
-  hookThickness = plate_thickness + 0.4;
+  hookThickness = plate_thickness + 0.8;
+  overhangPlusExtend = 6.5;
   hookOverhang = 4.0;
-  hookExtend = 6.5 - hookOverhang;
+  hookExtend = overhangPlusExtend - hookOverhang;
   innerPadding = 0.6;
 
   plate_width_half = (1/2) * remaining_w - hookWidth + 2*e;
   plate_start_height = 10;
   bottom_height = t_surround_z - plate_start_height;
 
-  translate([0, block_y - plate_thickness, 0]) {
+  // hook and plate structure
+  //translate([0, block_y - plate_thickness, 0]) {
+  translate([0, 0, 0]) {
 
-    // hooks
+    //top hooks
     translate([0, 0, block_z]) {
 
       translate([0,0,0])
@@ -225,6 +229,20 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
         barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang,
                   hook_extend = hookExtend, inner_padding = innerPadding );
     }
+
+    // mid hooks
+    translate([0, 0, block_z - Vertical_Spacing_Hooks + overhangPlusExtend]) {
+
+      translate([0,0,0])
+        barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang,
+                  hook_extend = 0, inner_padding = innerPadding );
+
+      translate([block_x - hookWidth,0,0])
+        barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang,
+                  hook_extend = 0, inner_padding = innerPadding );
+    }
+
+
 
     // extend hooks
     translate([0, 0, 0]) {
