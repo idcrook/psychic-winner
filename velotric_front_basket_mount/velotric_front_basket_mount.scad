@@ -221,7 +221,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   // Calculated spacing between bars minus top hook extra minus mid hook extra
   mid_hook_z = block_z - Vertical_Spacing_Hooks + overhangPlusExtend + hookExtend_mid + hookOverhang_mid;
 
-  pulltie_inset = 9.6;
+  pulltie_inset = 8.0;
   pulltie_hole_size = 5;
   mid_pulltie_hole1_x =  pulltie_inset;
   mid_pulltie_hole1_z =  mid_hook_z + bar_diameter + hookExtend_mid + hookOverhang_mid;
@@ -230,7 +230,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   // hook and plate structure
   //translate([0, block_y - plate_thickness, 0]) {
-  translate([0, 0 + 0.8, 0]) {
+  translate([0, 0 + 1.2, 0]) {
 
     //top hooks
     translate([0, 0, block_z]) {
