@@ -162,7 +162,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
   t_surround_x = (1/2) * (block_x - surround_w);
   t_surround_z = (block_z - surround_h) - mount_insert_shift;
 
-  //  3. mount insert piece for inserting phone carrier
+  //  4. mount insert piece for inserting phone carrier
   translate_y = (mountInsert_h - enlargePunchScale*mountInsert_h + 2*e);
   fudge_x = -0.62;
   translate_x = (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) + fudge_x;
@@ -219,14 +219,15 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   // Want hooks to be spaced at bar spacing
   // Calculated spacing between bars minus top hook extra minus mid hook extra
-  mid_hook_z = block_z - Vertical_Spacing_Hooks + overhangPlusExtend + hookExtend_mid + hookOverhang_mid;
+  mid_hook_z = block_z - Vertical_Spacing_Hooks +  hookExtend_mid + hookOverhang_mid;
 
   pulltie_inset = 8.0;
   pulltie_hole_size = 5;
+  pulltie_hole_width = pulltie_hole_size/1.7;
   mid_pulltie_hole1_x =  pulltie_inset;
-  mid_pulltie_hole1_z =  mid_hook_z + bar_diameter + hookExtend_mid + hookOverhang_mid;
+  mid_pulltie_hole1_z =  mid_hook_z + bar_diameter + overhangPlusExtend + hookExtend_mid + hookOverhang_mid;
   mid_pulltie_hole2_x =  pulltie_inset;
-  mid_pulltie_hole2_z =  block_z - Vertical_Spacing_Hooks + hookExtend_mid + hookOverhang_mid;
+  mid_pulltie_hole2_z =  block_z - Vertical_Spacing_Hooks ;
 
   // hook and plate structure
   //translate([0, block_y - plate_thickness, 0]) {
@@ -247,7 +248,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
     // mid hooks
     translate([0, 0, mid_hook_z]) {
 
-      // Cannot use as-is. the bar curves around the corner
+      // Cannot use as-is since the bar curves around the corner. So do not instantiate
       *translate([0,0,0])
         barHook ( diameter = bar_diameter, hook_width = hookWidth, hook_thickness = hookThickness, hook_overhang = hookOverhang_mid,
                   hook_extend = 0, inner_padding = innerPadding );
@@ -275,16 +276,28 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
                                [0,0], [0,0], [0,0], [0,0], center = false);
         }
 
-        // punch out holes for pull-ties
+        // 3. punch out holes for pull-ties
         translate([mid_pulltie_hole1_x, -e, mid_pulltie_hole1_z]) {
           linear_extrude(height = pulltie_hole_size + e, center = false, convexity = 10)
-            square([pulltie_hole_size/1.7,  plate_thickness + 2*e]);
+            square([pulltie_hole_width,  plate_thickness + 2*e]);
         }
 
         // punch out holes for pull-ties
         translate([mid_pulltie_hole2_x, -e, mid_pulltie_hole2_z]) {
           linear_extrude(height = pulltie_hole_size + e, center = false, convexity = 10)
-            square([pulltie_hole_size/1.7,  plate_thickness + 2*e]);
+            square([pulltie_hole_width,  plate_thickness + 2*e]);
+        }
+
+        // punch out holes for pull-ties
+        translate([block_x - mid_pulltie_hole1_x - pulltie_hole_width, -e, mid_pulltie_hole1_z]) {
+          linear_extrude(height = pulltie_hole_size + e, center = false, convexity = 10)
+            square([pulltie_hole_width,  plate_thickness + 2*e]);
+        }
+
+        // punch out holes for pull-ties
+        translate([block_x - mid_pulltie_hole2_x - pulltie_hole_width, -e, mid_pulltie_hole2_z - (hookExtend_mid + hookOverhang_mid)]) {
+          linear_extrude(height = pulltie_hole_size + e, center = false, convexity = 10)
+            square([pulltie_hole_width,  plate_thickness + 2*e]);
         }
       }
     }
