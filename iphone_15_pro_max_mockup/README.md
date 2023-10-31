@@ -9,25 +9,24 @@ Mechanical dummy model mockup for iPhone 15 Pro Max, in OpenSCAD with source cod
 UPDATES
 -------
 
-**2023-Sep-18** :
 
--	tbd
+**2023-Oct-31** :
 
--	now also has **stainless steel edge profile** based on engineering drawings.
+-	update with accessory guidelines dimensions
+
 
 ### Possible tweaks
 
 Details
 
 -	rear camera plateau should be smoothed with a gradient
--	ringer on/off is a switch
 
 Sources
 -------
 
 -	Apple's iPhone 15 Pro product page - [Technical Specifications](https://www.apple.com/iphone-15-pro/specs/)
 
--	Apple's [Accessory Design Guidelines [.pdf]](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf "Device Dimensional Drawings" **44.3 iPhone 13 Pro 1 of 2** *(Release R21, downloaded TBD)*
+-	Apple's [Accessory Design Guidelines [.pdf]](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf "Device Dimensional Drawings" **56.1 iPhone 15 Pro Max 1 of 3** *(Release R21, downloaded 2023-Oct-31)*
 
 
 

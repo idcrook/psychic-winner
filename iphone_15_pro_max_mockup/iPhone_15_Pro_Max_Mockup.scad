@@ -217,35 +217,36 @@ dynamic_island__R =  dynamic_island__height / 2;
 dynamic_island__r =  0.95;
 
 /// Bottom sensors and connectors
-bottom__z_mid  = 3.75;
+bottom__z_mid  = 4.12;
 
-grill_hole__diameter = 1.53;
+grill_hole__diameter = 1.35;
 grill_hole__r = grill_hole__diameter/2;
 screw_bottom__diameter = 1.50;
 
 // from_left -> hole centers
-screw_bottom_1__from_left = 29.37;
-screw_bottom_2__from_left = 42.16;
+screw_bottom_1__from_left = 31.44;
+screw_bottom_2__from_left = 45.29;
 
 // other side of USB-C port from speaker
-mic1_bottom__hole_1__from_left = 19.14 + grill_hole__r;
-mic1_bottom__hole_3__from_left = 25.18 - grill_hole__r;
+mic1_bottom__hole_1__from_left = 20.40 + grill_hole__r;
+mic1_bottom__hole_4__from_left = 27.17 - grill_hole__r;
 
 // next to speaker grill
-mic2_bottom__hole_1__from_left = 46.34 + grill_hole__r;
+mic2_bottom__hole_1__from_left = 49.56 + grill_hole__r;
 // (port of speaker ports)
-mic2_bottom__hole_5__from_left = 56.89 - grill_hole__r;
+mic2_bottom__hole_6__from_left = 60.84 - grill_hole__r;
 
-usbc_connector__height       = 2.30;
-usbc_connector__from_right   = 38.35; // distance to center point
+usbc_connector__height       = 3.14;
+usbc_connector__from_right   = 38.37; // distance to center point
 usbc_connector__from_left = (iphone_15_pro_max__width - usbc_connector__from_right);
-usbc_connector_end1__from_left = 34.15;
-usbc_connector_end2__from_left = 42.55;
+usbc_connector_end1__from_left = 33.87;
+usbc_connector_end2__from_left = 42.86;
 usbc_connector__width        = (usbc_connector_end2__from_left - usbc_connector_end1__from_left);
 
-usbc_connector_keepout__radius  = 3.4;
-usbc_connector_keepout__width   = 13.65;
-usbc_connector_keepout__height  = 6.85;
+usbc_connector_keepout__width   = 12.45;
+usbc_connector_keepout__height  = 6.60;
+//usbc_connector_keepout__radius  = usbc_connector_keepout__height / 2;
+usbc_connector_keepout__radius  = 3.25;
 usbc_connector_keepout__outward = 14.0;
 
 function translate_y_from_top (from_top)  = iphone_15_pro_max__height - from_top;
@@ -333,7 +334,7 @@ module iphone_15_pro_max (width, length, depth,
   }
 
   // mic1 holes
-  for (i=steps(mic1_bottom__hole_1__from_left, 3, mic1_bottom__hole_3__from_left)) {
+  for (i=steps(mic1_bottom__hole_1__from_left, 4, mic1_bottom__hole_4__from_left)) {
     echo (i);
     color("Black")
       translate([i, 0, bottom__z_mid]) {
@@ -344,7 +345,7 @@ module iphone_15_pro_max (width, length, depth,
   }
 
   // mic2 holes
-  for (i=steps(mic2_bottom__hole_1__from_left, 5, mic2_bottom__hole_5__from_left)) {
+  for (i=steps(mic2_bottom__hole_1__from_left, 6, mic2_bottom__hole_6__from_left)) {
     echo (i);
     color("Black")
       translate([i, 0, bottom__z_mid]) {
@@ -365,8 +366,8 @@ module iphone_15_pro_max (width, length, depth,
   }
 
   // USB-C
-  corner_r1 = 1.1;
-  corner_r2 = 1.1;
+  corner_r1 = usbc_connector__height / 2;
+  corner_r2 = usbc_connector__height / 2;
   color("Black")
     translate([usbc_connector__from_left, 0, bottom__z_mid]) {
     rotate([-90, 0, 0])
