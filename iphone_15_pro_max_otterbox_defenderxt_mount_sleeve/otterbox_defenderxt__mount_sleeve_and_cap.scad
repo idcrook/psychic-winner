@@ -95,7 +95,7 @@ tl = (1/2) * dl  ;
 th = (1/2) * dh  ;
 
 // front case cutout
-case_front_lip = 1.0;
+case_front_lip = 2.0;
 cut_w = active_display__width  + 2*active_display__inset_from_exterior - 2*case_front_lip;
 cut_l = active_display__height + 2*active_display__inset_from_exterior - 2*case_front_lip;
 cut_r = 6.95;
@@ -123,7 +123,7 @@ function translate_y_from_top (from_top)  = il - from_top;
 module otterboxDefenderCase () {
   difference() {
     // case outer dimensions
-    shell(w, l, h, case_out_r, shell_color="#99a", color_alpha=0.90,
+    shell(w, l, h, case_out_r, shell_color="#99a", color_alpha=0.20,
           full_size_pass=false);
     translate ([dcw, dcl, th+0-tol])
       {
@@ -1026,11 +1026,12 @@ module showTogether() {
     translate([tw, tl, (icase_h_ratio)*th ])
       iphone_15_pro_max(iw, il, ih, show_keepouts = true);
     // case model
+    %color("Grey", alpha=0.05)
     translate([0,0,0]) otterboxDefenderCase();
   }
 
   // sleeve mount design
-  %translate([w_use/2-(1/2)*tolerance, 0, h_use/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w_use, l, h_use,  tweakMountSurface, withCap, withSleeve );
+  translate([w_use/2-(1/2)*tolerance, 0, h_use/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w_use, l, h_use,  tweakMountSurface, withCap, withSleeve );
 }
 
 if (show_everything) {

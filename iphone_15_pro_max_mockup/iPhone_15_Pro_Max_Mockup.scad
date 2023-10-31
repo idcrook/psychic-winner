@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_15_Pro_Max_model = !false;
+DEVELOPING_iPhone_15_Pro_Max_model = false;
 
 use <../libraries/MCAD/2Dshapes.scad>
 
@@ -45,7 +45,7 @@ iphone_15_pro_max__z_mid  =   iphone_15_pro_max__depth / 2;
 SIM_SLOT_PRESENT = false;
 
 // estimate
-iphone_15_pro_max__face_corner_radius = 16.88; // very close to matching profile from blueprint
+iphone_15_pro_max__face_corner_radius = 10.88; // very close to matching profile from blueprint
 
 iphone_15_pro_max__blue_titanium = "#3B3E47";
 iphone_15_pro_max__blue_titanium_titanium = "#23262E";
@@ -416,6 +416,7 @@ face_profile_polygon = concat(face_profile_set, [[17.24, 0.0], [0,0], [0.0, 17.2
 edge_profile_b_set = [[0.0, 1.84], [0.0, 2.46], [0.06, 3.07], [0.32, 3.62], [0.81, 3.99]];
 edge_profile_b_polygon = concat([[1.15, iphone_15_pro_max__depth/2 + e], [0, iphone_15_pro_max__depth/2 + e], [0, 0]], edge_profile_b_set);
 
+// FIXME: use face corner profile
 module face_profile_corner (size = 1.0) {
   scale([size, size]) {
     polygon(face_profile_polygon);
