@@ -70,8 +70,8 @@ w_use = 88.78;
 h_use = 12.87;
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
-// "Device Dimensional Drawings" § TBD iPhone 15 Pro Max 1 of 3
-// Release TBD, downloaded TBD
+// "Device Dimensional Drawings" § 56.1 iPhone 15 Pro Max 1 of 3
+// Release 21, downloaded 2023-Oct-31
 // -	Height: 6.29 inches (159.9 mm)
 // -	Width: 3.02 inches (76.7 mm)
 // -	Depth: 0.32 inch (8.25 mm)
@@ -107,8 +107,8 @@ dcw = (w - cut_w) / 2;
 dcl = (l - cut_l) / 2;
 
 // case rear cam opening
-case_rcam_w = 37.5;
-case_rcam_l = 38.8;
+case_rcam_w = 40.0;
+case_rcam_l = 41.0;
 case_rcam_r = 10;
 
 // case USB-C flap
@@ -120,7 +120,7 @@ case_mid_w = w/2;
 function translate_y_from_top (from_top)  = il - from_top;
 
 // this is a
-module otterboxCommuterCase () {
+module otterboxDefenderCase () {
   difference() {
     // case outer dimensions
     shell(w, l, h, case_out_r, shell_color="#99a", color_alpha=0.90,
@@ -132,7 +132,7 @@ module otterboxCommuterCase () {
           rounded_square(size=[cut_w, cut_l], corner_r = cut_r, center=false);
         // cut out rear camera hole
         translate([iphone_15_pro_max__width, iphone_15_pro_max__height, 0])
-          translate([-(17/16)*tw, -case_rcam_l-(5/4)*tl, 0])
+          translate([-(10/16)*tw, -case_rcam_l-(12/16)*tl, 0])
           rotate([0, 180, 0])
           linear_extrude(height = 15, center = false, convexity = 10)
           rounded_square(size=[case_rcam_w, case_rcam_l], corner_r = case_rcam_r, center=false);
@@ -1026,11 +1026,11 @@ module showTogether() {
     translate([tw, tl, (icase_h_ratio)*th ])
       iphone_15_pro_max(iw, il, ih, show_keepouts = true);
     // case model
-    %translate([0,0,0]) otterboxCommuterCase();
+    translate([0,0,0]) otterboxDefenderCase();
   }
 
   // sleeve mount design
-  translate([w_use/2-(1/2)*tolerance, 0, h_use/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w_use, l, h_use,  tweakMountSurface, withCap, withSleeve );
+  %translate([w_use/2-(1/2)*tolerance, 0, h_use/2]) rotate([360-90,0,0]) sleeveForEncasediPhone(w_use, l, h_use,  tweakMountSurface, withCap, withSleeve );
 }
 
 if (show_everything) {
