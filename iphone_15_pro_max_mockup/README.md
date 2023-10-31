@@ -26,7 +26,7 @@ Sources
 
 -	Apple's iPhone 15 Pro product page - [Technical Specifications](https://www.apple.com/iphone-15-pro/specs/)
 
--	Apple's [Accessory Design Guidelines [.pdf]](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf "Device Dimensional Drawings" **56.1 iPhone 15 Pro Max 1 of 3** *(Release R21, downloaded 2023-Oct-31)*
+-	Apple's [Accessory Design Guidelines [.pdf]](https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf "Device Dimensional Drawings") **56.1 iPhone 15 Pro Max 1 of 3** *(Release R21, downloaded 2023-Oct-31)*
 
 
 
@@ -46,15 +46,15 @@ Measurements:
 Drawings and renders
 --------------------
 
-![top view](img/iphone_13_pro_top_view.png)
+![top view](img/iphone_15_pro_top_view.png)
 
-![bottom view](img/iphone_13_pro_bottom_view.png)
+![bottom view](img/iphone_15_pro_bottom_view.png)
 
-![render view](img/iphone_13_pro_render_view.png)
+![render view](img/iphone_15_pro_render_view.png)
 
-![front view](img/iphone_13_pro_front_view.png)
+![front view](img/iphone_15_pro_front_view.png)
 
-![rear view](img/iphone_13_pro_rear_view.png)
+![rear view](img/iphone_15_pro_rear_view.png)
 
 Thingiverse
 -----------
