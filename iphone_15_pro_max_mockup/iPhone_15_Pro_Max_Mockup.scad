@@ -19,7 +19,7 @@
 // * All measurements in millimeters * //
 
 // If true, model is instantiated by this file
-DEVELOPING_iPhone_15_Pro_Max_model = false;
+DEVELOPING_iPhone_15_Pro_Max_model = !false;
 
 use <../libraries/MCAD/2Dshapes.scad>
 
@@ -29,8 +29,8 @@ use <../libraries/dotSCAD/src/rounded_square.scad>
 e = 1/128;
 
 // https://developer.apple.com/accessories/Accessory-Design-Guidelines.pdf
-// "Device Dimensional Drawings" § TBD iPhone 15 Pro Max 1 of 3
-// Release TBD, downloaded TBD
+// "Device Dimensional Drawings" § 56.1 - 56.3 iPhone 15 Pro Max
+// Release 21, downloaded 2023-Oct-31
 // -	Height: 6.29 inches (159.9 mm)
 // -	Width: 3.02 inches (76.7 mm)
 // -	Depth: 0.32 inch (8.25 mm)
