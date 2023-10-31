@@ -1014,7 +1014,7 @@ module test_generateCapTab(cap_arm_thickness, cap_case_width, tab_height, tab_wi
 module showTogether() {
 
   tweakMountSurface = true;
-  withCap = true;
+  withCap = !true;
   withSleeve = true;
   tolerance = tol;
 
