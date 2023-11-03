@@ -24,7 +24,7 @@ use <../libraries/local-misc/wedge.scad>
 
 
 // Width across mount
-Width_Of_Mount = 75.5;
+Width_Of_Mount = 70.5;
 
 // Vertical spacing between crosss bars in basket
 Vertical_Spacing_Hooks = 81.0;
@@ -33,7 +33,7 @@ Vertical_Spacing_Hooks = 81.0;
 Height_Of_Mount = 124.3;
 
 // How far from top of block to shift down insert
-mount_insert_shift = 27.9;
+mount_insert_shift = 21.5;
 
 module __Customizer_Limit__ () {}
 
@@ -164,7 +164,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   //  4. mount insert piece for inserting phone carrier
   translate_y = (mountInsert_h - enlargePunchScale*mountInsert_h + 2*e);
-  fudge_x = -0.62;
+  fudge_x = -0.50;
   translate_x = (1/2) * (block_x - (mountInsert_w * enlargePunchScale)) + fudge_x;
   mountInsert_position = (enlargePunchScale - 1) * (translate_x) * 1/2;
   translate_z = block_z - mount_insert_h - mount_insert_shift ;
@@ -203,7 +203,7 @@ module basketMount(mount_insert_w, mount_insert_thickness, mount_insert_h, fitBe
 
   // Hooks and plate
   bar_diameter = 10.6;
-  hookWidth = 23.4;
+  hookWidth = 20.9;
   hookThickness = plate_thickness + 0.8;
   overhangPlusExtend = 6.5;
   hookOverhang = 4.0;
