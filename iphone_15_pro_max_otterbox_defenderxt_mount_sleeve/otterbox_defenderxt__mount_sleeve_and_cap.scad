@@ -12,15 +12,15 @@
 //
 //   Remix this sleeve to fit an Otterbox Defender XT Series for iPhone 15 Pro Max
 //
-// Thingiverse
+// Model Repositories
 //
-//   -	https://www.thingiverse.com/thing:
+//   -	[Modular mount system Sleeve for iPhone 15 Pro Max with case - Otterbox Commuter](https://www.thingiverse.com/thing:5019596)
+//
+//   -	https://www.
 //
 // Revisions/Notes:
 //
 //   2023-Sep-19 : Initial Case dimensions
-//
-//   2021-Oct-08 :
 //
 //
 //
@@ -1023,10 +1023,10 @@ module showTogether() {
   if (show_with_phone_and_case) {
     // iPhone 15 Pro Max
     // use this ratio since case back is thicker than front inset
-    translate([tw, tl, (icase_h_ratio)*th ])
+    %translate([tw, tl, (icase_h_ratio)*th ])
       iphone_15_pro_max(iw, il, ih, show_keepouts = true);
     // case model
-    %color("Grey", alpha=0.05)
+    %color("Grey", alpha=0.85)
     translate([0,0,0]) otterboxDefenderCase();
   }
 

@@ -1,10 +1,10 @@
-Sleeve for iPhone 13 Pro With Case(s)
-=====================================
+Sleeve for iPhone 15 Pro Max With Otterbox Defender XT
+======================================================
 
 Summary
 -------
 
-Part of a family of interchangeable mounts, adapted to iPhone 13 Pro case(s)
+Part of a family of interchangeable mounts, adapted to iPhone 15 Pro Max case
 
 UPDATES
 -------
@@ -20,12 +20,9 @@ Otterbox iPhone 15 Pro Max Defender Series XT Clear Case for MagSafe
 
 -	[Black Clear MagSafe iPhone 15 Pro Max case | Defender Series XT Clear](https://www.otterbox.com/en-us/magsafe-iphone-15-pro-max-case-black/77-93312.html)
 
-
 Dimensions: `6.76 x 3.52 x 0.57 in / 171.65 x 89.38 x 14.52 mm`
 
 Weight: `0.12 lbs | 52.95 g`
-
-
 
 Views and Renders
 -----------------
@@ -74,12 +71,16 @@ Size and Weight:
 
 -	Weight: 7.81 (221 grams)
 
-thingiverse
------------
+Model Repositories
+------------------
 
 This model:
 
--	[Modular mount system Sleeve for iPhone 15 Pro Max with case - Otterbox Commuter](https://www.thingiverse.com/thing:5019596) - This model
+-	Thingiverse: [Sleeve for iPhone 15 Pro Max With Otterbox Defender XT by dpc - Thingiverse](https://www.thingiverse.com/thing:6311636) - This model
 
-	-	[iPhone 15 Pro Max mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:)
-	-	[Modular mount system Sleeve for iPhone 11 Pro with case by dpc - Thingiverse](https://www.thingiverse.com/thing:3865844)
+-	Printables: https://www.printables.com/model/645619-sleeve-for-iphone-15-pro-max-with-otterbox-defende
+
+Related:
+
+-   [iPhone 15 Pro Max mockup mechanical dummy model by dpc - Thingiverse](https://www.thingiverse.com/thing:6311478)
+-   [Modular mount system Sleeve for iPhone 11 Pro with case by dpc - Thingiverse](https://www.thingiverse.com/thing:3865844)
