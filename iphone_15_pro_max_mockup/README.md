@@ -56,8 +56,12 @@ Drawings and renders
 
 ![rear view](img/iphone_15_pro_rear_view.png)
 
-Thingiverse
+Model Repositories
 -----------
 
--	[TBD - iPhone 15 Pro Max mockup mechanical dummy model](https://www.thingiverse.com/thing:4980345/)
+-   Printables: <https://www.printables.com/model/645469-iphone-15-pro-max-mechanical-mockup>
+
+
+
+-	Thingiverse: [iPhone 15 Pro Max mockup mechanical dummy model](https://www.thingiverse.com/thing:6311478)
 	-	remix/adaptation from [iPhone 13 Pro mockup mechanical dummy model](https://www.thingiverse.com/thing:4980345/)

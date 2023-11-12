@@ -6,7 +6,7 @@
 
   2023-Sep-18
 
-  Thingiverse: https://www.thingiverse.com/thing:TBD/
+  Thingiverse: https://www.thingiverse.com/thing:6311478
 
   Printables: https://www.printables.com/model/645469-iphone-15-pro-max-mechanical-mockup
 
