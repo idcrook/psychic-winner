@@ -6,10 +6,16 @@
 //
 // Description:
 //
+//   Add to family: Bracket to sit on fromt basket of Velotric e-bike (Velotric
+//   Discover 1, Velotric Nomad 1, Velotric Go 1, Velotric Packer 1
+//
+//   https://www.printables.com/model/645512-velotric-e-bike-front-basket-mount-bracket
+//
+//
 //
 // Revisions/Notes:
 //
-//   2023-Jan-19: Update starting from previous design
+//   2023-Oct-21: Starting from previous design
 //
 // TODO:
 //
