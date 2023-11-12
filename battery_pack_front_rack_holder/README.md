@@ -1,9 +1,6 @@
 Bike Rack Holder for Powerbank/Charger for Phone
 ================================================
 
-thingiverse
------------
-
 ![Holder for powerbank on modular mount system](img/battery_pack_front_rack_holder.png)
 
 Developed for the USB powerbank "LOVELEDI Portable Charger" [Amazon.com: LOVELEDI Portable-Charger-Power-Bank - 2 Pack 15000mAh Dual USB Power Bank Output 5V3.1A Fast Charging Portable Charger Compatible with Smartphones and All USB Devices ](https://www.amazon.com/gp/product/B0B45GX5V7?ie=UTF8&th=1)
@@ -26,13 +23,11 @@ Views and Renders
 
 ![Render view with dummy powerbank ](img/powerbank_loaded_battery_pack_front_rack_holder.png)
 
-Additional parts needed to fully assemble
------------------------------------------
+![front view](img/battery_pack_front_rack_holder.png)
 
-#### Print
+![back view](img/back_view.png)
 
-![front view](img/front_view.jpg)
+Model Repositories
+------------------
 
-![back view](img/back_view.jpg)
-
-![side view](img/side_view.jpg)
+-	Printables: https://www.printables.com/model/645633-holder-for-powerbankbattery-charger-for-phone
