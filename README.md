@@ -26,16 +26,18 @@ Intended to find the collection of local libraries (macOS, Linux)
 ## Index
 
  -    [7 inch hdmi raspi vertical stand](#dir-dt-7-inch-hdmi-raspi-vertical-stand)
- -    [Anker Wireless Charger Holder-thingie 3062864 remix](#dir-dt-anker-wireless-charger-holder-thingie-3062864-remix)
- -    [ELP2p8 USB webcam mount](#dir-dt-elp2p8-usb-webcam-mount)
- -    [LulzBot Mini bed USB camera mount v2p1 toolhead](#dir-dt-lulzbot-mini-bed-usb-camera-mount-v2p1-toolhead)
- -    [SD3x5 Holder](#dir-dt-sd3x5-holder)
  -    [amazon echo auto alt dash mount](#dir-dt-amazon-echo-auto-alt-dash-mount)
+ -    [Anker Wireless Charger Holder-thingie 3062864 remix](#dir-dt-anker-wireless-charger-holder-thingie-3062864-remix)
  -    [another-lulzbot-mini-spool-holder-bushing](#dir-dt-another-lulzbot-mini-spool-holder-bushing)
+ -    [battery pack front rack holder](#dir-dt-battery-pack-front-rack-holder)
  -    [bone dog tag](#dir-dt-bone-dog-tag)
  -    [bone dog tag dualside](#dir-dt-bone-dog-tag-dualside)
+ -    [bottle cage mount front rack holder](#dir-dt-bottle-cage-mount-front-rack-holder)
+ -    [cam-coaster](#dir-dt-cam-coaster)
+ -    [cam-stickers](#dir-dt-cam-stickers)
  -    [choetech wireless charger stand landscape booster](#dir-dt-choetech-wireless-charger-stand-landscape-booster)
  -    [coronavirus spikes](#dir-dt-coronavirus-spikes)
+ -    [ELP2p8 USB webcam mount](#dir-dt-elp2p8-usb-webcam-mount)
  -    [fireaxe blade](#dir-dt-fireaxe-blade)
  -    [hanging shower caddy mount](#dir-dt-hanging-shower-caddy-mount)
  -    [iphone 11 pro mockup](#dir-dt-iphone-11-pro-mockup)
@@ -45,20 +47,29 @@ Intended to find the collection of local libraries (macOS, Linux)
  -    [iphone 13 pro mockup](#dir-dt-iphone-13-pro-mockup)
  -    [iphone 13 pro otterbox commuter mount sleeve](#dir-dt-iphone-13-pro-otterbox-commuter-mount-sleeve)
  -    [iphone 13 pro otterbox defenderxt mount sleeve](#dir-dt-iphone-13-pro-otterbox-defenderxt-mount-sleeve)
+ -    [iphone 15 pro max mockup](#dir-dt-iphone-15-pro-max-mockup)
+ -    [iphone 15 pro max otterbox defenderxt mount sleeve](#dir-dt-iphone-15-pro-max-otterbox-defenderxt-mount-sleeve)
  -    [iphone 6plus bicycle mount](#dir-dt-iphone-6plus-bicycle-mount)
  -    [iphone 6plus mount family](#dir-dt-iphone-6plus-mount-family)
  -    [iphone 8plus otterbox statement case mount sleeve](#dir-dt-iphone-8plus-otterbox-statement-case-mount-sleeve)
+ -    [iphone mount family bicycle mount](#dir-dt-iphone-mount-family-bicycle-mount)
  -    [iphone se mount sleeve](#dir-dt-iphone-se-mount-sleeve)
+ -    [kermit fangs](#dir-dt-kermit-fangs)
  -    [lsu tiger ornament](#dir-dt-lsu-tiger-ornament)
+ -    [LulzBot Mini bed USB camera mount v2p1 toolhead](#dir-dt-lulzbot-mini-bed-usb-camera-mount-v2p1-toolhead)
  -    [palette with removable wells 2oz cups--remix-thing-4771826](#dir-dt-palette-with-removable-wells-2oz-cups--remix-thing-4771826)
  -    [planter tray](#dir-dt-planter-tray)
  -    [raspi box fully enclosed top cover](#dir-dt-raspi-box-fully-enclosed-top-cover)
  -    [raspi cam hq models](#dir-dt-raspi-cam-hq-models)
  -    [remix thing 2160917 octopi rig top ribbon cable opening](#dir-dt-remix-thing-2160917-octopi-rig-top-ribbon-cable-opening)
+ -    [remix thing 2812983 clip for fencing](#dir-dt-remix-thing-2812983-clip-for-fencing)
  -    [remix thing 922740 raspi3 M5 screw vesa mount](#dir-dt-remix-thing-922740-raspi3-m5-screw-vesa-mount)
+ -    [SD3x5 Holder](#dir-dt-sd3x5-holder)
  -    [servo demo](#dir-dt-servo-demo)
+ -    [velotric front basket mount](#dir-dt-velotric-front-basket-mount)
  -    [webcam small mount](#dir-dt-webcam-small-mount)
  -    [x wing fighter laser cannon](#dir-dt-x-wing-fighter-laser-cannon)
+
 
 
 ## Directories
@@ -75,50 +86,6 @@ Intended to find the collection of local libraries (macOS, Linux)
 
 </dd>
 
-<dt id="dir-dt-anker-wireless-charger-holder-thingie-3062864-remix" >
-
-[Anker_Wireless_Charger_Holder-thingie_3062864_remix](Anker_Wireless_Charger_Holder-thingie_3062864_remix/#readme)
-
-</dt><dd>
-Anker Wireless Charger Holder-thingie 3062864 remix
-
-![Anker Wireless Charger Holder-thingie 3062864 remix](Anker_Wireless_Charger_Holder-thingie_3062864_remix/img/object_render.png "Anker Wireless Charger Holder-thingie 3062864 remix")
-
-</dd>
-
-<dt id="dir-dt-elp2p8-usb-webcam-mount" >
-
-[ELP2p8_USB_webcam_mount](ELP2p8_USB_webcam_mount/#readme)
-
-</dt><dd>
-ELP2p8 USB webcam mount
-
-![ELP2p8 USB webcam mount](ELP2p8_USB_webcam_mount/img/front_view.jpg "ELP2p8 USB webcam mount")
-
-</dd>
-
-<dt id="dir-dt-lulzbot-mini-bed-usb-camera-mount-v2p1-toolhead" >
-
-[LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead](LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead/#readme)
-
-</dt><dd>
-LulzBot Mini bed USB camera mount v2p1 toolhead
-
-![LulzBot Mini bed USB camera mount v2p1 toolhead](LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead/img/LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead.png "LulzBot Mini bed USB camera mount v2p1 toolhead")
-
-</dd>
-
-<dt id="dir-dt-sd3x5-holder" >
-
-[SD3x5_Holder](SD3x5_Holder/#readme)
-
-</dt><dd>
-SD3x5 Holder
-
-![SD3x5 Holder](SD3x5_Holder/img/SD3x5_Holder_2.png "SD3x5 Holder")
-
-</dd>
-
 <dt id="dir-dt-amazon-echo-auto-alt-dash-mount" >
 
 [amazon_echo_auto_alt_dash_mount](amazon_echo_auto_alt_dash_mount/#readme)
@@ -130,6 +97,17 @@ amazon echo auto alt dash mount
 
 </dd>
 
+<dt id="dir-dt-anker-wireless-charger-holder-thingie-3062864-remix" >
+
+[Anker_Wireless_Charger_Holder-thingie_3062864_remix](Anker_Wireless_Charger_Holder-thingie_3062864_remix/#readme)
+
+</dt><dd>
+Anker Wireless Charger Holder-thingie 3062864 remix
+
+![Anker Wireless Charger Holder-thingie 3062864 remix](Anker_Wireless_Charger_Holder-thingie_3062864_remix/img/object_render.png "Anker Wireless Charger Holder-thingie 3062864 remix")
+
+</dd>
+
 <dt id="dir-dt-another-lulzbot-mini-spool-holder-bushing" >
 
 [another-lulzbot-mini-spool-holder-bushing](another-lulzbot-mini-spool-holder-bushing/#readme)
@@ -138,6 +116,17 @@ amazon echo auto alt dash mount
 another-lulzbot-mini-spool-holder-bushing
 
  ![another-lulzbot-mini-spool-holder-bushing](another-lulzbot-mini-spool-holder-bushing/img/another-lulzbot-mini-spool-holder-bushing_w_flange.png "another-lulzbot-mini-spool-holder-bushing")
+
+</dd>
+
+<dt id="dir-dt-battery-pack-front-rack-holder" >
+
+[battery_pack_front_rack_holder](battery_pack_front_rack_holder/#readme)
+
+</dt><dd>
+battery pack front rack holder
+
+![battery pack front rack holder](battery_pack_front_rack_holder/img/back_view.png "battery pack front rack holder")
 
 </dd>
 
@@ -163,6 +152,39 @@ bone dog tag dualside
 
 </dd>
 
+<dt id="dir-dt-bottle-cage-mount-front-rack-holder" >
+
+[bottle_cage_mount_front_rack_holder](bottle_cage_mount_front_rack_holder/#readme)
+
+</dt><dd>
+bottle cage mount front rack holder
+
+![bottle cage mount front rack holder](bottle_cage_mount_front_rack_holder/img/powerbank_loaded_battery_pack_front_rack_holder.png "bottle cage mount front rack holder")
+
+</dd>
+
+<dt id="dir-dt-cam-coaster" >
+
+[cam-coaster](cam-coaster/#readme)
+
+</dt><dd>
+cam-coaster
+
+<!-- ![cam-coaster](cam-coaster/img/IMAGE.png "cam-coaster") -->
+
+</dd>
+
+<dt id="dir-dt-cam-stickers" >
+
+[cam-stickers](cam-stickers/#readme)
+
+</dt><dd>
+cam-stickers
+
+<!-- ![cam-stickers](cam-stickers/img/IMAGE.png "cam-stickers") -->
+
+</dd>
+
 <dt id="dir-dt-choetech-wireless-charger-stand-landscape-booster" >
 
 [choetech_wireless_charger_stand_landscape_booster](choetech_wireless_charger_stand_landscape_booster/#readme)
@@ -182,6 +204,17 @@ choetech wireless charger stand landscape booster
 coronavirus spikes
 
 ![coronavirus spikes](coronavirus_spikes/img/spike_model.png "coronavirus spikes")
+
+</dd>
+
+<dt id="dir-dt-elp2p8-usb-webcam-mount" >
+
+[ELP2p8_USB_webcam_mount](ELP2p8_USB_webcam_mount/#readme)
+
+</dt><dd>
+ELP2p8 USB webcam mount
+
+![ELP2p8 USB webcam mount](ELP2p8_USB_webcam_mount/img/front_view.jpg "ELP2p8 USB webcam mount")
 
 </dd>
 
@@ -280,7 +313,29 @@ iphone 13 pro otterbox commuter mount sleeve
 </dt><dd>
 iphone 13 pro otterbox defenderxt mount sleeve
 
-<!-- ![iphone 13 pro otterbox defenderxt mount sleeve](iphone_13_pro_otterbox_defenderxt_mount_sleeve/img/IMAGE.png "iphone 13 pro otterbox defenderxt mount sleeve") -->
+![iphone 13 pro otterbox defenderxt mount sleeve](iphone_13_pro_otterbox_defenderxt_mount_sleeve/img/sleeve_back_diag_view__obx_defenderxt_iphone13pro.png "iphone 13 pro otterbox defenderxt mount sleeve")
+
+</dd>
+
+<dt id="dir-dt-iphone-15-pro-max-mockup" >
+
+[iphone_15_pro_max_mockup](iphone_15_pro_max_mockup/#readme)
+
+</dt><dd>
+iphone 15 pro max mockup
+
+![iphone 15 pro max mockup](iphone_15_pro_max_mockup/img/iphone_15_pro_bottom_view.png "iphone 15 pro max mockup")
+
+</dd>
+
+<dt id="dir-dt-iphone-15-pro-max-otterbox-defenderxt-mount-sleeve" >
+
+[iphone_15_pro_max_otterbox_defenderxt_mount_sleeve](iphone_15_pro_max_otterbox_defenderxt_mount_sleeve/#readme)
+
+</dt><dd>
+iphone 15 pro max otterbox defenderxt mount sleeve
+
+![iphone 15 pro max otterbox defenderxt mount sleeve](iphone_15_pro_max_otterbox_defenderxt_mount_sleeve/img/mount_with_phone_case.png "iphone 15 pro max otterbox defenderxt mount sleeve")
 
 </dd>
 
@@ -317,6 +372,17 @@ iphone 8plus otterbox statement case mount sleeve
 
 </dd>
 
+<dt id="dir-dt-iphone-mount-family-bicycle-mount" >
+
+[iphone_mount_family_bicycle_mount](iphone_mount_family_bicycle_mount/#readme)
+
+</dt><dd>
+iphone mount family bicycle mount
+
+![iphone mount family bicycle mount](iphone_mount_family_bicycle_mount/img/bicycle_mount_no_tilt.png "iphone mount family bicycle mount")
+
+</dd>
+
 <dt id="dir-dt-iphone-se-mount-sleeve" >
 
 [iphone_se_mount_sleeve](iphone_se_mount_sleeve/#readme)
@@ -328,6 +394,17 @@ iphone se mount sleeve
 
 </dd>
 
+<dt id="dir-dt-kermit-fangs" >
+
+[kermit_fangs](kermit_fangs/#readme)
+
+</dt><dd>
+kermit fangs
+
+<!-- ![kermit fangs](kermit_fangs/img/IMAGE.png "kermit fangs") -->
+
+</dd>
+
 <dt id="dir-dt-lsu-tiger-ornament" >
 
 [lsu_tiger_ornament](lsu_tiger_ornament/#readme)
@@ -336,6 +413,17 @@ iphone se mount sleeve
 lsu tiger ornament
 
 ![lsu tiger ornament](lsu_tiger_ornament/img/lsu_tiger_ornament__dual_extrusion.png "lsu tiger ornament")
+
+</dd>
+
+<dt id="dir-dt-lulzbot-mini-bed-usb-camera-mount-v2p1-toolhead" >
+
+[LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead](LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead/#readme)
+
+</dt><dd>
+LulzBot Mini bed USB camera mount v2p1 toolhead
+
+![LulzBot Mini bed USB camera mount v2p1 toolhead](LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead/img/LulzBot_Mini_bed_USB_camera_mount_v2p1_toolhead.png "LulzBot Mini bed USB camera mount v2p1 toolhead")
 
 </dd>
 
@@ -398,6 +486,19 @@ remix thing 2160917 octopi rig top ribbon cable opening
 
 </dd>
 
+<dt id="dir-dt-remix-thing-2812983-clip-for-fencing" >
+
+[remix_thing_2812983_clip_for_fencing](remix_thing_2812983_clip_for_fencing/#readme)
+
+</dt><dd>
+remix thing 2812983 clip for fencing
+
+![remix thing 2812983 clip for fencing](remix_thing_2812983_clip_for_fencing/img/object_render.png "remix thing 2812983 clip for fencing")
+
+![clip on fence outside](remix_thing_2812983_clip_for_fencing/img/clipped_into_bed_liner.jpg "remix thing 2812983 clip for fencing")
+
+</dd>
+
 <dt id="dir-dt-remix-thing-922740-raspi3-m5-screw-vesa-mount" >
 
 [remix_thing_922740_raspi3_M5_screw_vesa_mount](remix_thing_922740_raspi3_M5_screw_vesa_mount/#readme)
@@ -409,6 +510,17 @@ remix thing 922740 raspi3 M5 screw vesa mount
 
 </dd>
 
+<dt id="dir-dt-sd3x5-holder" >
+
+[SD3x5_Holder](SD3x5_Holder/#readme)
+
+</dt><dd>
+SD3x5 Holder
+
+![SD3x5 Holder](SD3x5_Holder/img/SD3x5_Holder_2.png "SD3x5 Holder")
+
+</dd>
+
 <dt id="dir-dt-servo-demo" >
 
 [servo_demo](servo_demo/#readme)
@@ -417,6 +529,17 @@ remix thing 922740 raspi3 M5 screw vesa mount
 servo demo
 
 ![servo demo](servo_demo/img/servo_demo.png "servo demo")
+
+</dd>
+
+<dt id="dir-dt-velotric-front-basket-mount" >
+
+[velotric_front_basket_mount](velotric_front_basket_mount/#readme)
+
+</dt><dd>
+velotric front basket mount
+
+![velotric front basket mount](velotric_front_basket_mount/img/velotric_front_basket_mount.png "velotric front basket mount")
 
 </dd>
 
