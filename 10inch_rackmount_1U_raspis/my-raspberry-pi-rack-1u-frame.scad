@@ -31,7 +31,7 @@ height = 33.1423; // match the size of a 13 Pi rack
 inner_width = 58;
 
 
-/* this width allows for three trays on a10-inch rack using a 250mm (10")
+/* this width is for three trays on 10-inch rack using a 250mm (10")
    threaded rod
 
    (250 - (67.0 * 3)) / 2 = 24.5mm
@@ -46,7 +46,7 @@ outer_width = 67.0;
 echo("USING outer_width: ", outer_width, );
 
 
-length = 90;
+length = 95;
 
 bolt_column_size = 12;
 

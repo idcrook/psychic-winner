@@ -36,6 +36,9 @@ Drawings and renders
 
 ![frame](img/my-raspberry-pi-rack-1u-frame.png)
 
+
+![assembled](img/full-assembly.png)
+
 Model Repositories
 ------------------
 
