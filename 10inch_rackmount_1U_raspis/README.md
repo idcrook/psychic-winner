@@ -1,43 +1,56 @@
-Raspberry Pi 4 1U 10-inch-rack-mount bracket
-============================================
+# Raspberry Pi 3X 1U 10-inch "mini rack" rack-mount bracket
 
 Summary
 -------
 
-For 10-inch "mini rack" 1U assembled tray to support three side-by-side Raspberry Pis.
+10-inch "mini rack" 1U assembled tray to support three side-by-side Raspberry Pis.
 
-Using [Raspberry Pi 4 1U 10-inch-rack-mount bracket](https://www.thingiverse.com/thing:5348000) as starting point
+
+Details
+-------
+
+-	Targeting a DeskPi RackMate T1 (GeeekPi 8U Server Cabinet with 10-inch rack mount)
+
+-	Used [Raspberry Pi 4 1U 10-inch-rack-mount bracket](https://www.thingiverse.com/thing:5348000) as starting point
+
+### Design customizations
+
+For assembly, using M5 250 mm threaded rod (2X) and M5 nut + washer (4X) to assemble.
+
+An M5 threaded rod is 5.00 mm (0.1969 inch) in diameter. This is a radius of 2.50 mm (0.0984 inch).
+
+In the .scad file, I set the bolt hole radius to 2.4 mm since it already has a fudge factor (set to 0.25 mm) in model that gets added to arrive at effective radius (2.65 mm radius or 5.30 mm diameter) of bore hole.
+
+I am using the tray and ears as imported from starting design.
 
 UPDATES
 -------
 
 **2025-Jun-23** : Initial STL import from thing:5348000 and .scad from thing:4125055
 
--	used a simple muckup.scad to import STLs for comparison in OpenSCAD.
+-	used a simple `muckup.scad` to import STLs for comparison in OpenSCAD. also used to compose a full assembly for visualizing.
 
--	my-raspberry-pi-rack-1u-frame-w67p0-bolt2p4-f0p25.stl
+-	`my-raspberry-pi-rack-1u-frame-w67p0-bolt2p4-f0p25.stl`
 
-	-	Recreated a 10inch frame version. Mine using outer width of 67.0 mm to match theirs
+	-	Recreated a 10-inch frame version. Mine using outer width of `67.0 mm` to match the imported 10-inch design am basing off of.
 
 Printing
 --------
 
-Print a left and a right ear
+Print a left and a right ear (both in `raspberry-pi-rack-1u-ears.stl`)
 
-for each Pi (up to three)
+for each Pi (for three side-by-side)
 
 -	print a frame `my-raspberry-pi-rack-1u-frame-w67p0-bolt2p4-f0p25.stl`
--	print a tray
-
-### Possible tweaks
+-	print a tray `raspberry-pi-rack-tray.stl`
 
 Drawings and renders
 --------------------
 
+![assembled](img/full-assembly.png)
+
 ![frame](img/my-raspberry-pi-rack-1u-frame.png)
 
-
-![assembled](img/full-assembly.png)
 
 Model Repositories
 ------------------

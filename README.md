@@ -25,6 +25,7 @@ Intended to find the collection of local libraries (macOS, Linux)
 
 ## Index
 
+ -    [10inch rackmount 1U raspis](#dir-dt-10inch-rackmount-1u-raspis)
  -    [7 inch hdmi raspi vertical stand](#dir-dt-7-inch-hdmi-raspi-vertical-stand)
  -    [amazon echo auto alt dash mount](#dir-dt-amazon-echo-auto-alt-dash-mount)
  -    [Anker Wireless Charger Holder-thingie 3062864 remix](#dir-dt-anker-wireless-charger-holder-thingie-3062864-remix)
@@ -75,6 +76,17 @@ Intended to find the collection of local libraries (macOS, Linux)
 ## Directories
 
 <dl>
+<dt id="dir-dt-10inch-rackmount-1u-raspis" >
+
+[10inch_rackmount_1U_raspis](10inch_rackmount_1U_raspis/#readme)
+
+</dt><dd>
+10inch rackmount 1U raspis
+
+![10inch rackmount 1U raspis](10inch_rackmount_1U_raspis/img/full-assembly.png "10inch rackmount 1U raspis")
+
+</dd>
+
 <dt id="dir-dt-7-inch-hdmi-raspi-vertical-stand" >
 
 [7_inch_hdmi_raspi_vertical_stand](7_inch_hdmi_raspi_vertical_stand/#readme)
