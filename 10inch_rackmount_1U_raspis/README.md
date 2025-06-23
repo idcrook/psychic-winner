@@ -15,9 +15,9 @@ UPDATES
 
 -	used a simple muckup.scad to import STLs for comparison in OpenSCAD.
 
--	my-raspberry-pi-rack-1u-frame-w68p0-bolt2p4-f0p25.stl
+-	my-raspberry-pi-rack-1u-frame-w67p0-bolt2p4-f0p25.stl
 
-	-	Recreated a 10inch frame version. Mine uses outer with of 68.0 mm (theirs 67.0 mm)
+	-	Recreated a 10inch frame version. Mine using outer width of 67.0 mm to match theirs
 
 Printing
 --------
@@ -26,7 +26,7 @@ Print a left and a right ear
 
 for each Pi (up to three)
 
--	print a frame (my-raspberry-pi-rack-1u-frame-w68p0-bolt2p4-f0p25.stl)
+-	print a frame `my-raspberry-pi-rack-1u-frame-w67p0-bolt2p4-f0p25.stl`
 -	print a tray
 
 ### Possible tweaks

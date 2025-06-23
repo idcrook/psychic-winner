@@ -17,7 +17,6 @@ bolt_size = 2.4;
 
 // Make the bolt holes this much bigger than the size of the bolt
 // to give a more comfortable fit
-///bolt_hole_fudge = 0.2; // [0:0.25:1]
 bolt_hole_fudge = 0.25; // [0:0.25:1]
 
 
@@ -35,15 +34,15 @@ inner_width = 58;
 /* this width allows for three trays on a10-inch rack using a 250mm (10")
    threaded rod
 
-   (250 - (68.0 * 3)) / 2 = 23.0mm
+   (250 - (67.0 * 3)) / 2 = 24.5mm
 
-   or nearly an inch at each end of 250mm rod
+   or nearly an inch (25.4mm) at each end of 250mm rod
 
 */
 
 //outer_width = (450.85 - 20) / number_to_fit;
 echo("original outer_width: ", 71.8083 );
-outer_width = 68.0;
+outer_width = 67.0;
 echo("USING outer_width: ", outer_width, );
 
 
