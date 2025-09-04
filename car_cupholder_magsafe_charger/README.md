@@ -1,14 +1,18 @@
 # Car Cupholder magsafe charger mount
 
-![parts](assembly.png)
+ - assembly ![parts](assembly.png)
 
-![mockup](in-place-sizing.png)
+<!--  missing ![mockup](in-place-sizing.png) -->
+
+ - make
+   - ![make 1 - in place](make1-car.jpeg)
+   - ![make 1](make1.jpeg)
 
 ## Dimensions
 
 ### Cupholder portion
 
-- `85 mm` high
+- `87 mm` high
   - `66.8 mm` diameter at base
   - `72.4 mm` diameter at top
 
