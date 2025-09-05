@@ -1,10 +1,10 @@
 
 
 
-
-
 use <../libraries/MCAD/2Dshapes.scad>
-use <../libraries/local-misc/wedge.scad>
+// use <../libraries/local-misc/wedge.scad>
+use <../libraries/local-misc/wedge-rounded-corner-customizeable.scad>
+
 
 e = 1/128; // small number
 
@@ -21,12 +21,14 @@ module single_look() {
   intersection() {
     modified_import();
     //cup_base();
+    //wedge_rounded_corner(radius = 0.0);
   }
 }
 
 module modified_import () {
 
   outer_shroud_height = 10;
+  //intersection() {
   difference () {
     union() {
       translate([-1,0,77-5*e])
@@ -38,12 +40,46 @@ module modified_import () {
       translate([0, 0, -outer_shroud_height+2*e]) {
         cup_outer_shround(height = outer_shroud_height);
       }
+
+      radius = 72/2;
+      half_circle_h = 7;
+      translate([0, 0, +2*e]) {
+        linear_extrude(height = half_circle_h) {
+          difference() {
+            circle(r = radius);
+            // A cube to cover the right half of the circle
+            translate([-radius, 0])
+            square([radius * 2, radius * 2], center = true);
+          }
+        }
+      }
+
+      // add sloped overhang under magsafe holder
+      start_hex_h = 40 - outer_shroud_height + 8;
+      hex_h = 85 - start_hex_h  - 8;
+      hex_y = 2 * 12;
+      hex_x = hex_y/2;
+
+      translate([hex_x, hex_y/2, start_hex_h])
+        rotate([0, 0,-90])
+        rotate([90,0,0])
+        wedge_rounded_corner(length = hex_h-0.75, width = hex_y,
+                             begin_height = 2, end_height = hex_x + 1.4 + 0.0,
+                             radius = 0);
     }
 
     // cut hole to fill with coins (for weighting down)
-    translate([-10, 0,-7])
+    translate([-5, 0,-17])
       rotate([0,-30,0])
-      coin_slot();
+      coin_slot(h = 60);
+
+
+    // cut hole to fill with coins (for weighting down)
+    translate([49.7, 0, 0])
+      rotate([0,-60,0])
+      rotate([0,0,90])
+      cord_slot(h = 48);
+
   }
 
 }
@@ -57,7 +93,7 @@ module cup_outer_shround(d1 = 72.0, d2 = 76.2, height = 10, inner_open_diameter 
              r1 = d1/2, r2 = d2/2, center = false);
     translate([0,0,-e])
     cylinder(h = height + 2*e,
-             r1 = inner_open_diameter/2, r2 = (inner_open_diameter-10)/2,
+             r1 = inner_open_diameter/2, r2 = (inner_open_diameter-18)/2,
 
              center = false);
 
@@ -65,13 +101,25 @@ module cup_outer_shround(d1 = 72.0, d2 = 76.2, height = 10, inner_open_diameter 
 
 }
 
-module coin_slot () {
+module coin_slot (h = 40) {
 
   coin_x = 20.5;
   coin_y = 38.5;
 
-  linear_extrude(height = 40, center = false, convexity = 10)
+  linear_extrude(height = h, center = false, convexity = 10)
         resize([coin_x, coin_y]) circle(d=coin_y);
+}
+
+
+module cord_slot (h = 40) {
+
+  cord_y = 9.5;
+  cord_z = 13.0;
+
+  linear_extrude(height = h, center = false, convexity = 10) {
+    $fn = 60;
+    resize([cord_y, cord_z]) circle(d=cord_z);
+  }
 }
 
 module generateCupLid2 (d) {
