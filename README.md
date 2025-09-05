@@ -36,6 +36,7 @@ Intended to find the collection of local libraries (macOS, Linux)
  -    [bottle cage mount front rack holder](#dir-dt-bottle-cage-mount-front-rack-holder)
  -    [cam-coaster](#dir-dt-cam-coaster)
  -    [cam-stickers](#dir-dt-cam-stickers)
+ -    [car cupholder magsafe charger](#dir-dt-car-cupholder-magsafe-charger)
  -    [choetech wireless charger stand landscape booster](#dir-dt-choetech-wireless-charger-stand-landscape-booster)
  -    [coronavirus spikes](#dir-dt-coronavirus-spikes)
  -    [ELP2p8 USB webcam mount](#dir-dt-elp2p8-usb-webcam-mount)
@@ -194,6 +195,17 @@ cam-coaster
 cam-stickers
 
 <!-- ![cam-stickers](cam-stickers/img/IMAGE.png "cam-stickers") -->
+
+</dd>
+
+<dt id="dir-dt-car-cupholder-magsafe-charger" >
+
+[car_cupholder_magsafe_charger](car_cupholder_magsafe_charger/#readme)
+
+</dt><dd>
+car cupholder magsafe charger
+
+![car cupholder magsafe charger](car_cupholder_magsafe_charger/assembly.png "car cupholder magsafe charger")
 
 </dd>
 
