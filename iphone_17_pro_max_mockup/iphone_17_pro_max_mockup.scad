@@ -229,35 +229,31 @@ dynamic_island__R =  dynamic_island__height / 2;
 dynamic_island__r =  0.95;
 
 /// Bottom sensors and connectors
-bottom__z_mid  = 4.12;
+bottom__z_mid  = iphone_17_pro_max__depth / 2; // 4.375;
 
-grill_hole__diameter = 1.35;
+grill_hole__diameter = 1.53;
 grill_hole__r = grill_hole__diameter/2;
 screw_bottom__diameter = 1.50;
 
 // from_left -> hole centers
-screw_bottom_1__from_left = 31.44;
-screw_bottom_2__from_left = 45.29;
+screw_bottom_1__from_left = 32.06;
+screw_bottom_2__from_left = 45.91;
 
-// other side of USB-C port from speaker
-mic1_bottom__hole_1__from_left = 20.40 + grill_hole__r;
-mic1_bottom__hole_4__from_left = 27.17 - grill_hole__r;
+// left side of USB-C port
+mic1_bottom__hole_1__from_left = 15.41; // + grill_hole__r;
+mic1_bottom__hole_6__from_left = 26.67; // - grill_hole__r;
 
-// next to speaker grill
-mic2_bottom__hole_1__from_left = 49.56 + grill_hole__r;
-// (port of speaker ports)
-mic2_bottom__hole_6__from_left = 60.84 - grill_hole__r;
+// right side of USB-C port
+mic2_bottom__hole_1__from_left = 51.30; // + grill_hole__r;
+mic2_bottom__hole_6__from_left = 62.57; // - grill_hole__r;
 
-usbc_connector__height       = 3.14;
-usbc_connector__from_right   = 38.37; // distance to center point
+usbc_connector__height       = 3.12;
+usbc_connector__from_right   = 38.99; // distance to center point
 usbc_connector__from_left = (iphone_17_pro_max__width - usbc_connector__from_right);
-usbc_connector_end1__from_left = 33.87;
-usbc_connector_end2__from_left = 42.86;
-usbc_connector__width        = (usbc_connector_end2__from_left - usbc_connector_end1__from_left);
+usbc_connector__width        = 9.00;
 
 usbc_connector_keepout__width   = 12.45;
 usbc_connector_keepout__height  = 6.60;
-//usbc_connector_keepout__radius  = usbc_connector_keepout__height / 2;
 usbc_connector_keepout__radius  = 3.25;
 usbc_connector_keepout__outward = 14.0;
 
@@ -346,7 +342,7 @@ module iphone_17_pro_max (width, length, depth,
   }
 
   // mic1 holes
-  for (i=steps(mic1_bottom__hole_1__from_left, 4, mic1_bottom__hole_4__from_left)) {
+  for (i=steps(mic1_bottom__hole_1__from_left, 6, mic1_bottom__hole_6__from_left)) {
     echo (i);
     color("Black")
       translate([i, 0, bottom__z_mid]) {
