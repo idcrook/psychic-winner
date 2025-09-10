@@ -45,6 +45,11 @@ iphone_17_pro_max__width  =  77.98;
 iphone_17_pro_max__depth  =   8.75;
 iphone_17_pro_max__z_mid  =   iphone_17_pro_max__depth / 2;
 
+// common
+z_mid = iphone_17_pro_max__z_mid ;
+button_bump = 0.45;
+button_depth = 2.66;
+
 // Does our phone have a SIM slot?
 SIM_SLOT_PRESENT = false;
 
@@ -62,7 +67,7 @@ iphone_17_pro_max__cosmic_orange = "#E67B34";
 iphone_17_pro_max__cosmic_orange_housing = "#E67B34";
 iphone_17_pro_max__cosmic_orange_button = "#E67B34";
 iphone_17_pro_max__cosmic_orange_turret = iphone_17_pro_max__cosmic_orange;
-iphone_17_pro_max__cosmic_orange_plateau = "#D88852";
+iphone_17_pro_max__cosmic_orange_plateau = "#D07E51";
 iphone_17_pro_max__cosmic_orange_lens_bezel = "#D88852";
 
 
@@ -76,43 +81,53 @@ rear_cam_turret__trench_width = rear_cam_plateau__inset - housing__inset;
 /// Left side buttons
 volume_up__half_height     =  5.60;
 volume_up__height          =  volume_up__half_height * 2;
-volume_up__depth           =  2.66;
-volume_up_center__from_top = 45.22;
+volume_up__depth           =  button_depth;
+volume_up_center__from_top = 48.43;
 volume_up__from_top        = volume_up_center__from_top;
-volume_up__bump            = 0.45;
-volume_up__z_mid           = 4.13;
+volume_up__bump            = button_bump;
+volume_up__z_mid           = z_mid;
 
 volume_down__half_height     =  volume_up__half_height;
 volume_down__height          =  volume_down__half_height * 2;
-volume_down__depth           =  2.66;
-volume_down_center__from_top = 59.42;
+volume_down__depth           =  button_depth;
+volume_down_center__from_top = 62.63;
 volume_down__from_top        = volume_down_center__from_top;
-volume_down__bump            = 0.45;
-volume_down__z_mid           = 4.13;
+volume_down__bump            = button_bump;
+volume_down__z_mid           = z_mid;
 
-action_button__half_height = 3.02;
+action_button__half_height = 3.45;
 action_button__height   = action_button__half_height * 2;
-action_button__depth    = 2.66;
-action_button__center__from_top = 31.67;
+action_button__depth    = button_depth;
+action_button__center__from_top = 34.28;
 action_button__from_top = action_button__center__from_top;
 action_button__bump     = 0.45;
 action_button__z_mid    = 4.12;
 
-sim_slot__half_height =  8.07;
+sim_slot__half_height =  8.05;
 sim_slot__height      =  2 * sim_slot__half_height;
-sim_slot__depth       =  2.76;
-sim_slot_center__from_top = 91.07;
+sim_slot__depth       =  2.56;
+sim_slot_center__from_top = 127.60;
 sim_slot__from_top    = sim_slot_center__from_top;
-sim_slot__bump        =  0.03;  // flush actually
+sim_slot__bump        =  0.0 + 0.03;  // flush actually
 
 /// Right side buttons
 side_button__half_height =  8.85;
 side_button__height      =  side_button__half_height * 2;
-side_button__depth       =  2.66;
-side_button_center__from_top = 56.17;
+side_button__depth       =   button_depth;
+side_button_center__from_top = 55.53;
 side_button__from_top    = side_button_center__from_top;
 side_button__bump        =  0.45;
-side_button__z_mid    = 4.12;
+side_button__z_mid    = z_mid;
+
+camera_control_button__half_height =  8.85;
+camera_control_button__height      =  camera_control_button__half_height * 2;
+camera_control_button__depth       =   3.13;
+camera_control_button_center__from_top = 111.82;
+camera_control_button__from_top    = camera_control_button_center__from_top;
+camera_control_button__bump        =  0.0 + 0.03; // flush
+camera_control_button__z_mid    = z_mid;
+
+
 
 // Front facing camera and sensors
 truedepth_sensor_bar__height   = 5.58;
@@ -339,6 +354,16 @@ module iphone_17_pro_max (width, length, depth,
     rotate([90,0,90])
       linear_extrude(side_button__bump+e)
       rounded_square([side_button__height, side_button__depth], corner_r=side_button__depth/2, center=true);
+  }
+
+  // camera control button
+  color(iphone_17_pro_max__cosmic_orange_button)
+    translate([iphone_17_pro_max__width-e,
+               translate_y_from_top(camera_control_button__from_top),
+               camera_control_button__z_mid]) {
+    rotate([90,0,90])
+      linear_extrude(camera_control_button__bump+e)
+      rounded_square([camera_control_button__height, camera_control_button__depth], corner_r=camera_control_button__depth/2, center=true);
   }
 
   // mic1 holes
