@@ -423,10 +423,19 @@ module iphone_17_pro_max (width, length, depth,
 
 // Profiles for edges and facing corners
 // Note: Requires version 2015.03 (for use of concat())
-face_profile_set = [[0.05, 12.36], [0.90, 7.58], [3.48, 3.48], [7.58, 0.9], [12.36, 0.90] ];
-face_profile_polygon = concat(face_profile_set, [[17.24, 0.0], [0,0], [0.0, 17.24]]);
-edge_profile_b_set = [[0.0, 1.84], [0.0, 2.46], [0.06, 3.07], [0.32, 3.62], [0.81, 3.99]];
-edge_profile_b_polygon = concat([[1.15, iphone_17_pro_max__depth/2 + e], [0, iphone_17_pro_max__depth/2 + e], [0, 0]], edge_profile_b_set);
+face_profile_set = [[0.04, 13.90],
+                    [0.92,  8.46],
+                    [3.80,  3.8],
+                    [8.46,  0.92],
+                    [13.9,  0.04]];
+face_profile_polygon = concat(face_profile_set, [[19.43, 0.0], [0,0], [0.0, 19.43]]);
+
+edge_profile_top_set = [[0.01, 1.50], [0.15, 2.99], [0.90, 4.24], [1.20, 4.29], [2.61, 4.38]];
+edge_profile_top_polygon = concat([[0, iphone_17_pro_max__depth/2 + e], [0, 0]], edge_profile_top_set);
+
+edge_profile_bottom_set = [[0.00, 1.44], [0.17, 2.86], [0.97, 4.01], [2.35, 4.35], [3.79, 4.38]];
+edge_profile_bottom_polygon = concat([[0, iphone_17_pro_max__depth/2 + e], [0, 0]], edge_profile_bottom_set);
+
 
 // FIXME: use face corner profile
 module face_profile_corner (size = 1.0) {
@@ -435,9 +444,10 @@ module face_profile_corner (size = 1.0) {
   }
 }
 
-module edge_profile_corner (size = 1.0) {
+module edge_profile_corner (size = 1.0, rear_side = false) {
+  polygon_set =     rear_side ? edge_profile_bottom_polygon : edge_profile_top_polygon;
   scale([size, size]) {
-    polygon(edge_profile_b_polygon);
+    polygon(polygon_set) ;
   }
 }
 
@@ -447,36 +457,36 @@ module test_face_profile() {
   }
 }
 module test_edge_profile() {
-  z_off_midline = edge_profile_b_polygon[0][1];
+  z_off_midline = edge_profile_top_polygon[0][1];
   * union () { long_edge_profile    (); }
   % union () { short_edge_profile    (); }
 }
 module test_edge_corner_profile() {
-  z_off_midline = edge_profile_b_polygon[0][1];
+  z_off_midline = edge_profile_top_polygon[0][1];
   % union () { edge_corner_profile    (); }
 }
 
 module long_edge_profile() {
-  z_off_midline = edge_profile_b_polygon[0][1];
+  z_off_midline = edge_profile_top_polygon[0][1];
 
   union () {
       translate([0,0,z_off_midline-0.05])
       {
         rotate([-90,0,0])
           linear_extrude(height=iphone_17_pro_max__height)
-          edge_profile_corner();
+          edge_profile_corner(rear_side = true);
       }
     translate([0,iphone_17_pro_max__height,z_off_midline])
       {
         rotate([90,0,0])
-          linear_extrude(height=iphone_17_pro_max__height)
+         linear_extrude(height=iphone_17_pro_max__height)
           edge_profile_corner();
       }
   }
 }
 
 module edge_corner_profile() {
-  z_off_midline = edge_profile_b_polygon[0][1];
+  z_off_midline = edge_profile_top_polygon[0][1];
   extra_angle_degrees = 0;
   rotate_angle = 90 + 2*extra_angle_degrees;
 
@@ -494,13 +504,13 @@ module edge_corner_profile() {
           rotate_extrude(angle = rotate_angle)
           translate([-iphone_17_pro_max__face_corner_radius, 0])
           rotate([180,0,0])
-          edge_profile_corner();
+          edge_profile_corner(rear_side = true);
       }
   }
 }
 
 module short_edge_profile() {
-  z_off_midline = edge_profile_b_polygon[0][1];
+  z_off_midline = edge_profile_top_polygon[0][1];
 
   translate([iphone_17_pro_max__width,0,0])
     rotate([0,0,90])
@@ -509,7 +519,7 @@ module short_edge_profile() {
       {
         rotate([-90,0,0])
           linear_extrude(height=iphone_17_pro_max__width)
-          edge_profile_corner();
+          edge_profile_corner(rear_side = true);
       }
     translate([0,iphone_17_pro_max__width,z_off_midline])
       {
