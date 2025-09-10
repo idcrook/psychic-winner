@@ -127,6 +127,7 @@ camera_control_button__from_top    = camera_control_button_center__from_top;
 camera_control_button__bump        =  0.0 + 0.03; // flush
 camera_control_button__z_mid    = z_mid;
 
+// FIXME: add comera control keepout area
 
 
 // Front facing camera and sensors
@@ -220,20 +221,25 @@ rear_cam_camera_glass__height = 4.07;
 rear_cam_camera_glass_rim__height = 2.90;  // guess
 rear_cam_camera_glass_rim__outset = 1.05;  // guess
 
-// the logo locates the center of the inductive charger coil
-rear_logo_center__from_top = 79.93;
+// FIXME: add magsafe coil keepout area
+magsafe_center__from_top = 81.71;
+magsafe_keepout__diameter = 57.50;
+magsafe_keepout2__diameter = 2*49.39;
+
+rear_logo_center__from_top = 102.01;
 rear_logo_keepout__diameter = 57.50;
 
-active_display__width     =  71.21;
-active_display__height    = 154.34;
-active_display__inset_from_exterior = 2.76;
+active_display__width     =  72.86;
+active_display__height    = 158.31;
+active_display__inset_from_exterior = 2.61;
 active_display__corner_r  = iphone_17_pro_max__face_corner_radius - active_display__inset_from_exterior;
 
-display_glass__width     =  74.73;
-display_glass__height    = 157.85;
+display_glass__width     =  75.58;
+display_glass__height    = 161.03;
 display_glass_over__width = (1/2)*(display_glass__width - active_display__width);    // ~2.5 mm
 display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
 
+// FIXME: front facing camera and sensors and keepouts
 dynamic_island__width = 20.69;
 //dynamic_island_cutout__height =  6.07;
 dynamic_island__height =  6.07;
@@ -244,7 +250,7 @@ dynamic_island__R =  dynamic_island__height / 2;
 dynamic_island__r =  0.95;
 
 /// Bottom sensors and connectors
-bottom__z_mid  = iphone_17_pro_max__depth / 2; // 4.375;
+bottom__z_mid  = z_mid;
 
 grill_hole__diameter = 1.53;
 grill_hole__r = grill_hole__diameter/2;
@@ -275,6 +281,8 @@ usbc_connector_keepout__outward = 14.0;
 function translate_y_from_top (from_top)  = iphone_17_pro_max__height - from_top;
 function translate_back_x_from_left (from_left)  = iphone_17_pro_max__width - from_left;
 function translate_back_camera_depth (from_front)  = (iphone_17_pro_max__depth - from_front) ;
+
+// FIXME: rear facing camera and sensors and keepouts
 
 // place these function calls _after_ function is fully defined (including any closure variables)
 rear_cam1__keepout_cone_depth = translate_back_camera_depth(from_front = rear_cam1__keepout_cone_to_front_cover_glass);
