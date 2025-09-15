@@ -77,7 +77,7 @@ sensor_keepout_color = optical_keepout_color;
 
 housing_spline_inlay_to_start_of_flat_area__width = 1.04;
 housing__inset = housing_spline_inlay_to_start_of_flat_area__width;
-rear_cam_plateau__inset = 4.4;
+rear_cam_plateau__inset = 4.3;
 rear_cam_turret__trench_width = rear_cam_plateau__inset - housing__inset;
 
 // "from_top" measurements are to center/midpoint of object
