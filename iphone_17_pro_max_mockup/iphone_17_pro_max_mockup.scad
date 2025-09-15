@@ -70,10 +70,14 @@ iphone_17_pro_max__cosmic_orange_turret = iphone_17_pro_max__cosmic_orange;
 iphone_17_pro_max__cosmic_orange_plateau = "#D07E51";
 iphone_17_pro_max__cosmic_orange_lens_bezel = "#D88852";
 
+optical_keepout_color = "#578EC1";
+flash_keepout_color = "#FEFE80";
+flash_keepout_color_alpha = 0.07;
+sensor_keepout_color = optical_keepout_color;
 
 housing_spline_inlay_to_start_of_flat_area__width = 1.04;
 housing__inset = housing_spline_inlay_to_start_of_flat_area__width;
-rear_cam_plateau__inset = 4.70;
+rear_cam_plateau__inset = 4.4;
 rear_cam_turret__trench_width = rear_cam_plateau__inset - housing__inset;
 
 // "from_top" measurements are to center/midpoint of object
@@ -148,78 +152,91 @@ extend_cones_far = false;
 default_keepout_cone_height = extend_cones_far ? 13.5 : 4.8 + 2.5 + 0.67;
 
 // rear facing cameras and sensors / flash
-rear_cam1_center__from_top = 14.17;
-rear_cam2_center__from_top = 33.41;
-rear_cam3_center__from_top = 23.79;
-rear_flash_center__from_top = 10.22;
-rear_mic_center__from_top  = 33.86;
-// DETAIL F
-rear_sensor_center__from_top = 38.22;
+rear_cam1_center__from_top = 14.37;
+rear_cam2_center__from_top = 33.61;
+rear_cam3_center__from_top = 23.99;
+rear_flash_center__from_top = 13.82;
+rear_mic_center__from_top  = 23.99;
+rear_sensor_center__from_top = 34.16;
 
-rear_cam1_center__from_left = 14.17;
-rear_cam2_center__from_left = 14.17;
-rear_cam3_center__from_left = 32.16;
-rear_flash_center__from_left = 32.16;
-rear_mic_center__from_left  = 37.95;
-// DETAIL F
-rear_sensor_center__from_left = 32.16;
+rear_cam1_center__from_left = 14.37;
+rear_cam2_center__from_left = 14.37;
+rear_cam3_center__from_left = 32.36;
+rear_flash_center__from_left = 64.16;
+rear_mic_center__from_left  = 64.16;
+rear_sensor_center__from_left = 64.16;
 
-rear_cam1__shroud_radius = 16.20/2;
-rear_cam2__shroud_radius = 16.20/2;
-rear_cam3__shroud_radius = 16.20/2;
+camera_shroud_diameter = 16.20;
+rear_cam1__shroud_radius = camera_shroud_diameter/2;
+rear_cam2__shroud_radius = camera_shroud_diameter/2;
+rear_cam3__shroud_radius = camera_shroud_diameter/2;
 
-rear_flash_center__diameter = 6.9;
-rear_mic_center__diameter = 0.75;
+rear_flash_center__diameter = 6.80;
+rear_mic_center__diameter = 1.15;
 rear_sensor_center_keepout__height = 7.06;
 rear_sensor_center_keepout__width = 4.06;
-rear_sensor_center__diameter = 7.0;
+rear_sensor_center_keepout__diameter = 5.0;
+rear_sensor_center__diameter = 6.65;
 
-// angles in degress
-rear_cam1__keepout_cone_angle = 123;
-rear_cam2__keepout_cone_angle = 86;
-rear_cam3__keepout_cone_angle = 24.1;
-rear_flash__keepout_inner_cone_angle = 112;
+// angles in degrees
+rear_cam1__keepout_cone_angle = 125;
+rear_cam2__keepout_cone_angle = 90;
+rear_cam3__keepout_cone_angle = 34;
+rear_flash__keepout_inner_cone_angle = 123;
 //rear_flash__keepout_inner_cone_angle = 96;
 rear_flash__keepout_outer_cone_angle = 157;
-rear_sensor__keepout_cone_angle = 80.75;
+rear_sensor__keepout_cone_angle = 84;
 
-rear_cam1__keepout_cone_to_front_cover_glass = 8.28;
-rear_cam2__keepout_cone_to_front_cover_glass = 7.73;
-rear_cam3__keepout_cone_to_front_cover_glass = -4.60;
-rear_flash__keepout_outer_cone_to_front_cover_glass = 12.36;
-rear_flash__keepout_inner_cone_start_diameter = 8.35;
-rear_sensor__keepout_cone_to_front_cover_glass = -0.0;
+rear_cam1__keepout_cone_to_front_cover_glass = 10.21;
+rear_cam2__keepout_cone_to_front_cover_glass = 8.85;
+rear_cam3__keepout_cone_to_front_cover_glass = 8.02;
+rear_cam3__keepout_cone_start_diameter = 5.00;
 
-// "turret" is the region rising freo back glass to camera plateau
-rear_cam_turret__height_inner = (42.88 - rear_cam_plateau__inset);
-rear_cam_turret__width_inner = (41.56 - rear_cam_plateau__inset);
-rear_cam_turret__height_outer = (46.54 - housing__inset);
-rear_cam_turret__width_outer = (45.22 - housing__inset);
+rear_flash__keepout_inner_cone_start_diameter = 6.65;
+rear_flash__keepout_inner_cone_to_front_cover_glass = 11.30;
+rear_flash__keepout_outer_cone_to_front_cover_glass = 13.77;
+
+rear_sensor__keepout_cone_to_front_cover_glass = 10.28;
+rear_sensor__keepout_cone_start_diameter = 5.00;
+
+// "turret" is the region rising from back plate to camera plateau
+//estimated by measuring in PDF document
+rear_cam_turret__height_inner = 37.5;
+rear_cam_turret__height_outer = 47.0;
+rear_cam_turret__width_inner = 67.5;
+rear_cam_turret__width_outer = 76.1;
 
 rear_cam_turret__scale_height_inner_to_outer = 1 + (1/2)*(rear_cam_turret__height_outer/rear_cam_turret__height_inner - 1) ;
 rear_cam_turret__scale_width_inner_to_outer  = 1 + (1/2)*(rear_cam_turret__width_outer/rear_cam_turret__width_inner - 1);
 
 //rear_cam_turret__rradius_inner = 10.6;
 //rear_cam_turret__rradius_outer = 13.7;
-rear_cam_turret__rradius_inner = rear_cam2_center__from_left - rear_cam_plateau__inset;
-rear_cam_turret__rradius_outer = rear_cam2_center__from_left - housing_spline_inlay_to_start_of_flat_area__width;
+//rear_cam_turret__rradius_inner = rear_cam2_center__from_left - rear_cam_plateau__inset;
+rear_cam_turret__rradius_inner = camera_shroud_diameter/2;
+//rear_cam_turret__rradius_outer = rear_cam2_center__from_left - housing_spline_inlay_to_start_of_flat_area__width;
+rear_cam_turret__rradius_outer = rear_cam_turret__rradius_inner + rear_cam_plateau__inset;
 
-rear_cam_turret_center__from_top = rear_cam_turret__height_outer/2 + housing__inset;
+rear_cam_turret_center__from_top = rear_cam_turret__height_outer/2 + housing__inset - 0.6;
 rear_cam_turret_center__from_left = rear_cam_turret__width_outer/2 + housing__inset;
 
 // camera plateau is the bed the lenses and sensors,etc are rising from
 rear_cam_plateau__height = rear_cam_turret__height_inner;
 rear_cam_plateau__width = rear_cam_turret__width_inner;
 
-rear_cam_plateau_center__from_top = (rear_cam_plateau__height/2) + rear_cam_plateau__inset;
+rear_cam_plateau_center__from_top = (rear_cam_plateau__height/2) + rear_cam_plateau__inset - 0.6;
 rear_cam_plateau_center__from_left = (rear_cam_plateau__width/2) + rear_cam_plateau__inset;
 
 rear_cam_plateau__rradius = rear_cam_turret__rradius_inner;
-rear_cam_plateau__z_height = 2.05;
 
-rear_cam_camera_glass__height = 4.07;
-rear_cam_camera_glass_rim__height = 2.90;  // guess
-rear_cam_camera_glass_rim__outset = 1.05;  // guess
+back_plate_to_camera_plateau = 2.55;
+camera_plateau_to_rear_camera_glass = 1.88;
+
+rear_cam_plateau__z_height = back_plate_to_camera_plateau;
+
+rear_cam_camera_glass__height = back_plate_to_camera_plateau + camera_plateau_to_rear_camera_glass;
+//rear_cam_camera_glass_rim__height = camera_plateau_to_rear_camera_glass;
+rear_cam_camera_glass_rim__height = rear_cam_camera_glass__height - 0.35;
+rear_cam_camera_glass_rim__outset = 1.35;  // guess
 
 // FIXME: add magsafe coil keepout area
 magsafe_center__from_top = 81.71;
@@ -240,13 +257,15 @@ display_glass_over__width = (1/2)*(display_glass__width - active_display__width)
 display_glass_over__height = (1/2)*(display_glass__height - active_display__height); // ~2.5 mm
 
 // FIXME: front facing camera and sensors and keepouts
-dynamic_island__width = 20.69;
+dynamic_island__width = 20.76;
 //dynamic_island_cutout__height =  6.07;
 dynamic_island__height =  6.07;
-dynamic_island__from_top = 7.67;
-dynamic_island__from_top_active = 7.67 - active_display__inset_from_exterior;
-dynamic_island__from_left_active  = active_display__width/2; // center
-dynamic_island__R =  dynamic_island__height / 2;
+dynamic_island__from_top = 7.91;
+dynamic_island__from_top_active = dynamic_island__from_top - active_display__inset_from_exterior;
+dynamic_island__from_left_active  = active_display__width/2; // center 38.99
+//dynamic_island__R =  dynamic_island__height / 2;
+dynamic_island__R =  2.55;
+
 dynamic_island__r =  0.95;
 
 /// Bottom sensors and connectors
@@ -655,23 +674,23 @@ module shell(width, length, depth, corner_radius, shell_color = "Blue",
                                  [dynamic_island__R, dynamic_island__R],
                                  center=true);
 
-            // tiny circle for bendout on left (not present in dynamic island > iphone 14 Pro)
-            *translate([dynamic_island__centered_from_left_active - (1/2)*dynamic_island__width - dynamic_island__r,
-                       dynamic_island__centered_from_top_active - dynamic_island__r])
-              difference() {
-              square(dynamic_island__r);
-              circle(r = dynamic_island__r);
-            }
+            // // tiny circle for bendout on left (not present in dynamic island > iphone 14 Pro)
+            // *translate([dynamic_island__centered_from_left_active - (1/2)*dynamic_island__width - dynamic_island__r,
+            //            dynamic_island__centered_from_top_active - dynamic_island__r])
+            //   difference() {
+            //   square(dynamic_island__r);
+            //   circle(r = dynamic_island__r);
+            // }
 
-            // tiny circle for bendout on right  (not present in dynamic island > iphone 14 Pro)
-            *translate([dynamic_island__centered_from_left_active + (1/2)*dynamic_island__width + dynamic_island__r,
-                       dynamic_island__centered_from_top_active - dynamic_island__r])
-              mirror([1,0,0]) {
-              difference() {
-                square(dynamic_island__r);
-                circle(r = dynamic_island__r);
-              }
-            }
+            // // tiny circle for bendout on right  (not present in dynamic island > iphone 14 Pro)
+            // *translate([dynamic_island__centered_from_left_active + (1/2)*dynamic_island__width + dynamic_island__r,
+            //            dynamic_island__centered_from_top_active - dynamic_island__r])
+            //   mirror([1,0,0]) {
+            //   difference() {
+            //     square(dynamic_island__r);
+            //     circle(r = dynamic_island__r);
+            //   }
+            // }
           }
         }
 
@@ -712,41 +731,43 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
       rounded_square(size=[rear_cam_plateau__width, rear_cam_plateau__height], corner_r = pradius_inner, center=true);
   }
 
-  // interior features // these start at back glass and "grow" outward
+  // interior features // these start at back plate and "grow" outward
   translate ([rear_cam1_center__from_left, -rear_cam1_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam1__shroud_radius);
     if (show_keepouts) { translate([0,0, -rear_cam1__keepout_cone_depth])
-        keepout_cone(angle=rear_cam1__keepout_cone_angle, height = default_keepout_cone_height + rear_cam1__keepout_cone_depth);
+        keepout_cone(angle=rear_cam1__keepout_cone_angle, height = default_keepout_cone_height + rear_cam1__keepout_cone_depth, color_value = optical_keepout_color);
     }
   }
   translate ([rear_cam2_center__from_left, -rear_cam2_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam2__shroud_radius);
     if (show_keepouts) { translate([0,0, -rear_cam2__keepout_cone_depth])
-        keepout_cone(angle=rear_cam2__keepout_cone_angle,  height = default_keepout_cone_height + rear_cam2__keepout_cone_depth);
+        keepout_cone(angle=rear_cam2__keepout_cone_angle,  height = default_keepout_cone_height + rear_cam2__keepout_cone_depth, color_value = optical_keepout_color);
     }
   }
   translate ([rear_cam3_center__from_left, -rear_cam3_center__from_top, 0]) {
     rear_camera_lens(r = rear_cam3__shroud_radius);
     if (show_keepouts) { translate([0,0, -rear_cam3__keepout_cone_depth])
-        keepout_cone(angle=rear_cam3__keepout_cone_angle,  height = default_keepout_cone_height + rear_cam3__keepout_cone_depth);
+        keepout_cone(angle=rear_cam3__keepout_cone_angle,  starting_r = rear_cam3__keepout_cone_start_diameter/2,
+                     height = default_keepout_cone_height + rear_cam3__keepout_cone_depth, color_value = optical_keepout_color);
     }
   }
 
   // flash
   translate ([rear_flash_center__from_left, -rear_flash_center__from_top, camera_plateau_height]) {
-    color(alpha=0.30)
     linear_extrude(height = feature_h)
     circle(d = rear_flash_center__diameter);
     // there are two cones listed
     if (show_keepouts) {
       translate([0,0, -rear_flash__keepout_cone_depth - camera_plateau_height])
-        keepout_cone(angle=rear_flash__keepout_outer_cone_angle,  starting_r = 11.76/2,
-                     height = default_keepout_cone_height + rear_flash__keepout_cone_depth,
-                     color_value = "#FEFE80", color_alpha = 0.03);
+        // outer
+        keepout_cone(angle=rear_flash__keepout_outer_cone_angle,  starting_r = 12/2,
+                     height = default_keepout_cone_height - 5.0,
+                     color_value = flash_keepout_color, color_alpha = flash_keepout_color_alpha);
       translate([0,0, 0])
+        // inner cone
         keepout_cone(angle=rear_flash__keepout_inner_cone_angle,  starting_r = rear_flash__keepout_inner_cone_start_diameter/2,
                      height = default_keepout_cone_height - camera_plateau_height,
-                     color_value = "#FEFE80", color_alpha = 0.05);
+                     color_value = flash_keepout_color, color_alpha = flash_keepout_color_alpha);
     }
   }
 
@@ -756,7 +777,7 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
     linear_extrude(height = feature_h)
     circle(d = rear_mic_center__diameter);
 
-  // LIDAR (not shown in accessory guide DEATIL A, but keepout is in DETAIL F)
+  // Sensor (LIDAR)
   translate ([rear_sensor_center__from_left, -rear_sensor_center__from_top, camera_plateau_height]) {
     color("Black")
       linear_extrude(height = feature_h)
@@ -764,25 +785,23 @@ module rear_camera (camera_plateau_height = rear_cam_plateau__z_height, show_kee
 
       translate ([0, 0, 0]) {
         if (show_keepouts) {
-          color("Purple", alpha=0.2)
-          translate([0,0, -rear_sensor__keepout_cone_depth])
-            keepout_cone(angle=rear_sensor__keepout_cone_angle,  height = default_keepout_cone_height + rear_sensor__keepout_cone_depth);
+          translate([0,0, 0])
+            keepout_cone(angle=rear_sensor__keepout_cone_angle,  starting_r = rear_sensor__keepout_cone_start_diameter/2,
+                         height = default_keepout_cone_height + rear_sensor__keepout_cone_depth,  color_value = sensor_keepout_color);
         }
       }
 
-    if (show_keepouts) {
-      *color("Red", alpha=0.2)
-        %hull() {
-        translate([0, rear_sensor_center_keepout__height/4, 0])
-          keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2,
-                       height = default_keepout_cone_height - (camera_plateau_height), use_as_hull = true);
-        translate([0, -rear_sensor_center_keepout__height/4, 0])
-          keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2,
-                       height = default_keepout_cone_height - (camera_plateau_height), use_as_hull = true);
-      }
-
-
-    }
+    // if (show_keepouts) {
+    //   color("Red", alpha=0.2)
+    //     hull() {
+    //     translate([0, rear_sensor_center_keepout__height/4, 0])
+    //       keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2,
+    //                    height = default_keepout_cone_height - (camera_plateau_height), use_as_hull = true);
+    //     translate([0, -rear_sensor_center_keepout__height/4, 0])
+    //       keepout_cone(angle=rear_sensor__keepout_cone_angle, starting_r = rear_sensor_center_keepout__width/2,
+    //                    height = default_keepout_cone_height - (camera_plateau_height), use_as_hull = true);
+    //   }
+    //}
   }
 
 }
