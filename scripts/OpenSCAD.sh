@@ -60,13 +60,13 @@ esac
 # exports (also be explicit below)
 export OPENSCADPATH="$LOCAL_LIBRARIES_DIR:$DEFAULT_LIBRARIES_DIR"
 
-echo OPENSCADPATH="$OPENSCADPATH"
 # echo app_path=$app_path
 # echo app_bin=$app_bin
 
 # determine if there are any arguments on command line
 if [ -z "${1}" ]
 then
+    echo OPENSCADPATH="$OPENSCADPATH"
     # There are no arguments, so
     case $os_name in
         Darwin*)
@@ -75,7 +75,7 @@ then
             ;;
         *)
             set -o xtrace
-            OPENSCADPATH=$OPENSCADPATH "${app_bin}"
+            OPENSCADPATH="$OPENSCADPATH" "${app_bin}"
             ;;
     esac
 
@@ -100,8 +100,17 @@ else
                 # only keep last .scad/.stl argument if there's more than one
                 scad_file="$dir/$bn"
             ;;
+            -dotscad)  # add dotSCAD main directory to path also
+                dotscad_dir="${LOCAL_LIBRARIES_DIR}/dotSCAD/src"
+                if [ -d "${dotscad_dir}" ] ; then
+                    export OPENSCADPATH="${dotscad_dir}:${OPENSCADPATH}"
+                else
+                    echo "ERROR: '-dotscad' specified but ${dotscad_dir} not found"
+                    exit 1
+                fi
+            ;;
             *)
-                #echo "$arg"
+                echo forwarding argument "'$arg'"
                 myArgs+=("$arg")
             ;;
         esac
@@ -113,6 +122,7 @@ else
     fi
 
     echo Using args: "${myArgs[@]}"
+    echo OPENSCADPATH="$OPENSCADPATH"
 
     case $os_name in
         Darwin*)
