@@ -33,6 +33,8 @@ by3x2_minor_extent = 2 * grid_u_planar;
 frame_height = 5;
 weighted_height = 10.8;
 
+weighted_bottom_below_origin = 6.4;
+
 half_distance_to_shrink = (1/2)*(by3_extent - drawer_distance_between_insert_pillars);
 
 notch_depth = half_distance_to_shrink;
@@ -47,7 +49,9 @@ show_assembly = !true;
 
 
 module single_look () {
-  modify_2x3();
+  //modify_2x3();
+  modify_2x3(stl = weighted_2x3_stl, frameQ = false,
+             bottom_below_origin = weighted_bottom_below_origin);
   //divider_notch();
 }
 
@@ -65,7 +69,6 @@ module divider_notch () {
     translate([+e, start_cutout])
       square(size = [notch_depth, notch_cutout_length], center = false);
 
-
     translate([a, -e])
       polygon(points = [[0,0], [a,0], [a,b]]);
 
@@ -75,13 +78,15 @@ module divider_notch () {
   }
 }
 
-module modify_2x3(stl = frame_2x3_stl, frameQ = true) {
+module modify_2x3(stl = frame_2x3_stl, frameQ = true, bottom_below_origin = 0.0) {
 
   start_notch = grid_u_planar - (1/2)*notch_length;
   notch_removal_height = 12;
+  z_raise = bottom_below_origin;
 
   difference() {
-    import (stl);
+    translate([0,0,z_raise])
+      import (stl);
 
     // cut notches
     // x origin, y axis
