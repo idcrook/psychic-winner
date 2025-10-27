@@ -23,3 +23,10 @@ Product listing: Organizer drawer external dimensions - 6" x 4-1/2" x 2-3/16"
 The distance between the two divider **interior** pillars is around `123 mm` or `124 mm`. Designed so that `126 mm` (`42 mm * 3`) `2X3` gridfinity would register at its midpoint, so `1X3` on each side, in middle of drawer.
 
 Can stack two `3U` gridfinity containers (so total `6U`) and fit comfortably in drawer.
+
+
+## published
+
+- printables: [gridfinity drawer liners for Akro-Mils 24-Drawer model 10124](https://www.printables.com/model/1461023-gridfinity-drawer-liners-for-akro-mils-24-drawer-m)
+
+- here: [psychic-winner/gridfinity_3x2_akro-mils_10124_drawers at main · idcrook/psychic-winner](https://github.com/idcrook/psychic-winner/tree/main/gridfinity_3x2_akro-mils_10124_drawers)

@@ -24,7 +24,7 @@ frame_2x3_stl = "Frame 2x3.stl";
 weighted_1x3_stl = "Weighted Baseplate 1x3.stl";
 weighted_2x3_stl = "Weighted Baseplate 2x3.stl";
 
-drawer_distance_between_insert_pillars = 124;
+drawer_distance_between_insert_pillars = 124; // try 123.0 or 123.5 if too tight
 
 grid_u_planar = 42;
 by3_extent = 3 * grid_u_planar;
