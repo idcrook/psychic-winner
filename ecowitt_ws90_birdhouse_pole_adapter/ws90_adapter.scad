@@ -1,14 +1,8 @@
-// Need a tray for a ceramic planter, so excess water is caught
-//
-// Some of the requirements:
-//
-// - has to fit on 3D printer bed, so this means based on required dimensions,
-//   has to be printed in at least two pieces
-//
-// - base interior diameter 172 mm
-//
-// - inner diameter at top of lip 185 mm, at a height ~20 mm
-//
+// Adapted a birdhouse segmented pole (from a birdhouse mount kit) to use as
+// stand for Ecowitt WS90 weather station sensor array. 
+
+// The adapter fits on end of one segment of the pole. The other end of the 
+// adapter is for the 1-inch pole mount that the WS90 "Wittboy" uses.
 
 use <../libraries/MCAD/2Dshapes.scad>
 
