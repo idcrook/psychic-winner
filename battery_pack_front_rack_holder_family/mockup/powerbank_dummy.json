@@ -1,0 +1,61 @@
+{
+    "fileFormatVersion": "1",
+    "parameterSets": {
+        "original_set": {
+            "DEVELOPING_powerbank_dummy": "true",
+            "button__center_from_top": "15",
+            "button__extension": "0.10000000000000001",
+            "button__height": "11",
+            "button__thickness": "7",
+            "face_corner_radius": "12.5",
+            "led__extension": "0.10000000000000001",
+            "led__midline_from_top": "15",
+            "led__number_of": "4",
+            "led__radius": "0.5",
+            "led__span": "11",
+            "powerbank__thickness": "17",
+            "side_corner_radius1": "5"
+        },
+        "Mp_20k": {
+            "DEVELOPING_powerbank_dummy": "true",
+            "button__center_from_top": "15",
+            "button__extension": "0.10000000000000001",
+            "button__height": "11",
+            "button__thickness": "7",
+            "face_corner_radius": "12.5",
+            "lcd__has_lcd": "true",
+            "led__extension": "0.10000000000000001",
+            "led__has_leds": "false",
+            "led__midline_from_top": "15",
+            "led__number_of": "4",
+            "led__radius": "0.5",
+            "led__span": "11",
+            "powerbank__height": "109",
+            "powerbank__thickness": "29.5",
+            "powerbank__width": "70",
+            "side_corner_radius1": "5"
+        },
+        "Mp_10k": {
+            "DEVELOPING_powerbank_dummy": "true",
+            "button__center_from_top": "15",
+            "button__extension": "0.10000000000000001",
+            "button__height": "11",
+            "button__thickness": "7",
+            "face_corner_radius": "12.5",
+            "lcd__has_lcd": "true",
+            "lcd__height": "20",
+            "lcd__midline_from_top": "16",
+            "lcd__width": "20",
+            "led__extension": "0.10000000000000001",
+            "led__has_leds": "false",
+            "led__midline_from_top": "15",
+            "led__number_of": "4",
+            "led__radius": "0.5",
+            "led__span": "11",
+            "powerbank__height": "106",
+            "powerbank__thickness": "17",
+            "powerbank__width": "69",
+            "side_corner_radius1": "5"
+        }
+    }
+}
