@@ -2,9 +2,9 @@
     "fileFormatVersion": "1",
     "parameterSets": {
         "New set 1": {
-            "DEFAULT_POWERBANK_KIND": "original_set",
+            "DEFAULT_POWERBANK_KIND": "Mp_20k",
             "base_thickness": "4",
-            "wall_gap": "0.59999999999999998",
+            "wall_gap": "0.79999999999999993",
             "wall_thickness": "3.2000000000000002"
         }
     }

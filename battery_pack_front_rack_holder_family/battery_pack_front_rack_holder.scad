@@ -62,15 +62,23 @@ function get_powerbank_data (kind = DEFAULT_POWERBANK_KIND) =
 
 bankinfo = get_powerbank_data(DEFAULT_POWERBANK_KIND);
 
-
-
 echo (DEFAULT_POWERBANK_KIND, bankinfo);
 echo (is_truish(bankinfo.led__has_leds), is_truish(bankinfo.lcd__has_lcd));
 
 max_shell_thickness = max(get_array_of_supported("powerbank__thickness"));
 //echo (max_shell_thickness);
 max_shell_width = max(get_array_of_supported("powerbank__width"));
-echo (max_shell_width);
+//echo (max_shell_width);
+min_shell_height = min(get_array_of_supported("powerbank__height"));
+// echo (min_shell_height);
+
+max_disp_height = max(get_array_of_supported("lcd__height"));
+max_disp_width = max(get_array_of_supported("lcd__width"));
+// add small buffer around display
+window_cutout_size = max_disp_width + 5;
+max_lcd_from_top = max(get_array_of_supported("lcd__midline_from_top"));
+display_window_start = min_shell_height - (1/2) * max_disp_height - max_lcd_from_top;
+// echo (display_window_start);
 
 // explicitly import values from the JSON
 //shell_thickness = parse_float(bankinfo.powerbank__thickness);
@@ -85,7 +93,9 @@ echo (shell_thickness, shell_width, shell_height);
 button_center_from_top = parse_float(bankinfo.button__center_from_top);
 button_height = parse_float(bankinfo.button__height);
 
-sleeve_top_cutoff = button_center_from_top + (1/2)*button_height + 5.5;
+//sleeve_top_cutoff = button_center_from_top + (1/2)*button_height + 5.5;
+//echo (sleeve_top_cutoff);
+sleeve_top_cutoff = 26.0;
 
 sleeve_outer_thicknees = shell_thickness + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_width = shell_width + 2*wall_gap + 2*wall_thickness;
@@ -202,7 +212,8 @@ module test_sleeveMountInsert (fit_better, translate_x) {
 
 module sleeve(width = sleeve_outer_width,
               height = sleeve_outer_height,
-              thickness = sleeve_outer_thicknees) {
+              thickness = sleeve_outer_thicknees,
+              window_cutout_size = window_cutout_size) {
 
   sleeve_height = height - sleeve_top_cutoff;
   outer_size = [width, thickness, sleeve_height];
@@ -217,15 +228,27 @@ module sleeve(width = sleeve_outer_width,
   top=[0,0,0,0];
   bottom=[corner_r,corner_r,corner_r,corner_r];
 
+  window_x =  (1/2) * (width - window_cutout_size);
+  //window_z = sleeve_height - window_cutout_size + e;
+  window_z_height = sleeve_height - display_window_start;
+  window_z = display_window_start  ;
+  window_cutout_cube = [window_cutout_size, 10, window_z_height + 2*e];
   difference() {
     cube_fillet(size = outer_size, radius = r,
                 vertical=vertical, top=top, bottom=bottom,
                 center = false, $fn = 30);
 
+    // window for display
+    translate([window_x, -2*e, window_z])
+      cube(window_cutout_cube);
+
     translate([wall_thickness, wall_thickness, base_thickness])
     cube_fillet(size = cutout_size,  radius = r - 1,
                 vertical=vertical, top=top, bottom=bottom,
                 center = false, $fn = 30);
+
+
+
   }
 
   // sleeve mount - add mounting wedge
