@@ -43,28 +43,42 @@ DEFAULT_POWERBANK_KIND = "Mp_20k";  // [original_set, Mp_10k, Mp_20k]
 
 /* [Hidden] */
 
-// module __Customizer_Limit__ () {}
+// Supported powerbanks (should match above)
+supported_powerbanks = ["original_set", "Mp_10k", "Mp_20k"];
 
 // Requires import-function (Preferences -> Features -> ✓ import-function)
 data_bank = import("mockup/powerbank_dummy.json");
 
 // orig = data_bank["parameterSets"]["original_set"];
+
 function is_truish (val = undef) =
   !is_undef(val) && ((is_string(val) && val == "true") || (val == true));
 
+function get_array_of_supported(param = undef) =
+  [ for (p = supported_powerbanks)  (parse_float(data_bank["parameterSets"][p][param])) ];
 
 function get_powerbank_data (kind = DEFAULT_POWERBANK_KIND) =
   is_string(kind) ? data_bank["parameterSets"][kind] : undef;
 
 bankinfo = get_powerbank_data(DEFAULT_POWERBANK_KIND);
 
+
+
 echo (DEFAULT_POWERBANK_KIND, bankinfo);
 echo (is_truish(bankinfo.led__has_leds), is_truish(bankinfo.lcd__has_lcd));
 
+max_shell_thickness = max(get_array_of_supported("powerbank__thickness"));
+//echo (max_shell_thickness);
+max_shell_width = max(get_array_of_supported("powerbank__width"));
+echo (max_shell_width);
+
 // explicitly import values from the JSON
-shell_thickness = parse_float(bankinfo.powerbank__thickness);
-shell_width = parse_float(bankinfo.powerbank__width);
-shell_height = parse_float(bankinfo.powerbank__height);
+//shell_thickness = parse_float(bankinfo.powerbank__thickness);
+//shell_width = parse_float(bankinfo.powerbank__width);
+//shell_height = parse_float(bankinfo.powerbank__height);
+shell_thickness = max_shell_thickness;
+shell_width = max_shell_width;
+shell_height = 139.7;
 
 echo (shell_thickness, shell_width, shell_height);
 
