@@ -2,6 +2,9 @@
 // Initial Revision:
 //   2023-Oct-14
 //
+// Version 2 Initial Revision:
+//   2026-Jun-30
+//
 // Author:
 //
 //   David Crook <idcrook@users.noreply.github.com>
@@ -10,18 +13,25 @@
 //
 // Description:
 //
-//
+//   A sleeve to hold battery USB powerbanks.
 //
 // Revisions/Notes:
 //
 //   2023-Oct-15: starting
+//   2026-Jun-30: updating to support multiple powerbanks in one design
 //
-
+//
+// TODO
+//
+//   - create corresponding "inserts" so that narrower ones don't rattle around
+//   - create a optional side button window so
+//
 //
 ///////////////////////////////////////////////////////////////////////////////
 
 include <mockup/powerbank_dummy.scad>
-// for converting string from customizer .json to float
+
+// for converting string to float (customizer .json puts everything in strings)
 include <../libraries/BOSL2/std.scad>
 
 use <../libraries/MCAD/2Dshapes.scad>
@@ -229,7 +239,6 @@ module sleeve(width = sleeve_outer_width,
   bottom=[corner_r,corner_r,corner_r,corner_r];
 
   window_x =  (1/2) * (width - window_cutout_size);
-  //window_z = sleeve_height - window_cutout_size + e;
   window_z_height = sleeve_height - display_window_start;
   window_z = display_window_start  ;
   window_cutout_cube = [window_cutout_size, 10, window_z_height + 2*e];
