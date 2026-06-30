@@ -8,12 +8,16 @@
             "button__height": "11",
             "button__thickness": "7",
             "face_corner_radius": "12.5",
+            "lcd__has_lcd": "false",
             "led__extension": "0.10000000000000001",
+            "led__has_leds": "true",
             "led__midline_from_top": "15",
             "led__number_of": "4",
             "led__radius": "0.5",
             "led__span": "11",
+            "powerbank__height": "139.69999999999999",
             "powerbank__thickness": "17",
+            "powerbank__width": "67.599999999999994",
             "side_corner_radius1": "5"
         },
         "Mp_20k": {

@@ -45,18 +45,18 @@ powerbank__thickness = 29.3;
 powerbank__width =  67.6;
 powerbank__height = 139.70;
 
-button__center_from_top = 15.0;
-button__height = 11.0;
-button__thickness = 7.0;
-button__extension = 0.1;
+button__center_from_top = 15.0; // .1
+button__height = 11.0; // .1
+button__thickness = 7.0; // .1
+button__extension = 0.1; // .1
 
 // Has LED indicators
 led__has_leds = true;
-led__midline_from_top = 15.0;
-led__span = 11.0;
-led__number_of = 4;
-led__extension = 0.1;
-led__radius = 0.5;
+led__midline_from_top = 15.0;// .1
+led__span = 11.0;// .1
+led__number_of = 4;// .1
+led__extension = 0.1;// .1
+led__radius = 0.5;// .1
 
 // Has an LCD or LCD display
 lcd__has_lcd = false;
@@ -67,6 +67,8 @@ lcd__width = 20.1;
 
 face_corner_radius = 12.5;
 side_corner_radius1 = 5.0;
+
+/* [Hidden] */
 
 /// creates for() range to give desired no of steps to cover range
 function steps( start, no_steps, end) = [start:(end-start)/(no_steps-1):end];
@@ -85,7 +87,10 @@ module button (height = button__height,
 
 module powerbank_dummy(width = powerbank__width,
                        height = powerbank__height,
-                       thickness = powerbank__thickness) {
+                       thickness = powerbank__thickness,
+                       has_led_row = led__has_leds,
+                       has_display = lcd__has_lcd
+                       ) {
 
   gross_size = [width, thickness, height];
 
@@ -104,8 +109,8 @@ module powerbank_dummy(width = powerbank__width,
 
   // BUTTON
   btn_x = 0.0;
-  btn_y = (1/2) * powerbank__thickness;
-  btn_z = powerbank__height - button__center_from_top;
+  btn_y = (1/2) * thickness;
+  btn_z = height - button__center_from_top;
 
   translate([btn_x, btn_y, btn_z])
     rotate ([0,-90,0])
@@ -114,11 +119,11 @@ module powerbank_dummy(width = powerbank__width,
     square([button__height, button__thickness], center = true);
 
   // LEDs
-  led_x = (1/2) * powerbank__width - (1/2) * led__span;
+  led_x = (1/2) * width - (1/2) * led__span;
   led_y = 0.0;
-  led_z = powerbank__height - led__midline_from_top;
+  led_z = height - led__midline_from_top;
 
-  if (led__has_leds) {
+  if (has_led_row) {
     color("Blue")
       translate([led_x, led_y, led_z])
       rotate([90, 0, 0])
@@ -132,11 +137,11 @@ module powerbank_dummy(width = powerbank__width,
   }
 
   // LED/LCD display
-  lcd_x = (1/2) * (powerbank__width - lcd__width);
+  lcd_x = (1/2) * (width - lcd__width);
   lcd_y = 0;
-  lcd_z = powerbank__height - 2 * lcd__midline_from_top;
+  lcd_z = height - 2 * lcd__midline_from_top;
 
-  if (lcd__has_lcd) {
+  if (has_display) {
     color("Blue")
       translate([lcd_x, lcd_y, lcd_z])
       rotate([90, 0, 0]) {
