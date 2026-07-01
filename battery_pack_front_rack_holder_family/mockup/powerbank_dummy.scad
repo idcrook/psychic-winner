@@ -61,8 +61,8 @@ led__radius = 0.5;// .1
 // Has an LCD or LCD display
 lcd__has_lcd = false;
 lcd__midline_from_top = 16.0;
-lcd__height = 20.1;
-lcd__width = 20.1;
+lcd__height = 20.0;//.1
+lcd__width = 20.0;//.1
 
 
 face_corner_radius = 12.5;

@@ -43,9 +43,17 @@ e = 1/128; // small number
 // $preview requires version 2019.05
 $fn = $preview ? 30 : 100;
 
-RENDER_FOR_PRINT = !true;
-wall_thickness = 3.2;
+RENDER_FOR_PRINT = false;
+
+INCLUDE_DISPLAY_CUTOUT = true;
+
+INCLUDE_SIDEBUTTON_CUTOUT = true;
+
+// shroud thickness
+wall_thickness = 3.2; // .1
+// spacing around nominal battery powerbank
 wall_gap = 0.6;
+// bottom of shroud wall thickness
 base_thickness = 4.0;
 
 // Select supported powerbank kind
@@ -241,15 +249,22 @@ module sleeve(width = sleeve_outer_width,
   window_x =  (1/2) * (width - window_cutout_size);
   window_z_height = sleeve_height - display_window_start;
   window_z = display_window_start  ;
-  window_cutout_cube = [window_cutout_size, 10, window_z_height + 2*e];
+  display_window_cutout_cube = [window_cutout_size, 10, window_z_height + 2*e];
   difference() {
     cube_fillet(size = outer_size, radius = r,
                 vertical=vertical, top=top, bottom=bottom,
                 center = false, $fn = 30);
 
     // window for display
-    translate([window_x, -2*e, window_z])
-      cube(window_cutout_cube);
+    if (INCLUDE_DISPLAY_CUTOUT) {
+      translate([window_x, -2*e, window_z])
+        cube(display_window_cutout_cube);
+    }
+
+    // opening for powerbank button
+    if (INCLUDE_SIDEBUTTON_CUTOUT) {
+      echo();
+    }
 
     translate([wall_thickness, wall_thickness, base_thickness])
     cube_fillet(size = cutout_size,  radius = r - 1,
