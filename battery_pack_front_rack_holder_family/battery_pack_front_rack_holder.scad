@@ -137,9 +137,8 @@ sleeve_tier1_outer_thickness = INCLUDE_TIERED_SLEEVE ?
 sleeve_tier2_outer_thickness = max_shell_thickness + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_width = shell_width + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_height = shell_height + 1*base_thickness;
-sleeve_outer_height_tier_delta = shell_height - min_shell_height;
+sleeve_outer_height_tier_delta = shell_height - min_shell_height - wall_thickness;
 echo ("tier delta", sleeve_outer_height_tier_delta);
-
 
 sides_radius = side_corner_radius1 - 1.0;
 bottom_corder_radius = 0.60 * face_corner_radius;
