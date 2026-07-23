@@ -25,6 +25,7 @@
 //
 //   - create corresponding "inserts" so that narrower ones don't rattle around
 //   - create a optional side button window so
+//   - add "tiered" design that splits accomodations for the height classes
 //
 //
 ///////////////////////////////////////////////////////////////////////////////
@@ -49,12 +50,14 @@ INCLUDE_DISPLAY_CUTOUT = true;
 
 INCLUDE_SIDEBUTTON_CUTOUT = true;
 
+INCLUDE_TIERED_SLEEVE = true;
+
 // shroud thickness
 wall_thickness = 3.2; // .1
 // spacing around nominal battery powerbank
 wall_gap = 0.6;
 // bottom of shroud wall thickness
-base_thickness = 4.0;
+base_thickness = 4.0; // .1
 
 // Select supported powerbank kind
 DEFAULT_POWERBANK_KIND = "Mp_20k";  // [original_set, Mp_10k, Mp_20k]
@@ -83,12 +86,25 @@ bankinfo = get_powerbank_data(DEFAULT_POWERBANK_KIND);
 echo (DEFAULT_POWERBANK_KIND, bankinfo);
 echo (is_truish(bankinfo.led__has_leds), is_truish(bankinfo.lcd__has_lcd));
 
+/* In tiered sleeve, the bottom thickness is assumed to correspond to the
+   tallest powerbank. and the second tier thickness is for shorter heights, and
+   they are assumed to be thicker.
+*/
+
 max_shell_thickness = max(get_array_of_supported("powerbank__thickness"));
 //echo (max_shell_thickness);
+min_shell_thickness = min(get_array_of_supported("powerbank__thickness"));
+//echo (min_shell_thickness);
 max_shell_width = max(get_array_of_supported("powerbank__width"));
 //echo (max_shell_width);
 min_shell_height = min(get_array_of_supported("powerbank__height"));
 // echo (min_shell_height);
+max_shell_height = max(get_array_of_supported("powerbank__height"));
+//echo (max_shell_height);
+
+echo ("max / min thickness", max_shell_thickness, min_shell_thickness);
+echo ("max / min height", max_shell_height, min_shell_height);
+echo ("max width", max_shell_width);
 
 max_disp_height = max(get_array_of_supported("lcd__height"));
 max_disp_width = max(get_array_of_supported("lcd__width"));
@@ -106,7 +122,6 @@ shell_thickness = max_shell_thickness;
 shell_width = max_shell_width;
 shell_height = 139.7;
 
-echo (shell_thickness, shell_width, shell_height);
 
 button_center_from_top = parse_float(bankinfo.button__center_from_top);
 button_height = parse_float(bankinfo.button__height);
@@ -115,9 +130,13 @@ button_height = parse_float(bankinfo.button__height);
 //echo (sleeve_top_cutoff);
 sleeve_top_cutoff = 26.0;
 
-sleeve_outer_thicknees = shell_thickness + 2*wall_gap + 2*wall_thickness;
+sleeve_tier1_outer_thickness = min_shell_thickness + 2*wall_gap + 2*wall_thickness;
+sleeve_tier2_outer_thickness = max_shell_thickness + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_width = shell_width + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_height = shell_height + 1*base_thickness;
+sleeve_outer_height_tier_delta = shell_height - min_shell_height;
+echo ("tier delta", sleeve_outer_height_tier_delta);
+
 
 sides_radius = side_corner_radius1 - 1.0;
 bottom_corder_radius = 0.60 * face_corner_radius;
@@ -230,49 +249,127 @@ module test_sleeveMountInsert (fit_better, translate_x) {
 
 module sleeve(width = sleeve_outer_width,
               height = sleeve_outer_height,
-              thickness = sleeve_outer_thicknees,
+              tier2_start_height = sleeve_outer_height_tier_delta,
+              tier1_thickness = sleeve_tier1_outer_thickness,
+              tier2_thickness = sleeve_tier2_outer_thickness,
               window_cutout_size = window_cutout_size) {
 
   sleeve_height = height - sleeve_top_cutoff;
-  outer_size = [width, thickness, sleeve_height];
+  outer_size = [width, tier1_thickness, sleeve_height];
+  tier2_outer_size = [width, tier2_thickness, sleeve_height - tier2_start_height];
 
   cutout_size = [ width - 2*wall_thickness,
-                  thickness - 2*wall_thickness,
+                  tier1_thickness - 2*wall_thickness,
                   height - base_thickness + 1*e];
+
+  tier2_cutout_size = [ width - 2*wall_thickness,
+                        tier2_thickness - 2*wall_thickness,
+                        height - tier2_start_height - base_thickness + 1*e];
+
 
   r = sides_radius;
   corner_r = bottom_corder_radius;
   vertical=[r,r,r,r];
   top=[0,0,0,0];
   bottom=[corner_r,corner_r,corner_r,corner_r];
+  //bottom_tier2=[0, 0, corner_r, 0];
+  bottom_tier2=[0, corner_r, corner_r, corner_r];
 
   window_x =  (1/2) * (width - window_cutout_size);
   window_z_height = sleeve_height - display_window_start;
   window_z = display_window_start  ;
   display_window_cutout_cube = [window_cutout_size, 10, window_z_height + 2*e];
-  difference() {
-    cube_fillet(size = outer_size, radius = r,
-                vertical=vertical, top=top, bottom=bottom,
-                center = false, $fn = 30);
 
-    // window for display
-    if (INCLUDE_DISPLAY_CUTOUT) {
-      translate([window_x, -2*e, window_z])
-        cube(display_window_cutout_cube);
+  tier1_to_tier2_shift = tier2_thickness - tier1_thickness;
+
+  if (INCLUDE_TIERED_SLEEVE) {
+    // tier1 portion to top
+    difference() {
+      cube_fillet(size = outer_size, radius = r,
+                  vertical=vertical, top=top, bottom=bottom,
+                  center = false, $fn = 30);
+
+      // window for display
+      if (INCLUDE_DISPLAY_CUTOUT) {
+        translate([window_x, -2*e, window_z])
+          cube(display_window_cutout_cube);
+      }
+
+      // opening for powerbank button
+      if (INCLUDE_SIDEBUTTON_CUTOUT) {
+        echo();
+      }
+
+      // tier1 main center
+      translate([wall_thickness, wall_thickness, base_thickness])
+        cube_fillet(size = cutout_size,  radius = r - 1,
+                    vertical=vertical, top=top, bottom=bottom,
+                    center = false, $fn = 30);
+
+      // tier2 "window" cutout
+      translate([wall_thickness,
+                  wall_thickness - (1/2) * tier1_thickness,
+                  tier2_start_height])
+        cube(size = cutout_size, center = false, $fn = 30);
     }
 
-    // opening for powerbank button
-    if (INCLUDE_SIDEBUTTON_CUTOUT) {
-      echo();
+    // tier2 fused on
+    translate([0, - tier1_to_tier2_shift, tier2_start_height])
+    difference() {
+      cube_fillet(size = tier2_outer_size, radius = r,
+                  vertical=vertical, top=top, bottom=bottom_tier2,
+                  center = false, $fn = 30);
+
+      // window for display
+      if (INCLUDE_DISPLAY_CUTOUT) {
+        translate([window_x, -2*e, window_z])
+          cube(display_window_cutout_cube);
+      }
+
+      // opening for powerbank button
+      if (INCLUDE_SIDEBUTTON_CUTOUT) {
+        echo();
+      }
+
+      // tier2 center
+      translate([wall_thickness, wall_thickness, base_thickness])
+        cube_fillet(size = tier2_cutout_size,  radius = r - 1,
+                    vertical=vertical, top=top, bottom=bottom_tier2,
+                    center = false, $fn = 30);
+
+      // tier2 to tier1 poke through
+      translate([wall_thickness, tier1_to_tier2_shift + wall_thickness, base_thickness - (1/2)* tier2_start_height])
+        cube_fillet(size = cutout_size,  radius = r - 1,
+                    vertical=vertical, top=top, bottom=bottom,
+                    center = false, $fn = 30);
+
+
     }
 
-    translate([wall_thickness, wall_thickness, base_thickness])
-    cube_fillet(size = cutout_size,  radius = r - 1,
-                vertical=vertical, top=top, bottom=bottom,
-                center = false, $fn = 30);
 
 
+  } else {
+    difference() {
+      cube_fillet(size = outer_size, radius = r,
+                  vertical=vertical, top=top, bottom=bottom,
+                  center = false, $fn = 30);
 
+      // window for display
+      if (INCLUDE_DISPLAY_CUTOUT) {
+        translate([window_x, -2*e, window_z])
+          cube(display_window_cutout_cube);
+      }
+
+      // opening for powerbank button
+      if (INCLUDE_SIDEBUTTON_CUTOUT) {
+        echo();
+      }
+
+      translate([wall_thickness, wall_thickness, base_thickness])
+        cube_fillet(size = cutout_size,  radius = r - 1,
+                    vertical=vertical, top=top, bottom=bottom,
+                    center = false, $fn = 30);
+    }
   }
 
   // sleeve mount - add mounting wedge
@@ -281,7 +378,7 @@ module sleeve(width = sleeve_outer_width,
   mountInsertHeight = 42;
 
   // y dimension needs to overlap with sleeve
-  mountInsert_yTranslation = thickness-e;
+  mountInsert_yTranslation = tier1_thickness-e;
 
   // y dimension needs to overlap with sleeve
   translate([-mountInsertWidth/2 + (1/2)*width, mountInsert_yTranslation, (0.85) * (sleeve_height - mountInsertHeight)])
@@ -299,7 +396,11 @@ if (RENDER_FOR_PRINT) {
   sleeve();
  } else {
   wall_pad = wall_gap + wall_thickness;
-  %translate([wall_pad,wall_pad,base_thickness]) {
+  bank_z = (DEFAULT_POWERBANK_KIND == "original_set") ? wall_thickness : wall_thickness + sleeve_outer_height_tier_delta ;
+  original_set_thickness = 17.0;
+  bank_y = parse_float(bankinfo.powerbank__thickness) - original_set_thickness;
+  translate([wall_pad, wall_pad - bank_y, bank_z]) {
+    color("Blue", 0.12)
     powerbank_dummy(width = parse_float(bankinfo.powerbank__width),
                     height = parse_float(bankinfo.powerbank__height),
                     thickness = parse_float(bankinfo.powerbank__thickness),
@@ -307,5 +408,5 @@ if (RENDER_FOR_PRINT) {
                     has_display = is_truish(bankinfo.lcd__has_lcd)
                     );
   }
-  sleeve();
+  color("Yellow", 0.015) sleeve();
  }

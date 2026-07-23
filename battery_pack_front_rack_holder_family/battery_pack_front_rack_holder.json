@@ -2,9 +2,11 @@
     "fileFormatVersion": "1",
     "parameterSets": {
         "New set 1": {
-            "DEFAULT_POWERBANK_KIND": "Mp_20k",
+            "DEFAULT_POWERBANK_KIND": "original_set",
+            "INCLUDE_TIERED_SLEEVE": "true",
+            "RENDER_FOR_PRINT": "false",
             "base_thickness": "4",
-            "wall_gap": "0.79999999999999993",
+            "wall_gap": "0.80000000000000004",
             "wall_thickness": "3.2000000000000002"
         }
     }
