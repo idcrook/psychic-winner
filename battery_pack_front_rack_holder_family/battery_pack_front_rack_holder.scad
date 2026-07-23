@@ -130,7 +130,10 @@ button_height = parse_float(bankinfo.button__height);
 //echo (sleeve_top_cutoff);
 sleeve_top_cutoff = 26.0;
 
-sleeve_tier1_outer_thickness = min_shell_thickness + 2*wall_gap + 2*wall_thickness;
+
+sleeve_tier1_outer_thickness = INCLUDE_TIERED_SLEEVE ?
+  min_shell_thickness + 2*wall_gap + 2*wall_thickness :
+  parse_float(bankinfo.powerbank__thickness) + 2*wall_gap + 2*wall_thickness;
 sleeve_tier2_outer_thickness = max_shell_thickness + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_width = shell_width + 2*wall_gap + 2*wall_thickness;
 sleeve_outer_height = shell_height + 1*base_thickness;
@@ -396,9 +399,11 @@ if (RENDER_FOR_PRINT) {
   sleeve();
  } else {
   wall_pad = wall_gap + wall_thickness;
-  bank_z = (DEFAULT_POWERBANK_KIND == "original_set") ? wall_thickness : wall_thickness + sleeve_outer_height_tier_delta ;
   original_set_thickness = 17.0;
-  bank_y = parse_float(bankinfo.powerbank__thickness) - original_set_thickness;
+  bank_y = INCLUDE_TIERED_SLEEVE ? parse_float(bankinfo.powerbank__thickness) - original_set_thickness : 0;
+
+  delta_z = (DEFAULT_POWERBANK_KIND == "original_set") ? wall_thickness : wall_thickness + sleeve_outer_height_tier_delta ;
+  bank_z = INCLUDE_TIERED_SLEEVE ? delta_z : wall_thickness;
   translate([wall_pad, wall_pad - bank_y, bank_z]) {
     color("Blue", 0.12)
     powerbank_dummy(width = parse_float(bankinfo.powerbank__width),
