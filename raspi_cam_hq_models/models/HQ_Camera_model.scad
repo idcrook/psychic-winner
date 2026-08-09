@@ -480,6 +480,7 @@ module raspi_hq_camera_model (install_ccs_adapter = true,
                 mirror([0,0,0])
                     sensor_housing(install_ccs_adapter = install_ccs_adapter,
                                    install_tripod_mount = install_tripod_mount);
+                color("Blue") cube([10,10,1],center=true);
             }
 
             // keepout spacers around screws
